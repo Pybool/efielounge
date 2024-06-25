@@ -4,10 +4,8 @@ RewriteBase /
 RewriteCond %{SERVER_PORT} !=443
 RewriteRule ^(.*)$ https://test.efielounge.com/$1 [R=301,L]
 
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
 
 # If the requested resource doesn't exist, use index.html
 
