@@ -33,7 +33,7 @@ function arraifyUploads(attachmentsFolder) {
             // fileFilter: this.attachmentsFilter,
         });
         return async (req, res, next) => {
-            const upload = config.array('attachments', parseInt(process.env.MAX_IMAGES || "3"));
+            const upload = config.array('attachments', parseInt(process.env.EFIELOUNGE_MAX_IMAGES || "3"));
             upload(req, res, async (err) => {
                 if (err) {
                     console.error("Error during upload:", err);

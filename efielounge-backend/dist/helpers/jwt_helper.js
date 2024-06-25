@@ -9,10 +9,10 @@ const jwthelper = {
     signAccessToken: (accountId, type = "") => {
         return new Promise((resolve, reject) => {
             const payload = {};
-            const secret = process.env.ACCESS_TOKEN_SECRET;
+            const secret = process.env.EFIELOUNGE_ACCESS_TOKEN_SECRET;
             const options = {
                 expiresIn: "600000s",
-                issuer: process.env.ISSUER,
+                EFIELOUNGE_ISSUER: process.env.EFIELOUNGE_ISSUER,
                 audience: accountId,
             };
             jsonwebtoken_1.default.sign(payload, secret, options, (err, token) => {
@@ -35,7 +35,7 @@ const jwthelper = {
             const authHeader = req.headers["authorization"];
             const bearerToken = authHeader.split(" ");
             const token = bearerToken[1];
-            jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+            jsonwebtoken_1.default.verify(token, process.env.EFIELOUNGE_ACCESS_TOKEN_SECRET, (err, payload) => {
                 if (err) {
                     const message = err.name === "JsonWebTokenError" ? "Unauthorized" : err.message;
                     return next(http_errors_1.default.Unauthorized(message));
@@ -52,10 +52,10 @@ const jwthelper = {
     signRefreshToken: (accountId) => {
         return new Promise((resolve, reject) => {
             const payload = {};
-            const secret = process.env.REFRESH_TOKEN_SECRET;
+            const secret = process.env.EFIELOUNGE_REFRESH_TOKEN_SECRET;
             const options = {
                 expiresIn: "72h",
-                issuer: process.env.ISSUER,
+                EFIELOUNGE_ISSUER: process.env.EFIELOUNGE_ISSUER,
                 audience: accountId,
             };
             jsonwebtoken_1.default.sign(payload, secret, options, (err, token) => {
@@ -72,7 +72,7 @@ const jwthelper = {
     },
     verifyRefreshToken: (refreshToken, next) => {
         return new Promise((resolve, reject) => {
-            jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+            jsonwebtoken_1.default.verify(refreshToken, process.env.EFIELOUNGE_REFRESH_TOKEN_SECRET, (err, payload) => {
                 if (err) {
                     const message = err.name === "JsonWebTokenError" ? "Unauthorized" : err.message;
                     resolve({ aud: false });

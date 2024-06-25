@@ -35,7 +35,11 @@ app.use(passport.session());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(express.static(process.env.PUBLIC_FOLDER!));
+app.use(express.static(process.env.EFIELOUNGE_PUBLIC_FOLDER!));
+
+app.get('/test', (req:any, res:any) => {
+  res.status(200).send('Hello from Efielounge Backend Server\n');
+});
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/admin", adminRouter);
@@ -86,7 +90,7 @@ app.set("view engine", "ejs");
 app.set("views", "src/views/templates");
 
 const server = http.createServer(app);
-const PORT = 8000 || process.env.MAIN_SERVER_PORT || 8000;
+const PORT = process.env.EFIELOUNGE_MAIN_SERVER_PORT || 8000;
 
 let environment = "Development";
 if (process.env.NODE_ENV === "prod") {

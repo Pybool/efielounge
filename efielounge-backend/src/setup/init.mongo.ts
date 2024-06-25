@@ -4,12 +4,12 @@ import logger from './logger';
 dotenvConfig()
 
 
-const mongouri:any = process.env.MONGODB_URI
+const mongouri:any = process.env.EFIELOUNGE_MONGODB_URI
 logger.info("MONGO_URI: "+mongouri)
-logger.info("DATABASE NAME "+process.env.DATABASE_NAME)
+logger.info("DATABASE NAME "+process.env.EFIELOUNGE_DATABASE_NAME)
 mongoose 
   .connect(mongouri, {
-    dbName: process.env.DATABASE_NAME,
+    dbName: process.env.EFIELOUNGE_DATABASE_NAME,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   } as mongoose.ConnectOptions)

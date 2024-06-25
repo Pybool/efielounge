@@ -7,12 +7,12 @@ let sendMail:any;
 
 try {
   transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_HOST,
-    host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT || "2525"),
+    service: process.env.EFIELOUNGE_EMAIL_HOST,
+    host: process.env.EFIELOUNGE_EMAIL_HOST,
+    port: parseInt(process.env.EFIELOUNGE_EMAIL_PORT || "2525"),
     auth: {
-      user: process.env.EMAIL_HOST_USER,
-      pass: process.env.EMAIL_HOST_PASSWORD,
+      user: process.env.EFIELOUNGE_EMAIL_HOST_USER,
+      pass: process.env.EFIELOUNGE_EMAIL_HOST_PASSWORD,
     },
   });
 

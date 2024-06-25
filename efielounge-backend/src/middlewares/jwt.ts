@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import Xrequest from "../interfaces/extensions.interface";
 import Accounts from "../models/Accounts/accounts.model";
 
-const SECRET_KEY: string = process.env.ACCESS_TOKEN_SECRET || "";
+const SECRET_KEY: string = process.env.EFIELOUNGE_ACCESS_TOKEN_SECRET || "";
 
 export const decode = async (req: Xrequest, res: Response, next: any) => {
   const reqHeaders: any = req.headers;

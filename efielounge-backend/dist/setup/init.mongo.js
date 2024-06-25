@@ -7,12 +7,12 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = require("dotenv");
 const logger_1 = __importDefault(require("./logger"));
 (0, dotenv_1.config)();
-const mongouri = process.env.MONGODB_URI;
+const mongouri = process.env.EFIELOUNGE_MONGODB_URI;
 logger_1.default.info("MONGO_URI: " + mongouri);
-logger_1.default.info("DATABASE NAME " + process.env.DATABASE_NAME);
+logger_1.default.info("DATABASE NAME " + process.env.EFIELOUNGE_DATABASE_NAME);
 mongoose_1.default
     .connect(mongouri, {
-    dbName: process.env.DATABASE_NAME,
+    dbName: process.env.EFIELOUNGE_DATABASE_NAME,
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

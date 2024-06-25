@@ -31,7 +31,7 @@ function arraifyUploads(attachmentsFolder: string) {
     });
 
     return async (req:Xrequest, res:any, next:any) => {
-      const upload = config.array('attachments', parseInt(process.env.MAX_IMAGES || "3"));
+      const upload = config.array('attachments', parseInt(process.env.EFIELOUNGE_MAX_IMAGES || "3"));
 
       upload(req, res, async (err) => {
         if (err) {

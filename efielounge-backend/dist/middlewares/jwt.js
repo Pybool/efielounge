@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ensureAdmin = exports.decode = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const accounts_model_1 = __importDefault(require("../models/Accounts/accounts.model"));
-const SECRET_KEY = process.env.ACCESS_TOKEN_SECRET || "";
+const SECRET_KEY = process.env.EFIELOUNGE_ACCESS_TOKEN_SECRET || "";
 const decode = (req, res, next) => {
     const reqHeaders = req.headers;
     if (!reqHeaders["authorization"]) {

@@ -5,8 +5,8 @@ const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)({ path: `.env.${process.env.NODE_ENV}` });
 exports.default = {
     generic: {
-        host: process.env.REDIS_HOST,
-        port: parseInt(process.env.REDIS_GENERIC_PORT),
+        host: process.env.EFIELOUNGE_REDIS_HOST,
+        port: parseInt(process.env.EFIELOUNGE_REDIS_GENERIC_PORT),
         password: process.env.REDIS_PASSWORD
     }
 };
