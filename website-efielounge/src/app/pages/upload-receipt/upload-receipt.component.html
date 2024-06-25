@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from html.EFIELOUNGE.com/food-chow/login-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Jun 2024 20:39:55 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>Food Ordering HTML Template</title>
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+
+
+    <link rel="stylesheet" href="/assets/css/icons.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/red-color.css">
+    <link rel="stylesheet" href="/assets/css/yellow-color.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+</head>
+
+<body itemscope>
+    <main>
+        <app-preloader></app-preloader>
+        <app-header></app-header>
+
+        <div class="container">
+            <div class="card">
+                <h3>Upload Receipt</h3>
+                <div *ngIf="!fileName" class="drop_box">
+                    <h4>Select File here</h4>
+                    <p>Files Supported: PDF, TEXT, DOC , DOCX, PNG, JPG, JPEG</p>
+                    <input (change)="onFileChange($event)" type="file" hidden accept=".doc,.docx,.pdf,.jpg,.png,.jpeg,.PNG" id="fileID"
+                        style="display:none;">
+                    <button (click)="selectFile()" class="btn">Choose File</button>
+                </div>
+                <div *ngIf="fileName">
+                    <div>
+                        <div class="form">
+                            <h4>{{ fileName }}</h4>
+                            <input [(ngModel)]="paymentRef" name="paymentRef" type="text"
+                                placeholder="Enter payment ref to upload file">
+                            <small *ngIf="autoFilled" style="color:orangered; font-size: 11px;">Payment reference was auto-filled , click upload button</small>
+                            <div class="x-flex-row">
+                                <button (click)="uploadReceipt()" [style.opacity]="!paymentRef.startsWith('EF') ? 0.3 : 1"
+                                    [disabled]="!paymentRef.startsWith('EF')" class="btn">Upload</button>
+                                <button style="background: black; border-radius: 0px;" (click)="changeFile()" class="btn">Change File</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <app-footer></app-footer>
+    </main><!-- Main Wrapper -->
+
+    <script data-cfasync="false" src="/assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'890ba950def59ead',t:'MTcxNzg3ODg1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/assets/cdn-cgi/challenge-platform/h/g/scripts/jsd/6aac8896f227/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+<!-- Mirrored from html.EFIELOUNGE.com/food-chow/login-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Jun 2024 20:39:55 GMT -->
+
+</html>

@@ -1,0 +1,45 @@
+.loading-wrapper {
+  width: 100vw;
+  position: fixed;
+  opacity: 1;
+  z-index: 9999;
+  background: black;
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+body {
+  overflow-y: hidden !important;
+}
+
+img {
+  width: 300px;
+  height: 300px;
+  box-shadow: 0 0 6px 5px rgba(255, 165, 0, 0.7); /* Orange glow */
+}
+
+.loader-up {
+    position: absolute; /* Position the image absolutely for centering */
+    top: 35%; /* Initial vertical position at 50% (center) */
+    left: 43%; /* Initial horizontal position at 50% (center) */
+    transform: translate(-50%, -50%); /* Center based on its own dimensions */
+    /* Optional: Additional styling for the image, like width and height */
+}
+
+.loader-name {
+  position: absolute; /* Position image absolutely for centering */
+  transform: translate(-50%, -50%); /* Center based on its own dimensions */
+  animation: jump 1s ease-in-out infinite; /* Animate infinitely */
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0px);
+  } /* Start at top position */
+  50% {
+    transform: translateY(-10px);
+  } /* Jump up */
+  100% {
+    transform: translateY(0px);
+  } /* Return to starting position */
+}

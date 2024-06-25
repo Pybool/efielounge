@@ -1,0 +1,19 @@
+
+.x-flex-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap:10px
+}
+
+.carousel{
+    overflow-x: auto;
+    max-width: 100vw;
+}
+
+// img{
+//     width:450px;
+//     height: 300px;
+//     object-fit:contain;
+// }

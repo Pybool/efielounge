@@ -1,0 +1,65 @@
+.otp {
+  width: 65px !important;
+  height: 65px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 44px;
+  border-radius: 30px;
+  border: 1px solid gray;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 5px !important;
+  margin-top: 30px !important;
+}
+
+:host {
+  display: flex;
+  gap: 0.3em;
+  font-size: 24px;
+}
+
+input:focus {
+  outline: 0;
+  border-color: skyblue;
+  box-shadow: 0 0 0 0.1em skyblue;
+}
+
+input:disabled {
+  border-color: #eee;
+}
+
+/* Media query for screens smaller than 576px */
+@media screen and (max-width: 576px) {
+  .otp {
+    width: 35px !important;
+    height: 30px!important;
+    font-weight: 400!important;
+    font-size: 24px!important;
+
+    border-top: none!important;
+    border-left: none!important;
+    border-right: none!important;
+    border-radius: 0px!important;
+    box-shadow: none!important;
+  }
+
+  .flex-row {
+    gap: 5px !important;
+    margin-top: 30px !important;
+  }
+  .msg {
+    width: 366px;
+    color: var(--Text-Bold, #3d3d3d);
+    text-align: center;
+    font-family: Roboto Serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+}

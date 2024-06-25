@@ -1,0 +1,31 @@
+.gradient-brd {
+    // border-radius: 20px;
+    background: whitesmoke;
+    background:  orange!important;
+}
+
+.gradient-brd:before {
+    background:  orange!important;
+}
+
+.order-list-inner, .order-total, h4, ul, .list-wrapper{
+    border-radius: 20px;
+}
+
+.extras > h2 {
+    font-size: 25px;
+    font-family: Poppins;
+    color: #202020;
+    margin-bottom: 3px;
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.x-flex-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap:10px
+}

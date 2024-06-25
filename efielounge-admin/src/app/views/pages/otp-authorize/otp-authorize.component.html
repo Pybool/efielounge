@@ -1,0 +1,34 @@
+<div class="container">
+  <h2 style="text-align: center;margin-top: 10vh;">Efielounge Admin Account Verification</h2>
+<div class="col-6 mx-auto otp-container container">
+  <div class="mx-auto">
+    <h4 style="text-align: center; text-transform: none;" class="mx-auto header">
+      We sent an email to {{email.toLowerCase()}}<br>
+    </h4>
+    <p style="text-align: center" class="mx-auto" class="pin-prompt">
+      Please enter the code we provided to complete your onboarding process
+    </p>
+  </div>
+  <app-otp-input #input="ngModel" [(ngModel)]="data" />
+  <br />
+  
+  <div class="mx row">
+    <button [disabled]="data.length < 4" style=" width:200px;height:50px" (click)="submit()" class="btn black-btn">
+      <div *ngIf="showSpinner" class="spinner-container">
+        <div class="spinner"></div>
+      </div>
+      
+      Submit
+    </button>
+    
+    <!-- <p class="mx-auto" style="text-align: center;margin-top: 20px;" *ngIf="showSpinner">Your instagram post request is being processed</p> -->
+    <p *ngIf="pinVerificationMsg=='unauthorise'" class="mx-auto" style="color:rgb(200, 169, 229);text-align: center;margin-top: 20px;" ><fa-icon [icon]="faLock"></fa-icon> Your authorization pin is invalid</p>
+    <p *ngIf="pinVerificationMsg=='error'" class="mx-auto" style="color:red;text-align: center;margin-top: 20px;font-size: 20px;" ><fa-icon [icon]="faExclamationTriangle"></fa-icon> Something went wrong, please try again later</p>
+  </div>
+  <div class="spinner-row">
+    <div *ngIf="showOtpSpinner"  class="spinner"></div>
+    <div><a class="otp-link-text" href="javascript:void(0)" (click)="resendOtp()">{{otpText}}</a></div>
+  </div>
+  <a href="/" class="home-flex-row go-home"><svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg> Go to Home</a>
+</div>
+</div>

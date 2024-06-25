@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from html.webinane.com/food-chow/food-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Jun 2024 20:42:00 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>Food Ordering HTML Template</title>
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+
+
+    <link rel="stylesheet" href="/assets/css/icons.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/red-color.css">
+    <link rel="stylesheet" href="/assets/css/yellow-color.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+</head>
+
+<body itemscope>
+    <main>
+        <app-preloader></app-preloader>
+        <app-header></app-header>
+
+
+        <section style="margin-top: 140px;">
+            <div class="block gray-bg bottom-padd210 top-padd30">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="sec-box">
+                                <div class="sec-wrapper">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-lg-12">
+
+                                            <div class="wrapper">
+                                                <!-- <div class="row">
+                                                    <div class="col-12 col">
+                                                        <div class="info-bar">
+                                                            <p>
+                                                                <i class="fa fa-info"></i>
+                                                                Returning customer? <a href="#">Click here to login</a>
+                                                            </p>
+                                                        </div>
+                                                        <p>
+                                                            If you have shopped with us before, please enter your
+                                                            details in the boxes below. If you are a new customer please
+                                                            proceed to the Billing &amp; Shipping section.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 col">
+                                                        <form method="get" class="user-pswd">
+                                                            <div class="width50 padright">
+                                                                <label for="username">Username or email</label>
+                                                                <input type="text" name="username" id="username"
+                                                                    required>
+                                                            </div>
+                                                            <div class="width50">
+                                                                <label for="password">Password</label>
+                                                                <input type="password" name="password" id="password"
+                                                                    required>
+                                                            </div>
+                                                            <input type="submit" name="submit" value="Login"><input
+                                                                type="checkbox" value="1" name="checkbox">
+                                                            <p>Remember me</p>
+                                                        </form>
+                                                        <p><a href="#">Lost your password?</a></p>
+                                                    </div>
+                                                </div> -->
+                                                <div class="row">
+                                                    <div class="col-12 col">
+                                                        <div class="info-bar">
+                                                            <p>
+                                                                <i class="fa fa-info"></i>
+                                                                Have a coupon? <a href="#">Click here to enter your
+                                                                    code</a>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6 col coupon">
+                                                        <form method="get">
+                                                            <input type="text" name="coupon" id="coupon"
+                                                                placeholder="Coupon code">
+                                                            <input type="submit" name="submit" value="Apply Coupon">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div style="align-items: start;" class="x-flex-row">
+
+                                                    <div class="order-list">
+                                                        <ng-container *ngFor="let checkOutItem of checkOutItems">
+                                                            <div class="order-item brd-rd5">
+                                                                <div class="order-thumb brd-rd5">
+                                                                    <a href="#" title="" itemprop="url"><img
+                                                                            src="{{serverUrl}}{{checkOutItem?.menu?.attachments[0].replace('//', '/').replace('public','')}}"
+                                                                            alt="order-img1.jpg" itemprop="image"></a>
+                                                                    <span class="post-rate yellow-bg brd-rd2"><i
+                                                                            class="fa fa-star-o"></i>{{checkOutItem?.menu?.ratings}}</span>
+                                                                </div>
+                                                                <div class="order-info">
+                                                                    <div style="justify-content: space-between;"
+                                                                        class="x-flex-row">
+                                                                        <span class="red-clr">GCMA STREET, ANYAA,
+                                                                            GHANA</span>
+                                                                        <div (click)="toggleRemoveFromCartModal(checkOutItem?.menu?.name, checkOutItem?._id)" class="remove-from-cart"><i
+                                                                                class="fa fa-trash"></i></div>
+                                                                    </div>
+                                                                    <h4 itemprop="headline"><a href="#" class="headline"
+                                                                            itemprop="url">{{checkOutItem?.menu?.name}} ({{checkOutItem?.units}} Units)</a>
+                                                                    </h4>
+
+                                                                    <div class="x-flex-row">
+                                                                        <span
+                                                                            class="price">{{checkOutItem?.menu?.currency}}
+                                                                            {{checkOutItem?.menu?.price * checkOutItem?.units}}</span>
+                                                                        <div style="gap:2px" class="number x-flex-row">
+                                                                            <span (click)="subQty(checkOutItem)" class="minus">-</span>
+                                                                            <input class="number-input"
+                                                                                value="{{checkOutItem?.units}}"
+                                                                                name="units" min="1" max="10"
+                                                                                type="number" />
+                                                                            <span (click)="addQty(checkOutItem)" class="plus">+</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <a class="brd-rd2" href="javascript:void(0)"
+                                                                        title="" itemprop="url">Show Menu Extras</a>
+                                                                </div>
+
+                                                            </div>
+                                                        </ng-container>
+
+                                                    </div>
+                                                    <div class="order">
+                                                        <h2 style="color:orange; font-size: 18px;" class="topborder"><span>Order Summary</span></h2>
+                                                        
+                                                        <div style="justify-content: space-between;" class="x-flex-row">
+                                                            <h5 style="white-space: nowrap;">Cart Subtotal: </h5>
+                                                            <h5 style="text-align: end; color:orange">GHC {{getSubTotal().toFixed(2).toLocaleString()}}</h5>
+                                                        </div>
+                                                        <div>
+                                                            <h5 class="inline difwidth">Shipping and Handling</h5>
+                                                            <h5 style="text-align: end; color:orange" class="inline alignright center">GHC {{shippingCost.toFixed(2)}}</h5>
+                                                        </div>
+                                                        <div style="justify-content: space-between;" class="x-flex-row">
+                                                            <h5 style="white-space: nowrap;">Grand Total: </h5>
+                                                            <h5 style="text-align: end; color:red">GHC {{(getSubTotal() + shippingCost).toFixed(2).toLocaleString()}}</h5>
+                                                        </div>
+                                                        
+                                                        <div>
+                                                            <h3 class="topborder"><span>Address</span></h3>
+                                                            
+                                                            <a href="" style="text-align: start; color:red">You need to create an address!</a>
+                                                        </div>
+
+                                                        <div>
+                                                            <h3 class="topborder"><span>Payment Method</span></h3>
+                                                            <input type="radio" value="banktransfer" name="payment"
+                                                                checked>
+                                                            <p>Direct Bank Transfer</p>
+                                                            <p class="padleft">
+                                                                Make your payment directly into our bank account. Please
+                                                                use your Order ID as the payment reference. Your order
+                                                                won't be shipped until the funds have cleared in our
+                                                                account.
+                                                            </p>
+                                                        </div>
+
+                                                        <div><input type="radio" value="cheque" name="payment">
+                                                            <p>Credit Card Payment</p>
+                                                        </div>
+
+                                                        <input style="cursor: pointer; text-align: center;" (click)="checkOut()" name="submit" value="Place Order"
+                                                            class="place-order redbutton">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Section Box -->
+            </div>
+
+        </section>
+
+        <section>
+            <div class="block no-padding red-bg">
+                <img class="bottom-clouds-mockup" src="/assets/images/resource/clouds2.png" alt="clouds2.png"
+                    itemprop="image">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="app-sec">
+                                <div class="row">
+                                    <div
+                                        class="col-md-4 hidden-sm col-md-offset-1 col-sm-4 col-sm-offset-0 col-lg-4 col-lg-offset-1">
+                                        <div class="app-mockup text-right overlape-110 wow fadeInUp"
+                                            data-wow-delay="0.2s"><img src="/assets/images/resource/app-mockup.png"
+                                                alt="app-mockup.png" itemprop="image"></div>
+                                    </div>
+                                    <div
+                                        class="col-md-6 col-md-offset-1 col-sm-12 col-sm-offset-0 col-lg-6 col-lg-offset-1">
+                                        <div class="app-info">
+                                            <h4 itemprop="headline">The Best Food Delivery App</h4>
+                                            <p itemprop="description">We have a launch team that focuses on one city at
+                                                a time. At the end of the day, we're a marketplace. In order to make an
+                                                effective marketplace, you need critical mass. We need enough
+                                                restaurants that quality and variety</p>
+                                            <div class="app-download-btns">
+                                                <a class="" href="#" title="Google Play Store" itemprop="url"
+                                                    target="_blank"><img
+                                                        src="/assets/images/resource/app-download-btn1.png"
+                                                        alt="app-download-btn1.png" itemprop="image"></a>
+                                                <a class="" href="#" title="Apple App Store" itemprop="url"
+                                                    target="_blank"><img
+                                                        src="/assets/images/resource/app-download-btn2.png"
+                                                        alt="app-download-btn2.png" itemprop="image"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- App Section -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- red section -->
+
+
+        <app-remove-from-cart [removal]="removal" (confirmEvent)="handleConfirmEvent()"></app-remove-from-cart>
+        <app-direct-bank-transfer-modal [payment]="payment"></app-direct-bank-transfer-modal>
+        <app-footer ></app-footer>
+    </main><!-- Main Wrapper -->
+
+    <script data-cfasync="false" src="/assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="/assets/js/google-map-int2.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'890ba97faee69ead',t:'MTcxNzg3ODg2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/assets/cdn-cgi/challenge-platform/h/g/scripts/jsd/6aac8896f227/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+<!-- Mirrored from html.webinane.com/food-chow/food-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Jun 2024 20:42:02 GMT -->
+
+</html>

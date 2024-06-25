@@ -1,0 +1,81 @@
+/* Modal container */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    transition: display 2s ease-in-out;;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Modal content box */
+  .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 5px;
+  }
+  
+  /* Modal header */
+  .modal-content h4 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  /* Modal body */
+  .modal-content p {
+    margin-top: 15px;
+    font-size: 16px;
+  }
+  
+  /* Modal footer */
+  .modal-footer {
+    padding: 10px 20px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+  }
+  
+  /* Modal buttons */
+  .btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btn-flat {
+    background-color: transparent;
+    color: green;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  
+  .modal-close {
+    cursor: pointer;
+  }
+  
+  /* Additional styles for the close button */
+  .modal-close:hover {
+    color: #555;
+  }
+  

@@ -1,0 +1,12 @@
+<!-- Modal Structure -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <h4>Confirmation</h4>
+        <p>Are you sure you want to remove <span style="color:orange">{{removal?.name}}</span> from cart?</p>
+        <div class="modal-footer">
+            <button (click)="toggleRemoveFromCartModal()" id="cancelButton" class="modal-close btn-flat">Cancel</button>
+            <button (click)="confirmRemoval()" id="confirmButton" class="btn">Proceed</button>
+        </div>
+    </div>
+
+</div>

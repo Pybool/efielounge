@@ -1,0 +1,73 @@
+<div style="justify-content: space-between;gap:50px; align-items: flex-start;" class="mb-5 flex-row-sb">
+    <h3>MenuItem Categories</h3>
+    <div style="width: 60vw;" class="flex-row-sb">
+        <c-input-group>
+            <input class="search-bar" autoComplete="name" cFormControl placeholder="Search for anything (Coming soon)" />
+        </c-input-group>
+        <button style="white-space: nowrap;" cButton color="primary">Go
+        </button>
+    </div>
+    <button style="white-space: nowrap;" [cModalToggle]="verticallyCenteredModalAddMenuItem.id" cButton
+        color="primary">Create MenuItem Category
+    </button>
+</div>
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-body>
+                <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+                    <thead class="text-nowrap text-truncate">
+                        <tr>
+
+                            <th class="bg-body-tertiary">Category Name</th>
+                            <th class="bg-body-tertiary">CreatedAt</th>
+                            <th class="bg-body-tertiary">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (category of categories; track category?.name; let i = $index) {
+                        <tr>
+                            <td>
+                                <div>{{ category?.name }}</div>
+                            </td>
+                            <td>
+                                <div>{{ category?.createdAt }}</div>
+                            </td>
+                            <td>
+                                <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
+                                    <a [cModalToggle]="verticallyCenteredModalAddMenuItem.id"
+                                        href="javascript:void(0)">Edit</a>
+                                    <a href="">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>
+
+
+<c-modal #verticallyCenteredModalAddMenuItem alignment="center" id="verticallyCenteredModalAddMenuItem">
+    <c-modal-header>
+        <h5 cModalTitle>New MenuItem Category</h5>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <input [(ngModel)]="name" name="name" autoComplete="name" cFormControl placeholder="Category Name" />
+            </c-input-group>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+        <button [cModalToggle]="verticallyCenteredModalAddMenuItem.id" cButton color="secondary">
+            Close
+        </button>
+        <button (click)="createMenuItemCategory()" cButton color="primary">Submit</button>
+    </c-modal-footer>
+</c-modal>

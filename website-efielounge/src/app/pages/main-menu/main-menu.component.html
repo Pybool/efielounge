@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from html.EFIELOUNGE.com/food-chow/our-menu.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Jun 2024 20:38:29 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>Food Ordering HTML Template</title>
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+
+
+    <link rel="stylesheet" href="/assets/css/icons.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/red-color.css">
+    <link rel="stylesheet" href="/assets/css/yellow-color.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+</head>
+
+<body itemscope>
+    <main>
+        <app-preloader></app-preloader>
+        <app-header></app-header>
+        <section>
+            <div class="block">
+                <div class="fixed-bg" style="background-image: url(/assets/images/topbg.jpg);"></div>
+                <div class="page-title-wrapper text-center">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="page-title-inner">
+                            <h1 itemprop="headline">Explore Our Menu</h1>
+                            <span>Discover the best of world cuisine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bread-crumbs-wrapper">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Home</a></li>
+                    <li class="breadcrumb-item active">our menus</li>
+                </ol>
+            </div>
+        </div>
+
+        <section>
+            <div class="block less-spacing gray-bg top-padd30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="sec-box">
+                                <div class="remove-ext">
+                                    <div class="row">
+                                        <ng-container *ngFor="let menu of menus">
+                                            <div class="col-md-4 col-sm-6 col-lg-4">
+                                                <div class="popular-dish-box style2 wow fadeIn" data-wow-delay="0.2s">
+                                                    <div class="popular-dish-thumb">
+                                                        <a href="/menu-detail/{{menu?.slug}}" title="" itemprop="url"><img
+                                                            class="img"
+                                                                src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
+                                                                alt="popular-dish-img1.jpg" itemprop="image"></a>
+                                                        <span class="post-rate yellow-bg brd-rd2"><i
+                                                                class="fa fa-star-o"></i>{{menu?.ratings}}</span>
+                                                    </div>
+                                                    <div class="popular-dish-info">
+                                                        <h4 itemprop="headline"><a href="/menu-detail/{{menu._id}}" title=""
+                                                                itemprop="url">{{menu?.name}}</a></h4>
+                                                        <p itemprop="description">{{menu?.description | truncateText: 110}} <br> <a class="desc-read-more" href="">Read More</a></p>
+                                                        
+                                                        <span class="price">{{menu?.currency}} {{menu?.price}}</span>
+                                                        <a class="brd-rd4 " (click)="addToCart(menu?._id, menu.units)" href="javascript:void(0)" title="Order Now"
+                                                            itemprop="url">Order Now</a>
+
+                                                            <!-- <div class="x-flex-row">
+                                                                <span class="price no-break">{{menu?.currency}}
+                                                                    {{menu?.price}}</span>
+                                                                <div style="gap:2px" class="number x-flex-row">
+                                                                    <span class="minus">-</span>
+                                                                    <input [(ngModel)]="menu.units" name="units" min="1" max="10" type="number" />
+                                                                    <span class="plus">+</span>
+                                                                </div>
+                                                                <a class="brd-rd4 no-break order-now" (click)="addToCart(menu?._id, menu.units)" href="javascript:void(0)"
+                                                                    title="Order Now" itemprop="url">Order Now</a>
+                                                            </div> -->
+                                                           
+
+                                                        <div class="restaurant-info">
+                                                            <img class="foot-img" src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
+                                                                alt="restaurant-logo1.png" itemprop="image">
+                                                            <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GHC 50</span>
+                                                            <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
+                                                            
+                                                           
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div><!-- Popular Dish Box -->
+                                            </div>
+                                        </ng-container>
+
+                                    </div>
+                                </div>
+                                <div class="pagination-wrapper text-center">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item prev"><a class="page-link brd-rd2" href="#"
+                                                itemprop="url">PREVIOUS</a></li>
+                                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">1</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">2</a>
+                                        </li>
+                                        <li class="page-item active"><span class="page-link brd-rd2">3</span></li>
+                                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">4</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">5</a>
+                                        </li>
+                                        <li class="page-item">........</li>
+                                        <li class="page-item"><a class="page-link brd-rd2" href="#"
+                                                itemprop="url">18</a></li>
+                                        <li class="page-item next"><a class="page-link brd-rd2" href="#"
+                                                itemprop="url">NEXT</a></li>
+                                    </ul>
+                                </div><!-- Pagination Wrapper -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <app-footer></app-footer>
+    </main><!-- Main Wrapper -->
+
+    <script data-cfasync="false" src="/assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'890ba908889bd666',t:'MTcxNzg3ODg0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/assets/cdn-cgi/challenge-platform/h/g/scripts/jsd/6aac8896f227/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+<!-- Mirrored from html.EFIELOUNGE.com/food-chow/our-menu.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Jun 2024 20:38:30 GMT -->
+
+</html>

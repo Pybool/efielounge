@@ -1,0 +1,13 @@
+.gradient-brd {
+    // border-radius: 20px;
+    background: whitesmoke;
+    background:  orange!important;
+}
+
+.gradient-brd:before {
+    background:  orange!important;
+}
+
+.order-list-inner, .order-total, h4, ul, .list-wrapper{
+    border-radius: 20px;
+}

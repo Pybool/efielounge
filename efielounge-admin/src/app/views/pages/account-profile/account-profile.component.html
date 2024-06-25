@@ -1,0 +1,79 @@
+<form class="container mx-auto" cForm>
+    <div style="gap:10px" class="flex-row-sb">
+        <img class="avatar" (click)="chooseAvatar()" src="{{serverUrl}}/{{user?.avatar}}">
+        <button *ngIf="staff.role=='ADMIN' || staff.role=='ROOT'" (click)="edit()" style="white-space: nowrap;"  cButton color="primary">{{editText}}
+        </button>
+    </div>
+    <div style="gap:10px" class="flex-row-sb">
+        <c-input-group class="mb-3">
+            <span class="edit-false" cInputGroupText>
+                <span class="edit-false">Firstname</span>
+            </span>
+            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="user.firstName" name="firstName" autoComplete="name" cFormControl />
+        </c-input-group>
+       
+        <c-input-group class="mb-3">
+            <span class="edit-false" cInputGroupText>
+                <span class="edit-false">Lastname</span>
+            </span>
+            <input [readonly]="isReadOnly" class="edit-false"  [(ngModel)]="user.lastName" name="lastName" autoComplete="price" cFormControl />
+        </c-input-group>
+        <c-input-group class="mb-3">
+            <span class="edit-false" cInputGroupText>
+                <span class="edit-false">Username</span>
+            </span>
+            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="user.userName" name="userName" autoComplete="price" cFormControl />
+        </c-input-group>
+    </div>
+    <div style="gap:10px" class="flex-row-sb">
+        <c-input-group class="mb-3">
+            <span class="edit-false" cInputGroupText>
+                <span class="edit-false">Email</span>
+            </span>
+            <input [readonly]="true" class="edit-false" [(ngModel)]="user.email" name="email" autoComplete="name" cFormControl />
+        </c-input-group>
+       
+        <c-input-group class="mb-3">
+            <span class="edit-false" cInputGroupText>
+                <span class="edit-false">Phone</span>
+            </span>
+            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="user.phone" name="phone" autoComplete="price" cFormControl />
+        </c-input-group>
+        <c-input-group class="mb-3">
+            <span class="edit-false" cInputGroupText>
+                <span class="edit-false">Phone2</span>
+            </span>
+            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="user.altPhone" name="altPhone" autoComplete="price" cFormControl />
+        </c-input-group>
+    </div>
+    <div style="gap:10px" class="flex-row-sb">
+        <c-input-group class="mb-3">
+            <span class="edit-false" cInputGroupText>
+                <span class="edit-false">Street</span>
+            </span>
+            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="user.street" name="street" autoComplete="name" cFormControl />
+        </c-input-group>
+       
+        <c-input-group class="mb-3">
+            <span class="edit-false" cInputGroupText>
+                <span class="edit-false">City</span>
+            </span>
+            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="user.city" name="city" autoComplete="price" cFormControl />
+        </c-input-group>
+        <c-input-group class="mb-3">
+            <span class="edit-false" cInputGroupText>
+                <span class="edit-false">State</span>
+            </span>
+            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="user.stateOfResidence" name="state" autoComplete="price" cFormControl />
+        </c-input-group>
+
+    </div>
+    <c-input-group class="mb-3">
+        <span class="edit-false" cInputGroupText>
+            <span class="edit-false" cIcon name="cilUser">Avatar</span>
+        </span>
+        <input (change)="onFileChange($event)" [disabled]="isReadOnly"  class="edit-false avatar-file" name="attachments" type="file" cFormControl />
+    </c-input-group>
+    <button *ngIf="staff.role=='ADMIN' || staff.role=='ROOT'" [disabled]="isReadOnly" (click)="saveProfile()" style="white-space: nowrap;" cButton color="primary">Submit
+    </button>
+</form>

@@ -1,0 +1,11 @@
+<div class="window">
+
+    <div class="x-flex-row carousel">
+        <ng-container *ngFor="let image of images">
+            <img *ngIf="useMaxRes" src="{{serverUrl}}{{image.replace('//', '/').replace('public','')}}" class="slide">
+            <img *ngIf="!useMaxRes" src="{{serverUrl}}{{image.replace('//', '/').replace('public','')+ '-450x300.png'}}" class="slide">
+        </ng-container>
+
+    </div>
+</div>
+

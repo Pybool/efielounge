@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from html.EFIELOUNGE.com/food-chow/login-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Jun 2024 20:39:55 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>Food Ordering HTML Template</title>
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+
+
+    <link rel="stylesheet" href="/assets/css/icons.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/red-color.css">
+    <link rel="stylesheet" href="/assets/css/yellow-color.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+</head>
+
+<body itemscope>
+    <main>
+        <app-preloader></app-preloader>
+        <app-header></app-header>
+        <section>
+            <div class="block">
+                <div class="fixed-bg" style="background-image: url(/assets/images/topbg.jpg);"></div>
+                <div class="page-title-wrapper text-center">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="page-title-inner">
+                            <h1 itemprop="headline">Cart</h1>
+                            <span>Discover the best of world cuisine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="tab-pane">
+            <div class="tabs-wrp brd-rd5">
+                <h4 itemprop="headline">MY CART</h4>
+                <div style="color:orangered">{{showCartMessage}}</div>
+                <div style="flex-wrap: wrap;" class="order-list x-flex-row col-md-12 col-sm-12 col-lg-12">
+                    
+                    <ng-container *ngFor="let cartItem of cartItems">
+                        <div class="order-item brd-rd5 zoom col-md-3 col-sm-12 col-lg-3">
+                            <div class="order-thumb brd-rd5">
+                                <a href="#" title="" itemprop="url"><img
+                                        src="{{serverUrl}}{{cartItem?.menu?.attachments[0].replace('//', '/').replace('public','')}}"
+                                        alt="order-img1.jpg" class="menu-img" itemprop="image"></a>
+                                <span class="post-rate yellow-bg brd-rd2"><i
+                                        class="fa fa-star-o"></i>{{cartItem?.menu?.ratings}}</span>
+                            </div>
+                            <div class="order-info">
+                                <div style="justify-content: space-between;"
+                                                                        class="x-flex-row">
+                                                                        <div style="gap:2px" class="number x-flex-row">
+                                                                            <span (click)="subQty(cartItem)" class="minus">-</span>
+                                                                            <input class="number-input"
+                                                                                value="{{cartItem?.units}}"
+                                                                                name="units" min="1" max="10"
+                                                                                type="number" />
+                                                                            <span (click)="addQty(cartItem)" class="plus">+</span>
+                                                                        </div>
+                                                                        
+                                                                        <div (click)="toggleRemoveFromCartModal(cartItem?.menu?.name, cartItem?._id)" class="remove-from-cart"><i
+                                                                                class="fa fa-trash"></i></div>
+                                                                    </div>
+                                <h4 itemprop="headline"><a href="#" title="" itemprop="url">{{cartItem?.menu?.name}}</a>
+                                </h4>
+
+                                <span class="price">{{cartItem?.menu?.currency}} {{cartItem?.menu?.price}}</span>
+                                <span class="processing brd-rd3">PROCESSING</span>
+                                
+                            </div>
+
+                        </div>
+                    </ng-container>
+                    
+                </div>
+            </div>
+            <div class="x-flex-row brd-rd2 checkout">
+                <div *ngIf="showCheckOutSpinner" class="spinner"></div>
+                <a class="brd-rd2" (click)="checkOut()" href="javascript:void(0)" title="" itemprop="url">Checkout</a>
+            </div>
+
+        </div>
+        <app-remove-from-cart [removal]="removal" (confirmEvent)="handleConfirmEvent()"></app-remove-from-cart>
+        <app-footer></app-footer>
+    </main>
+</body>
+
+</html>

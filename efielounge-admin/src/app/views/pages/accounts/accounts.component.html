@@ -1,0 +1,113 @@
+<div style="justify-content: space-between;gap:50px; align-items: flex-start;" class="mb-5 flex-row-sb">
+    <h3 style="white-space: nowrap;" *ngIf="accountType=='staff'">Active Staff</h3>
+    <h3 *ngIf="accountType=='customers'">Customers</h3>
+    <div style="width: 60vw;" class="flex-row-sb">
+        <c-input-group>
+            <input class="search-bar"  autoComplete="name" cFormControl placeholder="Search for anything (Coming soon)" />
+        </c-input-group>
+        <button style="white-space: nowrap;"  cButton color="primary">Go
+        </button>
+    </div>
+    <select [(ngModel)]="accountType" (change)="filterAccounts()" style="width:200px"  name="accountType" color="primary" aria-label="Default select example" cselect class="form-select" >
+      <option value="customers">Customers</option>
+      <option value="staff">Staff</option>
+  </select>
+ 
+  </div>
+  <c-row>
+    <c-col xs>
+      <c-card class="mb-4">
+        <c-card-body>
+          <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+            <thead class="text-nowrap text-truncate">
+              <tr>
+                <th class="bg-body-tertiary text-center ">
+                  <svg cIcon name="cilPeople"></svg>
+                </th>
+                <th class="bg-body-tertiary">Email</th>
+                <th class="bg-body-tertiary">Firstname</th>
+                <th class="bg-body-tertiary">Lastname</th>
+                <th class="bg-body-tertiary">Username</th>
+                <th class="bg-body-tertiary">Phone</th>
+                
+                <th class="bg-body-tertiary">Street</th>
+                <th class="bg-body-tertiary">City</th>
+                <th class="bg-body-tertiary">State</th>
+                <!-- <th class="bg-body-tertiary">Role</th> -->
+                <th class="bg-body-tertiary">CreatedAt</th>
+                <th class="bg-body-tertiary">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (account of accounts; track account?.email; let i = $index) {
+              <tr>
+                <td class="text-center">
+                  <c-avatar [size]="'md'"
+                      src="{{serverUrl}}/{{ account.avatar }}"
+                      status="success" />
+              </td>
+                <td>
+                  <div>{{ account?.email }}</div>
+                </td>
+                <td>
+                  <div>{{ account?.firstName || 'N/A' }}</div>
+                </td>
+                <td>
+                  <div>{{ account?.lastName || 'N/A' }}</div>
+                </td>
+                <td>
+                  <div>{{ account?.userName || 'N/A' }}</div>
+                </td>
+                <td>
+                  <div>{{ account?.phone || 'N/A' }}</div>
+                </td>
+                <td>
+                  <div style="white-space: nowrap;">{{ account?.street || 'N/A' }}</div>
+                </td>
+                <td>
+                  <div>{{ account?.city || 'N/A' }}</div>
+                </td>
+                <td>
+                  <div>{{ account?.stateOfResidence || 'N/A' }}</div>
+                </td>
+             
+                <td>
+                  <div>{{ account?.createdAt.split('T')[0] || 'N/A' }}</div>
+                </td>
+                <td>
+                  <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
+                    <a  href="/#/account-profile/{{account?._id}}">Edit</a>
+                    <a href="">Delete</a>
+                  </div>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+  
+  <c-modal #verticallyCenteredModalAccount alignment="center" id="verticallyCenteredModalAccount">
+    <c-modal-header>
+      <h5 cModalTitle>New Account</h5>
+    </c-modal-header>
+    <c-modal-body>
+      <form cForm>
+        <c-input-group class="mb-3">
+          <span cInputGroupText>
+            <svg cIcon name="cilUser"></svg>
+          </span>
+          <input name="name" autoComplete="name" cFormControl placeholder="Category Name" />
+        </c-input-group>
+      </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button [cModalToggle]="verticallyCenteredModalAccount.id" cButton color="secondary">
+        Close
+      </button>
+      <button  cButton color="primary">Submit</button>
+    </c-modal-footer>
+  </c-modal>
+  
