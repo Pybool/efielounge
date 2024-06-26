@@ -130,7 +130,7 @@ function getMulterConfig() {
     const day = String(today.getDate()).padStart(2, "0");
     const year = today.getFullYear();
     const formattedDate2 = `${day}-${month}-${year}`;
-    let attachmentsFolder = `../efielounge-backend/public/menu-attachments/${formattedDate2}`;
+    let attachmentsFolder = `../public/menu-attachments/${formattedDate2}`;
     createfolder(attachmentsFolder);
     const multerConfig = arraifyUploads(attachmentsFolder);
     return multerConfig;
