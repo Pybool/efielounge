@@ -2458,3 +2458,14 @@ info:
  {"timestamp":"2024-06-25T18:16:37.533+01:00"}
 info: Mongoose connected to db {"timestamp":"2024-06-25T18:16:37.594+01:00"}
 info: MongoDB connected Successfully. {"timestamp":"2024-06-25T18:16:37.602+01:00"}
+info: MONGO_URI: mongodb://sudoroot:quINCYLGBTQIANonSense@109.228.48.182/admin {"timestamp":"2024-06-26T08:35:01.757+01:00"}
+info: DATABASE NAME EFIELOUNGE {"timestamp":"2024-06-26T08:35:01.763+01:00"}
+info: 
+ ---------------------------------------------------------------
+|  EFIELOUNGE PRODUCTION SERVER IS RUNNING ON 0.0.0.0:8500  |
+|  😊 Production Server started successfully.  |
+|  🎧 Listening on port 8500...  |
+ ---------------------------------------------------------------
+ {"timestamp":"2024-06-26T08:35:03.612+01:00"}
+info: Mongoose connected to db {"timestamp":"2024-06-26T08:35:04.705+01:00"}
+info: MongoDB connected Successfully. {"timestamp":"2024-06-26T08:35:04.709+01:00"}

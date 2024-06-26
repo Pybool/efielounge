@@ -52,6 +52,10 @@ const MenuSchema = new Schema({
         default: 0,
         required: false,
     },
+    createdAt: {
+        type: Date,
+        required: true
+    },
     status: {
         type: String,
         default: "Cooking",

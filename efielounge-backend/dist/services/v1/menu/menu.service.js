@@ -7,6 +7,8 @@ exports.Menuservice = void 0;
 const mongoose_1 = require("mongoose");
 const menu_model_1 = __importDefault(require("../../../models/menu/menu.model"));
 const menucategories_model_1 = __importDefault(require("../../../models/menu/menucategories.model"));
+const menuitem_model_1 = __importDefault(require("../../../models/menu/menuitem.model"));
+const menuitemcategories_model_1 = __importDefault(require("../../../models/menu/menuitemcategories.model"));
 const ratings_model_1 = __importDefault(require("../../../models/menu/ratings.model"));
 const likes_model_1 = __importDefault(require("../../../models/menu/likes.model"));
 function delay(ms) {
@@ -47,7 +49,7 @@ class Menuservice {
         try {
             let filter = {};
             const page = Number(req.query.page || 1);
-            const limit = Number(req.query.limit || 10);
+            const limit = Number(req.query.limit || 20);
             filter = Menuservice.buildFilter(req);
             const options = {
                 page: page,
@@ -55,7 +57,7 @@ class Menuservice {
                 sort: {},
             };
             const [menus, total] = await Promise.all([
-                menu_model_1.default.find(filter, null, options),
+                menu_model_1.default.find(filter, null, options).sort({ createdAt: -1 }).populate("category").populate("menuItems"),
                 menu_model_1.default.countDocuments(filter),
             ]);
             const totalPages = Math.ceil(total / limit);
@@ -85,6 +87,34 @@ class Menuservice {
                 status: true,
                 message: "Categories fetched successfully",
                 data: categories,
+                code: 200,
+            };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    static async getMenuItemCategories() {
+        try {
+            const categories = await menuitemcategories_model_1.default.find({});
+            return {
+                status: true,
+                message: "Menu Item Categories fetched successfully",
+                data: categories,
+                code: 200,
+            };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    static async getMenuItems() {
+        try {
+            const menuItems = await menuitem_model_1.default.find({}).populate("category");
+            return {
+                status: true,
+                message: "Menu Item fetched successfully",
+                data: menuItems,
                 code: 200,
             };
         }

@@ -8,8 +8,8 @@
     "dev": "nodemon src/server.ts",
     "start": "node dist/server.js",
     "prebuild": "tsc -p .",
-    "build": "copyfiles -u 1 ./src/views/templates/* dist/ && npm run copy-config",
-    "copy-config": "copyfiles -u 1 ./src/setup/config.json dist"
+    "build": "copyfiles -u 1 ./src/templates/* dist/ && npm run copy-config",
+    "copy-config": "copyfiles -u 1 ./src/setup/config.json dist && cd dist && mkdir public"
   },
   "keywords": [],
   "author": "",

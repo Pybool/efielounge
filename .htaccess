@@ -11,3 +11,25 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 DirectoryIndex index.html
 RewriteRule ^ index.html [L]
+
+
+
+J@Cp57X%f3
+
+
+db.createUser({
+  user: "efieloungeroot",
+  pwd: "LGBTQIANonSense",
+  roles: [{ role: "userAdminAnyDatabase", db: "admin" }]
+})
+
+db.createUser({
+  user: "sudoroot",
+  pwd: "quINCYLGBTQIANonSense",
+  roles: [ { role: "root", db: "admin" } ]
+})
+
+
+mongodb://sudoroot:quINCYLGBTQIANonSense@109.228.48.182/admin
+
+http:109.228.48.182:8500/test

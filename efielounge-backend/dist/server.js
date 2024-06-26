@@ -15,6 +15,7 @@ const passport_1 = __importDefault(require("passport"));
 const _app_1 = __importDefault(require("./setup/_app"));
 const authentication_route_1 = __importDefault(require("./routes/v1/authentication.route"));
 const admin_route_1 = __importDefault(require("./routes/v1/admin.route"));
+const accounts_route_1 = __importDefault(require("./routes/v1/accounts.route"));
 const menu_route_1 = __importDefault(require("./routes/v1/menu.route"));
 const cart_route_1 = __importDefault(require("./routes/v1/cart.route"));
 (0, dotenv_1.config)();
@@ -34,10 +35,14 @@ _app_1.default.use(passport_1.default.session());
 _app_1.default.use(express_1.default.urlencoded({ extended: true }));
 _app_1.default.use(express_1.default.static("public"));
 _app_1.default.use(express_1.default.static(process.env.EFIELOUNGE_PUBLIC_FOLDER));
+_app_1.default.get('/test', (req, res) => {
+    res.status(200).send('Hello from Efielounge Backend Server\n');
+});
 _app_1.default.use("/api/v1/auth", authentication_route_1.default);
 _app_1.default.use("/api/v1/admin", admin_route_1.default);
 _app_1.default.use("/api/v1/menu", menu_route_1.default);
 _app_1.default.use("/api/v1/cart", cart_route_1.default);
+_app_1.default.use("/api/v1/accounts", accounts_route_1.default);
 _app_1.default.use((err, req, res, next) => {
     console.error(err.stack);
     if (res.headersSent) {
@@ -73,7 +78,7 @@ _app_1.default.use((err, req, res, next) => {
 _app_1.default.set("view engine", "ejs");
 _app_1.default.set("views", "src/views/templates");
 const server = http_1.default.createServer(_app_1.default);
-const PORT = 8000 || process.env.EFIELOUNGE_MAIN_SERVER_PORT || 8000;
+const PORT = process.env.EFIELOUNGE_MAIN_SERVER_PORT || 8000;
 let environment = "Development";
 if (process.env.NODE_ENV === "prod") {
     environment = "Production";

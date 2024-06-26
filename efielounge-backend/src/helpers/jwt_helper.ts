@@ -10,7 +10,7 @@ const jwthelper = {
       const secret = process.env.EFIELOUNGE_ACCESS_TOKEN_SECRET as string;
       const options = {
         expiresIn: "600000s",
-        EFIELOUNGE_ISSUER: process.env.EFIELOUNGE_ISSUER,
+        issuer: process.env.EFIELOUNGE_ISSUER,
         audience: accountId,
       };
       
@@ -58,7 +58,7 @@ const jwthelper = {
       const secret = process.env.EFIELOUNGE_REFRESH_TOKEN_SECRET as string;
       const options = {
         expiresIn: "72h",
-        EFIELOUNGE_ISSUER: process.env.EFIELOUNGE_ISSUER,
+        issuer: process.env.EFIELOUNGE_ISSUER,
         audience: accountId,
       };
       JWT.sign(payload, secret, options, (err, token) => {

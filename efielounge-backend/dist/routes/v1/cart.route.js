@@ -14,5 +14,5 @@ clientCartRouter.get("/get-cart", authMiddleware, cart_controller_1.default.getC
 clientCartRouter.patch("/remove-from-cart", authMiddleware, cart_controller_1.default.removeFromCart);
 clientCartRouter.put("/update-cart", authMiddleware, cart_controller_1.default.updateCart);
 clientCartRouter.put("/checkout", authMiddleware, cart_controller_1.default.checkOut);
-clientCartRouter.post("/upload-receipt", authMiddleware, (0, menu_middleware_1.getMulterConfigSingle)(), cart_controller_1.default.uploadReceipt);
+clientCartRouter.post("/upload-receipt", authMiddleware, (0, menu_middleware_1.getMulterConfigSingle)('../efielounge-backend/public/receipts/'), cart_controller_1.default.uploadReceipt);
 exports.default = clientCartRouter;

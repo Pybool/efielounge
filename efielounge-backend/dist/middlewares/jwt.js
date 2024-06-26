@@ -7,7 +7,7 @@ exports.ensureAdmin = exports.decode = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const accounts_model_1 = __importDefault(require("../models/Accounts/accounts.model"));
 const SECRET_KEY = process.env.EFIELOUNGE_ACCESS_TOKEN_SECRET || "";
-const decode = (req, res, next) => {
+const decode = async (req, res, next) => {
     const reqHeaders = req.headers;
     if (!reqHeaders["authorization"]) {
         return res
@@ -18,7 +18,7 @@ const decode = (req, res, next) => {
     try {
         const decoded = jsonwebtoken_1.default.verify(accessToken, SECRET_KEY);
         req.accountId = decoded.aud;
-        req.account = accounts_model_1.default.findOne({ _id: req.accountId });
+        req.account = await accounts_model_1.default.findOne({ _id: req.accountId });
         return next();
     }
     catch (error) {
@@ -28,7 +28,8 @@ const decode = (req, res, next) => {
 exports.decode = decode;
 function ensureAdmin(req, res, next) {
     const account = req.account;
-    if (account && account.admin) {
+    console.log(account, account.role === "ADMIN");
+    if (account && account.role === "ADMIN") {
         next();
     }
     else {

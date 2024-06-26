@@ -136,13 +136,13 @@ function getMulterConfig() {
     return multerConfig;
 }
 exports.getMulterConfig = getMulterConfig;
-function getMulterConfigSingle() {
+function getMulterConfigSingle(folder) {
     const today = new Date();
     const month = String(today.getMonth() + 1).padStart(2, "0"); // Add leading zero for single-digit months
     const day = String(today.getDate()).padStart(2, "0");
     const year = today.getFullYear();
     const formattedDate2 = `${day}-${month}-${year}`;
-    let attachmentsFolder = `../efielounge-backend/public/receipts/${formattedDate2}`;
+    let attachmentsFolder = folder + `${formattedDate2}`;
     createfolder(attachmentsFolder);
     const multerConfig = singleUpload(attachmentsFolder);
     console.log(multerConfig);

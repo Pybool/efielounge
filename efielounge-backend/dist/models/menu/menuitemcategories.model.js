@@ -10,6 +10,10 @@ const MenuItemCategoriesSchema = new Schema({
         type: String,
         default: "",
         required: false,
+    },
+    createdAt: {
+        type: Date,
+        required: true
     }
 });
 const MenuItemCategories = mongoose_1.default.model("menuitemcategories", MenuItemCategoriesSchema);

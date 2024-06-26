@@ -12,7 +12,7 @@ const mailActions = {
                 try {
                     const template = await ejs_1.default.renderFile("src/templates/emailConfirmation.ejs", { email, otp });
                     const mailOptions = {
-                        from: "info.swiftcrib@gmail.com",
+                        from: "info.efielounge@gmail.com",
                         to: email,
                         subject: "Confirm your registration",
                         text: `Use the otp in this mail to complete your account onboarding`,

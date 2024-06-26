@@ -2,8 +2,9 @@ import express from "express";
 import http from "http";
 import "./setup/init.redis";
 import "./setup/init.mongo";
+import cors, { CorsOptions } from "cors";
 
-import cors from "./setup/cors";
+// import cors from "./setup/cors";
 import { config as dotenvConfig } from "dotenv";
 import logger from "./setup/logger";
 import session from "express-session";
@@ -19,7 +20,14 @@ dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
 
 const SERVER_URL = "0.0.0.0";
 // Store WebSocket connections in a map
-app.use(cors);
+// app.use(cors);
+app.use(cors({
+  origin: '*', // Allows all origins
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed methods
+  allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+  optionsSuccessStatus: 204 // For legacy browser support
+}));
+
 app.use(express.json());
 app.use(
   session({

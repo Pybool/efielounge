@@ -62,12 +62,14 @@ class Menuservice {
             }
             validatedResult.attachments = menuAttachments;
             validatedResult.slug = slugify(validatedResult.name);
+            validatedResult.createdAt = new Date();
             const menu = await menu_model_1.default.create(validatedResult);
             if (menu) {
+                const categoryPopulatedMenu = await menu.populate("category");
                 return {
                     status: true,
                     message: " Menu has been created succesfully.",
-                    data: menu,
+                    data: await categoryPopulatedMenu.populate("menuItems"),
                     code: 201,
                 };
             }
@@ -96,6 +98,7 @@ class Menuservice {
                     code: 409,
                 };
             }
+            validatedResult.createdAt = new Date();
             const menuCategory = await menucategories_model_1.default.create(validatedResult);
             if (menuCategory) {
                 return {
@@ -160,7 +163,7 @@ class Menuservice {
                 return {
                     status: true,
                     message: " Menu item has been created succesfully.",
-                    data: menuItem,
+                    data: await menuItem.populate("category"),
                     code: 201,
                 };
             }
@@ -189,6 +192,7 @@ class Menuservice {
                     code: 409,
                 };
             }
+            validatedResult.createdAt = new Date();
             const menuItemCategory = await menuitemcategories_model_1.default.create(validatedResult);
             if (menuItemCategory) {
                 return {

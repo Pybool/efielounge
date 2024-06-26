@@ -28,10 +28,36 @@ const clientMenuController = {
             next(error);
         }
     },
+    getMenuItemCategories: async (req, res, next) => {
+        try {
+            let status = 400;
+            const result = await menu_service_1.Menuservice.getMenuItemCategories();
+            if (result)
+                status = result.code;
+            return res.status(status).json(result);
+        }
+        catch (error) {
+            error.status = 500;
+            next(error);
+        }
+    },
     fetchMenuDetail: async (req, res, next) => {
         try {
             let status = 400;
             const result = await menu_service_1.Menuservice.fetchMenuDetail(req);
+            if (result)
+                status = result.code;
+            return res.status(status).json(result);
+        }
+        catch (error) {
+            error.status = 500;
+            next(error);
+        }
+    },
+    getMenuItems: async (req, res, next) => {
+        try {
+            let status = 400;
+            const result = await menu_service_1.Menuservice.getMenuItems();
             if (result)
                 status = result.code;
             return res.status(status).json(result);

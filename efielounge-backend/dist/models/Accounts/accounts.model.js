@@ -88,9 +88,10 @@ const AccountSchema = new Schema({
         required: false,
     },
     role: {
-        type: Schema.Types.ObjectId,
+        type: String,
         required: false,
-        ref: "AdminRoles"
+        default: "CUSTOMER",
+        enum: ["CUSTOMER", "STAFF", "ADMIN", "ROOT"]
     }
 });
 AccountSchema.statics.getUserProfileById = async function (_id) {

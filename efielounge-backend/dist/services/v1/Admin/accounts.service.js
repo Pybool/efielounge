@@ -3,60 +3,66 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AccountService = void 0;
+exports.AdminAccountService = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const http_errors_1 = __importDefault(require("http-errors"));
 const messages_1 = __importDefault(require("../../../helpers/messages"));
 const accounts_model_1 = __importDefault(require("../../../models/Accounts/accounts.model"));
 const custom_validators_1 = require("../../../validators/authentication/custom.validators");
 const joi_validators_1 = __importDefault(require("../../../validators/authentication/joi.validators"));
-class AccountService {
-    static async getUserProfile(req) {
+class AdminAccountService {
+    static async getCustomers(req) {
         try {
-            const account = await accounts_model_1.default.findOne({ _id: req.query.accountId });
-            if (!account) {
-                throw http_errors_1.default.NotFound("User was not found");
-            }
+            const page = Number(req.query.page || 1);
+            const limit = Number(req.query.limit || 20);
+            const filter = { role: 'CUSTOMER' };
+            const [accounts, total] = await Promise.all([
+                accounts_model_1.default.find(filter, null).sort({ createdAt: -1 }),
+                accounts_model_1.default.countDocuments(filter),
+            ]);
+            const totalPages = Math.ceil(total / limit);
             return {
                 status: true,
-                data: account,
-                code: 200
-            }; //await account.getProfile();
+                data: accounts,
+                total: total,
+                totalPages: totalPages,
+                currentPage: page,
+                limit: limit,
+                accountType: 'customers',
+                message: "Customers were fetched successfully",
+                code: 200,
+            };
         }
         catch (error) {
             console.log(error);
             throw error.message;
         }
     }
-    static async saveUserProfile(req) {
+    static async getStaff(req) {
         try {
-            const patchData = JSON.parse(req.body.data);
-            console.log(patchData);
-            if (!patchData) {
-                throw http_errors_1.default.NotFound("No data was provided");
-            }
-            let account = await accounts_model_1.default.findOne({ _id: req.query.accountId });
-            if (!account) {
-                throw http_errors_1.default.NotFound("Account was not found");
-            }
-            // Add fields validation
-            Object.keys(patchData).forEach((field) => {
-                if (field != "email")
-                    account[field] = patchData[field];
-            });
-            if (req?.attachments?.length > 0) {
-                account.avatar = req.attachments[0].replaceAll("/public", "");
-            }
-            account = await account.save();
+            const page = Number(req.query.page || 1);
+            const limit = Number(req.query.limit || 20);
+            const filter = { 'role': { '$in': ['STAFF', 'ADMIN'] } };
+            const [accounts, total] = await Promise.all([
+                accounts_model_1.default.find(filter, null).sort({ createdAt: -1 }),
+                accounts_model_1.default.countDocuments(filter),
+            ]);
+            const totalPages = Math.ceil(total / limit);
             return {
                 status: true,
-                data: account,
-                message: "Profile updated successfully..",
+                data: accounts,
+                total: total,
+                totalPages: totalPages,
+                currentPage: page,
+                limit: limit,
+                accountType: 'staff',
+                message: "Staff were fetched successfully",
+                code: 200,
             };
         }
         catch (error) {
             console.log(error);
-            return { status: false, message: "Profile update failed.." };
+            throw error.message;
         }
     }
     static async changePassword(req) {
@@ -86,4 +92,4 @@ class AccountService {
         }
     }
 }
-exports.AccountService = AccountService;
+exports.AdminAccountService = AdminAccountService;

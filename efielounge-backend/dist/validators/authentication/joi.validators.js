@@ -7,6 +7,8 @@ const joi_1 = __importDefault(require("@hapi/joi"));
 const authSchema = joi_1.default.object({
     email: joi_1.default.string().email().lowercase().required(),
     password: joi_1.default.string().min(4).required(),
+    userName: joi_1.default.string(),
+    role: joi_1.default.string()
 });
 const authSendEmailConfirmOtpSchema = joi_1.default.object({
     email: joi_1.default.string().email().lowercase().required(),
