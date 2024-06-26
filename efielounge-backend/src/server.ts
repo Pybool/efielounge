@@ -42,7 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+// app.use(express.static("public"));
 app.use(express.static(process.env.EFIELOUNGE_PUBLIC_FOLDER!));
 
 app.get('/test', (req:any, res:any) => {
@@ -95,7 +95,7 @@ app.use((err: any, req: any, res: any, next: any) => {
 });
 
 app.set("view engine", "ejs");
-app.set("views", "src/views/templates");
+app.set("views", "src/templates");
 
 const server = http.createServer(app);
 const PORT = process.env.EFIELOUNGE_MAIN_SERVER_PORT || 8000;

@@ -9,7 +9,7 @@
     "start": "node dist/server.js",
     "prebuild": "tsc -p .",
     "build": "copyfiles -u 1 ./src/templates/* dist/ && npm run copy-config",
-    "copy-config": "copyfiles -u 1 ./src/setup/config.json dist && cd dist && mkdir public"
+    "copy-config": "copyfiles -u 1 ./src/setup/config.json dist && cd dist"
   },
   "keywords": [],
   "author": "",

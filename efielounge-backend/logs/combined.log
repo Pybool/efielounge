@@ -2469,3 +2469,4 @@ info:
  {"timestamp":"2024-06-26T08:35:03.612+01:00"}
 info: Mongoose connected to db {"timestamp":"2024-06-26T08:35:04.705+01:00"}
 info: MongoDB connected Successfully. {"timestamp":"2024-06-26T08:35:04.709+01:00"}
+info: Mongoose connection is disconnected {"timestamp":"2024-06-26T10:04:48.713+01:00"}
