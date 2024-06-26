@@ -6,7 +6,7 @@ import { getMulterConfigSingle } from '../../middlewares/menu.middleware';
 const authRouter = express.Router();
 
 authRouter.get('/user-profile', decode, accountController.getUserProfile)
-authRouter.put('/user-profile', decode, getMulterConfigSingle('../efielounge-backend/public/accounts/'), accountController.saveUserProfile)
+authRouter.put('/user-profile', decode, getMulterConfigSingle('../public/accounts/'), accountController.saveUserProfile)
 
 authRouter.all('/user-profile', handleInvalidMethod);
 authRouter.all('/user-profile', handleInvalidMethod);
