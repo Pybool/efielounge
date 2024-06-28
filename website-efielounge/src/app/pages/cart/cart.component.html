@@ -58,7 +58,7 @@
                                                                         class="x-flex-row">
                                                                         <div style="gap:2px" class="number x-flex-row">
                                                                             <span (click)="subQty(cartItem)" class="minus">-</span>
-                                                                            <input class="number-input"
+                                                                            <input disabled class="number-input"
                                                                                 value="{{cartItem?.units}}"
                                                                                 name="units" min="1" max="10"
                                                                                 type="number" />
@@ -81,9 +81,9 @@
                     
                 </div>
             </div>
-            <div class="x-flex-row brd-rd2 checkout">
+            <div (click)="checkOut()" class="x-flex-row brd-rd2 checkout">
                 <div *ngIf="showCheckOutSpinner" class="spinner"></div>
-                <a class="brd-rd2" (click)="checkOut()" href="javascript:void(0)" title="" itemprop="url">Checkout</a>
+                <a class="brd-rd2"  href="javascript:void(0)" title="" itemprop="url">Checkout</a>
             </div>
 
         </div>

@@ -97,11 +97,17 @@ export class CartComponent {
   }
 
   addQty(cartItem: any) {
-    cartItem.units += 1;
+    if(cartItem.units < 5){
+      cartItem.units += 1;
+    }else{
+      alert("You can only place a maximum of 5 orders for the same menu")
+    }
   }
 
   subQty(cartItem: any) {
-    cartItem.units -= 1;
+    if(cartItem.units > 1){
+      cartItem.units -= 1;
+    }
   }
 
   checkOut() {

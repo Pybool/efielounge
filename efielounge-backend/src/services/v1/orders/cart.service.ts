@@ -5,6 +5,7 @@ import OrderSequence from "../../../models/Checkout/orderSequence.model";
 import Menu from "../../../models/menu/menu.model";
 import Cart from "../../../models/Orders/cart.model";
 import PaymentProof from "../../../models/transactions/paymentProofs.model";
+import { OrderService } from "./orders.service";
 const crypto = require("crypto"); // Assuming you're using Node.js
 
 export class CartService {
@@ -193,7 +194,7 @@ export class CartService {
 
   static async checkOut(req: Xrequest) {
     try {
-      const { cartItems } = req.body!;
+      const { cartItems, amount } = req.body!;
       const checkOutId = req.query.checkOutId! as string;
       const cartItemIds = [];
       for (let cartItem of cartItems) {
@@ -216,12 +217,13 @@ export class CartService {
       });
 
       if (!checkOutIntent) {
-        await CheckOut.findOneAndDelete({ account: req.accountId });
+        // await CheckOut.findOneAndDelete({ account: req.accountId });
         const newCheckOutId = await CartService.generateCheckOutId();
         checkOutIntent = await CheckOut.create({
           checkOutId: newCheckOutId,
           cart: cartItemIds,
           account: req.accountId,
+          amount: amount
         });
       } else {
         checkOutIntent = await CheckOut.findOneAndUpdate(
@@ -229,6 +231,7 @@ export class CartService {
           {
             cart: cartItemIds,
             account: req.accountId,
+            amount: amount
           },
           { new: true }
         );
@@ -297,6 +300,14 @@ export class CartService {
       }
 
       const proof = await PaymentProof.create({ checkOutId: ref, attachments });
+      const checkOutIntentMod = {
+        account: checkOutIntent.account,
+        checkOutId: checkOutIntent.checkOutId,
+        cart: checkOutIntent.cart,
+        status: checkOutIntent.status
+      }
+      await OrderService.createOrder(checkOutIntentMod)
+      
       return {
         status: true,
         data: proof,
@@ -308,4 +319,5 @@ export class CartService {
       throw error;
     }
   }
+
 }

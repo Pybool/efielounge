@@ -6,9 +6,9 @@ app-otp-input,
   align-items: center;
 }
 
-body{
+/* body{
   background: linear-gradient(90deg, #FDBB2D 0%, #3A1C71 100%)!important;
-}
+} */
 
 .spinner-row {
   display: flex;
@@ -22,7 +22,7 @@ body{
 .otp-container{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   height: 50vh;
-  border-radius: 30px;
+  border-radius: 5px;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,8 @@ body{
   justify-content: center;
   background: white;
   width: 50%;
-  min-width: 280px!important
+  min-width: 280px !important;
+  padding: 20px;
 }
 
 .bold {

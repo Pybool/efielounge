@@ -13,6 +13,7 @@
 
 .menu-img {
   height: 180px;
+  object-fit: cover;
 }
 
 .number {
@@ -70,6 +71,7 @@ input[type="number"] {
 
 .checkout:hover {
   background-color: orange;
+  cursor: pointer;
 }
 
 .remove-from-cart {

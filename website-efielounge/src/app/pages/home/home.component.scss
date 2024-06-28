@@ -1,0 +1,77 @@
+.foot-img{
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.img{
+    height: 275px;
+    width: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.block{
+    padding-bottom: 50px!important;
+}
+
+.fixed-bg{
+    z-index:-2!important;
+}
+
+.x-flex-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    // gap:20px
+}
+
+.order {
+    background-color: #272727;
+    border: 1px solid transparent;
+    color: #fff;
+    float: right;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 8px 20px;
+    text-transform: uppercase;
+}
+
+.caro-dish-name {
+    display: inline-block;
+    padding: 14px 5px;
+    text-align: center;
+    width: 30%;
+}
+
+.post-likes:hover{
+    cursor: pointer;
+}
+
+.dish-item{
+    padding-bottom: 50px!important;
+}
+
+.order:hover{
+    background: orange;
+}
+
+.caro-dish-name span {
+    text-align: left;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.caro-dish-name h4 {
+    text-align: left;
+}
+
+.featured-restaurant-info{
+    background: white!important;
+}
+
+.price{
+    color: orange;
+}

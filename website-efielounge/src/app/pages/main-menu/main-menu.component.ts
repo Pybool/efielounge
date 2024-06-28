@@ -10,6 +10,8 @@ import { environment } from '../../../environments/environment';
 import { TruncateTextPipe } from '../../pipes/truncateTextPipe.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-main-menu',
@@ -36,7 +38,8 @@ export class MainMenuComponent implements OnDestroy {
   constructor(
     private menuService: MenuService,
     private route: ActivatedRoute,
-    private cartService: CartService
+    private cartService: CartService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -71,13 +74,70 @@ export class MainMenuComponent implements OnDestroy {
   }
 
   addToCart(menu: string, units: number) {
-    console.log(menu, units);
-    this.cartService
-      .addToCart({ menu, units })
-      .pipe(take(1))
-      .subscribe((response: any) => {
-        alert(response.message);
+    const user = this.authService.retrieveUser();
+    if (user) {
+      this.authService.setLoggedIn(true);
+      this.cartService
+        .addToCart({ menu, units })
+        .pipe(take(1))
+        .subscribe(
+          (response: any) => {
+            if (response.status) {
+              const count = this.cartService.getCartItemCount(false);
+              this.cartService.setCartItemCount(units + count);
+            }
+
+            alert(response.message);
+          },
+          (error: any) => {
+            console.log('error ', error, Object.keys(error));
+            if ([400, 401].includes(error.status)) {
+              this.authService.navigateToUrl('/login');
+            }
+          }
+        );
+    } else {
+      this.authService.setLoggedIn(false);
+    }
+  }
+
+  async likeMenu(_id: string) {
+    const user = this.authService.retrieveUser();
+    if (!user) {
+      this.authService.setLoggedIn(false);
+      return this.authService.navigateToUrl('/login');
+    }
+    const menusToUpdate = [this.menus];
+
+    const response = await this.likeRequest(_id);
+    if (response?.status) {
+      menusToUpdate.forEach(async (menus: any) => {
+        await this.getAndUpdateArrayItemById(menus, _id);
       });
+    }
+  }
+
+  async getAndUpdateArrayItemById(arr: any, _id: string) {
+    const item = arr.find((item: any) => item._id === _id);
+
+    if (item) {
+      if (!item?.iLiked) {
+        item.likes += 1;
+        item.iLiked = true;
+      } else {
+        item.likes -= 1;
+        item.iLiked = false;
+      }
+      return true; // Indicate that the item was found and updated
+    } else {
+      return false; // Indicate that the item was not found
+    }
+  }
+
+  async likeRequest(_id: string) {
+    const token = this.authService.retrieveToken(this.authService.tokenKey!)!;
+    const response = await this.menuService.likeMenu(_id, token);
+    return response;
   }
 
   ngOnDestroy() {

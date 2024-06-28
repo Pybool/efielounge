@@ -66,7 +66,10 @@ export class Menuservice {
       };
 
       const [menus, total] = await Promise.all([
-        Menu.find(filter, null, options).sort({createdAt: -1}).populate("category").populate("menuItems"),
+        Menu.find(filter, null, options)
+          .sort({ createdAt: -1 })
+          .populate("category")
+          .populate("menuItems"),
         Menu.countDocuments(filter),
       ]);
 
@@ -132,7 +135,7 @@ export class Menuservice {
     }
   }
 
-  static async fetchMenuDetail(req:Xrequest){
+  static async fetchMenuDetail(req: Xrequest) {
     const slug = req.query.slug! as string;
     const menu: any = await Menu.findOne({
       slug: slug,
@@ -149,7 +152,30 @@ export class Menuservice {
       status: true,
       message: `Menu detail for ${slug} was fetched successfully`,
       data: menu,
-      code: 200
+      code: 200,
+    };
+  }
+
+  static async likeMenu(req: Xrequest) {
+    try {
+      let like;
+      const { _id } = req.body;
+      const account = req.accountId!;
+      const likeExists = await MenuLikes.findOne({ account, menuId: _id });
+      console.log("Like exists ", likeExists)
+      if (!likeExists) {
+        like = await MenuLikes.create({ account, menuId: _id });
+      } else {
+        like = await MenuLikes.findOneAndDelete({ account, menuId: _id });
+      }
+      return {
+        status: true,
+        message: ``,
+        data: like,
+        code: 200,
+      };
+    } catch (error: any) {
+      throw error;
     }
   }
 }

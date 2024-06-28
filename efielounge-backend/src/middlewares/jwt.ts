@@ -24,6 +24,23 @@ export const decode = async (req: Xrequest, res: Response, next: any) => {
   }
 };
 
+export const decodeExt = async (req: Xrequest, res: Response, next: any) => {
+  const reqHeaders: any = req.headers;
+  if (!reqHeaders["authorization"]) {
+    return next();
+  }
+
+  const accessToken = reqHeaders.authorization.split(" ")[1];
+  try {
+    const decoded: any = jwt.verify(accessToken, SECRET_KEY);
+    req.accountId = decoded.aud;
+    req.account = await Accounts.findOne({ _id: req.accountId });
+    return next();
+  } catch (error: any) {
+    return next();
+  }
+};
+
 export function ensureAdmin(req: Xrequest, res: Response, next: NextFunction) {
   const account = req.account;
   console.log(account, account.role==="ADMIN")

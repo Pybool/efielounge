@@ -14,6 +14,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedService } from '../../services/shared.service';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
+import { PreloaderComponent } from '../../components/preloader/preloader.component';
+import { HeaderComponent } from '../../components/header/header.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-otp-authorize',
@@ -21,6 +24,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./otp-authorize.component.css'],
   standalone: true,
   imports: [
+    PreloaderComponent,
+    HeaderComponent,
+    FooterComponent,
     CommonModule,
     HttpClientModule,
     FormsModule,
@@ -58,9 +64,18 @@ export class OtpAuthorizeComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    const body = document.querySelector('body') as any;
-    body.style.background = 'linear-gradient(90deg, #FDBB2D 0%, #3A1C71 100%)!important;'
+    const pageLoader = document.querySelector(
+      '.loader-container'
+    ) as HTMLElement;
+    setTimeout(() => {
+      pageLoader.style.display = 'none';
+    }, 3000);
   }
+
+  // ngAfterViewInit() {
+  //   const body = document.querySelector('body') as any;
+  //   body.style.background = 'linear-gradient(90deg, #FDBB2D 0%, #3A1C71 100%)!important;'
+  // }
 
   submit() {
     // this.router.navigate(['loading']);

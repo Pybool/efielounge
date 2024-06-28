@@ -1,0 +1,26 @@
+.flex-row-sb{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    // flex-wrap: wrap;
+}
+
+
+.grand-total{
+    margin-top: 20px;
+}
+
+.prices{
+    color: orange;
+}
+
+.flex-col{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.mb-10{
+    margin-bottom: 10px;
+}

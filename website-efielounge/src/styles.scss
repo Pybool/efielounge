@@ -554,6 +554,10 @@ nav > div > ul > li:before,
   border-radius: 0;
 }
 
+// .sub-dropdown li a{
+//   text-align: center!important;
+// }
+
 /*===== Project Style =====*/
 /*===== Chosen Container Style =====*/
 .chosen-container {width: 100% !important;}
@@ -7144,4 +7148,9 @@ a.thanks-close:focus {color: #333;}
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+nav > div > ul {
+    float: left!important;
+    padding-right: 30px!important;
 }

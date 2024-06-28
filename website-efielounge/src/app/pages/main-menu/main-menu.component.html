@@ -63,8 +63,8 @@
                                                             class="img"
                                                                 src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
                                                                 alt="popular-dish-img1.jpg" itemprop="image"></a>
-                                                        <span class="post-rate yellow-bg brd-rd2"><i
-                                                                class="fa fa-star-o"></i>{{menu?.ratings}}</span>
+                                                        <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i>{{menu?.ratings}}</span>
+                                                        <span (click)="likeMenu(menu?._id)" [ngStyle]="{'color': menu?.iLiked ? 'white' : 'gray'}" class="post-likes brd-rd4"><i [ngStyle]="{'color': menu?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i> {{menu?.likes}}</span>
                                                     </div>
                                                     <div class="popular-dish-info">
                                                         <h4 itemprop="headline"><a href="/menu-detail/{{menu._id}}" title=""
@@ -72,25 +72,12 @@
                                                         <p itemprop="description">{{menu?.description | truncateText: 110}} <br> <a class="desc-read-more" href="">Read More</a></p>
                                                         
                                                         <span class="price">{{menu?.currency}} {{menu?.price}}</span>
-                                                        <a class="brd-rd4 " (click)="addToCart(menu?._id, menu.units)" href="javascript:void(0)" title="Order Now"
+                                                        <a *ngIf="menu.inCart" [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}" class="brd-rd4 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                                                        <a *ngIf="!menu.inCart" class="brd-rd4 " (click)="addToCart(menu?._id, menu.units)" href="javascript:void(0)" title="Order Now"
                                                             itemprop="url">Order Now</a>
-
-                                                            <!-- <div class="x-flex-row">
-                                                                <span class="price no-break">{{menu?.currency}}
-                                                                    {{menu?.price}}</span>
-                                                                <div style="gap:2px" class="number x-flex-row">
-                                                                    <span class="minus">-</span>
-                                                                    <input [(ngModel)]="menu.units" name="units" min="1" max="10" type="number" />
-                                                                    <span class="plus">+</span>
-                                                                </div>
-                                                                <a class="brd-rd4 no-break order-now" (click)="addToCart(menu?._id, menu.units)" href="javascript:void(0)"
-                                                                    title="Order Now" itemprop="url">Order Now</a>
-                                                            </div> -->
-                                                           
-
                                                         <div class="restaurant-info">
-                                                            <img class="foot-img" src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
-                                                                alt="restaurant-logo1.png" itemprop="image">
+                                                            <!-- <img class="foot-img" lazy src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
+                                                                alt="restaurant-logo1.png" itemprop="image"> -->
                                                             <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GHC 50</span>
                                                             <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
                                                             
@@ -105,6 +92,7 @@
                                     </div>
                                 </div>
                                 <div class="pagination-wrapper text-center">
+                                    <small style="font-size: 10px;color:orangered">Pagination Unimplemented</small>
                                     <ul class="pagination justify-content-center">
                                         <li class="page-item prev"><a class="page-link brd-rd2" href="#"
                                                 itemprop="url">PREVIOUS</a></li>

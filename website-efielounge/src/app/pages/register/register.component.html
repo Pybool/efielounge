@@ -54,6 +54,7 @@
                                                         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                                                             <input [(ngModel)]="passwordAgain" class="brd-rd3" name="passwordAgain" type="password" placeholder="Password Again">
                                                         </div>
+                                                        <small style="font-size: 9px;color:orangered">Password must be atleast 8 character containing atleast a special character, numbers , atleast a lowercase and uppercase character</small>
                                                         <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                                                             <button  [style.opacity]="enabled() ? 0.3 : 1" (click)="register()" class="red-bg brd-rd3 spinner-btn" type="submit">
                                                                 <div *ngIf="showSpinner" class="spinner"></div>

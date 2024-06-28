@@ -2,12 +2,34 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  constructor(private http: HttpClient, private router: Router) {}
+  public cartItemCount: number = 0;
+  public cartItemCount$: any = new BehaviorSubject(0);
+  
+  constructor(private http: HttpClient, private router: Router,private authService: AuthService) {}
+
+  setCartItemCount(count: number) {
+    this.cartItemCount = count;
+    this.cartItemCount$.next(this.cartItemCount);
+    console.log("Cart count ", count)
+    window.localStorage.setItem('efl-cnt', count.toString());
+  }
+
+  getCartItemCount(obs=true) {
+    
+    if(obs){
+      return this.cartItemCount$.asObservable();
+    }else{
+      return Number(window.localStorage.getItem('efl-cnt')) || 0;
+    }
+    
+  }
 
   addToCart(payload: { menu: string; units: number }) {
     return this.http.post(

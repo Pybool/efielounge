@@ -23,16 +23,18 @@
                     </ng-container>
                 </ul>
               </li>
-              <li class="menu-item-has-children"><a href="/cart" title="Cart" itemprop="url"><span class="red-clr">YOUR</span>CART</a>
+              <li class="menu-item-has-children"><a href="/cart" title="Cart" itemprop="url"><span class="red-clr">YOUR</span>CART
+                <!-- <sup ><span class="cart-badge">{{cartLength}}</span></sup> -->
+            </a>
                 <ul class="sub-dropdown">
                     <li><a href="/cart"  title="" itemprop="url">Cart</a></li>
-                    <li><a href="/orders"  title="" itemprop="url">Orders (Static Data)</a></li>
+                    <li><a href="/orders"  title="" itemprop="url">Orders</a></li>
                 </ul>
               </li>
              
               <li><a href="/contact-us" title="BLOG" itemprop="url"><span class="red-clr">WE LISTEN</span>CONTACT US</a></li>
             </ul>
-            <a class="red-bg brd-rd4" href="/login" title="LOGIN" itemprop="url">LOGIN/REGISTER
+            <a *ngIf="!user" class="red-bg brd-rd4" href="/login" title="LOGIN" itemprop="url">LOGIN/REGISTER
               </a>
               
           </div>

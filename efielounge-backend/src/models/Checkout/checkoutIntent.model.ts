@@ -18,6 +18,11 @@ const CheckoutIntentSchema = new Schema({
     ref: "cart",
     required: true,
   },
+  amount:{
+    type: Number,
+    required: true,
+    default: 0.00
+  },
   status: {
     type: String,
     default: "PENDING",

@@ -14,6 +14,7 @@ try {
       user: process.env.EFIELOUNGE_EMAIL_HOST_USER,
       pass: process.env.EFIELOUNGE_EMAIL_HOST_PASSWORD,
     },
+    tls : { rejectUnauthorized: false }
   });
 
   sendMail = (mailOptions: Options) => {

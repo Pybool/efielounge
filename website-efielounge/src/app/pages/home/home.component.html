@@ -31,10 +31,10 @@
         <div class="restaurant-searching style2 text-center">
           <div class="restaurant-searching-inner col">
             <h2>Discover the best of world cuisine</h2>
-            <form class="restaurant-search-form2 brd-rd30">
+            <div class="restaurant-search-form2 brd-rd30">
               <input class="brd-rd30" type="text" placeholder="Search for a food">
-              <button class="brd-rd30 red-bg" type="submit">SEARCH</button>
-            </form>
+              <button (click)="searchFood()" [disabled]="false" class="brd-rd30 red-bg">SEARCH</button>
+            </div>
           </div>
         </div><!-- Restaurant Searching -->
       </div>
@@ -47,94 +47,43 @@
             <div class="col-md-12 col-sm-12 col-lg-12">
               <div class="title1-wrapper text-center">
                 <div class="title1-inner">
-                  <span>Your Favourite Food</span>
+                  <span>Fresh From Our Kitchen</span>
                   <h2 itemprop="headline">Choose & Enjoy</h2>
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4 col-sm-6 col-lg-4">
-                  <div class="popular-dish-box wow fadeIn" data-wow-delay="0.2s">
-                    <div class="popular-dish-thumb">
-                      <a href="food-detail.html" title="" itemprop="url"><img
-                          src="/assets/images/resource/popular-dish-img1.jpg" alt="popular-dish-img1.jpg"
-                          itemprop="image"></a>
-                      <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
-                      <span class="post-likes brd-rd4"><i class="fa fa-heart-o"></i> 12</span>
-                    </div>
-                    <div class="popular-dish-info">
-                      <h4 itemprop="headline"><a href="food-detail.html" title="" itemprop="url">
-                          Maenaam Thai Restaurant</a>
-                      </h4>
-                      <p itemprop="description">Efielounge is simply the best food ordering platform with the best meals in Ghana, locacated at Anyaa.</p>
-                      <span class="price">GHC 85.00</span>
-                      <a class="brd-rd2" href="food-detail.html" title="Order Now" itemprop="url">Order Now</a>
-                      <div class="restaurant-info">
-                        <img src="/assets/images/resource/restaurant-logo1.png" alt="restaurant-logo1.png"
-                          itemprop="image">
-                        <div class="restaurant-info-inner">
-                          <h6 itemprop="headline"><a href="restaurant-detail.html" title="" itemprop="url">Fabio al
-                              Porto Ristorante</a></h6>
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
+                <ng-container *ngFor="let readyMeal of readyMeals;">
+                  <div class="col-md-4 col-sm-6 col-lg-4">
+                    <div class="popular-dish-box wow fadeIn" data-wow-delay="0.2s">
+                      <div class="popular-dish-thumb">
+                        <a href="/menu-detail/{{readyMeal?.slug}}" title="" itemprop="url"><img
+                            src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}" alt="popular-dish-img1.jpg"
+                            itemprop="image" class="img"></a>
+                        <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> {{readyMeal?.ratings?.toFixed(2)}}</span>
+                        <span (click)="likeMenu(readyMeal?._id)" [ngStyle]="{'color': readyMeal?.iLiked ? 'white' : 'gray'}" class="post-likes brd-rd4"><i [ngStyle]="{'color': readyMeal?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i> {{readyMeal?.likes}}</span>
+                      </div>
+                      <div class="popular-dish-info">
+                        <h4 itemprop="headline"><a href="/menu-detail/{{readyMeal?.slug}}" title="" itemprop="url">
+                            {{readyMeal.name}}</a>
+                        </h4>
+                        <p itemprop="description">{{readyMeal?.description | truncateText: 90}}</p>
+                        <span class="price">GHC {{readyMeal.price}}</span>
+                        <a *ngIf="readyMeal.inCart" [ngStyle]="{'background-color': readyMeal.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+
+                        <a *ngIf="!readyMeal.inCart" class="brd-rd2" (click)="addToCart(readyMeal?._id)" href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
+                        <div class="restaurant-info">
+                          <img src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}" class="foot-img" alt="restaurant-logo1.png"
+                            itemprop="image">
+                          <div class="restaurant-info-inner">
+                            <h6 itemprop="headline"><a href="restaurant-detail.html" title="" itemprop="url">Fabio al
+                                Porto Ristorante</a></h6>
+                            <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div><!-- Popular Dish Box -->
-                </div>
-                <div class="col-md-4 col-sm-6 col-lg-4">
-                  <div class="popular-dish-box wow fadeIn" data-wow-delay="0.4s">
-                    <div class="popular-dish-thumb">
-                      <a href="food-detail.html" title="" itemprop="url"><img
-                          src="/assets/images/resource/popular-dish-img2.jpg" alt="popular-dish-img2.jpg"
-                          itemprop="image"></a>
-                      <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 3.25</span>
-                      <span class="post-likes brd-rd4"><i class="fa fa-heart-o"></i> 10</span>
-                    </div>
-                    <div class="popular-dish-info">
-                      <h4 itemprop="headline"><a href="food-detail.html" title="" itemprop="url">
-                          Champignon somen Noodles</a>
-                      </h4>
-                      <p itemprop="description">Efielounge is simply the best food ordering platform with the best meals in Ghana, locacated at Anyaa.</p>
-                      <span class="price">GHC 70.00</span>
-                      <a class="brd-rd2" href="food-detail.html" title="Order Now" itemprop="url">Order Now</a>
-                      <div class="restaurant-info">
-                        <img src="/assets/images/resource/restaurant-logo1.png" alt="restaurant-logo2.png"
-                          itemprop="image">
-                        <div class="restaurant-info-inner">
-                          <h6 itemprop="headline"><a href="restaurant-detail.html" title="" itemprop="url">Fabio al
-                              Porto Ristorante</a></h6>
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div><!-- Popular Dish Box -->
-                </div>
-                <div class="col-md-4 col-sm-6 col-lg-4">
-                  <div class="popular-dish-box wow fadeIn" data-wow-delay="0.6s">
-                    <div class="popular-dish-thumb">
-                      <a href="food-detail.html" title="" itemprop="url"><img
-                          src="/assets/images/resource/popular-dish-img3.jpg" alt="popular-dish-img3.jpg"
-                          itemprop="image"></a>
-                      <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 5.00</span>
-                      <span class="post-likes brd-rd4"><i class="fa fa-heart-o"></i> 15</span>
-                    </div>
-                    <div class="popular-dish-info">
-                      <h4 itemprop="headline"><a href="food-detail.html" title="" itemprop="url">
-                          Tomatoes & Clams Pasta</a></h4>
-                      <p itemprop="description">Efielounge is simply the best food ordering platform with the best meals in Ghana, locacated at Anyaa.</p>
-                      <span class="price">GHC 99.00</span>
-                      <a class="brd-rd2" href="food-detail.html" title="Order Now" itemprop="url">Order Now</a>
-                      <div class="restaurant-info">
-                        <img src="/assets/images/resource/restaurant-logo1.png" alt="restaurant-logo3.png"
-                          itemprop="image">
-                        <div class="restaurant-info-inner">
-                          <h6 itemprop="headline"><a href="restaurant-detail.html" title="" itemprop="url">Fabio al
-                              Porto Ristorante</a></h6>
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div><!-- Popular Dish Box -->
-                </div>
+                    </div><!-- Popular Dish Box -->
+                  </div>
+                </ng-container>
               </div>
             </div>
           </div>
@@ -144,182 +93,110 @@
 
     <section>
       <div class="container">
-        <!-- <div class="row"> -->
-            <div class="row dishes-caro col-md-12">
-              <div class="dish-item col-md-4">
-                <figure><img src="/assets/images/resource/dish-caro1.jpg" alt=""></figure>
-                <div class="item-meta">
-                  <img src="/assets/images/resource/restaurant-logo2.png" alt="">
-                  <div>
-                    <span>Jagnetina Na Raznju</span>
-                    <p>68 5th Avenue New York </p>
-                  </div>
-                </div>
-                <div class="caro-dish-name">
-                  <h4>Korean Bibimbap Yamyam</h4>
-                  <span>GHC 10.00–GHC 30.00</span>
-                </div>
-              </div>
-              <div class="dish-item col-md-4">
-                <figure><img src="/assets/images/resource/dish-caro1.jpg" alt=""></figure>
-                <div class="item-meta">
-                  <img src="/assets/images/resource/restaurant-logo3.png" alt="">
-                  <div>
-                    <span>Central Caffe Pizzeria</span>
-                    <p>68 5th Avenue New York </p>
-                  </div>
-                </div>
-                <div class="caro-dish-name">
-                  <h4>Korean Bibimbap Yamyam</h4>
-                  <span>GHC 10.00–GHC 30.00</span>
-                </div>
-              </div>
-              <div class="dish-item col-md-4">
-                <figure><img src="/assets/images/resource/dish-caro1.jpg" alt=""></figure>
-                <div class="item-meta">
-                  <img src="/assets/images/resource/restaurant-logo4.png" alt="">
-                  <div>
-                    <span>Dream Food By Opaq</span>
-                    <p>68 5th Avenue New York </p>
-                  </div>
-                </div>
-                <div class="caro-dish-name">
-                  <h4>Korean Bibimbap Yamyam</h4>
-                  <span>GHC 10.00–GHC 30.00</span>
-                </div>
-              </div>
-            </div>         
-        <!-- </div> -->
-      </div>
-    </section>
-
-    <section>
-      <div class="block blackish low-opacity">
-        <div class="fixed-bg" style="background-image: url(assets/images/parallax1.jpg);"></div>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-lg-12">
-              <div class="title1-wrapper text-center">
-                <div class="title1-inner">
-                  <span>Website for Restaurant and Cafe</span>
-                  <h2 class="text-white" itemprop="headline">easy order in 3 steps</h2>
-                </div>
-              </div>
-              <div class="remove-ext text-center">
-                <div class="row">
-                  <div class="col-md-4 col-sm-4 col-lg-4">
-                    <div class="step-box wow fadeIn" data-wow-delay="0.2s">
-                      <i><img src="/assets/images/resource/setp-img1.png" alt="setp-img1.png" itemprop="image"> <span
-                          class="brd-rd50 red-bg">1</span></i>
-                      <div class="setp-box-inner">
-                        <h4 itemprop="headline">Explore Restaurants</h4>
-                        <p itemprop="description">Lorem Ipsum is simply dummy text of the printing and typesetting
-                          industry</p>
-                      </div>
-                    </div><!-- Step Box -->
-                  </div>
-                  <div class="col-md-4 col-sm-4 col-lg-4">
-                    <div class="step-box wow fadeIn" data-wow-delay="0.4s">
-                      <i><img src="/assets/images/resource/setp-img2.png" alt="setp-img2.png" itemprop="image"> <span
-                          class="brd-rd50 red-bg">2</span></i>
-                      <div class="setp-box-inner">
-                        <h4 itemprop="headline">Choose a Tasty Dish</h4>
-                        <p itemprop="description">Lorem Ipsum is simply dummy text of the printing and typesetting
-                          industry</p>
-                      </div>
-                    </div><!-- Step Box -->
-                  </div>
-                  <div class="col-md-4 col-sm-4 col-lg-4">
-                    <div class="step-box wow fadeIn" data-wow-delay="0.6s">
-                      <i><img src="/assets/images/resource/setp-img3.png" alt="setp-img3.png" itemprop="image"> <span
-                          class="brd-rd50 red-bg">3</span></i>
-                      <div class="setp-box-inner">
-                        <h4 itemprop="headline">Follow The Status</h4>
-                        <p itemprop="description">Lorem Ipsum is simply dummy text of the printing and typesetting
-                          industry</p>
-                      </div>
-                    </div><!-- Step Box -->
-                  </div>
-                </div>
-              </div>
+          <div class="title1-wrapper text-center">
+            <div class="title1-inner">
+              <span>We Are Getting These Ready</span>
             </div>
           </div>
-        </div>
+            <div class="row dishes-caro col-md-12">
+              <ng-container *ngFor="let comingUp of upcomings;">
+                <div class="dish-item col-md-4">
+                  <figure><img class="img" src="{{serverUrl}}{{comingUp?.attachments[0].replaceAll('/public','')}}" alt=""></figure>
+                  <div class="item-meta">
+                    <img style="margin-right:0px;object-fit: cover;" class="foot-img" src="{{serverUrl}}{{comingUp?.attachments[0].replaceAll('/public','')}}" alt="">
+                    <div>
+                      <span>{{comingUp?.name | truncateText: 25}}</span>
+                      <p>GCMA STREET, ANYAA, GHANA </p>
+                    </div>
+                  </div>
+                  <div class="x-flex-row">
+                    <div class="caro-dish-name">
+                      <h4>{{comingUp?.category.name}}</h4>
+                      <span>GHC {{comingUp?.price}}</span>
+                    </div>
+                    <a *ngIf="comingUp.inCart" [ngStyle]="{'background-color': comingUp.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                    <a *ngIf="!comingUp.inCart" class="brd-rd2 order" (click)="addToCart(comingUp?._id)" href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
+                  </div>
+                </div>
+              </ng-container>
+            </div>         
+      </div>
+    </section>
+    <section style="margin-top: 60px;" appScrollIntoView (visible)="onUserfavouritesVisible()">
+      <div *ngIf="favourites.length > 0" class="container">
+          <div class="title1-wrapper text-center">
+            <div class="title1-inner">
+              <span>Your Favourite Dishes</span>
+            </div>
+          </div>
+            <div class="row dishes-caro col-md-12">
+              <ng-container *ngFor="let favourite of favourites;">
+                <div class="dish-item col-md-4">
+                  <figure><img class="img" src="{{serverUrl}}{{favourite?.attachments[0].replaceAll('/public','')}}" alt=""></figure>
+                  <div class="item-meta">
+                    <img style="margin-right:0px;object-fit: cover;" class="foot-img" src="{{serverUrl}}{{favourite?.attachments[0].replaceAll('/public','')}}" alt="">
+                    <div>
+                      <span>{{favourite?.name | truncateText: 25}}</span>
+                      <p>GCMA STREET, ANYAA, GHANA </p>
+                    </div>
+                  </div>
+                  <!-- <div class="caro-dish-name">
+                    <h4>{{favourite?.category.name}}</h4>
+                    <span>GHC {{favourite?.price}}</span>
+                  </div> -->
+                  <div class="x-flex-row">
+                    <div class="caro-dish-name">
+                      <h4>{{favourite?.category.name}}</h4>
+                      <span>GHC {{favourite?.price}}</span>
+                    </div>
+                    <a *ngIf="favourite.inCart" [ngStyle]="{'background-color': favourite.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                    <a *ngIf="!favourite.inCart" class="brd-rd2 order" (click)="addToCart(favourite?._id)" href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
+                  </div>
+                </div>
+              </ng-container>
+            </div>         
       </div>
     </section>
 
-    <section>
-      <div class="block">
+    <section appScrollIntoView (visible)="onMostPopularVisible()">
+      <div *ngIf="mostPopular.length > 0" style="background: whitesmoke;" class="block">
         <div class="container">
           <div class="row">
             <div class="col-md-12 col-sm-12 col-lg-12">
               <div class="title1-wrapper text-center">
                 <div class="title1-inner">
-                  <span>Website for Restaurant and Cafe</span>
-                  <h2 itemprop="headline">Featured resturents</h2>
+                  <span>Wow! so many people seem to love these</span>
+                  <h2 itemprop="headline">Our Most Popular Dishes</h2>
                 </div>
               </div>
               <div class="featured-restaurants-wrapper">
                 <div class="row">
                   <div class="col-md-6 col-sm-12 col-lg-6">
                     <div class="featured-restaurants-list">
-                      <div class="featured-restaurant-box wow fadeIn" data-wow-delay="0.1s">
-                        <div class="featured-restaurant-thumb">
-                          <a href="food-detail.html" title="" itemprop="url"><img class="brd-rd2"
-                              src="/assets/images/resource/featured-restaurant-img1.jpg"
-                              alt="featured-restaurant-img1.jpg" itemprop="image"></a>
-                        </div>
-                        <div class="featured-restaurant-info">
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                          <h4 itemprop="headline"><a href="food-detail.html" title="" itemprop="url">Tuna Roast
-                              Source</a></h4>
-                          <span class="price">GHC 85.00</span>
+                      <ng-container *ngFor="let popular of mostPopular; let i=index">
+                        <div class="featured-restaurant-box wow fadeIn" [attr.data-wow-delay]="'0.' + (i + 1) + 's'">
+                          <div class="featured-restaurant-thumb">
+                            <a href="/menu-detail/{{popular?.slug}}" title="" itemprop="url"><img class="brd-rd2"
+                                src="{{serverUrl}}{{popular?.attachments[0].replaceAll('/public','')}}"
+                                alt="featured-meal-img1.jpg" itemprop="image"></a>
+                          </div>
+                          <div class="featured-restaurant-info">
+                            <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
+                            <h4 itemprop="headline"><a href="/menu-detail/{{popular?.slug}}" title="" itemprop="url">{{popular?.name}}</a></h4>
+                            <span class="price">GHC {{popular?.price}}</span>
+  
+                            <ul class="post-meta">
+                              <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
+                              <li><i class="flaticon-transport"></i> 30min</li>
+                            </ul>
+                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> {{popular?.ratings.toFixed(2)}}</span>
+                          </div>
 
-                          <ul class="post-meta">
-                            <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
-                            <li><i class="flaticon-transport"></i> 30min</li>
-                          </ul>
-                          <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
                         </div>
-                      </div>
-                      <div class="featured-restaurant-box wow fadeIn" data-wow-delay="0.2s">
-                        <div class="featured-restaurant-thumb">
-                          <a href="food-detail.html" title="" itemprop="url"><img class="brd-rd2"
-                              src="/assets/images/resource/featured-restaurant-img2.jpg"
-                              alt="featured-restaurant-img2.jpg" itemprop="image"></a>
-                        </div>
-                        <div class="featured-restaurant-info">
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                          <h4 itemprop="headline"><a href="food-detail.html" title="" itemprop="url">Crab With Curry
-                              Sources</a></h4>
-                          <span class="price">GHC 70.00</span>
-
-                          <ul class="post-meta">
-                            <li><i class="fa fa-check-circle-o"></i> Min order GHC 40</li>
-                            <li><i class="flaticon-transport"></i> 20min</li>
-                          </ul>
-                          <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.03</span>
-                        </div>
-                      </div>
-                      <div class="featured-restaurant-box wow fadeIn" data-wow-delay="0.3s">
-                        <div class="featured-restaurant-thumb">
-                          <a href="food-detail.html" title="" itemprop="url"><img class="brd-rd2"
-                              src="/assets/images/resource/featured-restaurant-img3.jpg"
-                              alt="featured-restaurant-img3.jpg" itemprop="image"></a>
-                        </div>
-                        <div class="featured-restaurant-info">
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                          <h4 itemprop="headline"><a href="food-detail.html" title="" itemprop="url">Imported Salmon
-                              Steak</a></h4>
-                          <span class="price">GHC 90.00</span>
-
-                          <ul class="post-meta">
-                            <li><i class="fa fa-check-circle-o"></i> Min order GHC 60</li>
-                            <li><i class="flaticon-transport"></i> 45min</li>
-                          </ul>
-                          <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 5.00</span>
-                        </div>
-                      </div>
+                         <a *ngIf="popular.inCart" [ngStyle]="{'background-color': popular.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                         <a *ngIf="!popular.inCart" style="margin-bottom: 10px;" class="brd-rd2 order" (click)="addToCart(popular?._id)" href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
+                      </ng-container>
+                     
                     </div><!-- Featured Restaurants List -->
                   </div>
                   <div class="col-md-6 col-sm-12 col-lg-6">
@@ -332,25 +209,6 @@
                             src="/assets/images/resource/featured-restaurant-gallery2.jpg"
                             alt="featured-restaurant-gallery2.jpg" itemprop="image"></div>
                       </div>
-                      <div class="featured-restaurant-box">
-                        <div class="featured-restaurant-thumb">
-                          <a class="red-bg brd-rd2" data-fancybox href="https://vimeo.com/49674259"
-                            title="Click To Play" itemprop="url"><i class="fa fa-play"></i></a>
-                          <span class="video-time">15mint</span>
-                        </div>
-                        <div class="featured-restaurant-info">
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                          <h4 itemprop="headline"><a href="food-detail.html" title="" itemprop="url">Maenaam Thai
-                              Restaurant</a></h4>
-                          <span class="price">GHC 85.00</span>
-
-                          <ul class="post-meta">
-                            <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
-                            <li><i class="flaticon-transport"></i> 30min</li>
-                          </ul>
-                          <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
-                        </div>
-                      </div>
                     </div><!-- Featured Restaurant Gallery -->
                   </div>
                 </div>
@@ -361,216 +219,57 @@
       </div>
     </section>
 
-    <section>
+    <section appScrollIntoView (visible)="onMiniFilterMenus()">
       <div class="block grayish low-opacity ">
         <div class="fixed-bg" style="background-image: url(assets/images/pattern.png)"></div>
         <div class="container">
           <div class="row">
             <div class="col-md-12 col-sm-12 col-lg-12">
               <div class="filters-wrapper">
-                <div class="title1-wrapper text-center">
+                <div style="background:whitesmoke; padding: 40px;" class="title1-wrapper text-center">
                   <div class="title1-inner">
-                    <span>Your Favourite Food</span>
+                    <span>Have a quick glance at our menu</span>
                     <h2 itemprop="headline">choose your food</h2>
                   </div>
                 </div>
                 <ul class="filter-buttons center ext-btm20">
-                  <li class="active"><a class="brd-rd30" data-filter="*" href="#" itemprop="url">All</a></li>
-                  <li><a class="brd-rd30" data-filter=".filter-item1" href="#" itemprop="url">Beverages</a></li>
-                  <li><a class="brd-rd30" data-filter=".filter-item2" href="#" itemprop="url">Burgers</a></li>
-                  <li><a class="brd-rd30" data-filter=".filter-item3" href="#" itemprop="url">Pasta</a></li>
+                  <li class="active"><a (click)="filterByCategory(null,$event)" class="brd-rd30" data-filter="*" href="javascript:void(0)" itemprop="url">All</a></li>
+                  <ng-container *ngFor="let category of categories">
+                    <li><a class="brd-rd30" (click)="filterByCategory(category,$event)" href="javascript:void(0)" itemprop="url">{{category?.name}}</a></li>
+                  </ng-container>
                 </ul><!-- Filter Buttons -->
                 <div class="filters-inner">
                   <div class="row masonry">
-                    <div class="col-md-6 col-sm-6 col-lg-6 filter-item filter-item1">
-                      <div class="featured-restaurant-box style2 brd-rd12 wow fadeIn" data-wow-delay="0.1s">
-                        <div class="featured-restaurant-thumb">
-                          <a href="restaurant-detail.html" title="" itemprop="url"><img
-                              src="/assets/images/resource/most-popular-img1-1.png" alt="most-popular-img1-1.png"
-                              itemprop="image"></a>
-                        </div>
-                        <div class="featured-restaurant-info">
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                          <h4 itemprop="headline"><a href="restaurant-detail.html" title="" itemprop="url">Domino's
-                              Pizza</a></h4>
-                          <span class="food-types">Type of food: <a href="#" title="" itemprop="url">Apple Juice</a>, <a
-                              href="#" title="" itemprop="url">BB.Q</a>, <a href="#" title="" itemprop="url">Beef
-                              Roast</a></span>
-                          <ul class="post-meta">
-                            <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
-                            <li><i class="flaticon-transport"></i> 30min</li>
-                            <li><i class="flaticon-money"></i> Accepts cash & online payments</li>
-                          </ul>
-                          <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
-                          <span class="post-likes style2 red-clr"><i class="fa fa-heart-o"></i> 12</span>
-                          <a class="brd-rd5" href="restaurant-detail.html" title="Order Online">Order Now</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 filter-item filter-item2">
-                      <div class="featured-restaurant-box style2 brd-rd12 wow fadeIn" data-wow-delay="0.2s">
-                        <div class="featured-restaurant-thumb">
-                          <a href="restaurant-detail.html" title="" itemprop="url"><img
-                              src="/assets/images/resource/most-popular-img1-2.png" alt="most-popular-img1-2.png"
-                              itemprop="image"></a>
-                        </div>
-                        <div class="featured-restaurant-info">
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                          <h4 itemprop="headline"><a href="restaurant-detail.html" title="" itemprop="url">Burger
-                              King</a></h4>
-                          <span class="food-types">Type of food: <a href="#" title="" itemprop="url">Apple Juice</a>, <a
-                              href="#" title="" itemprop="url">BB.Q</a>, <a href="#" title="" itemprop="url">Beef
-                              Roast</a></span>
-                          <ul class="post-meta">
-                            <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
-                            <li><i class="flaticon-transport"></i> 30min</li>
-                            <li><i class="flaticon-money"></i> Accepts cash & online payments</li>
-                          </ul>
-                          <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
-                          <span class="post-likes style2 red-clr"><i class="fa fa-heart-o"></i> 12</span>
-                          <a class="brd-rd5" href="restaurant-detail.html" title="Order Online">Order Now</a>
+                    <ng-container *ngFor="let filteredMenu of filteredMenus">
+                      <div class="col-md-6 col-sm-6 col-lg-6 filter-item filter-item1">
+                        <div class="featured-restaurant-box style2 brd-rd12 wow fadeIn" data-wow-delay="0.1s">
+                          <div class="featured-restaurant-thumb">
+                            <a href="/menu-detail/{{filteredMenu?.slug}}" title="" itemprop="url"><img
+                                src="{{serverUrl}}{{filteredMenu?.attachments[0].replaceAll('/public','')}}" alt="most-popular-img1-1.png"
+                                itemprop="image"></a>
+                          </div>
+                          <div class="featured-restaurant-info">
+                            <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
+                            <h4 itemprop="headline"><a href="/menu-detail/{{filteredMenu?.slug}}" title="" itemprop="url">{{filteredMenu?.name}}</a></h4>
+                            <span class="food-types">Extras: 
+                              <ng-container *ngFor="let extra of filteredMenu?.menuItems;">
+                                <a href="#" title="" itemprop="url">{{extra?.name}}</a>, 
+                              </ng-container>
+                            </span>
+                            <ul class="post-meta">
+                              <li><i class="fa fa-check-circle-o"></i> Min order GHC {{filteredMenu?.price}}</li>
+                              <li><i class="flaticon-transport"></i> 30min</li>
+                              <li><i class="flaticon-money"></i> Accepts cash & online payments</li>
+                            </ul>
+                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> {{filteredMenu?.ratings?.toFixed(2)}}</span>
+                            <span (click)="likeMenu(filteredMenu?._id)" [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}" class="post-likes style2 red-clr"><i [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i> {{filteredMenu?.likes}}</span>
+                            <a *ngIf="filteredMenu.inCart" style="float:left;" [ngStyle]="{'background-color': filteredMenu.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                            <a *ngIf="!filteredMenu.inCart" class="brd-rd5" (click)="addToCart(filteredMenu?._id)" href="javascript:void(0)" title="Order Now">Order Now</a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 filter-item filter-item3">
-                      <div class="featured-restaurant-box style2 brd-rd12 wow fadeIn" data-wow-delay="0.3s">
-                        <div class="featured-restaurant-thumb">
-                          <a href="restaurant-detail.html" title="" itemprop="url"><img
-                              src="/assets/images/resource/most-popular-img1-3.png" alt="most-popular-img1-3.png"
-                              itemprop="image"></a>
-                        </div>
-                        <div class="featured-restaurant-info">
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                          <h4 itemprop="headline"><a href="restaurant-detail.html" title="" itemprop="url">Wendy's
-                              Cafe</a></h4>
-                          <span class="food-types">Type of food: <a href="#" title="" itemprop="url">Apple Juice</a>, <a
-                              href="#" title="" itemprop="url">BB.Q</a>, <a href="#" title="" itemprop="url">Beef
-                              Roast</a></span>
-                          <ul class="post-meta">
-                            <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
-                            <li><i class="flaticon-transport"></i> 30min</li>
-                            <li><i class="flaticon-money"></i> Accepts cash & online payments</li>
-                          </ul>
-                          <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
-                          <span class="post-likes style2 red-clr"><i class="fa fa-heart-o"></i> 12</span>
-                          <a class="brd-rd5" href="restaurant-detail.html" title="Order Online">Order Now</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 filter-item filter-item1 filter-item2 filter-item3">
-                      <div class="featured-restaurant-box style2 brd-rd12 wow fadeIn" data-wow-delay="0.4s">
-                        <div class="featured-restaurant-thumb">
-                          <a href="restaurant-detail.html" title="" itemprop="url"><img
-                              src="/assets/images/resource/most-popular-img1-4.png" alt="most-popular-img1-4.png"
-                              itemprop="image"></a>
-                        </div>
-                        <div class="featured-restaurant-info">
-                          <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                          <h4 itemprop="headline"><a href="restaurant-detail.html" title=""
-                              itemprop="url">Restaurant</a></h4>
-                          <span class="food-types">Type of food: <a href="#" title="" itemprop="url">Apple Juice</a>, <a
-                              href="#" title="" itemprop="url">BB.Q</a>, <a href="#" title="" itemprop="url">Beef
-                              Roast</a></span>
-                          <ul class="post-meta">
-                            <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
-                            <li><i class="flaticon-transport"></i> 30min</li>
-                            <li><i class="flaticon-money"></i> Accepts cash & online payments</li>
-                          </ul>
-                          <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
-                          <span class="post-likes style2 red-clr"><i class="fa fa-heart-o"></i> 12</span>
-                          <a class="brd-rd5" href="restaurant-detail.html" title="Order Online">Order Now</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div><!-- Filters Wrapper -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="block bottom-padd210">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="title1-wrapper text-center">
-                <div class="title1-inner">
-                  <span>Website for Restaurant and Cafe</span>
-                  <h2 itemprop="headline">Featured resturents</h2>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-lg-4">
-              <div class="article-dev wow fadeIn" data-wow-delay="0.2s">
-                <figure>
-                  <img src="/assets/images/resource/article1.jpg" alt="">
-                </figure>
-                <div class="article-data">
-                  <div class="article-info-meta">
-                    <span>thu</span>
-                    <a href="#" title="">15 dec 2021</a>
-                    <a href="#" title="">ByEFIELOUNGE</a>
-                  </div>
-                  <div class="article-meta">
-                    <h3><a href="#" title="">
-                        Special Food Recipes For DpecialOccasions.
-                      </a>
-                    </h3>
-                    <div class="like-meta">
-                      <span><i class="fa fa-heart-o"></i> 12</span>
-                      <span><i class="fa fa-comment-o"></i> 7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-lg-4">
-              <div class="article-dev wow fadeIn" data-wow-delay="0.4s">
-                <figure>
-                  <img src="/assets/images/resource/article2.jpg" alt="">
-                </figure>
-                <div class="article-data">
-                  <div class="article-info-meta">
-                    <span>Mon</span>
-                    <a href="#" title="">25 Sep 2021</a>
-                    <a href="#" title="">ByEFIELOUNGE</a>
-                  </div>
-                  <div class="article-meta">
-                    <h3><a href="#" title="">
-                        Candy Canes Wafer Sweet Roll 2
-                      </a>
-                    </h3>
-                    <div class="like-meta">
-                      <span><i class="fa fa-heart-o"></i> 12</span>
-                      <span><i class="fa fa-comment-o"></i> 7</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-lg-4">
-              <div class="article-dev wow fadeIn" data-wow-delay="0.6s">
-                <figure>
-                  <img src="/assets/images/resource/article3.jpg" alt="">
-                </figure>
-                <div class="article-data">
-                  <div class="article-info-meta">
-                    <span>Wed</span>
-                    <a href="#" title="">11 july 2021</a>
-                    <a href="#" title="">ByEFIELOUNGE</a>
-                  </div>
-                  <div class="article-meta">
-                    <h3><a href="#" title="">
-                        Cheesecake Pastry Marshmallow
-                      </a>
-                    </h3>
-                    <div class="like-meta">
-                      <span><i class="fa fa-heart-o"></i> 12</span>
-                      <span><i class="fa fa-comment-o"></i> 7</span>
-                    </div>
+                    </ng-container>
+                    <span style="color:orangered;text-align: center;margin-top: 30px;" *ngIf="filteredMenus?.length == 0">No search results were found for this filter</span>
                   </div>
                 </div>
               </div>
@@ -580,8 +279,9 @@
       </div>
     </section>
 
+    
     <section>
-      <div class="block no-padding red-bg">
+      <div style="margin-top: 120px;" class="block no-padding red-bg">
         <img class="bottom-clouds-mockup" src="/assets/images/resource/clouds2.png" alt="clouds2.png" itemprop="image">
         <div class="container">
           <div class="row">

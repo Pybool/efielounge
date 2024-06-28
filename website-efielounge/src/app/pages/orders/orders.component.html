@@ -30,7 +30,7 @@
                 <div class="page-title-wrapper text-center">
                     <div class="col-md-12 col-sm-12 col-lg-12">
                         <div class="page-title-inner">
-                            <h1 itemprop="headline">Register & Place Your Orders</h1>
+                            <h1 itemprop="headline">Your Order History</h1>
                             <span>Discover the best of world cuisine</span>
                         </div>
                     </div>
@@ -38,10 +38,10 @@
             </div>
         </section>
 
-        <div class="tab-pane" >
+        <div class="tab-pane">
             <div class="tabs-wrp brd-rd5">
                 <h4 itemprop="headline">MY ORDERS</h4>
-                <div class="select-wrap-inner">
+                <!-- <div class="select-wrap-inner">
                     <div class="select-wrp2">
                         <select>
                             <option>Select Orders Status</option>
@@ -56,70 +56,47 @@
                             <option>Select Date Range</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
                 <div class="order-list">
-                    <div class="order-item brd-rd5">
-                        <div class="order-thumb brd-rd5">
-                            <a href="#" title="" itemprop="url"><img src="/assets/images/resource/order-img1.jpg"
-                                    alt="order-img1.jpg" itemprop="image"></a>
-                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
-                        </div>
-                        <div class="order-info">
-                            <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                            <h4 itemprop="headline"><a href="#" title="" itemprop="url">Maenaam Thai Restaurant</a></h4>
+                    <ng-container *ngFor="let order of orders;">
 
-                            <span class="price">GHC 85.00</span>
-                            <span class="processing brd-rd3">PROCESSING</span>
-                            <a class="brd-rd2" href="/order-detail/maenaam-thai-food" title="" itemprop="url">Order Detail</a>
-                        </div>
-                    </div>
-                    <div class="order-item brd-rd5">
-                        <div class="order-thumb brd-rd5">
-                            <a href="#" title="" itemprop="url"><img src="/assets/images/resource/order-img2.jpg"
-                                    alt="order-img2.jpg" itemprop="image"></a>
-                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 3.0</span>
-                        </div>
-                        <div class="order-info">
-                            <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                            <h4 itemprop="headline"><a href="#" title="" itemprop="url">Maenaam Thai Restaurant</a></h4>
+                        <div class="order-item brd-rd5 ">
+                            <div class="flex-col">
+                                <span class="mb-10 price">{{order.checkOutId}}</span>
+                                <hr>
+                                <div style="justify-content: flex-start;gap:5px" class="flex-row-sb">
+                                    <ng-container *ngFor="let sortedOrder of order.orders">
+                                        <div class="order-thumb brd-rd5">
+                                            <a href="#" title="" itemprop="url"><img
+                                                    src="{{serverUrl}}{{sortedOrder.menu?.attachments[0].replace('//', '/').replace('public','')}}"
+                                                    alt="order-img1.jpg" itemprop="image"></a>
+                                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i>
+                                                4.25</span>
+                                        </div>
+                                        <div class="order-info">
+                                            <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
+                                            <h4 itemprop="headline"><a href="#" title=""
+                                                    itemprop="url">{{sortedOrder?.menu?.name}} X
+                                                    {{sortedOrder?.units}}</a></h4>
 
-                            <span class="price">GHC 85.00</span>
-                            <span class="completed brd-rd3">COMPLETED</span>
-                            <a class="brd-rd2" href="/order-detail/frog-chinese-food" title="" itemprop="url">Order Detail</a>
-                        </div>
-                    </div>
-                    <div class="order-item brd-rd5">
-                        <div class="order-thumb brd-rd5">
-                            <a href="#" title="" itemprop="url"><img src="/assets/images/resource/order-img3.jpg"
-                                    alt="order-img3.jpg" itemprop="image"></a>
-                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 5.00</span>
-                        </div>
-                        <div class="order-info">
-                            <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                            <h4 itemprop="headline"><a href="#" title="" itemprop="url">Maenaam Thai Restaurant</a></h4>
 
-                            <span class="price">GHC 85.00</span>
-                            <span class="completed brd-rd3">COMPLETED</span>
-                            <a class="brd-rd2" href="/order-detail/ghana-jollof" title="" itemprop="url">Order Detail</a>
-                        </div>
-                    </div>
-                    <div class="order-item brd-rd5">
-                        <div class="order-thumb brd-rd5">
-                            <a href="#" title="" itemprop="url"><img src="/assets/images/resource/order-img4.jpg"
-                                    alt="order-img4.jpg" itemprop="image"></a>
-                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 5.30</span>
-                        </div>
-                        <div class="order-info">
-                            <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                            <h4 itemprop="headline"><a href="#" title="" itemprop="url">Maenaam Thai Restaurant</a></h4>
+                                            <span class="processing brd-rd3">{{sortedOrder?.status}}</span>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <span style="margin-top: 15px;" class="">{{formatUserFriendlyDate(order?.date)}}</span>
 
-                            <span class="price">GHC 85.00</span>
-                            <span class="completed brd-rd3">COMPLETED</span>
-                            <a class="brd-rd2" href="/order-detail/pounded-yam-egusi" title="" itemprop="url">Order Detail</a>
+                                <span class="price">Grand Total: <span class="prices">GHC
+                                        {{order.grandTotal}}</span></span>
+
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
+
                 </div>
+                
                 <div class="pagination-wrapper text-center style2">
+                    <small style="font-size: 10px;color:orangered">Pagination Unimplemented</small>
                     <ul class="pagination justify-content-center">
                         <li class="page-item prev"><a class="page-link brd-rd2" href="#" itemprop="url">PREV</a></li>
                         <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">1</a></li>

@@ -41,9 +41,9 @@ export class CheckoutComponent {
   public activatedRoute$: any;
   public checkOutId: any = null;
   public shippingCost = 5.0;
-  public payment:{ref:string, amount: number | string} = {
+  public payment: { ref: string; amount: number | string } = {
     ref: this.checkOutId,
-    amount:  0.00,
+    amount: 0.0,
   };
 
   constructor(
@@ -111,17 +111,26 @@ export class CheckoutComponent {
   }
 
   addQty(checkOutItem: any) {
-    checkOutItem.units += 1;
+    if (checkOutItem.units < 5) {
+      checkOutItem.units += 1;
+    } else {
+      alert('You can only place a maximum of 5 orders for the same menu');
+    }
   }
 
   subQty(checkOutItem: any) {
-    checkOutItem.units -= 1;
+    if (checkOutItem.units > 1) {
+      checkOutItem.units -= 1;
+    }
   }
 
   checkOut() {
     this.cartService
       .updateCartItemsAndCheckOut(
-        { cartItems: this.checkOutItems },
+        {
+          cartItems: this.checkOutItems,
+          amount: this.getSubTotal() + this.shippingCost,
+        },
         this.checkOutId
       )
       .pipe(take(1))
@@ -131,10 +140,9 @@ export class CheckoutComponent {
             console.log(response.data);
             this.payment = {
               ref: this.checkOutId,
-              amount: (this.getSubTotal() + this.shippingCost)
-                
+              amount: this.getSubTotal() + this.shippingCost,
             };
-            console.log(this.payment)
+            console.log(this.payment);
             this.toggleTransferModal();
             this.checkOutId = response.data.checkOutId;
           } else {

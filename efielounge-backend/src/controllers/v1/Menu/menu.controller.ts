@@ -62,6 +62,18 @@ const clientMenuController:any = {
       next(error);
     }
   },
+
+  likeMenu: async (req: Xrequest, res: Response, next: NextFunction) => {
+    try {
+      let status = 400;
+      const result = await Menuservice.likeMenu(req);
+      if (result) status = result.code;
+      return res.status(status).json(result);
+    } catch (error: any) {
+      error.status = 500;
+      next(error);
+    }
+  },
 };
 
 export default clientMenuController;

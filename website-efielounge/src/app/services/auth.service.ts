@@ -19,7 +19,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
   ) {}
 
   setLoggedIn(status: boolean) {

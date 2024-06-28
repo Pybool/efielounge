@@ -15,6 +15,7 @@ import adminRouter from "./routes/v1/admin.route";
 import accountsRouter from "./routes/v1/accounts.route";
 import menuRouter from "./routes/v1/menu.route";
 import clientCartRouter from "./routes/v1/cart.route";
+import orderRouter from "./routes/v1/orders.route";
 dotenvConfig();
 dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
 
@@ -43,6 +44,7 @@ app.use(passport.session());
 
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static("public"));
+console.log("PUBLIC FOLDER ", process.env.EFIELOUNGE_PUBLIC_FOLDER)
 app.use(express.static(process.env.EFIELOUNGE_PUBLIC_FOLDER!));
 
 app.get('/test', (req:any, res:any) => {
@@ -52,6 +54,7 @@ app.get('/test', (req:any, res:any) => {
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/menu", menuRouter);
+app.use("/api/v1/order", orderRouter);
 app.use("/api/v1/cart", clientCartRouter);
 app.use("/api/v1/accounts", accountsRouter);
 
