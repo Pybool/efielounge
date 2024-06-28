@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import Swal from 'sweetalert2';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload-receipt',
@@ -29,18 +29,22 @@ export class UploadReceiptComponent {
   fileName: string | null = null;
   paymentRef: string = '';
   uploadError: string | null = null;
-  activatedRoute$:any;
-  autoFilled:boolean = false
+  activatedRoute$: any;
+  autoFilled: boolean = false;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
-  ngOnInit(){
-    this.activatedRoute$ = this.route.queryParams.subscribe((params) => { 
-      this.paymentRef = params['ref']
-      if(this.paymentRef.startsWith('EF')){
-        this.autoFilled = true
+  ngOnInit() {
+    this.activatedRoute$ = this.route.queryParams.subscribe((params) => {
+      this.paymentRef = params['ref'];
+      if (this.paymentRef.startsWith('EF')) {
+        this.autoFilled = true;
       }
-    })
+    });
   }
 
   ngAfterViewInit() {
@@ -89,10 +93,11 @@ export class UploadReceiptComponent {
         .subscribe((response: any) => {
           // Handle successful upload response (e.g., display success message)
           console.log('Upload successful:', response);
-          Swal.fire(response?.message)
+          Swal.fire(response?.message);
           this.selectedFile = null;
           this.fileName = null;
           this.paymentRef = '';
+          this.router.navigate(['orders']);
         });
     } catch (error) {
       console.error('Upload error:', error);

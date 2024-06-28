@@ -61,6 +61,36 @@ const mailActions = {
       });
     },
   },
+
+  orders:{
+    sendOrderConfirmationMail: async (email:string, orderId:string)=>{
+      return new Promise(async (resolve, reject) => {
+        try {
+          const template = await ejs.renderFile(
+            `${path}templates/orderConfirmation.ejs`,
+            { email, orderId }
+          );
+          console.log("receipient ", email);
+
+          const mailOptions = {
+            from: process.env.EFIELOUNGE_EMAIL_HOST_USER,
+            to: email,
+            subject: "Order Placed",
+            text: `You have just placed an order with us`,
+            html: template,
+          };
+          await sendMail(mailOptions);
+          resolve({ status: true });
+        } catch (error) {
+          console.log(error);
+          resolve({ status: false });
+        }
+      }).catch((error: any) => {
+        console.log(error);
+        throw error;
+      });
+    }
+  }
 };
 
 export default mailActions;

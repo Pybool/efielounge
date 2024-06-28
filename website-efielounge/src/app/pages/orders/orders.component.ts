@@ -67,7 +67,7 @@ export class OrdersComponent {
     const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
     
     // Combine formatted date and time
-    return `${formattedDate} || ${formattedTime}`;
+    return `${formattedDate} | ${formattedTime}`;
   }
 
 }

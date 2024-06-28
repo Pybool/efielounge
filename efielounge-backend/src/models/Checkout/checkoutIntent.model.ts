@@ -6,7 +6,6 @@ const CheckoutIntentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "accounts",
     required: false,
-    unique: true
   },
   checkOutId: {
     type: String,

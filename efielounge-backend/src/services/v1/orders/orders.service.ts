@@ -4,6 +4,8 @@ import Order from "../../../models/Orders/order.model";
 import Xrequest from "../../../interfaces/extensions.interface";
 import Menu from "../../../models/menu/menu.model";
 import CheckOut from "../../../models/Checkout/checkoutIntent.model";
+import mailActions from "../Mail/mail.service";
+import Accounts from "../../../models/Accounts/accounts.model";
 export class OrderService {
   static async createOrder(checkOutIntent: any) {
     try {
@@ -49,6 +51,13 @@ export class OrderService {
       console.log(`Deleted ${deletedCount} cart items.`);
 
       console.log("All orders created successfully!");
+      const account = await Accounts.findOne({ _id: checkOutIntent.account })!;
+      if (account) {
+        mailActions.orders.sendOrderConfirmationMail(
+          account!.email as string,
+          checkOutIntent.checkOutId
+        );
+      }
     } catch (error) {
       console.error("Overall error:", error);
     }
@@ -126,7 +135,7 @@ export class OrderService {
     }
   }
 
-  static async collapseOrders(orders:any[]){
+  static async collapseOrders(orders: any[]) {
     const groupedOrders = orders.reduce((acc, order) => {
       const checkOutId = order.checkOutId;
       acc[checkOutId] = acc[checkOutId] || []; // Initialize array if not existing
@@ -134,25 +143,23 @@ export class OrderService {
       return acc;
     }, {});
 
-    
-
     const collapsedOrders = await Promise.all(
       Object.entries(groupedOrders).map(async ([checkOutId, orders]) => {
-        const checkOut = await CheckOut.findOne({ checkOutId: checkOutId })
+        const checkOut = await CheckOut.findOne({ checkOutId: checkOutId });
         const date = groupedOrders[checkOutId][0]?.createdAt;
         return {
           checkOutId,
           orders,
           date,
-          grandTotal: checkOut ? checkOut.amount : 0 // or another default value if not found
+          grandTotal: checkOut ? checkOut.amount : 0, // or another default value if not found
         };
       })
     );
-  
+
     return collapsedOrders;
   }
 
-  static async fetchOrders(req:Xrequest){
+  static async fetchOrders(req: Xrequest) {
     try {
       let filter: any = {};
       const page = Number((req.query.page! as string) || 1);
@@ -202,9 +209,9 @@ export class OrderService {
           return { category: new Types.ObjectId(req.query.filter as string) };
         }
       }
-      return {account: req.accountId!};
+      return { account: req.accountId! };
     } catch {
-      return {account: req.accountId!};
+      return { account: req.accountId! };
     }
   }
 }
