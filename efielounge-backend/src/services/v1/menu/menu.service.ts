@@ -34,9 +34,9 @@ export class Menuservice {
     }
   }
 
-  static async computeRating(menuId: string) {
+  static async computeRating(menu: string) {
     try {
-      const ratings = await MenuRatings.find({ menuId });
+      const ratings = await MenuRatings.find({ menu });
       if (ratings.length === 0) {
         return 0;
       }

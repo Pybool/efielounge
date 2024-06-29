@@ -1,0 +1,112 @@
+.rating-stars-container {
+  text-align: center;
+}
+
+.rating-stars {
+  display: inline-block;
+  margin: 20px;
+}
+.rating-star {
+  font-size: 44px;
+  cursor: pointer;
+}
+
+.fa-star {
+  color: orange;
+}
+
+.bottom-message {
+  font-size: 0.85em;
+}
+
+.sr-navigator-container.visible-sm-block {
+  margin-top: 30px;
+}
+
+.notes-container {
+  margin: auto;
+  margin-top: 20px;
+  width: 50%;
+}
+#myNotesView {
+  display: block;
+}
+
+.notes-buttons {
+  margin-top: 10px;
+}
+
+@media (max-width: 767px) {
+  .notes-container {
+    width: 100%;
+  }
+}
+
+.btn-ls-blue {
+  background-color: orange;
+  border: none;
+  -o-transition: background-color 0.215s;
+  -moz-transition: background-color 0.215s;
+  -webkit-transition: background-color 0.215s;
+  transition: background-color 0.215s;
+}
+
+.btn-ls-blue:hover,
+.btn-ls-blue:active,
+.btn-ls-blue:focus,
+.btn-ls-blue.active {
+  background-color: orange;
+}
+
+.hide {
+  display: none;
+}
+
+/* styles.css */
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+.btn{
+    border-radius: 0px!important;
+}
+
+.modal-title{
+    color: orange
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 1s;
+}
+// Boo9tdrap
+
+.modal-dialog {
+  width: 800px;
+  margin: 30px auto;
+}
+
+.modal-content {
+  width: 60%;
+}

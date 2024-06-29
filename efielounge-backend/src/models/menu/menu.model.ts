@@ -50,6 +50,11 @@ const MenuSchema = new Schema({
     default: 0,
     required: false,
   },
+  iRated: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
   inCart: {
     type: Boolean,
     default: false,

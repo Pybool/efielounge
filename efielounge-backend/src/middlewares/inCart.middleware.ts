@@ -1,6 +1,7 @@
 import { NextFunction } from "express";
 import Cart from "../models/Orders/cart.model";
 import MenuLikes from "../models/menu/likes.model";
+import MenuRatings from "../models/menu/ratings.model";
 
 async function checkIfMenuInCart(accountId:string, menuId:string){
   const exists = await Cart.findOne({account: accountId, menu: menuId});
@@ -13,6 +14,14 @@ async function checkIfMenuInCart(accountId:string, menuId:string){
 async function checkIfILiked(account:string, menuId:string){
   const exists = await MenuLikes.findOne({ account, menuId: menuId })!;
   if(exists?.menuId!.toString()=== menuId){
+    return true;
+  }
+  return false;
+}
+
+async function checkIfIRated(account:string, menuId:string){
+  const exists = await MenuRatings.findOne({ account, menu: menuId })!;
+  if(exists?.menu!.toString()=== menuId){
     return true;
   }
   return false;
@@ -33,6 +42,7 @@ export function updateInCart(
       for(let menu of menudata){
         menu.inCart = await checkIfMenuInCart(req.accountId, menu._id)
         menu.iLiked = await checkIfILiked(req.accountId, menu._id)
+        menu.iRated = await checkIfIRated(req.accountId, menu._id)
       }
 
       response.data = menudata;

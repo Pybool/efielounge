@@ -16,11 +16,11 @@ import accountsRouter from "./routes/v1/accounts.route";
 import menuRouter from "./routes/v1/menu.route";
 import clientCartRouter from "./routes/v1/cart.route";
 import orderRouter from "./routes/v1/orders.route";
+
 dotenvConfig();
 dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
 
 const SERVER_URL = "0.0.0.0";
-// Store WebSocket connections in a map
 // app.use(cors);
 app.use(cors({
   origin: '*', // Allows all origins

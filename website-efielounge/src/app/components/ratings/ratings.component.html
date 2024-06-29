@@ -1,0 +1,38 @@
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+<style>
+    a{
+        color: orange!important
+    }
+</style>
+<!-- ratings-view.component.html -->
+<div class="modal-backdrop" ></div>
+<div class="modal" tabindex="-1" *ngIf="showModal" role="dialog" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="toggleRatingsModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="candidateRatingModalLabel">{{menuToRate?.name}}</h4>
+      </div>
+      <div class="modal-body">
+        <span class="top-message">To help us get better, please rate our <span class="modal-title">{{menuToRate?.name}}</span>.</span>
+        <div class="rating-stars-container">
+          <div class="rating-stars" (mouseleave)="mouseLeaveStars()">
+            <i class="fa fa-star-o rating-star" data-rating="1" (mouseenter)="mouseEnterStar($event)" (click)="starClicked($event)"></i>
+            <i class="fa fa-star-o rating-star" data-rating="2" (mouseenter)="mouseEnterStar($event)" (click)="starClicked($event)"></i>
+            <i class="fa fa-star-o rating-star" data-rating="3" (mouseenter)="mouseEnterStar($event)" (click)="starClicked($event)"></i>
+            <i class="fa fa-star-o rating-star" data-rating="4" (mouseenter)="mouseEnterStar($event)" (click)="starClicked($event)"></i>
+            <i class="fa fa-star-o rating-star" data-rating="5" (mouseenter)="mouseEnterStar($event)" (click)="starClicked($event)"></i>
+          </div>
+        </div>
+        <span class="bottom-message">Your ratings will be confidential so candidates won't see them.</span>
+        <div class="modal-alert alert alert-danger hide">Failed to save rating</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" (click)="toggleRatingsModal()">Cancel</button>
+        <button id="crSubmitBtn" type="button" class="btn btn-primary btn-ls-blue" (click)="submitCandidateRating()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -12,6 +12,11 @@ const RatingSchema = new Schema({
     ref: "accounts",
     required: false,
   },
+  menu: {
+    type: Schema.Types.ObjectId,
+    ref: "menu",
+    required: false,
+  },
 });
 
 const MenuRatings = mongoose.model("menuratings", RatingSchema);

@@ -6,5 +6,6 @@ import clientOrderController from "../../controllers/v1/Orders/orders.controller
 
 const orderRouter = express.Router();
 orderRouter.get("/fetch-orders", decode, clientOrderController.fetchOrders);
+orderRouter.patch("/rate-menu", decode, clientOrderController.rateMenu);
 
 export default orderRouter;

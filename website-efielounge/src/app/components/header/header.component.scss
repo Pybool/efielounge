@@ -1,14 +1,94 @@
-.cart-badge{
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: orange;
-    color: white;
-    text-align: center;
-    padding-top: 7px;
+.cart-badge {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: orange;
+  color: white;
+  text-align: center;
+  padding-top: 7px;
 }
 
 sup {
-    top: -2.5em;
-    right: -3.5em;
+  top: -2.5em;
+  right: -3.5em;
+}
+
+.icon {
+  width: 16px;
+  height: 18px;
+  margin-right: 5px;
+}
+
+svg path {
+  fill: black;
+  transition: all 0.5s;
+}
+
+ul li :hover {
+  svg path {
+    fill: orange;
+  }
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  // gap:
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row-sb {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  // gap:20px
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.header {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.account {
+  font-weight: 700;
+  color: orange;
+  white-space: nowrap;
+}
+
+.logout {
+  transition: all 0.5s;
+}
+
+.logout:hover {
+  svg path {
+    fill: orange;
+  }
+  color: orange;
+}
+
+ul {
+  padding-left: 20%;
+}
+
+@media (min-width: 768px) and (max-width: 1280px) {
+  ul {
+    padding-left: 0%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  nav > div > ul {
+    padding-right: 10px !important;
+  }
 }

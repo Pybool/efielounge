@@ -554,6 +554,10 @@ nav > div > ul > li:before,
   border-radius: 0;
 }
 
+.search-input-text{
+  font-size: 16px!important;
+}
+
 // .sub-dropdown li a{
 //   text-align: center!important;
 // }
@@ -7096,6 +7100,18 @@ a.thanks-close:focus {color: #333;}
   border-top: 2px solid transparent;
   border-radius: 50%;
   text-align: center !important;
+  animation: spin 1s linear infinite; /* Animation property for rotation */
+}
+
+.spinner-orange {
+  width: 45px;
+  height: 45px;
+  border: 2px solid orange;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  text-align: center !important;
+  margin-right: auto;
+  margin-left: auto;
   animation: spin 1s linear infinite; /* Animation property for rotation */
 }
 

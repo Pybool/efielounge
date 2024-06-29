@@ -15,6 +15,11 @@ export class MenuService {
     );
   }
 
+  searchMenu(searchString:string){
+    let url = `${environment.api}/api/v1/menu/search-menu?searchString=${searchString}`;
+    return this.http.get(url);
+  }
+
   fetchMenu(params: any) {
     let url = `${environment.api}/api/v1/menu/fetch-menu`;
     if (

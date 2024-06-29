@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-main-menu',
+  selector: 'app-search-result-component',
   standalone: true,
   imports: [
     PreloaderComponent,
@@ -26,14 +26,18 @@ import Swal from 'sweetalert2';
     TruncateTextPipe,
   ],
   providers: [MenuService, CartService],
-  templateUrl: './main-menu.component.html',
-  styleUrl: './main-menu.component.scss',
+  templateUrl: './search-result-component.component.html',
+  styleUrl: './search-result-component.component.scss',
 })
-export class MainMenuComponent implements OnDestroy {
+export class SearchResultComponentComponent implements OnDestroy {
   public units: number = 1;
   public menus: any[] = [];
   private activatedRoute$: any;
   public serverUrl: string = environment.api;
+  public searchString: string = '';
+  public showSpinner: boolean = false;
+  public noResults: boolean = false;
+  public totalResultsCount:number = 0;
 
   constructor(
     private menuService: MenuService,
@@ -44,23 +48,8 @@ export class MainMenuComponent implements OnDestroy {
 
   ngOnInit() {
     this.activatedRoute$ = this.route.queryParams.subscribe((params) => {
-      this.menuService
-        .fetchMenu(params)
-        .pipe(take(1))
-        .subscribe(
-          (response: any) => {
-            if (response.status) {
-              console.log(response.data);
-              response.data.forEach((menu: any) => {
-                menu.units = 1;
-              });
-              this.menus = response.data;
-            }
-          },
-          (error: any) => {
-            alert('Failed to fetch menu');
-          }
-        );
+      this.searchString = params?.['q'];
+      this.searchFood();
     });
   }
 
@@ -71,6 +60,33 @@ export class MainMenuComponent implements OnDestroy {
     setTimeout(() => {
       pageLoader.style.display = 'none';
     }, 3000);
+  }
+
+  searchFood() {
+    this.noResults = false;
+    this.showSpinner = true;
+    this.menus = [];
+    this.menuService
+      .searchMenu(this.searchString)
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          if (response.status) {
+            this.menus = response.data;
+            this.menus.forEach((menu: any) => {
+              menu.units = 1;
+            });
+            this.totalResultsCount = response.total;
+            if (this.menus.length == 0) {
+              this.noResults = true;
+            }
+          }
+          this.showSpinner = false;
+        },
+        (error: any) => {
+          this.showSpinner = false;
+        }
+      );
   }
 
   addToCart(menu: string, units: number) {

@@ -12,6 +12,8 @@ import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.direc
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,8 @@ import Swal from 'sweetalert2';
     FooterComponent,
     HttpClientModule,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     TruncateTextPipe,
     ScrollIntoViewDirective,
   ],
@@ -37,12 +41,14 @@ export class HomeComponent {
   public categories: any[] = [];
   public filteredMenus: any[] = [];
   public filteredMenusCache: any[] = [];
+  public searchString: string | null = null;
   public serverUrl: string = environment.api;
 
   constructor(
     private menuService: MenuService,
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngAfterViewInit() {
@@ -216,8 +222,11 @@ export class HomeComponent {
           },
           (error: any) => {
             console.log('error ', error, Object.keys(error));
-            if ([400, 401].includes(error.status)) {
+            if ([401].includes(error.status)) {
               this.authService.navigateToUrl('/login');
+            }
+            else{
+              alert("Something went wrong while peforming your request")
             }
           }
         );
@@ -258,7 +267,9 @@ export class HomeComponent {
         item.likes += 1;
         item.iLiked = true;
       } else {
-        item.likes -= 1;
+        if(item.likes > 0){
+          item.likes -= 1;
+        }
         item.iLiked = false;
       }
       return true; // Indicate that the item was found and updated
@@ -274,6 +285,7 @@ export class HomeComponent {
   }
 
   searchFood(){
-    Swal.fire("Coming soon!!")
+    this.router.navigateByUrl(`/search-menu?q=${this.searchString}`)
   }
+
 }

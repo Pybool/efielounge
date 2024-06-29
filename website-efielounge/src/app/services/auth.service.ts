@@ -93,7 +93,7 @@ export class AuthService {
     this.cookieService.delete('efielounge-refreshToken');
     window.localStorage.removeItem('efielounge-accessToken');
     window.localStorage.removeItem('efielounge-refreshToken');
-    return this.router.navigateByUrl('/authentication#signin');
+    return this.router.navigateByUrl('/login');
   }
 
   retrieveToken(tokenKey: string) {

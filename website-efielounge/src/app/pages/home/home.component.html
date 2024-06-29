@@ -32,12 +32,15 @@
           <div class="restaurant-searching-inner col">
             <h2>Discover the best of world cuisine</h2>
             <div class="restaurant-search-form2 brd-rd30">
-              <input class="brd-rd30" type="text" placeholder="Search for a food">
-              <button (click)="searchFood()" [disabled]="false" class="brd-rd30 red-bg">SEARCH</button>
+              <input [(ngModel)]="searchString" name="searchString" class="brd-rd30 search-input-text" type="text"
+                placeholder="Search for a food">
+              <button (click)="searchFood()" [style.opacity]="searchString?.trim()== '' ? 0.3 : 1"
+                [disabled]="searchString?.trim()== ''" class="brd-rd30 red-bg">SEARCH
+              </button>
             </div>
           </div>
-        </div><!-- Restaurant Searching -->
-      </div>
+        </div>
+      </div><!-- Restaurant Searching -->
     </section>
 
     <section>
@@ -57,10 +60,15 @@
                     <div class="popular-dish-box wow fadeIn" data-wow-delay="0.2s">
                       <div class="popular-dish-thumb">
                         <a href="/menu-detail/{{readyMeal?.slug}}" title="" itemprop="url"><img
-                            src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}" alt="popular-dish-img1.jpg"
-                            itemprop="image" class="img"></a>
-                        <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> {{readyMeal?.ratings?.toFixed(2)}}</span>
-                        <span (click)="likeMenu(readyMeal?._id)" [ngStyle]="{'color': readyMeal?.iLiked ? 'white' : 'gray'}" class="post-likes brd-rd4"><i [ngStyle]="{'color': readyMeal?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i> {{readyMeal?.likes}}</span>
+                            src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}"
+                            alt="popular-dish-img1.jpg" itemprop="image" class="img"></a>
+                        <span class="post-rate yellow-bg brd-rd2"><i
+                            class="fa" [ngClass]="readyMeal?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                          {{readyMeal?.ratings?.toFixed(2)}}</span>
+                        <span (click)="likeMenu(readyMeal?._id)"
+                          [ngStyle]="{'color': readyMeal?.iLiked ? 'white' : 'gray'}" class="post-likes brd-rd4"><i
+                            [ngStyle]="{'color': readyMeal?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
+                          {{readyMeal?.likes}}</span>
                       </div>
                       <div class="popular-dish-info">
                         <h4 itemprop="headline"><a href="/menu-detail/{{readyMeal?.slug}}" title="" itemprop="url">
@@ -68,12 +76,15 @@
                         </h4>
                         <p itemprop="description">{{readyMeal?.description | truncateText: 90}}</p>
                         <span class="price">GHC {{readyMeal.price}}</span>
-                        <a *ngIf="readyMeal.inCart" [ngStyle]="{'background-color': readyMeal.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                        <a *ngIf="readyMeal.inCart"
+                          [ngStyle]="{'background-color': readyMeal.inCart ? 'orange' : 'black'}" class="brd-rd2 order"
+                          href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
 
-                        <a *ngIf="!readyMeal.inCart" class="brd-rd2" (click)="addToCart(readyMeal?._id)" href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
+                        <a *ngIf="!readyMeal.inCart" class="brd-rd2" (click)="addToCart(readyMeal?._id)"
+                          href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
                         <div class="restaurant-info">
-                          <img src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}" class="foot-img" alt="restaurant-logo1.png"
-                            itemprop="image">
+                          <img src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}"
+                            class="foot-img" alt="restaurant-logo1.png" itemprop="image">
                           <div class="restaurant-info-inner">
                             <h6 itemprop="headline"><a href="restaurant-detail.html" title="" itemprop="url">Fabio al
                                 Porto Ristorante</a></h6>
@@ -93,68 +104,90 @@
 
     <section>
       <div class="container">
-          <div class="title1-wrapper text-center">
-            <div class="title1-inner">
-              <span>We Are Getting These Ready</span>
-            </div>
+        <div class="title1-wrapper text-center">
+          <div class="title1-inner">
+            <span>We Are Getting These Ready</span>
           </div>
-            <div class="row dishes-caro col-md-12">
-              <ng-container *ngFor="let comingUp of upcomings;">
-                <div class="dish-item col-md-4">
-                  <figure><img class="img" src="{{serverUrl}}{{comingUp?.attachments[0].replaceAll('/public','')}}" alt=""></figure>
-                  <div class="item-meta">
-                    <img style="margin-right:0px;object-fit: cover;" class="foot-img" src="{{serverUrl}}{{comingUp?.attachments[0].replaceAll('/public','')}}" alt="">
-                    <div>
-                      <span>{{comingUp?.name | truncateText: 25}}</span>
-                      <p>GCMA STREET, ANYAA, GHANA </p>
-                    </div>
-                  </div>
-                  <div class="x-flex-row">
-                    <div class="caro-dish-name">
-                      <h4>{{comingUp?.category.name}}</h4>
-                      <span>GHC {{comingUp?.price}}</span>
-                    </div>
-                    <a *ngIf="comingUp.inCart" [ngStyle]="{'background-color': comingUp.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
-                    <a *ngIf="!comingUp.inCart" class="brd-rd2 order" (click)="addToCart(comingUp?._id)" href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
-                  </div>
+        </div>
+        <div class="row dishes-caro col-md-12">
+          <ng-container *ngFor="let comingUp of upcomings;">
+            <div class="dish-item col-md-4">
+              <figure><img class="img" src="{{serverUrl}}{{comingUp?.attachments[0].replaceAll('/public','')}}" alt="">
+              </figure>
+              <div class="item-meta">
+                <img style="margin-right:0px;object-fit: cover;" class="foot-img"
+                  src="{{serverUrl}}{{comingUp?.attachments[0].replaceAll('/public','')}}" alt="">
+                <div>
+                  <span>{{comingUp?.name | truncateText: 25}}</span>
+                  <p>GCMA STREET, ANYAA, GHANA </p>
                 </div>
-              </ng-container>
-            </div>         
+              </div>
+              <div class="x-flex-row">
+                <div class="caro-dish-name">
+                  <h4>{{comingUp?.category.name}}</h4>
+                  <span>GHC {{comingUp?.price}}</span>
+                </div>
+                <a *ngIf="comingUp.inCart" [ngStyle]="{'background-color': comingUp.inCart ? 'orange' : 'black'}"
+                  class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                <a *ngIf="!comingUp.inCart" class="brd-rd2 order" (click)="addToCart(comingUp?._id)"
+                  href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
+                <span class="post-rate yellow-bg brd-rd2"><i class="fa" [ngClass]="comingUp?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                  {{comingUp?.ratings?.toFixed(2)}}</span>
+                <span (click)="likeMenu(comingUp?._id)" [ngStyle]="{'color': comingUp?.iLiked ? 'orange' : 'gray'}"
+                  class="post-likes style2 red-clr"><i [ngStyle]="{'color': comingUp?.iLiked ? 'orange' : 'gray'}"
+                    class="fa fa-heart"></i>
+                  {{comingUp?.likes}}</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </section>
     <section style="margin-top: 60px;" appScrollIntoView (visible)="onUserfavouritesVisible()">
       <div *ngIf="favourites.length > 0" class="container">
-          <div class="title1-wrapper text-center">
-            <div class="title1-inner">
-              <span>Your Favourite Dishes</span>
-            </div>
+        <div class="title1-wrapper text-center">
+          <div class="title1-inner">
+            <span>Your Favourite Dishes</span>
           </div>
-            <div class="row dishes-caro col-md-12">
-              <ng-container *ngFor="let favourite of favourites;">
-                <div class="dish-item col-md-4">
-                  <figure><img class="img" src="{{serverUrl}}{{favourite?.attachments[0].replaceAll('/public','')}}" alt=""></figure>
-                  <div class="item-meta">
-                    <img style="margin-right:0px;object-fit: cover;" class="foot-img" src="{{serverUrl}}{{favourite?.attachments[0].replaceAll('/public','')}}" alt="">
-                    <div>
-                      <span>{{favourite?.name | truncateText: 25}}</span>
-                      <p>GCMA STREET, ANYAA, GHANA </p>
-                    </div>
-                  </div>
-                  <!-- <div class="caro-dish-name">
+        </div>
+        <div class="row dishes-caro col-md-12">
+          <ng-container *ngFor="let favourite of favourites;">
+            <div class="dish-item col-md-4">
+              <figure><img class="img" src="{{serverUrl}}{{favourite?.attachments[0].replaceAll('/public','')}}" alt="">
+              </figure>
+              <div class="item-meta">
+                <img style="margin-right:0px;object-fit: cover;" class="foot-img"
+                  src="{{serverUrl}}{{favourite?.attachments[0].replaceAll('/public','')}}" alt="">
+                <div>
+                  <span>{{favourite?.name | truncateText: 25}}</span>
+                  <p>GCMA STREET, ANYAA, GHANA </p>
+                </div>
+              </div>
+              <!-- <div class="caro-dish-name">
                     <h4>{{favourite?.category.name}}</h4>
                     <span>GHC {{favourite?.price}}</span>
                   </div> -->
-                  <div class="x-flex-row">
-                    <div class="caro-dish-name">
-                      <h4>{{favourite?.category.name}}</h4>
-                      <span>GHC {{favourite?.price}}</span>
-                    </div>
-                    <a *ngIf="favourite.inCart" [ngStyle]="{'background-color': favourite.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
-                    <a *ngIf="!favourite.inCart" class="brd-rd2 order" (click)="addToCart(favourite?._id)" href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
-                  </div>
+              <div class="x-flex-row">
+                <div class="caro-dish-name">
+                  <h4>{{favourite?.category.name}}</h4>
+                  <span>GHC {{favourite?.price}}</span>
                 </div>
-              </ng-container>
-            </div>         
+                <span class="post-rate yellow-bg brd-rd2"><i
+                  class="fa" [ngClass]="favourite?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                {{favourite?.ratings.toFixed(2)}}</span>
+              <span (click)="likeMenu(favourite?._id)"
+                [ngStyle]="{'color': favourite?.iLiked ? 'orange' : 'gray'}"
+                class="post-likes style2 red-clr"><i
+                  [ngStyle]="{'color': favourite?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
+                {{favourite?.likes}}</span>
+                <a *ngIf="favourite.inCart" [ngStyle]="{'background-color': favourite.inCart ? 'orange' : 'black'}"
+                  class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                <a *ngIf="!favourite.inCart" class="brd-rd2 order" (click)="addToCart(favourite?._id)"
+                  href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
+              </div>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </section>
 
@@ -182,21 +215,33 @@
                           </div>
                           <div class="featured-restaurant-info">
                             <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                            <h4 itemprop="headline"><a href="/menu-detail/{{popular?.slug}}" title="" itemprop="url">{{popular?.name}}</a></h4>
+                            <h4 itemprop="headline"><a href="/menu-detail/{{popular?.slug}}" title=""
+                                itemprop="url">{{popular?.name}}</a></h4>
                             <span class="price">GHC {{popular?.price}}</span>
-  
+
                             <ul class="post-meta">
                               <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
                               <li><i class="flaticon-transport"></i> 30min</li>
                             </ul>
-                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> {{popular?.ratings.toFixed(2)}}</span>
+                            <span  class="post-rate yellow-bg brd-rd2"><i
+                                class="fa" [ngClass]="popular?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                              {{popular?.ratings.toFixed(2)}}</span>
+                            <span (click)="likeMenu(popular?._id)"
+                              [ngStyle]="{'color': popular?.iLiked ? 'orange' : 'gray'}"
+                              class="post-likes style2 red-clr"><i
+                                [ngStyle]="{'color': popular?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
+                              {{popular?.likes}}</span>
                           </div>
 
                         </div>
-                         <a *ngIf="popular.inCart" [ngStyle]="{'background-color': popular.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
-                         <a *ngIf="!popular.inCart" style="margin-bottom: 10px;" class="brd-rd2 order" (click)="addToCart(popular?._id)" href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
+                        <a *ngIf="popular.inCart" [ngStyle]="{'background-color': popular.inCart ? 'orange' : 'black'}"
+                          class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In
+                          Cart</a>
+                        <a *ngIf="!popular.inCart" style="margin-bottom: 10px;" class="brd-rd2 order"
+                          (click)="addToCart(popular?._id)" href="javascript:void(0)" title="Order Now"
+                          itemprop="url">Order Now</a>
                       </ng-container>
-                     
+
                     </div><!-- Featured Restaurants List -->
                   </div>
                   <div class="col-md-6 col-sm-12 col-lg-6">
@@ -233,9 +278,11 @@
                   </div>
                 </div>
                 <ul class="filter-buttons center ext-btm20">
-                  <li class="active"><a (click)="filterByCategory(null,$event)" class="brd-rd30" data-filter="*" href="javascript:void(0)" itemprop="url">All</a></li>
+                  <li class="active"><a (click)="filterByCategory(null,$event)" class="brd-rd30" data-filter="*"
+                      href="javascript:void(0)" itemprop="url">All</a></li>
                   <ng-container *ngFor="let category of categories">
-                    <li><a class="brd-rd30" (click)="filterByCategory(category,$event)" href="javascript:void(0)" itemprop="url">{{category?.name}}</a></li>
+                    <li><a class="brd-rd30" (click)="filterByCategory(category,$event)" href="javascript:void(0)"
+                        itemprop="url">{{category?.name}}</a></li>
                   </ng-container>
                 </ul><!-- Filter Buttons -->
                 <div class="filters-inner">
@@ -245,15 +292,16 @@
                         <div class="featured-restaurant-box style2 brd-rd12 wow fadeIn" data-wow-delay="0.1s">
                           <div class="featured-restaurant-thumb">
                             <a href="/menu-detail/{{filteredMenu?.slug}}" title="" itemprop="url"><img
-                                src="{{serverUrl}}{{filteredMenu?.attachments[0].replaceAll('/public','')}}" alt="most-popular-img1-1.png"
-                                itemprop="image"></a>
+                                src="{{serverUrl}}{{filteredMenu?.attachments[0].replaceAll('/public','')}}"
+                                alt="most-popular-img1-1.png" itemprop="image"></a>
                           </div>
                           <div class="featured-restaurant-info">
                             <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                            <h4 itemprop="headline"><a href="/menu-detail/{{filteredMenu?.slug}}" title="" itemprop="url">{{filteredMenu?.name}}</a></h4>
-                            <span class="food-types">Extras: 
+                            <h4 itemprop="headline"><a href="/menu-detail/{{filteredMenu?.slug}}" title=""
+                                itemprop="url">{{filteredMenu?.name}}</a></h4>
+                            <span class="food-types">Extras:
                               <ng-container *ngFor="let extra of filteredMenu?.menuItems;">
-                                <a href="#" title="" itemprop="url">{{extra?.name}}</a>, 
+                                <a href="#" title="" itemprop="url">{{extra?.name}}</a>,
                               </ng-container>
                             </span>
                             <ul class="post-meta">
@@ -261,15 +309,26 @@
                               <li><i class="flaticon-transport"></i> 30min</li>
                               <li><i class="flaticon-money"></i> Accepts cash & online payments</li>
                             </ul>
-                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> {{filteredMenu?.ratings?.toFixed(2)}}</span>
-                            <span (click)="likeMenu(filteredMenu?._id)" [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}" class="post-likes style2 red-clr"><i [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i> {{filteredMenu?.likes}}</span>
-                            <a *ngIf="filteredMenu.inCart" style="float:left;" [ngStyle]="{'background-color': filteredMenu.inCart ? 'orange' : 'black'}" class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
-                            <a *ngIf="!filteredMenu.inCart" class="brd-rd5" (click)="addToCart(filteredMenu?._id)" href="javascript:void(0)" title="Order Now">Order Now</a>
+                            <span  class="post-rate yellow-bg brd-rd2"><i
+                                class="fa" [ngClass]="filteredMenu?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                              {{filteredMenu?.ratings?.toFixed(2)}}</span>
+                            <span (click)="likeMenu(filteredMenu?._id)"
+                              [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}"
+                              class="post-likes style2 red-clr"><i
+                                [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
+                              {{filteredMenu?.likes}}</span>
+                            <a *ngIf="filteredMenu.inCart" style="float:left;"
+                              [ngStyle]="{'background-color': filteredMenu.inCart ? 'orange' : 'black'}"
+                              class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View
+                              In Cart</a>
+                            <a *ngIf="!filteredMenu.inCart" class="brd-rd5" (click)="addToCart(filteredMenu?._id)"
+                              href="javascript:void(0)" title="Order Now">Order Now</a>
                           </div>
                         </div>
                       </div>
                     </ng-container>
-                    <span style="color:orangered;text-align: center;margin-top: 30px;" *ngIf="filteredMenus?.length == 0">No search results were found for this filter</span>
+                    <span style="color:orangered;text-align: center;margin-top: 30px;"
+                      *ngIf="filteredMenus?.length == 0">No search results were found for this filter</span>
                   </div>
                 </div>
               </div>
@@ -279,7 +338,7 @@
       </div>
     </section>
 
-    
+
     <section>
       <div style="margin-top: 120px;" class="block no-padding red-bg">
         <img class="bottom-clouds-mockup" src="/assets/images/resource/clouds2.png" alt="clouds2.png" itemprop="image">
@@ -316,6 +375,7 @@
       </div>
     </section><!-- red section -->
     <app-footer></app-footer>
+    
   </main><!-- Main Wrapper -->
 
   <script data-cfasync="false" src="/assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

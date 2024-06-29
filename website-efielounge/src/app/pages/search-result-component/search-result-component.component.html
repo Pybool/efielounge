@@ -29,9 +29,19 @@
                 <div class="fixed-bg" style="background-image: url(/assets/images/topbg.jpg);"></div>
                 <div class="page-title-wrapper text-center">
                     <div class="col-md-12 col-sm-12 col-lg-12">
-                        <div class="page-title-inner">
-                            <h1 itemprop="headline">Explore Our Menu</h1>
+                        <div class="page-title-inner container">
+                            <h1 class="flex-row-sb" itemprop="headline">
+                                <span itemprop="headline">Displaying search results for </span>
+                                <span class="search-string">"{{searchString}}"</span>
+                            </h1>
                             <span>Discover the best of world cuisine</span>
+                            <div class="restaurant-search-form2 brd-rd30">
+                                <input [(ngModel)]="searchString" name="searchString" class="brd-rd30 search-input-text"
+                                    type="text" placeholder="Search for a food">
+                                <button (click)="searchFood()" [style.opacity]="searchString?.trim()== '' ? 0.3 : 1"
+                                    [disabled]="searchString?.trim()== ''" class="brd-rd30 red-bg">SEARCH
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -42,7 +52,8 @@
             <div class="container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Home</a></li>
-                    <li class="breadcrumb-item active">our menus</li>
+                    <li class="breadcrumb-item active">Search</li>
+                    <li *ngIf="totalResultsCount > 0" class="breadcrumb-item active">({{totalResultsCount}}) results were found</li>
                 </ol>
             </div>
         </div>
@@ -59,37 +70,56 @@
                                             <div class="col-md-4 col-sm-6 col-lg-4">
                                                 <div class="popular-dish-box style2 wow fadeIn" data-wow-delay="0.2s">
                                                     <div class="popular-dish-thumb">
-                                                        <a href="/menu-detail/{{menu?.slug}}" title="" itemprop="url"><img
-                                                            class="img"
+                                                        <a href="/menu-detail/{{menu?.slug}}" title=""
+                                                            itemprop="url"><img class="img"
                                                                 src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
                                                                 alt="popular-dish-img1.jpg" itemprop="image"></a>
-                                                        <span class="post-rate yellow-bg brd-rd2"><i class="fa" [ngClass]="menu?.iRated ? 'fa-star' : 'fa-star-o'"></i>{{menu?.ratings}}</span>
-                                                        <span (click)="likeMenu(menu?._id)" [ngStyle]="{'color': menu?.iLiked ? 'white' : 'gray'}" class="post-likes brd-rd4"><i [ngStyle]="{'color': menu?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i> {{menu?.likes}}</span>
+                                                        <span class="post-rate yellow-bg brd-rd2"><i
+                                                                class="fa" [ngClass]="menu?.iRated ? 'fa-star' : 'fa-star-o'"></i>{{menu?.ratings}}</span>
+                                                        <span (click)="likeMenu(menu?._id)"
+                                                            [ngStyle]="{'color': menu?.iLiked ? 'white' : 'gray'}"
+                                                            class="post-likes brd-rd4"><i
+                                                                [ngStyle]="{'color': menu?.iLiked ? 'orange' : 'gray'}"
+                                                                class="fa fa-heart"></i> {{menu?.likes}}</span>
                                                     </div>
                                                     <div class="popular-dish-info">
-                                                        <h4 itemprop="headline"><a href="/menu-detail/{{menu._id}}" title=""
-                                                                itemprop="url">{{menu?.name}}</a></h4>
-                                                        <p itemprop="description">{{menu?.description | truncateText: 110}} <br> <a class="desc-read-more" href="">Read More</a></p>
-                                                        
+                                                        <h4 itemprop="headline"><a href="/menu-detail/{{menu._id}}"
+                                                                title="" itemprop="url">{{menu?.name}}</a></h4>
+                                                        <p itemprop="description">{{menu?.description | truncateText:
+                                                            110}} <br> <a class="desc-read-more" href="">Read More</a>
+                                                        </p>
+
                                                         <span class="price">{{menu?.currency}} {{menu?.price}}</span>
-                                                        <a *ngIf="menu.inCart" [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}" class="brd-rd4 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
-                                                        <a *ngIf="!menu.inCart" class="brd-rd4 " (click)="addToCart(menu?._id, menu.units)" href="javascript:void(0)" title="Order Now"
+                                                        <a *ngIf="menu.inCart"
+                                                            [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}"
+                                                            class="brd-rd4 order" href="javascript:void(0)"
+                                                            title="View In Cart" itemprop="url">View In Cart</a>
+                                                        <a *ngIf="!menu.inCart" class="brd-rd4 "
+                                                            (click)="addToCart(menu?._id, menu.units)"
+                                                            href="javascript:void(0)" title="Order Now"
                                                             itemprop="url">Order Now</a>
                                                         <div class="restaurant-info">
                                                             <!-- <img class="foot-img" lazy src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
                                                                 alt="restaurant-logo1.png" itemprop="image"> -->
-                                                            <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GHC 50</span>
-                                                            <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
-                                                            
-                                                           
+                                                            <span class="delivery"><i class="fa fa-check-circle-o"></i>
+                                                                Min order GHC 50</span>
+                                                            <span class="delivery"><i class="flaticon-transport"></i>
+                                                                30min</span>
+
+
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div><!-- Popular Dish Box -->
                                             </div>
                                         </ng-container>
-
                                     </div>
+                                </div>
+                                <div *ngIf="showSpinner" class="spinner-orange"></div>
+                                <div *ngIf="noResults==true" class="res-404">
+                                    <span  class="no-results">No results were found for
+                                        {{searchString}}</span>
+                                    <img class="img-404" src="assets/images/resource/search_no_result.png" />
                                 </div>
                                 <div class="pagination-wrapper text-center">
                                     <small style="font-size: 10px;color:orangered">Pagination Unimplemented</small>

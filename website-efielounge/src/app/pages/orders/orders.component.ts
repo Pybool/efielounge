@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { take } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CommonModule } from '@angular/common';
+import { RatingsComponent } from '../../components/ratings/ratings.component';
 
 @Component({
   selector: 'app-orders',
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
     FooterComponent,
     HttpClientModule,
     CommonModule,
+    RatingsComponent
   ],
   providers: [OrderService],
   templateUrl: './orders.component.html',
@@ -25,6 +27,8 @@ import { CommonModule } from '@angular/common';
 export class OrdersComponent {
   public orders: any[] = [];
   public serverUrl: string = environment.api;
+  public parseFloat = parseFloat;
+  public menuToRate : any = {name:""}
 
   ngAfterViewInit() {
     const pageLoader = document.querySelector(
@@ -68,6 +72,32 @@ export class OrdersComponent {
     
     // Combine formatted date and time
     return `${formattedDate} | ${formattedTime}`;
+  }
+
+  rateMenu(menu:any){
+    this.menuToRate = menu
+    if(!menu.iRated){
+      this.toggleRatingsModal()
+    }else{
+      alert("You have already rated this menu")
+    }
+    
+  }
+
+  toggleRatingsModal(){
+    const backdrop:any = document.querySelector(".modal-backdrop");
+    const modal:any = document.querySelector(".modal");
+    if(backdrop && modal){
+      modal.style.transition = "all 1s"
+      modal.style.display = "flex"
+      backdrop.style.display = "block"
+    }
+  }
+
+  ratingChanged(rating:number){
+    console.log("Rating was changed")
+    this.menuToRate.iRated = true;
+    this.menuToRate.ratings = rating;
   }
 
 }

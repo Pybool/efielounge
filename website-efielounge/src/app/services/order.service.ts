@@ -10,11 +10,13 @@ export class OrderService {
   constructor(private http: HttpClient, private router: Router) {}
 
   fetchOrders() {
-    return this.http.get(
-      `${environment.api}/api/v1/order/fetch-orders`
-    );
+    return this.http.get(`${environment.api}/api/v1/order/fetch-orders`);
   }
 
-
+  rateMenu(payload: { rating: number; menu: string }) {
+    return this.http.patch(
+      `${environment.api}/api/v1/order/rate-menu`,
+      payload
+    );
+  }
 }
-

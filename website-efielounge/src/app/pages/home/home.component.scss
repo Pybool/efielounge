@@ -46,6 +46,10 @@
     width: 30%;
 }
 
+.caro-dish-name span{
+    white-space: nowrap;
+}
+
 .post-likes:hover{
     cursor: pointer;
 }
@@ -74,4 +78,8 @@
 
 .price{
     color: orange;
+}
+
+.post-rate{
+    cursor: pointer;
 }

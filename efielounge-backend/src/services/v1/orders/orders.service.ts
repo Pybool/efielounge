@@ -6,6 +6,16 @@ import Menu from "../../../models/menu/menu.model";
 import CheckOut from "../../../models/Checkout/checkoutIntent.model";
 import mailActions from "../Mail/mail.service";
 import Accounts from "../../../models/Accounts/accounts.model";
+import MenuRatings from "../../../models/menu/ratings.model";
+
+async function checkIfIRated(account:string, menuId:string){
+  const exists = await MenuRatings.findOne({ account, menu: menuId })!;
+  if(exists?.menu!.toString()=== menuId.toString()){
+    return true;
+  }
+  return false;
+}
+
 export class OrderService {
   static async createOrder(checkOutIntent: any) {
     try {
@@ -159,6 +169,53 @@ export class OrderService {
     return collapsedOrders;
   }
 
+  static async computeRating(menu: string) {
+    try {
+      const ratings = await MenuRatings.find({ menu });
+      
+      if (ratings.length === 0) {
+        return 0;
+      }
+
+      const totalRating = ratings.reduce(
+        (acc, rating: any) => acc + rating.rating,
+        0
+      );
+      const averageRating = totalRating / ratings.length;
+      return averageRating;
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  static async rateMenu(req: Xrequest) {
+    try {
+      const data = req.body!;
+      const canRate: any = await Order.findOne({
+        account: req.accountId!,
+        menu: data.menu,
+      }).populate("menu");
+      if (!canRate) {
+        return {
+          status: false,
+          message: "You cannot rate a product you have no bought",
+          code: 400,
+        };
+      }
+      data.account = req.accountId!;
+      const rating = await MenuRatings.create(data);
+      return {
+        status: true,
+        message: `Thank you for rating ${canRate?.menu?.name}`,
+        data: await rating.populate("menu"),
+        code: 200,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+
   static async fetchOrders(req: Xrequest) {
     try {
       let filter: any = {};
@@ -172,19 +229,30 @@ export class OrderService {
         sort: {},
       };
 
-      const [orders, total] = await Promise.all([
+      const [orders, total]: any = await Promise.all([
         Order.find(filter, null, options)
           .sort({ createdAt: -1 })
-          .populate("menu")
+          .populate({
+            path: "menu",
+            populate: {
+              path: "menuItems",
+            },
+          })
           .populate("customMenuItems"),
         Order.countDocuments(filter),
       ]);
 
       const totalPages = Math.ceil(total / limit);
-      // for (const order of orders) {
-      //   order.ratings = await Order.computeRating(order._id.toString());
-      //   order.likes = await Order.countDocuments({ menuId: menu._id });
-      // }
+      for (const order of orders) {
+        order.menu.ratings = await OrderService.computeRating(
+          order.menu._id.toString()
+        );
+        order.menu.likes = await Order.countDocuments({ menu: order.menu._id });
+        order.menu.iRated = await checkIfIRated(req.accountId!, order.menu._id)
+        // if(order.menu._id=="6679044299245644e4c34d0b"){
+        //   console.log("Rated ", order.menu.iRated)
+        // }
+      }
       return {
         status: true,
         data: await OrderService.collapseOrders(orders),

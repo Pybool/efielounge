@@ -5,12 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [HttpClientModule, CommonModule],
-  providers: [MenuService, AuthService, CartService],
+  providers: [MenuService, AuthService, TokenService, CartService],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -21,7 +22,7 @@ export class HeaderComponent {
   constructor(
     private menuService: MenuService,
     private authService: AuthService,
-    private cartService: CartService
+    private tokenService: TokenService
   ) {}
 
   ngOnInit() {
@@ -47,11 +48,24 @@ export class HeaderComponent {
         }
       );
 
-    // this.cartService
-    //   .getCartItemCount()
-    //   .subscribe((count: number) => {
-    //     console.log("BOOO ", count)
-    //     this.cartLength = count;
-    //   });
+  }
+
+  shortenEmail(email:string) {
+    try {
+      const [localPart, domain] = email.split('@');
+      if (localPart.length > 4) {
+          const shortenedLocalPart = localPart.slice(0, 4) + '...';
+          return `${shortenedLocalPart}@${domain}`;
+      } else {
+          return email;
+      }
+  } catch (error) {
+      return "Invalid email address";
+  }
+}
+
+  logout(){
+    this.tokenService.removeTokens()
+    this.authService.logout()
   }
 }

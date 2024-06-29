@@ -64,30 +64,36 @@
                             <div class="flex-col">
                                 <span class="mb-10 price">{{order.checkOutId}}</span>
                                 <hr>
-                                <div style="justify-content: flex-start;gap:5px" class="flex-row-sb">
+                                <div class="orders-panel flex-row-sb">
                                     <ng-container *ngFor="let sortedOrder of order.orders">
-                                        <div class="order-thumb brd-rd5">
-                                            <a href="#" title="" itemprop="url"><img
-                                                    src="{{serverUrl}}{{sortedOrder.menu?.attachments[0].replace('//', '/').replace('public','')}}"
-                                                    alt="order-img1.jpg" itemprop="image"></a>
-                                            <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i>
-                                                4.25</span>
-                                        </div>
-                                        <div class="order-info">
-                                            <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
-                                            <h4 itemprop="headline"><a href="#" title=""
-                                                    itemprop="url">{{sortedOrder?.menu?.name}} X
-                                                    {{sortedOrder?.units}}</a></h4>
-
-
-                                            <span class="processing brd-rd3">{{sortedOrder?.status}}</span>
+                                        <div class="flex-row-sb">
+                                            <div class="zoom order-thumb brd-rd5">
+                                                <a href="#" title="" itemprop="url"><img
+                                                        src="{{serverUrl}}{{sortedOrder.menu?.attachments[0].replace('//', '/').replace('public','')}}"
+                                                        alt="order-img1.jpg" itemprop="image"></a>
+                                                <span (click)="rateMenu(sortedOrder?.menu)" class="post-rate yellow-bg brd-rd2"><i [ngClass]="sortedOrder?.menu?.iRated ? 'fa-star' : 'fa-star-o'" class="fa"></i>
+                                                    {{sortedOrder?.menu?.ratings?.toFixed(2)}}</span>
+                                            </div>
+                                            <div class="order-info">
+                                                <span class="red-clr nowrap-txt">GCMA STREET, ANYAA, GHANA</span>
+                                                <h4 itemprop="headline"><a class="nowrap-txt" href="#" title=""
+                                                        itemprop="url">{{sortedOrder?.menu?.name}} X
+                                                        {{sortedOrder?.units}}</a></h4>
+    
+                                                <span class="food-types">Extras:
+                                                    <ng-container *ngFor="let extra of sortedOrder?.menu?.menuItems;">
+                                                        <a href="#" title="" itemprop="url">{{extra?.name}}</a>,
+                                                    </ng-container>
+                                                </span>
+                                                <span class="processing brd-rd3">{{sortedOrder?.status}}</span>
+                                            </div>
                                         </div>
                                     </ng-container>
                                 </div>
-                                <span style="margin-top: 15px;" class="">{{formatUserFriendlyDate(order?.date)}}</span>
-
-                                <span class="price">Grand Total: <span class="prices">GHC
-                                        {{order.grandTotal}}</span></span>
+                                <span style="margin-top: 15px; font-weight: 600;" class="">{{formatUserFriendlyDate(order?.date)}}</span>
+                                <!-- <hr style="height:1px;width:19.5vw;align-self:end;background: orangered;"> -->
+                                <span class="price grand-total">Grand Total: <span class="prices">GHC
+                                        {{parseFloat(order?.grandTotal?.toFixed(2))?.toLocaleString()}}</span></span>
 
                             </div>
                         </div>
@@ -112,6 +118,7 @@
             </div>
         </div>
         <app-footer></app-footer>
+        <app-ratings (ratingChanged)="ratingChanged($event)" [menuToRate]="menuToRate"></app-ratings>
     </main>
 </body>
 
