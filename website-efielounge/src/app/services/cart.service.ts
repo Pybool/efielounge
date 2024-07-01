@@ -3,38 +3,39 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  public cartItemCount: number = 0;
-  public cartItemCount$: any = new BehaviorSubject(0);
+  private cartCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   
-  constructor(private http: HttpClient, private router: Router,private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
-  setCartItemCount(count: number) {
-    this.cartItemCount = count;
-    this.cartItemCount$.next(this.cartItemCount);
-    console.log("Cart count ", count)
-    window.localStorage.setItem('efl-cnt', count.toString());
+  setCartCount(count: number): void {
+    this.cartCountSubject.next(count);
   }
 
-  getCartItemCount(obs=true) {
-    
-    if(obs){
-      return this.cartItemCount$.asObservable();
-    }else{
-      return Number(window.localStorage.getItem('efl-cnt')) || 0;
-    }
-    
+  getCartCount(): Observable<number> {
+    return this.cartCountSubject.asObservable();
   }
 
-  addToCart(payload: { menu: string; units: number }) {
-    return this.http.post(
-      `${environment.api}/api/v1/cart/add-to-cart`,
-      payload
+  addToCart(payload: { menu: string; units: number }): Observable<any> {
+    return this.http.post(`${environment.api}/api/v1/cart/add-to-cart`, payload).pipe(
+      tap((res:any) => {
+        const currentCount = this.cartCountSubject.value;
+        console.log("Res ", res)
+        if(!res?.isMerged){
+          this.cartCountSubject.next( 1);
+        }
+        
+      }),
+      catchError((error) => {
+        // Handle the error as needed
+        console.error('Add to cart failed', error);
+        throw error;
+      })
     );
   }
 

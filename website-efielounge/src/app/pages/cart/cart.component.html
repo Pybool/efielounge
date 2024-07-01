@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <title>Food Ordering HTML Template</title>
+    <title>Efielounge | Food Ordering</title>
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
 
 
     <link rel="stylesheet" href="/assets/css/icons.min.css">
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrapv2.min.css">
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/red-color.css">
     <link rel="stylesheet" href="/assets/css/yellow-color.css">
@@ -24,26 +24,14 @@
     <main>
         <app-preloader></app-preloader>
         <app-header></app-header>
-        <section>
-            <div class="block">
-                <div class="fixed-bg" style="background-image: url(/assets/images/topbg.jpg);"></div>
-                <div class="page-title-wrapper text-center">
-                    <div class="col-md-12 col-sm-12 col-lg-12">
-                        <div class="page-title-inner">
-                            <h1 itemprop="headline">Cart</h1>
-                            <span>Discover the best of world cuisine</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+     
 
-        <div class="tab-pane">
+        <div style="margin-top: 60px;" class="tab-pane">
             <div class="tabs-wrp brd-rd5">
                 <h4 itemprop="headline">MY CART</h4>
                 <div style="color:orangered">{{showCartMessage}}</div>
                 <div style="flex-wrap: wrap;" class="order-list x-flex-row col-md-12 col-sm-12 col-lg-12">
-                    
+                    <app-empty-cart *ngIf="cartItems.length == 0" class="container"></app-empty-cart>
                     <ng-container *ngFor="let cartItem of cartItems">
                         <div class="order-item brd-rd5 zoom col-md-3 col-sm-12 col-lg-3">
                             <div class="order-thumb brd-rd5">
@@ -68,11 +56,14 @@
                                                                         <div (click)="toggleRemoveFromCartModal(cartItem?.menu?.name, cartItem?._id)" class="remove-from-cart"><i
                                                                                 class="fa fa-trash"></i></div>
                                                                     </div>
-                                <h4 itemprop="headline"><a href="#" title="" itemprop="url">{{cartItem?.menu?.name}}</a>
+                                <h4 itemprop="headline"><a style="white-space: nowrap;" href="#" title="" itemprop="url">{{cartItem?.menu?.name}}</a>
                                 </h4>
 
-                                <span class="price">{{cartItem?.menu?.currency}} {{cartItem?.menu?.price}}</span>
-                                <span class="processing brd-rd3">PROCESSING</span>
+                                <span style="white-space: nowrap;" class="">{{cartItem?.menu?.price }}/unit</span>
+                                <div style="margin-top: 10px;">
+                                    <span style="font-size: 16px;" class="processing brd-rd3">{{cartItem?.menu?.currency}} {{cartItem?.menu?.price * cartItem?.units}}</span>
+
+                                </div>
                                 
                             </div>
 
@@ -81,9 +72,9 @@
                     
                 </div>
             </div>
-            <div (click)="checkOut()" class="x-flex-row brd-rd2 checkout">
+            <div *ngIf="cartItems.length > 0" (click)="checkOut()" class="x-flex-row brd-rd2 checkout">
                 <div *ngIf="showCheckOutSpinner" class="spinner"></div>
-                <a class="brd-rd2"  href="javascript:void(0)" title="" itemprop="url">Checkout</a>
+                <a  class="brd-rd2"  href="javascript:void(0)" title="" itemprop="url">Checkout</a>
             </div>
 
         </div>

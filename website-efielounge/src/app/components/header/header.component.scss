@@ -62,7 +62,7 @@ ul li :hover {
 
 .account {
   font-weight: 700;
-  color: orange;
+  color: slategray;
   white-space: nowrap;
 }
 
@@ -92,3 +92,28 @@ ul {
     padding-right: 10px !important;
   }
 }
+
+li.cart {
+  position: relative;
+}
+
+li.cart a {
+  position: relative;
+  display: inline-block;
+  padding-right: 20px; /* Adjust padding to ensure the badge doesn't overlap the text */
+}
+
+.badge {
+  position: absolute;
+  top: 17px;
+  right: 0;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 0.25em 0.45em;
+  font-weight: bold;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+}
+

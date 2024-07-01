@@ -63,7 +63,7 @@ export class UploadReceiptComponent {
   }
 
   selectFile() {
-    const fileChooser: any = document.querySelector('input[type="file"]'); // Target file input specifically
+    const fileChooser: any = document.querySelector('.upload-receipt'); // Target file input specifically
     fileChooser?.click();
   }
 

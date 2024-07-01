@@ -24,6 +24,30 @@ export class AccountService {
     }
   }
 
+  static async uploadAvatar(req: Xrequest) {
+    try {
+    
+      let account: any = await Accounts.findOne({ _id: req.accountId });
+      if (!account) {
+        throw createError.NotFound("Account was not found");
+      }
+      
+      if(req?.attachments?.length > 0){
+        account.avatar = req.attachments[0].replaceAll("/public", "")
+      }
+    
+      account = await account.save();
+      return {
+        status: true,
+        data: account,
+        message: "Avatar updated successfully..",
+      };
+    } catch (error) {
+      console.log(error);
+      return { status: false, message: "Profile update failed.." };
+    }
+  }
+
   static async saveUserProfile(req: Xrequest) {
     try {
       const patchData = JSON.parse(req.body.data);

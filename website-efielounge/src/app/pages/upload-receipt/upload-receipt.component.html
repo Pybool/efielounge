@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <title>Food Ordering HTML Template</title>
+    <title>Efielounge | Food Ordering</title>
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
 
 
     <link rel="stylesheet" href="/assets/css/icons.min.css">
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrapv2.min.css">
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/red-color.css">
     <link rel="stylesheet" href="/assets/css/yellow-color.css">
@@ -31,7 +31,7 @@
                 <div *ngIf="!fileName" class="drop_box">
                     <h4>Select File here</h4>
                     <p>Files Supported: PDF, TEXT, DOC , DOCX, PNG, JPG, JPEG</p>
-                    <input (change)="onFileChange($event)" type="file" hidden accept=".doc,.docx,.pdf,.jpg,.png,.jpeg,.PNG" id="fileID"
+                    <input class="upload-receipt" (change)="onFileChange($event)" type="file" hidden accept=".doc,.docx,.pdf,.jpg,.png,.jpeg,.PNG" id="fileID"
                         style="display:none;">
                     <button (click)="selectFile()" class="btn">Choose File</button>
                 </div>

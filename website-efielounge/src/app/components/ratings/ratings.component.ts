@@ -106,7 +106,7 @@ export class RatingsComponent {
         .subscribe(
           (response: any) => {
             if (response.status) {
-              this.ratingChanged.emit(this.selectedRating!);
+              this.ratingChanged.emit(response.data.rating);
               this.showModal = false;
               Swal.fire(response.message);
               this.showModal = true;

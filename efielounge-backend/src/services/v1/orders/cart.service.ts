@@ -46,15 +46,31 @@ export class CartService {
           code: 400,
         };
       }
-      cartPayload.account = account._id;
-      cartPayload.createdAt = new Date();
-      const cartItem = await Cart.create(cartPayload);
+      const exists = await Cart.findOne({account: req.accountId, menu: cartPayload.menu});
+      if(!exists){
+        cartPayload.account = account._id;
+        cartPayload.createdAt = new Date();
+        const cartItem = await Cart.create(cartPayload);
+        return {
+          status: true,
+          message: "Menu added to cart succesfully",
+          isMerged: false,
+          data: cartItem,
+          code: 200,
+        };
+      }
+      exists.updatedAt = new Date();
+      exists.units = exists.units + cartPayload.units;
+      const mergedMenu = await exists.save()
       return {
         status: true,
-        message: "Menu added to cart succesfully",
-        data: cartItem,
+        message: "Merged menu units in your cart",
+        isMerged: true,
+        data: mergedMenu,
         code: 200,
       };
+      
+      
     } catch (error: any) {
       throw error;
     }

@@ -77,6 +77,7 @@ export class Menuservice {
       for (const menu of menus) {
         menu.ratings = await Menuservice.computeRating(menu._id.toString());
         menu.likes = await MenuLikes.countDocuments({ menuId: menu._id });
+        
       }
       return {
         status: true,

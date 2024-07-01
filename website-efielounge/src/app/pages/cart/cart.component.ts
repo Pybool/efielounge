@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { RemoveFromCartComponent } from '../../components/remove-from-cart/remove-from-cart.component';
 import { Router } from '@angular/router';
+import { EmptyCartComponent } from '../../components/empty-cart/empty-cart.component';
 
 @Component({
   selector: 'app-cart',
@@ -18,8 +19,9 @@ import { Router } from '@angular/router';
     FooterComponent,
     CommonModule,
     RemoveFromCartComponent,
+    EmptyCartComponent
   ],
-  providers: [CartService],
+  providers: [],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })
@@ -94,6 +96,7 @@ export class CartComponent {
   handleConfirmEvent() {
     console.log('Cart Item removed from cart ', this.removal.name);
     this.deleteObjectById(this.removal._id);
+    this.cartService.setCartCount( -1)
   }
 
   addQty(cartItem: any) {

@@ -21,13 +21,14 @@ dotenvConfig();
 dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
 
 const SERVER_URL = "0.0.0.0";
-// app.use(cors);
-app.use(cors({
-  origin: '*', // Allows all origins
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed methods
-  allowedHeaders: 'Content-Type,Authorization', // Allowed headers
-  optionsSuccessStatus: 204 // For legacy browser support
-}));
+
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(

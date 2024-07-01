@@ -7,7 +7,7 @@ const CartSchema = new Schema({
     ref: "accounts",
     required: false,
   },
-  menu:{
+  menu: {
     type: Schema.Types.ObjectId,
     ref: "menu",
     required: true,
@@ -17,16 +17,20 @@ const CartSchema = new Schema({
     default: 1,
     required: false,
   },
-  customMenuItems: 
-    {
-      type: [Schema.Types.ObjectId],
-      ref: "menuitem",
-      required: false,
-    },
+  customMenuItems: {
+    type: [Schema.Types.ObjectId],
+    ref: "menuitem",
+    required: false,
+  },
   createdAt: {
     type: Date,
-    required: true
-  }
+    required: true,
+  },
+
+  updatedAt: {
+    type: Date,
+    required: false,
+  },
 });
 
 const Cart = mongoose.model("cart", CartSchema);

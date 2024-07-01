@@ -98,11 +98,6 @@ export class SearchResultComponentComponent implements OnDestroy {
         .pipe(take(1))
         .subscribe(
           (response: any) => {
-            if (response.status) {
-              const count = this.cartService.getCartItemCount(false);
-              this.cartService.setCartItemCount(units + count);
-            }
-
             alert(response.message);
           },
           (error: any) => {

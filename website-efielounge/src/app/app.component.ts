@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { CartService } from './services/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { AuthService } from './services/auth.service';
   imports: [RouterOutlet, HttpClientModule],
   providers: [
     HttpClientModule,
-    AuthService
+    AuthService,
+    CartService
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

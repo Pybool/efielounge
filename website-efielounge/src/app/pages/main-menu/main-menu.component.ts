@@ -82,21 +82,11 @@ export class MainMenuComponent implements OnDestroy {
         .pipe(take(1))
         .subscribe(
           (response: any) => {
-            if (response.status) {
-              const count = this.cartService.getCartItemCount(false);
-              this.cartService.setCartItemCount(units + count);
-            }
-
             alert(response.message);
           },
           (error: any) => {
             console.log('error ', error, Object.keys(error));
-            if ([401].includes(error.status)) {
-              this.authService.navigateToUrl('/login');
-            }
-            else{
-              alert("Something went wrong while peforming your request")
-            }
+            
           }
         );
     } else {

@@ -7,6 +7,8 @@ import CheckOut from "../../../models/Checkout/checkoutIntent.model";
 import mailActions from "../Mail/mail.service";
 import Accounts from "../../../models/Accounts/accounts.model";
 import MenuRatings from "../../../models/menu/ratings.model";
+import { Menuservice } from "../menu/menu.service";
+import MenuLikes from "../../../models/menu/likes.model";
 
 async function checkIfIRated(account:string, menuId:string){
   const exists = await MenuRatings.findOne({ account, menu: menuId })!;
@@ -79,8 +81,8 @@ export class OrderService {
       // Fetch all orders for the user
       let userOrders;
       let allOrders;
-      let populatedUserTopOrderedMenu;
-      let populatedOverallTopOrderedMenu;
+      let populatedUserTopOrderedMenu:any =[];
+      let populatedOverallTopOrderedMenu:any =[];
 
       if (accountId) {
         userOrders = await Order.find({ account: accountId })
@@ -126,14 +128,22 @@ export class OrderService {
         );
       }
 
+      const rateAndLike = (async(arr:any[])=>{
+        for (const menu of arr!) {
+          menu.ratings = await Menuservice.computeRating(menu._id.toString());
+          menu.likes = await MenuLikes.countDocuments({ menuId: menu._id });
+        }
+      })
+
       if (accountId) {
+        await rateAndLike(populatedUserTopOrderedMenu)
         return {
           status: true,
           data: populatedUserTopOrderedMenu,
           code: 200,
         };
       }
-
+      await rateAndLike(populatedOverallTopOrderedMenu)
       return {
         status: true,
         data: populatedOverallTopOrderedMenu,
@@ -204,6 +214,7 @@ export class OrderService {
       }
       data.account = req.accountId!;
       const rating = await MenuRatings.create(data);
+      rating.rating = await Menuservice.computeRating(canRate?.menu._id.toString())
       return {
         status: true,
         message: `Thank you for rating ${canRate?.menu?.name}`,

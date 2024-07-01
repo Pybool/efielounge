@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 
@@ -15,11 +15,11 @@ export class AuthService {
   loggedIn$: any = new BehaviorSubject(false);
   vendorSubscription: boolean = false;
   vendorSubscription$: any = new BehaviorSubject(false);
-  
+
   constructor(
     private http: HttpClient,
     private router: Router,
-    private cookieService: CookieService,
+    private cookieService: CookieService
   ) {}
 
   setLoggedIn(status: boolean) {
@@ -40,23 +40,46 @@ export class AuthService {
   }
 
   sendPasswordResetOtp(email: any) {
-    return this.http.post(`${environment.api}/api/v1/auth/send-password-reset-otp`, {email});
+    return this.http.post(
+      `${environment.api}/api/v1/auth/send-password-reset-otp`,
+      { email }
+    );
   }
 
   resetPassword(payload: any) {
-    return this.http.post(`${environment.api}/api/v1/auth/reset-password`, payload);
+    return this.http.post(
+      `${environment.api}/api/v1/auth/reset-password`,
+      payload
+    );
   }
 
   resendOtp(user: any) {
-    return this.http.post(`${environment.api}/api/v1/auth/resend-email-verification-otp`, user);
+    return this.http.post(
+      `${environment.api}/api/v1/auth/resend-email-verification-otp`,
+      user
+    );
   }
 
-  verifyAccount(payload: {email:string, otp:string | number}) {
-    return this.http.put(`${environment.api}/api/v1/auth/verify-account`, payload);
+  verifyAccount(payload: { email: string; otp: string | number }) {
+    return this.http.put(
+      `${environment.api}/api/v1/auth/verify-account`,
+      payload
+    );
   }
 
   updateProfile(user: any) {
     return this.http.put(`${environment.api}/api/v1/auth/user-profile`, user);
+  }
+
+  retrieveToken(tokenKey: string) {
+    if (
+      this.cookieService.get(tokenKey) &&
+      this.cookieService.get(tokenKey) != ''
+    ) {
+      return this.cookieService.get(tokenKey);
+    } else {
+      return window.localStorage.getItem(tokenKey);
+    }
   }
 
   refresh() {
@@ -96,15 +119,21 @@ export class AuthService {
     return this.router.navigateByUrl('/login');
   }
 
-  retrieveToken(tokenKey: string) {
-    if (
-      this.cookieService.get(tokenKey) &&
-      this.cookieService.get(tokenKey) != ''
-    ) {
-      return this.cookieService.get(tokenKey);
-    } else {
-      return window.localStorage.getItem(tokenKey);
-    }
+  uploadAvatar(formData: any) {
+    return this.http.post(
+      `${environment.api}/api/v1/accounts/upload-avatar`,
+      formData
+    ).pipe(
+      tap((res:any) => {
+        if(res.status){
+          this.storeUser(res?.data)
+        }
+      }),
+      catchError((error) => {
+        console.error('Avatar update failed', error);
+        throw error;
+      })
+    );
   }
 
   removeToken() {
