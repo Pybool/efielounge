@@ -88,18 +88,25 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './categories-list.component.scss',
 })
 export class CategoriesListComponent {
-  public categories: any[] = []
+  public categories: any[] = [];
 
   public name: string = '';
 
+  public selectedCategory: any = {};
+
+  public categoryIndex: number = 0;
+
   constructor(private categoryService: CategoryService) {}
 
-  ngOnInit(){
-    this.categoryService.fetchCategories().pipe(take(1)).subscribe((response:any)=>{
-      if(response.status){
-        this.categories = response.data;
-      }
-    })
+  ngOnInit() {
+    this.categoryService
+      .fetchCategories()
+      .pipe(take(1))
+      .subscribe((response: any) => {
+        if (response.status) {
+          this.categories = response.data;
+        }
+      });
   }
 
   createCategory() {
@@ -107,11 +114,49 @@ export class CategoriesListComponent {
       .createCategory({ name: this.name })
       .pipe(take(1))
       .subscribe((response: any) => {
-        if(response.status){
-          this.categories.unshift(response.data)
+        if (response.status) {
+          this.categories.unshift(response.data);
         }
-        Swal.fire(response.message)
-
+        Swal.fire(response.message);
       });
+  }
+
+  setcategoryToEdit(index: number) {
+    this.categoryIndex = index;
+    console.log(this.categoryIndex);
+    this.selectedCategory = this.categories[this.categoryIndex];
+  }
+
+  editMenuCategory() {
+    console.log(this.selectedCategory);
+    this.categoryService
+      .editMenuCategory({
+        _id: this.selectedCategory._id,
+        name: this.selectedCategory.name,
+      })
+      .pipe(take(1))
+      .subscribe((response: any) => {
+          alert(response.message)
+      },((error:any)=>{
+        alert("Something went wrong")
+      }));
+  }
+
+  archiveCategory(index:number, archive:number=1){
+
+    this.setcategoryToEdit(index)
+    this.categoryIndex = index;
+    this.categoryService
+      .archiveMenuCategory({
+        _id: this.selectedCategory._id,
+        archive: archive
+      })
+      .pipe(take(1))
+      .subscribe((response: any) => {
+        this.categories = this.categories.filter((element, idx) => idx !== index);
+          alert(response.message)
+      },((error:any)=>{
+        alert("Something went wrong")
+      }));
   }
 }

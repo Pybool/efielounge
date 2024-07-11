@@ -1401,7 +1401,6 @@ h3.marginb-0 {margin-bottom: 0;}
 }
 .post-likes {
   position: absolute;
-  bottom: 20px;
   right: 20px;
   background-color: #191919;
   color: #fff;
@@ -1411,6 +1410,11 @@ h3.marginb-0 {margin-bottom: 0;}
   padding: 8px 9px;
   z-index: 1;
 }
+
+.post-likes{
+  top: 40%!important;
+}
+
 .popular-dish-info {
     background: #f9f9f9 none repeat scroll 0 0;
     float: left;
@@ -7188,3 +7192,25 @@ nav > div > ul {
 .swal2-title{
   font-size: 17px!important;
 }
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  /* Styles for tablets */
+  
+  .bread-crumbs-wrapper{
+    padding-left: 40px;
+  }
+  
+}
+
+/* Large Devices, Desktops (992px to 1199px) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* Styles for desktops */
+  .main-section{
+    margin-top: 200px!important;
+  }
+
+  
+}
+
+

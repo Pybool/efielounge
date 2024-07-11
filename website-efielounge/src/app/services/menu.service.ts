@@ -15,24 +15,24 @@ export class MenuService {
     );
   }
 
-  searchMenu(searchString:string){
-    let url = `${environment.api}/api/v1/menu/search-menu?searchString=${searchString}`;
+  searchMenu(page:number, pageSize:number, searchString:string){
+    let url = `${environment.api}/api/v1/menu/search-menu?searchString=${searchString}&page=${page}&limit=${pageSize}`;
     return this.http.get(url);
   }
 
-  fetchMenu(params: any) {
-    let url = `${environment.api}/api/v1/menu/fetch-menu`;
+  fetchMenu(page:number, pageSize:number,params: any) {
+    let url = `${environment.api}/api/v1/menu/fetch-menu?page=${page}&limit=${pageSize || params.limit}`;
     if (
       Object.keys(params).includes('field') &&
       Object.keys(params).includes('filter')
     ) {
-      url = `${environment.api}/api/v1/menu/fetch-menu?field=${params.field}&filter=${params.filter}`;
+      url = `${environment.api}/api/v1/menu/fetch-menu?field=${params.field}&filter=${params.filter}&page=${page}&limit=${pageSize || params.limit}`;
     }
     if (
       Object.keys(params).includes('status') &&
       Object.keys(params).includes('limit')
     ) {
-      url = `${environment.api}/api/v1/menu/fetch-menu?field=status&filter=${params.status}&limit=${params.limit}`;
+      url = `${environment.api}/api/v1/menu/fetch-menu?field=status&filter=${params.status}&page=${page}&limit=${pageSize || params.limit}`;
     }
     return this.http.get(url);
   }

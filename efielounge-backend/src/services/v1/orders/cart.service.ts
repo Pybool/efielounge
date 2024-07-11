@@ -1,3 +1,4 @@
+import { addTransactionSupport } from "ioredis/built/transaction";
 import Xrequest from "../../../interfaces/extensions.interface";
 import Accounts from "../../../models/Accounts/accounts.model";
 import CheckOut from "../../../models/Checkout/checkoutIntent.model";
@@ -6,6 +7,7 @@ import Menu from "../../../models/menu/menu.model";
 import Cart from "../../../models/Orders/cart.model";
 import PaymentProof from "../../../models/transactions/paymentProofs.model";
 import { OrderService } from "./orders.service";
+import Transaction from "../../../models/transactions/transactions.model";
 const crypto = require("crypto"); // Assuming you're using Node.js
 
 export class CartService {
@@ -322,7 +324,7 @@ export class CartService {
         cart: checkOutIntent.cart,
         status: checkOutIntent.status
       }
-      await OrderService.createOrder(checkOutIntentMod)
+      await OrderService.createOrder(checkOutIntentMod);
       
       return {
         status: true,
@@ -332,6 +334,42 @@ export class CartService {
       };
     } catch (error: any) {
       console.log(error);
+      throw error;
+    }
+  }
+
+  static async saveTransaction(req:Xrequest){
+    try{
+      const payload = req.body
+      payload.createdAt = new Date()
+      let checkOutIntent = await CheckOut.findOne({
+        account: req.accountId,
+        checkOutId: payload.checkOutId,
+      });
+
+      if (!checkOutIntent) {
+        return {
+          status: false,
+          message: "No such payment reference exists on your account",
+          code: 404,
+        };
+      }
+      const checkOutIntentMod = {
+        account: checkOutIntent.account,
+        checkOutId: checkOutIntent.checkOutId,
+        cart: checkOutIntent.cart,
+        status: checkOutIntent.status
+      }
+      await OrderService.createOrder(checkOutIntentMod);
+      const transaction = await Transaction.create(payload);
+      return {
+        status: true,
+        message: "Transaction created & saved",
+        data: transaction,
+        code: 201
+      }
+
+    }catch(error:any){
       throw error;
     }
   }

@@ -38,29 +38,10 @@ export const navItems: any = [
   {
     name: 'Orders',
     url: '/orders',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cil-speedometer' },
     badge: {
       color: 'info',
-      text: 'COMING SOON',
     },
-    children: [
-      {
-        name: 'Pending Orders',
-        url: '/',
-        icon: 'nav-icon-bullet',
-      },
-      {
-        name: 'Processing Orders',
-        url: '/',
-        icon: 'nav-icon-bullet',
-      },
-      {
-        name: 'Completed Orders',
-        url: '/',
-        icon: 'nav-icon-bullet',
-      },
-      
-    ],
   },
   {
     name: 'Users',

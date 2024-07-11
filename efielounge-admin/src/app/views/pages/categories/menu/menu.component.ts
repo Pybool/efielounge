@@ -89,6 +89,8 @@ export class MenuComponent {
   public menuCategories: any[] = [];
   public menuItems: any[] = [];
   public statuses:string[] = ["Cooking", "Ready", "You're Too Late"]
+  public selectedMenu:any = {}
+  public menuIndex:number = 0;
   
   constructor(private categoryService: CategoryService) {}
 
@@ -154,8 +156,65 @@ export class MenuComponent {
       });
   }
 
-  // createMenuItem() {
-  //   console.log(this.form);
+  setMenuToEdit(index: number) {
+    this.menuIndex = index;
+    this.selectedMenu = JSON.parse(JSON.stringify(this.menus[this.menuIndex]));
+    this.selectedMenu.category = this.selectedMenu.category._id
+    console.log(this.selectedMenu);
+  }
 
-  // }
+  setCategory($event:any){
+    this.selectedMenu.category = $event.target.value;
+    console.log("Category ", this.selectedMenu.category)
+  }
+
+  cleanPayload(){
+    delete this.selectedMenu.attachments;
+    delete this.selectedMenu.archive;
+    delete this.selectedMenu.__v;
+    delete this.selectedMenu.iLiked;
+    delete this.selectedMenu.iRated;
+    delete this.selectedMenu.inCart;
+    delete this.selectedMenu.likes;
+    delete this.selectedMenu.ratings;
+    delete this.selectedMenu.slug;
+  }
+
+  editMenu() {
+    this.cleanPayload()
+    console.log(this.selectedMenu);
+    this.categoryService
+      .editMenu(this.selectedMenu)
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          alert(response.message);
+        },
+        (error: any) => {
+          alert('Something went wrong');
+        }
+      );
+  }
+
+  archiveMenu(index: number, archive: number = 1) {
+    this.setMenuToEdit(index);
+    this.menuIndex = index;
+    this.categoryService
+      .archiveMenu({
+        _id: this.selectedMenu._id,
+        archive: archive,
+      })
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          this.menus = this.menus.filter(
+            (element, idx) => idx !== index
+          );
+          alert(response.message);
+        },
+        (error: any) => {
+          alert('Something went wrong');
+        }
+      );
+  }
 }

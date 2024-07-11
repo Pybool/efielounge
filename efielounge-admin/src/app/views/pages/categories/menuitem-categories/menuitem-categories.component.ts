@@ -94,6 +94,10 @@ export class MenuitemCategoriesComponent {
 
   public name: string = '';
 
+  public selectedMenuItemCategory:any = {}
+
+  public menuItemCategoryIndex:number = 0
+
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(){
@@ -115,5 +119,44 @@ export class MenuitemCategoriesComponent {
         Swal.fire(response.message)
 
       });
+  }
+
+  setMenuItemCategoryToEdit(index: number) {
+    this.menuItemCategoryIndex = index;
+    console.log(this.menuItemCategoryIndex);
+    this.selectedMenuItemCategory = this.categories[this.menuItemCategoryIndex];
+  }
+
+  editMenuItemCategory() {
+    console.log(this.selectedMenuItemCategory);
+    this.categoryService
+      .editMenuItemCategory({
+        _id: this.selectedMenuItemCategory._id,
+        name: this.selectedMenuItemCategory.name,
+      })
+      .pipe(take(1))
+      .subscribe((response: any) => {
+          alert(response.message)
+      },((error:any)=>{
+        alert("Something went wrong")
+      }));
+  }
+
+  archiveMenuItemCategory(index:number, archive:number=1){
+
+    this.setMenuItemCategoryToEdit(index)
+    this.menuItemCategoryIndex = index;
+    this.categoryService
+      .archiveMenuItemCategory({
+        _id: this.selectedMenuItemCategory._id,
+        archive: archive
+      })
+      .pipe(take(1))
+      .subscribe((response: any) => {
+        this.categories = this.categories.filter((element, idx) => idx !== index);
+          alert(response.message)
+      },((error:any)=>{
+        alert("Something went wrong")
+      }));
   }
 }

@@ -24,11 +24,11 @@
     <main>
         <app-preloader></app-preloader>
         <app-header></app-header>
-     
 
-        <div style="margin-top: 60px;" class="tab-pane">
+
+        <div style="margin-top: 100px;" class="tab-pane main-section">
             <div class="tabs-wrp brd-rd5">
-                <h4 itemprop="headline">MY CART</h4>
+                <h2 style="background: ghostwhite; padding: 20px;font-weight: 700;" itemprop="headline">MY CART</h2>
                 <div style="color:orangered">{{showCartMessage}}</div>
                 <div style="flex-wrap: wrap;" class="order-list x-flex-row col-md-12 col-sm-12 col-lg-12">
                     <app-empty-cart *ngIf="cartItems.length == 0" class="container"></app-empty-cart>
@@ -42,39 +42,39 @@
                                         class="fa fa-star-o"></i>{{cartItem?.menu?.ratings}}</span>
                             </div>
                             <div class="order-info">
-                                <div style="justify-content: space-between;"
-                                                                        class="x-flex-row">
-                                                                        <div style="gap:2px" class="number x-flex-row">
-                                                                            <span (click)="subQty(cartItem)" class="minus">-</span>
-                                                                            <input disabled class="number-input"
-                                                                                value="{{cartItem?.units}}"
-                                                                                name="units" min="1" max="10"
-                                                                                type="number" />
-                                                                            <span (click)="addQty(cartItem)" class="plus">+</span>
-                                                                        </div>
-                                                                        
-                                                                        <div (click)="toggleRemoveFromCartModal(cartItem?.menu?.name, cartItem?._id)" class="remove-from-cart"><i
-                                                                                class="fa fa-trash"></i></div>
-                                                                    </div>
-                                <h4 itemprop="headline"><a style="white-space: nowrap;" href="#" title="" itemprop="url">{{cartItem?.menu?.name}}</a>
+                                <div style="justify-content: space-between;" class="x-flex-row">
+                                    <div style="gap:2px" class="number x-flex-row">
+                                        <span (click)="subQty(cartItem)" class="minus">-</span>
+                                        <input disabled class="number-input" value="{{cartItem?.units}}" name="units"
+                                            min="1" max="10" type="number" />
+                                        <span (click)="addQty(cartItem)" class="plus">+</span>
+                                    </div>
+
+                                    <div (click)="toggleRemoveFromCartModal(cartItem?.menu?.name, cartItem?._id)"
+                                        class="remove-from-cart"><i class="fa fa-trash"></i></div>
+                                </div>
+                                <h4 itemprop="headline"><a style="white-space: nowrap;" href="#" title=""
+                                        itemprop="url">{{cartItem?.menu?.name}}</a>
                                 </h4>
 
                                 <span style="white-space: nowrap;" class="">{{cartItem?.menu?.price }}/unit</span>
                                 <div style="margin-top: 10px;">
-                                    <span style="font-size: 16px;" class="processing brd-rd3">{{cartItem?.menu?.currency}} {{cartItem?.menu?.price * cartItem?.units}}</span>
+                                    <span style="font-size: 16px;"
+                                        class="processing brd-rd3">{{cartItem?.menu?.currency}} {{cartItem?.menu?.price
+                                        * cartItem?.units}}</span>
 
                                 </div>
-                                
+
                             </div>
 
                         </div>
                     </ng-container>
-                    
+
                 </div>
             </div>
             <div *ngIf="cartItems.length > 0" (click)="checkOut()" class="x-flex-row brd-rd2 checkout">
                 <div *ngIf="showCheckOutSpinner" class="spinner"></div>
-                <a  class="brd-rd2"  href="javascript:void(0)" title="" itemprop="url">Checkout</a>
+                <a class="brd-rd2" href="javascript:void(0)" title="" itemprop="url">Checkout</a>
             </div>
 
         </div>

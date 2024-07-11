@@ -9,7 +9,7 @@
   <meta name="description" content="" />
   <meta name="keywords" content="" />
   <title>Efielounge | Food Ordering</title>
-  <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="https://efielounge.com/assets/img/logo.png" type="image/x-icon">
 
 
   <link rel="stylesheet" href="/assets/css/icons.min.css">
@@ -25,7 +25,7 @@
     <app-preloader></app-preloader>
     <app-header></app-header>
 
-    <section>
+    <section class="main-section" style="margin-top:100px">
       <div class="block blackish opac50">
         <div class="banner" style="background-image: url(assets/images/parallax2.jpg);"></div>
         <div class="restaurant-searching style2 text-center">
@@ -54,18 +54,18 @@
                   <h2 itemprop="headline">Choose & Enjoy</h2>
                 </div>
               </div>
-              <div class="row">
+              <div class="ready-row row">
                 <ng-container *ngFor="let readyMeal of readyMeals;">
-                  <div class="col-md-4 col-sm-6 col-lg-4">
+                  <div class="col-md-6 col-sm-6 col-lg-4">
                     <div class="popular-dish-box wow fadeIn" data-wow-delay="0.2s">
                       <div class="popular-dish-thumb">
                         <a href="/menu-detail/{{readyMeal?.slug}}" title="" itemprop="url"><img
                             src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}"
                             alt="popular-dish-img1.jpg" itemprop="image" class="img"></a>
-                        <span class="post-rate yellow-bg brd-rd2"><i
-                            class="fa" [ngClass]="readyMeal?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                        <span class="post-rate yellow-bg brd-rd2"><i class="fa"
+                            [ngClass]="readyMeal?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                           {{readyMeal?.ratings?.toFixed(2)}}</span>
-                        <span (click)="likeMenu(readyMeal?._id)"
+                        <span style="top:75%!important" (click)="likeMenu(readyMeal?._id)"
                           [ngStyle]="{'color': readyMeal?.iLiked ? 'white' : 'gray'}" class="post-likes brd-rd4"><i
                             [ngStyle]="{'color': readyMeal?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
                           {{readyMeal?.likes}}</span>
@@ -78,7 +78,8 @@
                         <span class="price">GHC {{readyMeal.price}}</span>
                         <a *ngIf="readyMeal.inCart"
                           [ngStyle]="{'background-color': readyMeal.inCart ? 'orange' : 'black'}" class="brd-rd2 order"
-                          href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                          href="javascript:void(0)" (click)="addToCart(readyMeal?._id)" title="Order Again"
+                          itemprop="url">Order Again</a>
 
                         <a *ngIf="!readyMeal.inCart" class="brd-rd2" (click)="addToCart(readyMeal?._id)"
                           href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
@@ -111,7 +112,7 @@
         </div>
         <div class="row dishes-caro col-md-12">
           <ng-container *ngFor="let comingUp of upcomings;">
-            <div class="dish-item col-md-4">
+            <div class="dish-item col-md-6">
               <figure><img class="img" src="{{serverUrl}}{{comingUp?.attachments[0].replaceAll('/public','')}}" alt="">
               </figure>
               <div class="item-meta">
@@ -128,10 +129,12 @@
                   <span>GHC {{comingUp?.price}}</span>
                 </div>
                 <a *ngIf="comingUp.inCart" [ngStyle]="{'background-color': comingUp.inCart ? 'orange' : 'black'}"
-                  class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                  class="brd-rd2 order" (click)="addToCart(comingUp?._id)" href="javascript:void(0)" title="Order Again"
+                  itemprop="url">Order Again</a>
                 <a *ngIf="!comingUp.inCart" class="brd-rd2 order" (click)="addToCart(comingUp?._id)"
                   href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
-                <span class="post-rate yellow-bg brd-rd2"><i class="fa" [ngClass]="comingUp?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                <span class="post-rate yellow-bg brd-rd2"><i class="fa"
+                    [ngClass]="comingUp?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                   {{comingUp?.ratings?.toFixed(2)}}</span>
                 <span (click)="likeMenu(comingUp?._id)" [ngStyle]="{'color': comingUp?.iLiked ? 'orange' : 'gray'}"
                   class="post-likes style2 red-clr"><i [ngStyle]="{'color': comingUp?.iLiked ? 'orange' : 'gray'}"
@@ -152,7 +155,7 @@
         </div>
         <div class="row dishes-caro col-md-12">
           <ng-container *ngFor="let favourite of favourites;">
-            <div class="dish-item col-md-4">
+            <div class="dish-item col-md-6">
               <figure><img class="img" src="{{serverUrl}}{{favourite?.attachments[0].replaceAll('/public','')}}" alt="">
               </figure>
               <div class="item-meta">
@@ -167,21 +170,21 @@
                     <h4>{{favourite?.category.name}}</h4>
                     <span>GHC {{favourite?.price}}</span>
                   </div> -->
-              <div class="x-flex-row">
+              <div class="loc-btn x-flex-row">
                 <div class="caro-dish-name">
                   <h4>{{favourite?.category.name}}</h4>
                   <span>GHC {{favourite?.price}}</span>
                 </div>
-                <span class="post-rate yellow-bg brd-rd2"><i
-                  class="fa" [ngClass]="favourite?.iRated ? 'fa-star' : 'fa-star-o'"></i>
-                {{favourite?.ratings.toFixed(2)}}</span>
-              <span (click)="likeMenu(favourite?._id)"
-                [ngStyle]="{'color': favourite?.iLiked ? 'orange' : 'gray'}"
-                class="post-likes style2 red-clr"><i
-                  [ngStyle]="{'color': favourite?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
-                {{favourite?.likes}}</span>
+                <span class="post-rate yellow-bg brd-rd2"><i class="fa"
+                    [ngClass]="favourite?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                  {{favourite?.ratings.toFixed(2)}}</span>
+                <span (click)="likeMenu(favourite?._id)" [ngStyle]="{'color': favourite?.iLiked ? 'orange' : 'gray'}"
+                  class="post-likes style2 red-clr"><i [ngStyle]="{'color': favourite?.iLiked ? 'orange' : 'gray'}"
+                    class="fa fa-heart"></i>
+                  {{favourite?.likes}}</span>
                 <a *ngIf="favourite.inCart" [ngStyle]="{'background-color': favourite.inCart ? 'orange' : 'black'}"
-                  class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In Cart</a>
+                  class="brd-rd2 order" (click)="addToCart(favourite?._id)" href="javascript:void(0)"
+                  title="Order Again" itemprop="url">Order Again</a>
                 <a *ngIf="!favourite.inCart" class="brd-rd2 order" (click)="addToCart(favourite?._id)"
                   href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
               </div>
@@ -223,23 +226,27 @@
                               <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
                               <li><i class="flaticon-transport"></i> 30min</li>
                             </ul>
-                            <span  class="post-rate yellow-bg brd-rd2"><i
-                                class="fa" [ngClass]="popular?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                            <span class="post-rate popular-post-rate yellow-bg brd-rd2"><i class="fa"
+                                [ngClass]="popular?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                               {{popular?.ratings.toFixed(2)}}</span>
                             <span (click)="likeMenu(popular?._id)"
                               [ngStyle]="{'color': popular?.iLiked ? 'orange' : 'gray'}"
-                              class="post-likes style2 red-clr"><i
+                              class="post-likes popular-post-likes style2 red-clr"><i
                                 [ngStyle]="{'color': popular?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
                               {{popular?.likes}}</span>
+
+                            <a *ngIf="popular.inCart"
+                              [ngStyle]="{'background-color': popular.inCart ? 'orange' : 'black'}"
+                              class="brd-rd2 order" (click)="addToCart(popular?._id)" href="javascript:void(0)"
+                              title="Order Again" itemprop="url">View In
+                              Cart</a>
+                            <a *ngIf="!popular.inCart" style="margin-bottom: 10px;" class="brd-rd2 order"
+                              (click)="addToCart(popular?._id)" href="javascript:void(0)" title="Order Now"
+                              itemprop="url">Order Now</a>
                           </div>
 
                         </div>
-                        <a *ngIf="popular.inCart" [ngStyle]="{'background-color': popular.inCart ? 'orange' : 'black'}"
-                          class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View In
-                          Cart</a>
-                        <a *ngIf="!popular.inCart" style="margin-bottom: 10px;" class="brd-rd2 order"
-                          (click)="addToCart(popular?._id)" href="javascript:void(0)" title="Order Now"
-                          itemprop="url">Order Now</a>
+
                       </ng-container>
 
                     </div><!-- Featured Restaurants List -->
@@ -309,17 +316,18 @@
                               <li><i class="flaticon-transport"></i> 30min</li>
                               <li><i class="flaticon-money"></i> Accepts cash & online payments</li>
                             </ul>
-                            <span  class="post-rate yellow-bg brd-rd2"><i
-                                class="fa" [ngClass]="filteredMenu?.iRated ? 'fa-star' : 'fa-star-o'"></i>
+                            <span class="post-rate yellow-bg brd-rd2"><i class="fa"
+                                [ngClass]="filteredMenu?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                               {{filteredMenu?.ratings?.toFixed(2)}}</span>
                             <span (click)="likeMenu(filteredMenu?._id)"
                               [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}"
-                              class="post-likes style2 red-clr"><i
+                              class="post-likes style2 filter-likes red-clr"><i
                                 [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
                               {{filteredMenu?.likes}}</span>
                             <a *ngIf="filteredMenu.inCart" style="float:left;"
                               [ngStyle]="{'background-color': filteredMenu.inCart ? 'orange' : 'black'}"
-                              class="brd-rd2 order" href="javascript:void(0)" title="View In Cart" itemprop="url">View
+                              class="brd-rd2 order" (click)="addToCart(filteredMenu?._id)" href="javascript:void(0)"
+                              title="Order Again" itemprop="url">View
                               In Cart</a>
                             <a *ngIf="!filteredMenu.inCart" class="brd-rd5" (click)="addToCart(filteredMenu?._id)"
                               href="javascript:void(0)" title="Order Now">Order Now</a>
@@ -347,7 +355,7 @@
             <div class="col-md-12 col-sm-12 col-lg-12">
               <div class="app-sec">
                 <div class="row">
-                  <div class="col-md-4 hidden-sm col-md-offset-1 col-sm-4 col-sm-offset-0 col-lg-4 col-lg-offset-1">
+                  <div class="col-md-6 hidden-sm col-md-offset-1 col-sm-4 col-sm-offset-0 col-lg-4 col-lg-offset-1">
                     <div class="app-mockup text-right overlape-110 wow fadeInUp" data-wow-delay="0.2s"><img
                         src="/assets/images/resource/app-mockup.png" alt="app-mockup.png" itemprop="image"></div>
                   </div>
@@ -375,7 +383,7 @@
       </div>
     </section><!-- red section -->
     <app-footer></app-footer>
-    
+
   </main><!-- Main Wrapper -->
 
   <script data-cfasync="false" src="/assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

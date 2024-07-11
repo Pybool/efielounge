@@ -50,6 +50,11 @@
     white-space: nowrap;
 }
 
+.post-likes{
+    bottom: auto!important;
+    top: 40%!important;
+}
+
 .post-likes:hover{
     cursor: pointer;
 }
@@ -83,3 +88,131 @@
 .post-rate{
     cursor: pointer;
 }
+
+.dishes-caro{
+    margin-left: 0px!important;
+}
+
+
+/* Extra Small Devices, Phones (0px to 599px) */
+@media only screen and (max-width: 599px) {
+    /* Styles for small phones */
+    .dish-item{
+        background: beige;
+        margin-bottom: 20px;
+    }
+
+    .featured-restaurant-info .post-likes.style2 {
+        top: 93px;
+    }
+
+    .filter-likes{
+        top: 23px !important;
+    }
+
+    .featured-restaurant-box{
+        margin-bottom: 20px;
+        background: black;
+    }
+  
+  }
+  
+  /* Small Devices, Larger Phones (600px to 767px) */
+  @media only screen and (min-width: 600px) and (max-width: 767px) {
+    /* Styles for larger phones */
+    .dish-item{
+        background: beige;
+        margin-bottom: 20px;
+    }
+
+    .featured-restaurant-info .post-likes.style2 {
+        top: 93px ;
+    }
+
+    .filter-likes{
+        top: 23px !important;
+    }
+
+    .featured-restaurant-box{
+        margin-bottom: 20px;
+        background: black;
+    }
+
+  }
+  
+  /* Medium Devices, Tablets (768px to 991px) */
+  @media only screen and (min-width: 768px) and (max-width: 819px) {
+    /* Styles for tablets */
+    .loc-btn{
+        flex-direction: column!important;
+        align-items: flex-start!important;
+    }
+
+    .popular-post-rate, .popular-post-likes{
+        position: unset!important;
+    }
+
+    .featured-restaurant-thumb {
+        width: 70%;
+    }
+
+    
+  }
+
+  /* Medium Devices, Tablets (768px to 991px) */
+  @media only screen and (min-width: 820px) and (max-width: 991px) {
+    /* Styles for tablets */
+    .loc-btn{
+        flex-direction: column!important;
+        align-items: flex-start!important;
+    }
+
+    .popular-post-rate, .popular-post-likes{
+        position: unset!important;
+    }
+
+    .featured-restaurant-thumb {
+        width: 70%;
+    }
+
+     .col-md-6{
+        width: 49%!important
+    }
+
+    .row{
+        margin-left: 0px!important;
+         margin-right: 0px!important;
+
+    }
+
+    .ready-row{
+        margin-left: calc(var(--bs-gutter-x) * -.5)!important;
+        margin-right: calc(var(--bs-gutter-x) * -.5)!important;
+    }
+
+    
+
+    
+  }
+
+ 
+  
+  /* Large Devices, Desktops (992px to 1199px) */
+  @media only screen and (min-width: 992px) and (max-width: 1199px) {
+    /* Styles for desktops */
+    .row{
+        margin-left: 0px!important;
+         margin-right: 0px!important;
+
+    }
+
+    .ready-row{
+        margin-left: calc(var(--bs-gutter-x) * -.5)!important;
+        margin-right: calc(var(--bs-gutter-x) * -.5)!important;
+    }
+  }
+  
+  /* Extra Large Devices, Large Desktops (1200px and above) */
+  @media only screen and (min-width: 1200px) {
+    /* Styles for large desktops */
+  }

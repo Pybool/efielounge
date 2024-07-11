@@ -24,39 +24,9 @@
     <main>
         <app-preloader></app-preloader>
         <app-header></app-header>
-        <!-- <section>
-            <div class="block">
-                <div class="fixed-bg" style="background-image: url(/assets/images/topbg.jpg);"></div>
-                <div class="page-title-wrapper text-center">
-                    <div class="col-md-12 col-sm-12 col-lg-12">
-                        <div class="page-title-inner">
-                            <h1 itemprop="headline">Your Order History</h1>
-                            <span>Discover the best of world cuisine</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
-        <div style="margin-top: 60px;"  class="tab-pane">
+        <div style="margin-top: 100px;" class="tab-pane main-section">
             <div class="tabs-wrp brd-rd5">
-                <h4 itemprop="headline">MY ORDERS</h4>
-                <!-- <div class="select-wrap-inner">
-                    <div class="select-wrp2">
-                        <select>
-                            <option>Select Orders Status</option>
-                            <option>Select Orders Status</option>
-                            <option>Select Orders Status</option>
-                        </select>
-                    </div>
-                    <div class="select-wrp2">
-                        <select>
-                            <option>Select Date Range</option>
-                            <option>Select Date Range</option>
-                            <option>Select Date Range</option>
-                        </select>
-                    </div>
-                </div> -->
+                <h2 style="background: ghostwhite; padding: 20px;font-weight: 700;" itemprop="headline">MY ORDERS</h2>
                 <div class="order-list">
                     <ng-container *ngFor="let order of orders;">
 
@@ -101,20 +71,7 @@
 
                 </div>
                 
-                <div class="pagination-wrapper text-center style2">
-                    <small style="font-size: 10px;color:orangered">Pagination Unimplemented</small>
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item prev"><a class="page-link brd-rd2" href="#" itemprop="url">PREV</a></li>
-                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">1</a></li>
-                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">2</a></li>
-                        <li class="page-item active"><span class="page-link brd-rd2">3</span></li>
-                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">4</a></li>
-                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">5</a></li>
-                        <li class="page-item">........</li>
-                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">18</a></li>
-                        <li class="page-item next"><a class="page-link brd-rd2" href="#" itemprop="url">NEXT</a></li>
-                    </ul>
-                </div><!-- Pagination Wrapper -->
+                
             </div>
         </div>
         <app-footer></app-footer>

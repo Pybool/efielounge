@@ -9,8 +9,9 @@ import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class CartService {
-  private cartCountSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  
+  private cartCountSubject: BehaviorSubject<number> =
+    new BehaviorSubject<number>(0);
+
   constructor(private http: HttpClient) {}
 
   setCartCount(count: number): void {
@@ -22,25 +23,28 @@ export class CartService {
   }
 
   addToCart(payload: { menu: string; units: number }): Observable<any> {
-    return this.http.post(`${environment.api}/api/v1/cart/add-to-cart`, payload).pipe(
-      tap((res:any) => {
-        const currentCount = this.cartCountSubject.value;
-        console.log("Res ", res)
-        if(!res?.isMerged){
-          this.cartCountSubject.next( 1);
-        }
-        
-      }),
-      catchError((error) => {
-        // Handle the error as needed
-        console.error('Add to cart failed', error);
-        throw error;
-      })
-    );
+    return this.http
+      .post(`${environment.api}/api/v1/cart/add-to-cart`, payload)
+      .pipe(
+        tap((res: any) => {
+          const currentCount = this.cartCountSubject.value;
+          console.log('Res ', res);
+          if (!res?.isMerged) {
+            this.cartCountSubject.next(1);
+          }
+        }),
+        catchError((error) => {
+          // Handle the error as needed
+          console.error('Add to cart failed', error);
+          throw error;
+        })
+      );
   }
 
   getCart(checkOutId?: string) {
-    return this.http.get(`${environment.api}/api/v1/cart/get-cart?checkOutId=${checkOutId}`);
+    return this.http.get(
+      `${environment.api}/api/v1/cart/get-cart?checkOutId=${checkOutId}`
+    );
   }
 
   removeFromCart(payload: { cartItemId: string }) {
@@ -51,13 +55,17 @@ export class CartService {
   }
 
   updateCartItemsAndCheckOut(payload: any, checkOutId: string | null = null) {
-    let url = `${environment.api}/api/v1/cart/checkout`
-    if(checkOutId){
-      url = `${environment.api}/api/v1/cart/checkout?checkOutId=${checkOutId}`
+    let url = `${environment.api}/api/v1/cart/checkout`;
+    if (checkOutId) {
+      url = `${environment.api}/api/v1/cart/checkout?checkOutId=${checkOutId}`;
     }
-    return this.http.put(
-      url,
-      payload
+    return this.http.put(url, payload);
+  }
+
+  saveTransaction(reference: string, checkOutId: string, transaction: any) {
+    return this.http.post(
+      `${environment.api}/api/v1/transactions/save-transaction`,
+      { reference, checkOutId, transaction }
     );
   }
 }

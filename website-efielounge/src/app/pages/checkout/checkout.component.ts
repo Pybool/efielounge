@@ -9,8 +9,10 @@ import { environment } from '../../../environments/environment';
 import { CartService } from '../../services/cart.service';
 import { take } from 'rxjs';
 import { RemoveFromCartComponent } from '../../components/remove-from-cart/remove-from-cart.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DirectBankTransferModalComponent } from '../../components/direct-bank-transfer-modal/direct-bank-transfer-modal.component';
+import { PaystackService } from '../../services/paystack.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -27,7 +29,7 @@ import { DirectBankTransferModalComponent } from '../../components/direct-bank-t
     RemoveFromCartComponent,
     DirectBankTransferModalComponent,
   ],
-  providers: [CartService],
+  providers: [CartService, PaystackService, AuthService],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
@@ -45,15 +47,25 @@ export class CheckoutComponent {
     ref: this.checkOutId,
     amount: 0.0,
   };
+  public paymentMethod: string = 'card';
+  public user: any;
 
   constructor(
     private cartService: CartService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private paystackService: PaystackService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    this.user = this.authService.retrieveUser();
+    if (!this.user) {
+      this.router.navigateByUrl('/login');
+    }
     this.activatedRoute$ = this.route.paramMap.subscribe((params) => {
       this.checkOutId = params.get('checkOutId') as string;
+      console.log('this.checkOutId ', this.checkOutId);
       this.cartService
         .getCart(this.checkOutId)
         .pipe(take(1))
@@ -75,6 +87,36 @@ export class CheckoutComponent {
     setTimeout(() => {
       pageLoader.style.display = 'none';
     }, 3000);
+  }
+
+  initiatePayment(amount: number, email: string, checkOutId: string) {
+    return new Promise((resolve, reject) => {
+      this.paystackService.initiatePayment(amount, email, (response) => {
+        if (response.status === 'success') {
+          resolve(this.verifyTransaction(response.reference, checkOutId));
+        } else {
+          reject(this.verifyTransaction(response.reference, checkOutId));
+        }
+      });
+    });
+  }
+
+  verifyTransaction(reference: string, checkOutId: string) {
+    this.paystackService.verifyTransaction(reference, (paymentResponse) => {
+      setTimeout(() => {
+        if (paymentResponse.data.status == 'success') {
+          this.cartService
+            .saveTransaction(reference, checkOutId, paymentResponse)
+            .subscribe((response: any) => {
+              if (response.status) {
+                this.router.navigate(['orders']);
+              } else {
+                alert(response.message);
+              }
+            });
+        }
+      }, 2000);
+    });
   }
 
   toggleRemoveFromCartModal(name: string, _id: string) {
@@ -99,9 +141,9 @@ export class CheckoutComponent {
 
     if (index !== -1) {
       this.checkOutItems.splice(index, 1); // Remove the object at the found index
-      return true; // Indicate successful deletion
+      return true;
     } else {
-      return false; // Indicate object not found
+      return false;
     }
   }
 
@@ -142,9 +184,16 @@ export class CheckoutComponent {
               ref: this.checkOutId,
               amount: this.getSubTotal() + this.shippingCost,
             };
-            console.log(this.payment);
-            this.toggleTransferModal();
             this.checkOutId = response.data.checkOutId;
+            if (this.paymentMethod == 'transfer') {
+              this.toggleTransferModal();
+            } else {
+              this.initiatePayment(
+                Math.round(Number(this.payment.amount)),
+                this.user.email,
+                this.checkOutId
+              );
+            }
           } else {
             alert('Unable to checkout at this moment');
           }

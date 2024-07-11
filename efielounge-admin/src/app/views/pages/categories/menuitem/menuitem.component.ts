@@ -87,24 +87,26 @@ export class MenuitemComponent {
   };
   public attachments: FileList | null = null;
   public menuItemCategories: any[] = [];
+  public selectedMenuItem: any = {};
+  public menuItemIndex: number = 0;
+
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit() {
-    this.categoryService
-      .fetchMenuItems()
-      .pipe(take(1))
-      .subscribe((response: any) => {
-        if (response.status) {
-          this.menuItems = response.data;
-        }
-      });
-
     this.categoryService
       .fetchMenuItemCategories()
       .pipe(take(1))
       .subscribe((response: any) => {
         if (response.status) {
           this.menuItemCategories = response.data;
+          this.categoryService
+            .fetchMenuItems()
+            .pipe(take(1))
+            .subscribe((response: any) => {
+              if (response.status) {
+                this.menuItems = response.data;
+              }
+            });
         }
       });
   }
@@ -142,8 +144,58 @@ export class MenuitemComponent {
       });
   }
 
-  // createMenuItem() {
-  //   console.log(this.form);
+  setMenuItemToEdit(index: number) {
+    this.menuItemIndex = index;
+    
+    this.selectedMenuItem = JSON.parse(JSON.stringify(this.menuItems[this.menuItemIndex]));
+    this.selectedMenuItem.category = this.selectedMenuItem.category._id
+    console.log(this.selectedMenuItem);
+  }
 
-  // }
+  setCategory($event:any){
+    this.selectedMenuItem.category = $event.target.value;
+    console.log("Category ", this.selectedMenuItem.category)
+  }
+
+  editMenuItem() {
+    
+    delete this.selectedMenuItem.attachments;
+    delete this.selectedMenuItem.archive;
+    delete this.selectedMenuItem.__v;
+
+    console.log(this.selectedMenuItem);
+    this.categoryService
+      .editMenuItem(this.selectedMenuItem)
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          alert(response.message);
+        },
+        (error: any) => {
+          alert('Something went wrong');
+        }
+      );
+  }
+
+  archiveMenuItem(index: number, archive: number = 1) {
+    this.setMenuItemToEdit(index);
+    this.menuItemIndex = index;
+    this.categoryService
+      .archiveMenuItem({
+        _id: this.selectedMenuItem._id,
+        archive: archive,
+      })
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          this.menuItems = this.menuItems.filter(
+            (element, idx) => idx !== index
+          );
+          alert(response.message);
+        },
+        (error: any) => {
+          alert('Something went wrong');
+        }
+      );
+  }
 }

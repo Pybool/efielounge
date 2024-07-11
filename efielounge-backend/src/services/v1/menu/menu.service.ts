@@ -23,14 +23,14 @@ export class Menuservice {
     try {
       if (req.query.filter) {
         if (req.query.field == "status") {
-          return { status: req.query.filter };
+          return { status: req.query.filter,archive: false };
         } else if (req.query.field == "category") {
-          return { category: new Types.ObjectId(req.query.filter as string) };
+          return { category: new Types.ObjectId(req.query.filter as string),archive: false };
         }
       }
-      return {};
+      return {archive: false};
     } catch {
-      return {};
+      return {archive: false};
     }
   }
 
@@ -54,20 +54,23 @@ export class Menuservice {
 
   static async getMenus(req: Xrequest) {
     try {
+      await delay(1000)
       let filter: any = {};
       const page = Number((req.query.page! as string) || 1);
       const limit = Number((req.query.limit! as string) || 20);
 
       filter = Menuservice.buildFilter(req);
+      const skip = (page - 1) * limit; // Calculate the number of documents to skip
+
       const options = {
-        page: page,
-        limit: limit,
-        sort: {},
+        skip: skip, // Skip the appropriate number of documents for pagination
+        limit: limit, // Limit the number of documents returned
+        sort: { }, // Sort by createdAt in descending order
       };
 
-      const [menus, total] = await Promise.all([
+      const [menus, total] =  await Promise.all([
         Menu.find(filter, null, options)
-          .sort({ createdAt: -1 })
+          .sort({ })
           .populate("category")
           .populate("menuItems"),
         Menu.countDocuments(filter),
@@ -77,7 +80,6 @@ export class Menuservice {
       for (const menu of menus) {
         menu.ratings = await Menuservice.computeRating(menu._id.toString());
         menu.likes = await MenuLikes.countDocuments({ menuId: menu._id });
-        
       }
       return {
         status: true,
@@ -96,7 +98,7 @@ export class Menuservice {
 
   static async getMenuCategories() {
     try {
-      const categories = await MenuCategories.find({});
+      const categories = await MenuCategories.find({archive: false});
       return {
         status: true,
         message: "Categories fetched successfully",
@@ -110,7 +112,7 @@ export class Menuservice {
 
   static async getMenuItemCategories() {
     try {
-      const categories = await MenuItemCategories.find({});
+      const categories = await MenuItemCategories.find({archive: false});
       return {
         status: true,
         message: "Menu Item Categories fetched successfully",
@@ -124,7 +126,7 @@ export class Menuservice {
 
   static async getMenuItems() {
     try {
-      const menuItems = await MenuItem.find({}).populate("category");
+      const menuItems = await MenuItem.find({archive: false}).populate("category");
       return {
         status: true,
         message: "Menu Item fetched successfully",

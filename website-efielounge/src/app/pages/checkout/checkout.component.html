@@ -93,7 +93,7 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                                <div style="align-items: start;" class="x-flex-row">
+                                                <div style="align-items: start;" class="x-flex-row order-list-container">
 
                                                     <div class="order-list">
                                                         <ng-container *ngFor="let checkOutItem of checkOutItems">
@@ -108,26 +108,32 @@
                                                                 <div class="order-info">
                                                                     <div style="justify-content: space-between;"
                                                                         class="x-flex-row">
-                                                                        <span class="red-clr">GCMA STREET, ANYAA,
+                                                                        <span style="text-align: left;" class="red-clr">GCMA STREET, ANYAA,
                                                                             GHANA</span>
-                                                                        <div (click)="toggleRemoveFromCartModal(checkOutItem?.menu?.name, checkOutItem?._id)" class="remove-from-cart"><i
-                                                                                class="fa fa-trash"></i></div>
+                                                                        <div (click)="toggleRemoveFromCartModal(checkOutItem?.menu?.name, checkOutItem?._id)"
+                                                                            class="remove-from-cart"><i
+                                                                                class="fa fa-trash"></i>
+                                                                        </div>
                                                                     </div>
-                                                                    <h4 itemprop="headline"><a href="#" class="headline"
-                                                                            itemprop="url">{{checkOutItem?.menu?.name}} ({{checkOutItem?.units}} Units)</a>
+                                                                    <h4 style="text-align: left;" itemprop="headline"><a href="#" class="headline"
+                                                                            itemprop="url">{{checkOutItem?.menu?.name}}
+                                                                            ({{checkOutItem?.units}} Units)</a>
                                                                     </h4>
 
                                                                     <div class="x-flex-row">
                                                                         <span
                                                                             class="price">{{checkOutItem?.menu?.currency}}
-                                                                            {{checkOutItem?.menu?.price * checkOutItem?.units}}</span>
+                                                                            {{checkOutItem?.menu?.price *
+                                                                            checkOutItem?.units}}</span>
                                                                         <div style="gap:2px" class="number x-flex-row">
-                                                                            <span (click)="subQty(checkOutItem)" class="minus">-</span>
+                                                                            <span (click)="subQty(checkOutItem)"
+                                                                                class="minus">-</span>
                                                                             <input disabled class="number-input"
                                                                                 value="{{checkOutItem?.units}}"
                                                                                 name="units" min="1" max="10"
                                                                                 type="number" />
-                                                                            <span (click)="addQty(checkOutItem)" class="plus">+</span>
+                                                                            <span (click)="addQty(checkOutItem)"
+                                                                                class="plus">+</span>
                                                                         </div>
                                                                     </div>
                                                                     <a class="brd-rd2" href="javascript:void(0)"
@@ -138,46 +144,60 @@
                                                         </ng-container>
 
                                                     </div>
-                                                    <div class="order">
-                                                        <h2 style="color:orange; font-size: 18px;" class="topborder"><span>Order Summary</span></h2>
-                                                        
+                                                    <div class="order checkout">
+                                                        <h2 style="color:orange; font-size: 18px;" class="topborder">
+                                                            <span>Order Summary</span></h2>
+
                                                         <div style="justify-content: space-between;" class="x-flex-row">
                                                             <h5 style="white-space: nowrap;">Cart Subtotal: </h5>
-                                                            <h5 style="text-align: end; color:orange">GHC {{getSubTotal().toFixed(2).toLocaleString()}}</h5>
+                                                            <h5 style="text-align: end; color:orange">GHC
+                                                                {{getSubTotal().toFixed(2).toLocaleString()}}</h5>
                                                         </div>
                                                         <div>
                                                             <h5 class="inline difwidth">Shipping and Handling</h5>
-                                                            <h5 style="text-align: end; color:orange" class="inline alignright center">GHC {{shippingCost.toFixed(2)}}</h5>
+                                                            <h5 style="text-align: end; color:orange"
+                                                                class="inline alignright center">GHC
+                                                                {{shippingCost.toFixed(2)}}</h5>
                                                         </div>
                                                         <div style="justify-content: space-between;" class="x-flex-row">
                                                             <h5 style="white-space: nowrap;">Grand Total: </h5>
-                                                            <h5 style="text-align: end; color:red">GHC {{(getSubTotal() + shippingCost).toFixed(2).toLocaleString()}}</h5>
+                                                            <h5 style="text-align: end; color:red">GHC {{(getSubTotal()
+                                                                + shippingCost).toFixed(2).toLocaleString()}}</h5>
                                                         </div>
-                                                        
+
                                                         <div>
                                                             <h3 class="topborder"><span>Address</span></h3>
-                                                            
-                                                            <a href="" style="text-align: start; color:red">You need to create an address!</a>
+
+                                                            <a href="" style="text-align: start; color:red">You need to
+                                                                create an address!</a>
                                                         </div>
 
                                                         <div>
                                                             <h3 class="topborder"><span>Payment Method</span></h3>
-                                                            <input type="radio" value="banktransfer" name="payment"
-                                                                checked>
-                                                            <p>Direct Bank Transfer</p>
-                                                            <p class="padleft">
-                                                                Make your payment directly into our bank account. Please
-                                                                use your Order ID as the payment reference. Your order
-                                                                won't be shipped until the funds have cleared in our
-                                                                account.
-                                                            </p>
+                                                            <label>
+                                                                <input [(ngModel)]="paymentMethod" type="radio"
+                                                                    value="transfer" checked name="payment">
+                                                                <p>Direct Bank Transfer</p>
+                                                                <p class="padleft">
+                                                                    Make your payment directly into our bank account.
+                                                                    Please
+                                                                    use your Order ID as the payment reference. Your
+                                                                    order
+                                                                    won't be shipped until the funds have cleared in our
+                                                                    account.
+                                                                </p>
+                                                            </label>
                                                         </div>
 
-                                                        <div><input type="radio" value="cheque" name="payment">
-                                                            <p>Credit Card Payment</p>
+                                                        <div><label>
+                                                                <input [(ngModel)]="paymentMethod" type="radio"
+                                                                    value="card" name="payment">
+                                                                <p>Credit Card Payment</p>
+                                                            </label>
                                                         </div>
 
-                                                        <input style="cursor: pointer; text-align: center;" (click)="checkOut()" name="submit" value="Place Order"
+                                                        <input style="cursor: pointer; text-align: center;"
+                                                            (click)="checkOut()" name="submit" value="Place Order"
                                                             class="place-order redbutton">
                                                     </div>
                                                 </div>
@@ -240,7 +260,7 @@
 
         <app-remove-from-cart [removal]="removal" (confirmEvent)="handleConfirmEvent()"></app-remove-from-cart>
         <app-direct-bank-transfer-modal [payment]="payment"></app-direct-bank-transfer-modal>
-        <app-footer ></app-footer>
+        <app-footer></app-footer>
     </main><!-- Main Wrapper -->
 
     <script data-cfasync="false" src="/assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

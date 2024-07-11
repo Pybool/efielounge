@@ -8,7 +8,7 @@ const MenuItemSchema = new Schema({
     required: false,
   },
   category: {
-    type: [Schema.Types.ObjectId],
+    type: Schema.Types.ObjectId,
     ref: "menuitemcategories",
     required: false,
   },
@@ -32,6 +32,11 @@ const MenuItemSchema = new Schema({
     type: String,
     default: "Available",
     enum: ["Available", "You're Too Late"]
+  },
+  archive: {
+    type: Boolean,
+    default: false,
+    required: false,
   }
 });
 

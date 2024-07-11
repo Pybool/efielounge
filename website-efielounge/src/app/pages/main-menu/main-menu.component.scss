@@ -41,14 +41,14 @@ span {
   height: 20px;
   background: #f2f2f2;
   border-radius: 4px;
-//   padding: 8px 5px 8px 5px;
+  //   padding: 8px 5px 8px 5px;
   border: 1px solid #ddd;
   display: flex;
   align-items: center;
   vertical-align: middle;
   text-align: center;
   padding-left: 3.5px;
-  color: orange
+  color: orange;
 }
 input {
   height: 20px;
@@ -59,49 +59,88 @@ input {
   border-radius: 4px;
   display: inline-block;
   vertical-align: middle;
-  color: orange
+  color: orange;
 }
-
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type="number"] {
-    -moz-appearance: textfield; /* For Firefox */
+  -moz-appearance: textfield; /* For Firefox */
 }
 
-.x-flex-row{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    // gap:20px
+.x-flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  // gap:20px
 }
 
-.no-break{
-    white-space: nowrap;
+.no-break {
+  white-space: nowrap;
 }
 
 .order-now {
-    font-family: Poppins;
-    font-weight: 500;
-    transition: all .3s linear;
+  font-family: Poppins;
+  font-weight: 500;
+  transition: all 0.3s linear;
 }
 
-.order-now:hover{
-    background-color: orange;
+.order-now:hover {
+  background-color: orange;
 }
 
-.order-now{
-    background-color: #272727;
-    border: 1px solid transparent;
-    color: #fff;
-    float: right;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 8px 10px;
-    text-transform: uppercase;
+.order-now {
+  background-color: #272727;
+  border: 1px solid transparent;
+  color: #fff;
+  float: right;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 10px;
+  text-transform: uppercase;
+}
+
+.post-likes {
+  bottom: auto !important;
+  top: 80% !important;
+}
+
+/* Extra Small Devices, Phones (0px to 599px) */
+@media only screen and (max-width: 599px) {
+  /* Styles for small phones */
+  
+}
+
+/* Small Devices, Larger Phones (600px to 767px) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  /* Styles for larger phones */
+  
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 768px) and (max-width: 819px) {
+  /* Styles for tablets */
+  
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 820px) and (max-width: 991px) {
+  /* Styles for tablets */
+  
+}
+
+/* Large Devices, Desktops (992px to 1199px) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* Styles for desktops */
+
+}
+
+/* Extra Large Devices, Large Desktops (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  /* Styles for large desktops */
 }

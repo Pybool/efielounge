@@ -43,6 +43,8 @@ export class HomeComponent {
   public filteredMenusCache: any[] = [];
   public searchString: string | null = null;
   public serverUrl: string = environment.api;
+  public page: number = 1;
+  public pageSize: number = 3;
 
   constructor(
     private menuService: MenuService,
@@ -61,14 +63,15 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    // https://be.efielounge.com/api/v1/menu/fetch-menu?status=Ready&limit=3
     this.menuService
-      .fetchMenu({ status: 'Ready', limit: 3 })
+      .fetchMenu(this.page, this.pageSize, {
+        status: 'Ready',
+        limit: this.pageSize,
+      })
       .pipe(take(1))
       .subscribe(
         (response: any) => {
           if (response.status) {
-            console.log(response.data);
             this.readyMeals = response.data;
           }
         },
@@ -78,7 +81,10 @@ export class HomeComponent {
       );
 
     this.menuService
-      .fetchMenu({ status: 'Cooking', limit: 3 })
+      .fetchMenu(this.page, this.pageSize, {
+        status: 'Cooking',
+        limit: this.pageSize,
+      })
       .pipe(take(1))
       .subscribe(
         (response: any) => {
@@ -149,7 +155,7 @@ export class HomeComponent {
         );
 
       this.menuService
-        .fetchMenu({})
+        .fetchMenu(this.page, this.pageSize, {})
         .pipe(take(1))
         .subscribe(
           (response: any) => {
@@ -176,7 +182,7 @@ export class HomeComponent {
     }
     const filter = { field: 'category', filter: category._id };
     this.menuService
-      .fetchMenu(filter)
+      .fetchMenu(this.page, this.pageSize, filter)
       .pipe(take(1))
       .subscribe(
         (response: any) => {
@@ -218,7 +224,6 @@ export class HomeComponent {
           },
           (error: any) => {
             console.log('error ', error, Object.keys(error));
-            
           }
         );
     } else {
@@ -258,7 +263,7 @@ export class HomeComponent {
         item.likes += 1;
         item.iLiked = true;
       } else {
-        if(item.likes > 0){
+        if (item.likes > 0) {
           item.likes -= 1;
         }
         item.iLiked = false;
@@ -275,8 +280,7 @@ export class HomeComponent {
     return response;
   }
 
-  searchFood(){
-    this.router.navigateByUrl(`/search-menu?q=${this.searchString}`)
+  searchFood() {
+    this.router.navigateByUrl(`/search-menu?q=${this.searchString}`);
   }
-
 }

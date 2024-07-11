@@ -117,3 +117,50 @@ li.cart a {
   height: 18px;
 }
 
+.responsive-logomenu > span {
+  float: right;
+  cursor: pointer;
+  line-height: 30px;
+  width: 40px;
+  text-align: center;
+  font-size: 14px;
+  margin: 22px 0;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s;
+}
+
+
+.responsive-header{
+  position: fixed;
+  z-index: 2
+}
+
+.responsive-menu-show {
+  position: fixed;
+  top: 0;
+  right: 0px;
+  opacity: 1; 
+  visibility: visible; 
+}
+
+.menu-lst > ul {
+  height: fit-content;
+}
+
+
+.menu-lst > ul > li:before {
+  content: "";
+  width: 100%;
+}
+
+.menu-lst > ul > li > a > svg {
+  margin-left:10px;
+  margin-right:10px
+}
+
+.menu-lst > ul > li > a > svg> path {
+  fill: white!important;
+}

@@ -6,8 +6,8 @@ import { getMulterConfigSingle } from '../../middlewares/menu.middleware';
 const authRouter = express.Router();
 
 authRouter.get('/user-profile', decode, accountController.getUserProfile)
-authRouter.put('/user-profile', decode, getMulterConfigSingle('../efielounge-backend/public/accounts/admin/'), accountController.saveUserProfile)
-authRouter.post('/upload-avatar', decode, getMulterConfigSingle('../efielounge-backend/public/accounts/customers/'), accountController.uploadAvatar)
+authRouter.put('/user-profile', decode, getMulterConfigSingle('../public/accounts/admin/'), accountController.saveUserProfile)
+authRouter.post('/upload-avatar', decode, getMulterConfigSingle('../public/accounts/customers/'), accountController.uploadAvatar)
 
 authRouter.all('/user-profile', handleInvalidMethod);
 authRouter.all('/user-profile', handleInvalidMethod);

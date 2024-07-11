@@ -104,6 +104,16 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'orders',
+        loadComponent: () =>
+          import('./views/pages/orders/orders.component').then(
+            (m) => m.OrdersComponent
+          ),
+        data: {
+          title: 'Orders',
+        },
+      },
+      {
         path: 'users',
         loadComponent: () =>
           import('./views/pages/accounts/accounts.component').then(

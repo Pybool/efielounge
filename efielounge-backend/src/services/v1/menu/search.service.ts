@@ -6,12 +6,15 @@ import MenuItem from "../../../models/menu/menuitem.model";
 import MenuRatings from "../../../models/menu/ratings.model";
 import MenuLikes from "../../../models/menu/likes.model";
 
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function calculateStartIndex(page: number, limit: number) {
   return (page - 1) * limit;
 }
-
 export class SearchMenuservice {
+
   static buildMenuFilter(searchString: string) {
     try {
       const searchTerms = searchString
@@ -82,19 +85,30 @@ export class SearchMenuservice {
 
   static async searchMenus(req: Xrequest) {
     try {
+      await delay(2000)
       let filter: any = {};
       const searchString: string = req.query.searchString as string;
       filter = SearchMenuservice.buildMenuFilter(searchString);
-      const options = {};
+      const page = Number((req.query.page! as string) || 1);
+      const limit = Number((req.query.limit! as string) || 20);
+      const skip = (page - 1) * limit; // Calculate the number of documents to skip
 
+      const options = {
+        skip: skip, // Skip the appropriate number of documents for pagination
+        limit: limit, // Limit the number of documents returned
+        sort: { }, // Sort by createdAt in descending order
+      };
+
+      console.log("Search ", await Menu.find(filter))
       const [menus, total] = await Promise.all([
         Menu.find(filter, null, options)
-          .sort({ createdAt: -1 })
+          .sort({ })
           .populate("category")
           .populate("menuItems"),
         Menu.countDocuments(filter),
       ]);
 
+      console.log("Menus length ", menus.length, total)
       for (const menu of menus) {
         menu.ratings = await SearchMenuservice.computeRating(
           menu._id.toString()

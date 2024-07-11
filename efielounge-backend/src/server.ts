@@ -16,6 +16,8 @@ import accountsRouter from "./routes/v1/accounts.route";
 import menuRouter from "./routes/v1/menu.route";
 import clientCartRouter from "./routes/v1/cart.route";
 import orderRouter from "./routes/v1/orders.route";
+import transactionRouter from "./routes/v1/transaction.route";
+import Menu from "./models/menu/menu.model";
 
 dotenvConfig();
 dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
@@ -38,8 +40,6 @@ app.use(
     secret: "SECRET",
   })
 );
-// app.use(express.json({ limit: "100mb" }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -48,7 +48,12 @@ app.use(express.urlencoded({ extended: true }));
 console.log("PUBLIC FOLDER ", process.env.EFIELOUNGE_PUBLIC_FOLDER)
 app.use(express.static(process.env.EFIELOUNGE_PUBLIC_FOLDER!));
 
-app.get('/test', (req:any, res:any) => {
+app.get('/test', async(req:any, res:any) => {
+  // const menus = await Menu.find({})
+  // for(let menu of menus){
+  //   menu.archive = false
+  //   await menu.save()
+  // }
   res.status(200).send('Hello from Efielounge Backend Server\n');
 });
 
@@ -58,6 +63,8 @@ app.use("/api/v1/menu", menuRouter);
 app.use("/api/v1/order", orderRouter);
 app.use("/api/v1/cart", clientCartRouter);
 app.use("/api/v1/accounts", accountsRouter);
+app.use("/api/v1/transactions", transactionRouter);
+
 
 app.use((err: any, req: any, res: any, next: any) => {
   console.error(err.stack);

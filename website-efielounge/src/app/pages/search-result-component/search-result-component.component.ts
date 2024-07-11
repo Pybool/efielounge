@@ -4,7 +4,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { MenuService } from '../../services/menu.service';
-import { take } from 'rxjs';
+import { debounceTime, filter, fromEvent, Subscription, take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { TruncateTextPipe } from '../../pipes/truncateTextPipe.pipe';
@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
+import { InfiniteLoaderSpinnerComponent } from '../../components/infinite-loader-spinner/infinite-loader-spinner.component';
 
 @Component({
   selector: 'app-search-result-component',
@@ -24,6 +25,7 @@ import Swal from 'sweetalert2';
     ReactiveFormsModule,
     CommonModule,
     TruncateTextPipe,
+    InfiniteLoaderSpinnerComponent,
   ],
   providers: [MenuService, CartService],
   templateUrl: './search-result-component.component.html',
@@ -37,7 +39,12 @@ export class SearchResultComponentComponent implements OnDestroy {
   public searchString: string = '';
   public showSpinner: boolean = false;
   public noResults: boolean = false;
-  public totalResultsCount:number = 0;
+  public totalResultsCount: number = 0;
+  private scrollSubscription: Subscription | undefined;
+  public loading: boolean = false;
+  public page = 1;
+  public pageSize = 3;
+  public totalPages = 0;
 
   constructor(
     private menuService: MenuService,
@@ -50,6 +57,7 @@ export class SearchResultComponentComponent implements OnDestroy {
     this.activatedRoute$ = this.route.queryParams.subscribe((params) => {
       this.searchString = params?.['q'];
       this.searchFood();
+      this.setupScrollEventListener();
     });
   }
 
@@ -62,28 +70,40 @@ export class SearchResultComponentComponent implements OnDestroy {
     }, 3000);
   }
 
-  searchFood() {
+  searchFood(isFresh: boolean = false) {
+    if (isFresh) {
+      this.page = 1;
+      this.menus = [];
+    }
     this.noResults = false;
     this.showSpinner = true;
-    this.menus = [];
+    this.loading = true;
     this.menuService
-      .searchMenu(this.searchString)
+      .searchMenu(this.page, this.pageSize, this.searchString)
       .pipe(take(1))
       .subscribe(
         (response: any) => {
           if (response.status) {
-            this.menus = response.data;
+            this.totalPages = response.totalPages;
+            this.page++;
             this.menus.forEach((menu: any) => {
               menu.units = 1;
+            });
+            response.data.forEach((menu: any) => {
+              if (!this.menus.find((item: any) => item._id === menu._id)) {
+                this.menus.push(menu);
+              }
             });
             this.totalResultsCount = response.total;
             if (this.menus.length == 0) {
               this.noResults = true;
             }
           }
+          this.loading = false;
           this.showSpinner = false;
         },
         (error: any) => {
+          this.loading = false;
           this.showSpinner = false;
         }
       );
@@ -104,9 +124,8 @@ export class SearchResultComponentComponent implements OnDestroy {
             console.log('error ', error, Object.keys(error));
             if ([401].includes(error.status)) {
               this.authService.navigateToUrl('/login');
-            }
-            else{
-              alert("Something went wrong while peforming your request")
+            } else {
+              alert('Something went wrong while peforming your request');
             }
           }
         );
@@ -139,7 +158,7 @@ export class SearchResultComponentComponent implements OnDestroy {
         item.likes += 1;
         item.iLiked = true;
       } else {
-        if(item.likes > 0){
+        if (item.likes > 0) {
           item.likes -= 1;
         }
         item.iLiked = false;
@@ -154,6 +173,24 @@ export class SearchResultComponentComponent implements OnDestroy {
     const token = this.authService.retrieveToken(this.authService.tokenKey!)!;
     const response = await this.menuService.likeMenu(_id, token);
     return response;
+  }
+
+  setupScrollEventListener() {
+    this.scrollSubscription = fromEvent(window, 'scroll')
+      .pipe(
+        debounceTime(200),
+        filter(() => {
+          const scrollPosition = window.pageYOffset + window.innerHeight;
+          const maxScroll = document.documentElement.scrollHeight;
+          const threshold = window.innerHeight * 2;
+          return !this.loading && maxScroll - scrollPosition < threshold;
+        })
+      )
+      .subscribe(() => {
+        if (this.page <= this.totalPages) {
+          this.searchFood();
+        }
+      });
   }
 
   ngOnDestroy() {

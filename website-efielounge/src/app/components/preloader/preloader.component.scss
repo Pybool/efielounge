@@ -43,3 +43,46 @@ img {
     transform: translateY(0px);
   } /* Return to starting position */
 }
+
+
+
+
+
+/* Extra Small Devices, Phones (0px to 599px) */
+@media only screen and (max-width: 599px) {
+  /* Styles for small phones */
+  .loader-up[_ngcontent-ng-c1256416336] {
+    position: absolute;
+    top: 40vh;
+    left: 25vw;
+    transform: translate(-50%, -50%);
+  }
+
+}
+
+/* Small Devices, Larger Phones (600px to 767px) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  /* Styles for larger phones */
+  .loader-up[_ngcontent-ng-c1256416336] {
+    position: absolute;
+    top: 40vh;
+    left: 25vw;
+    transform: translate(-50%, -50%);
+  }
+ 
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  /* Styles for tablets */
+}
+
+/* Large Devices, Desktops (992px to 1199px) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* Styles for desktops */
+}
+
+/* Extra Large Devices, Large Desktops (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  /* Styles for large desktops */
+}

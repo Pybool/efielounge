@@ -1,14 +1,17 @@
 import Joi from "@hapi/joi";
 
 const menuCategoriesSchema = Joi.object({
+  _id:Joi.string(),
   name: Joi.string().required(),
 });
 
 const menuItemCategoriesSchema = Joi.object({
+  _id:Joi.string(),
   name: Joi.string().required(),
 });
 
 const menuItemSchema = Joi.object({
+  _id:Joi.string(),
   name: Joi.string().required(),
   description: Joi.string(),
   category: Joi.string(),
@@ -18,6 +21,7 @@ const menuItemSchema = Joi.object({
 });
 
 const menuSchema = Joi.object({
+  _id:Joi.string(),
   name: Joi.string().required(),
   description: Joi.string(),
   category: Joi.string(),

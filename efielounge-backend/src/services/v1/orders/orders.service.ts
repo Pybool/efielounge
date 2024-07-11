@@ -231,15 +231,18 @@ export class OrderService {
     try {
       let filter: any = {};
       const page = Number((req.query.page! as string) || 1);
-      const limit = Number((req.query.limit! as string) || 20);
+      const limit = Number((req.query.limit! as string) || 100);
 
       filter = OrderService.buildFilter(req);
-      const options = {
-        page: page,
-        limit: limit,
-        sort: {},
-      };
+      console.log("Filter ", filter)
+      const skip = (page - 1) * limit; // Calculate the number of documents to skip
 
+      const options = {
+        skip: skip, // Skip the appropriate number of documents for pagination
+        limit: limit, // Limit the number of documents returned
+        sort: { }, // Sort by createdAt in descending order
+      };
+      
       const [orders, total]: any = await Promise.all([
         Order.find(filter, null, options)
           .sort({ createdAt: -1 })
@@ -260,9 +263,7 @@ export class OrderService {
         );
         order.menu.likes = await Order.countDocuments({ menu: order.menu._id });
         order.menu.iRated = await checkIfIRated(req.accountId!, order.menu._id)
-        // if(order.menu._id=="6679044299245644e4c34d0b"){
-        //   console.log("Rated ", order.menu.iRated)
-        // }
+       
       }
       return {
         status: true,
@@ -280,13 +281,12 @@ export class OrderService {
   }
 
   static buildFilter(req: Xrequest) {
+    
     try {
-      if (req.query.filter) {
-        if (req.query.field == "status") {
-          return { status: req.query.filter };
-        } else if (req.query.field == "category") {
-          return { category: new Types.ObjectId(req.query.filter as string) };
-        }
+      if (req.query.filter!='all') {
+        return { status: req.query.filter };
+      } else if (req.query.filter == "all") {
+        return {  };
       }
       return { account: req.accountId! };
     } catch {

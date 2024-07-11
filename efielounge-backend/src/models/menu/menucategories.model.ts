@@ -8,9 +8,14 @@ const MenuCategoriesSchema = new Schema({
     default: "",
     required: false,
   },
+  archive: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
   createdAt:{
     type: Date,
-    required:true
+    required:false
   }
 });
 

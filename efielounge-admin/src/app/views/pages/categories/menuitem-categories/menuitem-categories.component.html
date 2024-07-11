@@ -35,9 +35,9 @@
                             </td>
                             <td>
                                 <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
-                                    <a [cModalToggle]="verticallyCenteredModalAddMenuItem.id"
-                                        href="javascript:void(0)">Edit</a>
-                                    <a href="">Delete</a>
+                                    <a [cModalToggle]="editverticallyCenteredModalAddMenuItem.id"
+                                    (click)="setMenuItemCategoryToEdit(i)" href="javascript:void(0)">Edit</a>
+                                    <a (click)="archiveMenuItemCategory(i)" href="javascript:void(0)">Delete</a>
                                 </div>
                             </td>
                         </tr>
@@ -69,5 +69,27 @@
             Close
         </button>
         <button (click)="createMenuItemCategory()" cButton color="primary">Submit</button>
+    </c-modal-footer>
+</c-modal>
+
+<c-modal #editverticallyCenteredModalAddMenuItem alignment="center" id="editverticallyCenteredModalAddMenuItem">
+    <c-modal-header>
+        <h5 cModalTitle>New MenuItem Category</h5>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <input [(ngModel)]="selectedMenuItemCategory.name" name="name" autoComplete="name" cFormControl placeholder="Category Name" />
+            </c-input-group>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+        <button [cModalToggle]="editverticallyCenteredModalAddMenuItem.id" cButton color="secondary">
+            Close
+        </button>
+        <button (click)="editMenuItemCategory()" cButton color="primary">Submit</button>
     </c-modal-footer>
 </c-modal>

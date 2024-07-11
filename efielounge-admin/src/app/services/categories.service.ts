@@ -15,6 +15,20 @@ export class CategoryService {
     );
   }
 
+  editMenuCategory(payload: {_id:string; name: string }) {
+    return this.http.put(
+      `${environment.api}/api/v1/admin/menu/edit-menu-category`,
+      payload
+    );
+  }
+
+  archiveMenuCategory(payload: { _id: string; archive: number }) {
+    return this.http.patch(
+      `${environment.api}/api/v1/admin/menu/archive-menu-category`,
+      payload
+    );
+  }
+
   fetchCategories() {
     return this.http.get(
       `${environment.api}/api/v1/menu/fetch-menu-categories`
@@ -24,6 +38,20 @@ export class CategoryService {
   createMenuItemCategory(payload: { name: string }) {
     return this.http.post(
       `${environment.api}/api/v1/admin/menu/create-menu-item-category`,
+      payload
+    );
+  }
+
+  editMenuItemCategory(payload: any) {
+    return this.http.put(
+      `${environment.api}/api/v1/admin/menu/edit-menu-item-category`,
+      payload
+    );
+  }
+
+  archiveMenuItemCategory(payload: { _id: string; archive: number }) {
+    return this.http.patch(
+      `${environment.api}/api/v1/admin/menu/archive-menu-item-category`,
       payload
     );
   }
@@ -41,6 +69,20 @@ export class CategoryService {
     );
   }
 
+  editMenuItem(payload: any) {
+    return this.http.put(
+      `${environment.api}/api/v1/admin/menu/edit-menu-item`,
+      payload
+    );
+  }
+
+  archiveMenuItem(payload: { _id: string; archive: number }) {
+    return this.http.patch(
+      `${environment.api}/api/v1/admin/menu/archive-menu-item`,
+      payload
+    );
+  }
+
   fetchMenuItems() {
     return this.http.get(
       `${environment.api}/api/v1/menu/fetch-menu-item`
@@ -50,6 +92,20 @@ export class CategoryService {
   createMenu(payload: any) {
     return this.http.post(
       `${environment.api}/api/v1/admin/menu/create-menu`,
+      payload
+    );
+  }
+
+  editMenu(payload: any) {
+    return this.http.put(
+      `${environment.api}/api/v1/admin/menu/edit-menu`,
+      payload
+    );
+  }
+
+  archiveMenu(payload: { _id: string; archive: number }) {
+    return this.http.patch(
+      `${environment.api}/api/v1/admin/menu/archive-menu`,
       payload
     );
   }

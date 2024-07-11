@@ -62,13 +62,18 @@ const MenuSchema = new Schema({
   },
   createdAt:{
     type:Date,
-    required: true
+    required: false
   },
   status: {
     type: String,
     default: "Cooking",
     enum: ["Cooking", "Ready", "You're Too Late"]
-  }
+  },
+  archive: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
 });
 
 const Menu = mongoose.model("menu", MenuSchema);

@@ -41,7 +41,7 @@
                                 <div>{{ menuItem?.name }}</div>
                             </td>
                             <td>
-                                <div>{{ menuItem?.category[0]?.name }}</div>
+                                <div>{{ menuItem?.category?.name }}</div>
                             </td>
                             <td>
                                 <div>{{ menuItem?.description }}</div>
@@ -57,9 +57,9 @@
                             </td>
                             <td>
                                 <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
-                                    <a [cModalToggle]="verticallyCenteredModalAddMenuItem.id"
-                                        href="javascript:void(0)">Edit</a>
-                                    <a href="">Delete</a>
+                                    <a [cModalToggle]="editverticallyCenteredModalAddMenuItem.id"
+                                        href="javascript:void(0)" (click)="setMenuItemToEdit(i)">Edit</a>
+                                    <a (click)="archiveMenuItem(i)" href="javascript:void(0)">Delete</a>
                                 </div>
                             </td>
                         </tr>
@@ -140,5 +140,69 @@
             Close
         </button>
         <button (click)="createMenuItem()" cButton color="primary">Submit</button>
+    </c-modal-footer>
+</c-modal>
+
+<c-modal #editverticallyCenteredModalAddMenuItem alignment="center" id="editverticallyCenteredModalAddMenuItem">
+    <c-modal-header>
+        <h5 cModalTitle>Edit MenuItem</h5>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <input [(ngModel)]="selectedMenuItem.name" name="name" autoComplete="name" cFormControl placeholder="Name" />
+            </c-input-group>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <select *ngIf="selectedMenuItem.category" (change)="setCategory($event)" [(ngModel)]="selectedMenuItem.category" name="category" aria-label="Default select example" cselect="" class="form-select" >
+                    <option>Category</option>
+                    <ng-container *ngFor="let menuItemCategory of menuItemCategories;">
+                        <option value="{{menuItemCategory._id}}">{{menuItemCategory.name}}</option>
+                    </ng-container>
+                </select>
+            </c-input-group>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <input [(ngModel)]="selectedMenuItem.price" name="price" autoComplete="price" cFormControl placeholder="Price" />
+            </c-input-group>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <select [(ngModel)]="selectedMenuItem.currency" name="currency" aria-label="Default select example" cselect="" class="form-select" >
+                    <option>GHC</option>
+                    <option>USD</option>
+                </select>
+            </c-input-group>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <select [(ngModel)]="selectedMenuItem.status" name="status" aria-label="Default select example" cselect="" class="form-select" >
+                    <option>Available</option>
+                    <option>You're Too Late</option>
+                </select>
+            </c-input-group>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <textarea [(ngModel)]="selectedMenuItem.description" name="description" autoComplete="name" cFormControl
+                    placeholder="Description"></textarea>
+            </c-input-group>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+        <button [cModalToggle]="editverticallyCenteredModalAddMenuItem.id" cButton color="secondary">
+            Close
+        </button>
+        <button (click)="editMenuItem()" cButton color="primary">Submit</button>
     </c-modal-footer>
 </c-modal>

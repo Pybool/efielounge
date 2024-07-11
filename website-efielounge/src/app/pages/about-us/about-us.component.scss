@@ -29,4 +29,61 @@
     font-family: Great Vibes;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   }
+
+  
+/* Extra Small Devices, Phones (0px to 599px) */
+@media only screen and (max-width: 599px) {
+  /* Styles for small phones */
+  .overlay-text {
+    font-size: 3em;
+  }
+
+
+}
+
+/* Small Devices, Larger Phones (600px to 767px) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  /* Styles for larger phones */
+  .overlay-text {
+    font-size: 3em;
+  }
+
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 768px) and (max-width: 819px) {
+  /* Styles for tablets */
+  
+  .overlay-text {
+    font-size: 3em;
+  }
+  
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 820px) and (max-width: 991px) {
+  /* Styles for tablets */
+ 
+
+  
+}
+
+@media (max-width: 980px) {
+  .container {
+      width: auto;
+  }
+}
+
+
+
+/* Large Devices, Desktops (992px to 1199px) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* Styles for desktops */
+
+}
+
+/* Extra Large Devices, Large Desktops (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  /* Styles for large desktops */
+}
   

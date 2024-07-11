@@ -153,7 +153,7 @@
 	main {padding-top: 0 !important;}
 	.block{padding: 60px 0}
 	.responsive-header {display: block;}
-	.container {width: 850px;}
+	/* .container {width: 850px;} */
 	.responsive-logomenu .logo img {max-width: 50%;}
 	.restaurant-searching-inner > h2 {max-width: 75%;}
 	.left-building-mockup, 

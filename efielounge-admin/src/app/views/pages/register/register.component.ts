@@ -56,7 +56,7 @@ export class RegisterComponent {
       this.passwordAgain == this.credentials.password &&
       this.passwordAgain.length >= 8
     ) {
-      this.credentials.role = "STAFF"
+      this.credentials.role = "ADMIN"
       this.authService
         .register(this.credentials)
         .pipe(take(1))

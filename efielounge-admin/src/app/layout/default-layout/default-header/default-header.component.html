@@ -70,7 +70,7 @@
       <!--  -->
     </button>
     <ul cDropdownMenu class="pt-0 w-auto">
-      <li>
+      <!-- <li>
         <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2 rounded-top">
           Account
         </h6>
@@ -90,8 +90,8 @@
             42
           </c-badge>
         </a>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <a cDropdownItem routerLink="">
           <svg cIcon class="me-2" name="cilTask"></svg>
           Tasks
@@ -109,7 +109,7 @@
         <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2">
           Settings
         </h6>
-      </li>
+      </li> -->
       <li></li>
       <li>
         <a cDropdownItem href="/#/account-profile/{{user?._id}}">
@@ -117,7 +117,7 @@
           Profile
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a cDropdownItem routerLink="">
           <svg cIcon class="me-2" name="cilSettings"></svg>
           Settings
@@ -140,18 +140,18 @@
             42
           </c-badge>
         </a>
-      </li>
+      </li> -->
       <li>
         <hr cDropdownDivider />
       </li>
-      <li>
+      <!-- <li>
         <a cDropdownItem routerLink="">
           <svg cIcon class="me-2" name="cilLockLocked"></svg>
           Lock Account
         </a>
-      </li>
+      </li> -->
       <li>
-        <a cDropdownItem routerLink="">
+        <a (click)="logOut()" cDropdownItem routerLink="">
           <svg cIcon class="me-2" name="cilAccountLogout"></svg>
           Logout
         </a>

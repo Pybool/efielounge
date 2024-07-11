@@ -166,6 +166,13 @@ export class HeaderComponent {
    return this.authService.uploadAvatar(formData)
   }
 
+  toggleMobileNavMenu(){
+    const navMenu = document.querySelector(".responsive-menu") as any;
+    if(navMenu){
+      navMenu.classList.toggle("responsive-menu-show")
+    }
+  }
+
   logout() {
     this.tokenService.removeTokens();
     this.authService.logout();

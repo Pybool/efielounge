@@ -1,0 +1,51 @@
+<div style="justify-content: space-between;gap:50px; align-items: flex-start;" class="mb-5 flex-row-sb">
+    <h3>Orders</h3>
+    <div style="width: 60vw;" class="flex-row-sb">
+        <c-input-group>
+            <input class="search-bar"  autoComplete="name" cFormControl placeholder="Search for anything (Coming soon)" />
+        </c-input-group>
+        <button style="white-space: nowrap;"  cButton color="primary">Go
+        </button>
+    </div>
+    <!-- <button style="white-space: nowrap;" [cModalToggle]="verticallyCenteredModalAddorder.id" cButton color="primary">Create order
+    </button> -->
+</div>
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-body>
+                <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+                    <thead class="text-nowrap text-truncate">
+                        <tr>
+                            
+                            <th class="bg-body-tertiary">Order Reference</th>
+                            <th class="bg-body-tertiary">GrandTotal</th>
+                            <th class="bg-body-tertiary">CreatedAt</th>
+                            <th class="bg-body-tertiary"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (order of orders; track order?._id; let i = $index) {
+                        <tr>
+                            <td>
+                                <div>{{ order?.checkOutId }}</div>
+                            </td>
+                            <td>
+                                <div>GHC {{ order?.grandTotal }}</div>
+                            </td>
+                            <td>
+                                <div>{{ order?.date }}</div>
+                            </td>
+                            <td>
+                                <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
+                                    <a href="javascript:void(0)" (click)="setorderToEdit(i)">Manage Order</a>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

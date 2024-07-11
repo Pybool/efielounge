@@ -17,7 +17,7 @@
         <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
           <thead class="text-nowrap text-truncate">
             <tr>
-
+              
               <th class="bg-body-tertiary">Category Name</th>
               <th class="bg-body-tertiary">CreatedAt</th>
               <th class="bg-body-tertiary">Action</th>
@@ -34,8 +34,8 @@
               </td>
               <td>
                 <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
-                  <a  href="javascript:void(0)">Edit</a>
-                  <a href="">Delete</a>
+                  <a [cModalToggle]="editverticallyCenteredModal.id" (click)="setcategoryToEdit(i)" href="javascript:void(0)">Edit</a>
+                  <a (click)="archiveCategory(i)" href="javascript:void(0)">Archive</a>
                 </div>
               </td>
             </tr>
@@ -66,5 +66,27 @@
       Close
     </button>
     <button (click)="createCategory()" cButton color="primary">Submit</button>
+  </c-modal-footer>
+</c-modal>
+
+<c-modal #editverticallyCenteredModal alignment="center" id="editverticallyCenteredModal">
+  <c-modal-header>
+    <h5 cModalTitle>Edit Category</h5>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm>
+      <c-input-group class="mb-3">
+        <span cInputGroupText>
+          <svg cIcon name="cilUser"></svg>
+        </span>
+        <input [(ngModel)]="selectedCategory.name" name="name" autoComplete="name" cFormControl placeholder="Category Name" />
+      </c-input-group>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="editverticallyCenteredModal.id" cButton color="secondary">
+      Close
+    </button>
+    <button (click)="editMenuCategory()" cButton color="primary">Submit</button>
   </c-modal-footer>
 </c-modal>
