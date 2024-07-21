@@ -36,7 +36,7 @@ export class OrdersComponent {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   constructor(private orderService: OrderService) {}

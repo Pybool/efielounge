@@ -1,0 +1,33 @@
+<div id="addressModal" (click)="externalClose($event)" class="modal">
+    <div class="modal-content">
+        <!-- <span class="close">&times;</span> -->
+        <div class="modal-body image-container">
+            <button (click)="sendBoolean($event)" class="close-button">&times;</button>
+            <div class="modal-body-content">
+                <h4 style="color:orange" class="menu-name">New Address</h4>
+                <hr>
+
+                <div class="form">
+                    <div class="form-group">
+                        <label>Address<sup style="color: red;">*</sup></label>
+                        <input [(ngModel)]="contact.address" name="address" placeholder="Enter full address" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input [(ngModel)]="contact.phone" name="phone" placeholder="Enter phone number" class="form-control"/>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="flex-row-sb">
+            <button (click)="addAddress()" [disabled]="!(contact.address.length > 5)" class="btn order-now">Add Address</button>
+        </div>
+
+
+
+
+    </div>
+
+</div>

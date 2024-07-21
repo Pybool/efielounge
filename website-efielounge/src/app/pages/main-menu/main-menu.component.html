@@ -51,12 +51,12 @@
             <div class="block less-spacing gray-bg top-padd30">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="col-md-8 col-sm-12 col-lg-8">
                             <div class="sec-box">
                                 <div class="remove-ext">
                                     <div class="row">
                                         <ng-container *ngFor="let menu of menus">
-                                            <div class="col-md-6 col-sm-6 col-lg-4">
+                                            <div class="col-md-6 col-sm-6 col-lg-6">
                                                 <div class="popular-dish-box style2 wow fadeIn" data-wow-delay="0.2s">
                                                     <div class="popular-dish-thumb">
                                                         <a href="/menu-detail/{{menu?.slug}}" title="" itemprop="url"><img
@@ -72,14 +72,23 @@
                                                                 itemprop="url">{{menu?.name}}</a></h4>
                                                         <p itemprop="description">{{menu?.description | truncateText: 110}} <br> <a class="desc-read-more" href="">Read More</a></p>
                                                         
-                                                        <span class="price">{{menu?.currency}} {{menu?.price}}</span>
-                                                        <a *ngIf="menu.inCart" [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}" class="brd-rd4 order" (click)="addToCart(menu?._id, menu.units)" href="javascript:void(0)" title="Order Again" itemprop="url">Order Again</a>
-                                                        <a *ngIf="!menu.inCart" class="brd-rd4 " (click)="addToCart(menu?._id, menu.units)" href="javascript:void(0)" title="Order Now"
-                                                            itemprop="url">Order Now</a>
+                                                        <div class="flex-row-sb">
+                                                            <span class="price">GH₵ {{menu?.price.toFixed(2)}}</span>
+                                                            <!-- <div style="gap:2px" class="number x-flex-row">
+                                                                <span class="minus">-</span>
+                                                                <input disabled class="number-input" value="1" name="units"
+                                                                    min="1" max="10" type="number" />
+                                                                <span class="plus">+</span>
+                                                            </div> -->
+                                                            <a *ngIf="menu.inCart" [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}" class="brd-rd4 order-now" (click)="orderNow(menu)" href="javascript:void(0)" title="Order Again" itemprop="url">Order Again</a>
+                                                            <a *ngIf="!menu.inCart" class="brd-rd4 order-now " (click)="orderNow(menu)" href="javascript:void(0)" title="Order Now"
+                                                                itemprop="url">Order Now</a>
+                                                        </div>
+                                                        
                                                         <div class="restaurant-info">
                                                             <!-- <img class="foot-img" lazy src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
                                                                 alt="restaurant-logo1.png" itemprop="image"> -->
-                                                            <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GHC 50</span>
+                                                            <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GH₵ 50</span>
                                                             <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
                                                             
                                                         </div>
@@ -89,31 +98,12 @@
                                             </div>
                                         </ng-container>
                                         <app-infinite-loader-spinner *ngIf="loading"></app-infinite-loader-spinner>
-
                                     </div>
                                 </div>
-                                <!-- <div class="pagination-wrapper text-center">
-                                    <small style="font-size: 10px;color:orangered">Pagination Unimplemented</small>
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item prev"><a class="page-link brd-rd2" href="#"
-                                                itemprop="url">PREVIOUS</a></li>
-                                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">1</a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">2</a>
-                                        </li>
-                                        <li class="page-item active"><span class="page-link brd-rd2">3</span></li>
-                                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">4</a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">5</a>
-                                        </li>
-                                        <li class="page-item">........</li>
-                                        <li class="page-item"><a class="page-link brd-rd2" href="#"
-                                                itemprop="url">18</a></li>
-                                        <li class="page-item next"><a class="page-link brd-rd2" href="#"
-                                                itemprop="url">NEXT</a></li>
-                                    </ul>
-                                </div> -->
                             </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-lg-4">
+                            <app-cart-docked (booleanEvent)="handleBooleanEvent($event)" [showCartModal]="showCartModal" [selectedMenu]="selectedMenu"></app-cart-docked>
                         </div>
                     </div>
                 </div>

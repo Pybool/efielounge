@@ -29,8 +29,8 @@ export class HeaderComponent {
     private menuService: MenuService,
     private authService: AuthService,
     private tokenService: TokenService,
-    private cartService: CartService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private cartService: CartService
   ) {}
 
   ngOnInit() {
@@ -42,22 +42,11 @@ export class HeaderComponent {
       this.authService.setLoggedIn(false);
     }
     this.setActiveLinkFromUrl()
-    // const activeLink = this.getActiveLink();
-    // this.markActiveLink(activeLink);
-    this.cartService
-      .getCart()
-      .pipe(take(1))
-      .subscribe((response: any) => {
-        if (response.status) {
-          this.cartService.getCartCount().subscribe((count) => {
-            if (this.initialRequest) {
-              this.cartCount = response.data.length;
-              this.initialRequest = false;
-            }
-            this.cartCount = this.cartCount + count;
-          });
-        }
-      });
+    const activeLink = this.getActiveLink();
+    this.markActiveLink(activeLink);
+    this.cartService.getCartCount().subscribe((count) => {
+        this.cartCount =  count;
+    });
 
     this.menuService
       .fetchCategories()
@@ -75,10 +64,13 @@ export class HeaderComponent {
       );
   }
 
+  cartDocker() {
+    this.cartService.cartDocker()
+  }
+
   markActiveLink(link: string) {
     setTimeout(()=>{
       const linkEl = document.querySelector(`#${link}`) as any;
-      console.log('Link ', linkEl);
       if (linkEl) {
         
         linkEl.querySelector('a').style.color = 'orange';
@@ -152,7 +144,6 @@ export class HeaderComponent {
 
       this.uploadAvatar(formData).pipe(take(1)).subscribe(
         (response: any) => {
-          console.log('Upload successful', response);
           this.avatar = response.data.avatar;
         },
         (error: any) => {

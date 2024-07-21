@@ -1,13 +1,13 @@
 .empty-cart {
-  width: 50vw;
+  width: auto;
   margin: 0 auto;
   text-align: center;
   font-family: "Maison Neue";
   font-weight: 300;
 }
 svg {
-  max-width: 60%;
-  padding: 5rem 3rem;
+  max-width: 40%;
+  padding: 0px;
 }
 svg #oval,
 svg #plus,
@@ -135,7 +135,7 @@ svg #bg-line:nth-child(3) {
   fill-opacity: 0.4;
 }
 h3 {
-  font-size: 2rem;
+  font-size: 1rem;
   line-height: 2rem;
   margin: 0;
   padding: 0;

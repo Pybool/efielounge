@@ -18,7 +18,7 @@ export class PopoversComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.visible = !this.visible;
-    }, 3000);
+    }, 100);
   }
 
 }

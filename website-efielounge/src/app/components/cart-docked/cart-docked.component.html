@@ -1,0 +1,90 @@
+<div id="basket" class="basket-container open">
+
+    <div class="basket-header">
+        <div class="flex-row-sb">
+            <h2 class="basket-text">Basket</h2>
+            <span class="basket-bin"><svg class="empty-cart" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path
+                        d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z" />
+                </svg></span>
+        </div>
+    </div>
+    <hr>
+    <div class="basket-content">
+        <section class="accordion accordion--radio">
+            <app-empty-cart *ngIf="cartItems?.length == 0" class="container"></app-empty-cart>
+            <ng-container *ngFor="let cartItem of cartItems">
+                <div class="tab">
+                    <input class="checkbox" type="checkbox" name="accordion-2" id="{{cartItem?._id}}">
+
+
+                    <label for="{{cartItem?._id}}" style="align-items: center; " class="tab__label flex-row-sb">
+
+                        <span class="menu-name">{{cartItem?.menu.name}}</span>
+                        <span class="menu-price">GH₵ {{cartItem?.total.toFixed(2)}}</span>
+                        <div (click)="handleClick($event)" style="gap:2px;" class="number flex-row-sb">
+                            <svg (click)="toggleRemoveFromCartModal(cartItem?.menu?.name, cartItem?._id)"
+                                style="margin-right: 10px;" class="empty-cart" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path style="fill:gray"
+                                    d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z" />
+                            </svg>
+                            <span (click)="subQty(cartItem)" class="minus"><span>-</span></span>
+                            <input class="number-input" value="{{cartItem?.units}}" name="units" min="1" max="10"
+                                type="number" />
+                            <span (click)="addQty(cartItem)" class="plus"><span>+</span></span>
+                        </div>
+
+                    </label>
+
+
+                    <div class="tab__content extras flex-row-sb">
+                        <ng-container *ngFor="let extra of cartItem.customMenuItems">
+                            <div class="pill-container">
+                                <div class="form-check">
+                                    <input [checked]="extra.isFinalSelect"
+                                        (change)="isChosenExtra($event,cartItem,extra)" class="form-check-input"
+                                        type="checkbox" value="" id="{{extra?._id}}">
+                                    <label class="form-check-label flex-row-sb" for="{{extra?._id}}">
+                                        <span class="">{{extra?.name}}</span>
+                                    </label>
+                                </div>
+                            </div>
+
+
+
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </section>
+
+    </div>
+    <div  class="costing" style="padding:10px; padding-top:0px">
+        <div class="flex-row-sb">
+            <div style="font-weight: 600;">Subtotal: </div>
+            <div style="font-weight: 700;">GH₵ {{subTotal?.toLocaleString()}} </div>
+
+        </div>
+        <div class="flex-row-sb">
+            <div style="font-weight: 600;">Delivery fee: </div>
+            <div style="font-weight: 700;">GH₵ {{deliveryFee.toFixed(2)}} </div>
+
+        </div>
+        <div class="flex-row-sb">
+            <div style="font-weight: 600;">Total: </div>
+            <div style="font-weight: 700;">GH₵ {{(subTotal + deliveryFee)?.toLocaleString()}} </div>
+
+        </div>
+    </div>
+    <!-- <div *ngIf="cartItems.length > 0"  class="x-flex-row brd-rd2 checkout">
+        <div *ngIf="showCheckOutSpinner" class="spinner"></div>
+        <a class="order-now" href="javascript:void(0)"  title="" itemprop="url">Proceed to Checkout</a>
+    </div> -->
+    <button [disabled]="cartItems?.length == 0" (click)="checkOut()" class="btn btn-primary">Proceed to Checkout</button>
+
+</div>
+<app-add-cart-modal *ngIf="showCartModal" (addedCartItem)="handleAddedCartItem($event)"
+    (booleanEvent)="handleBooleanEvent($event)" [selectedMenu]="selectedMenu"></app-add-cart-modal>
+<app-remove-from-cart [removal]="removal" (confirmEvent)="handleConfirmEvent()"></app-remove-from-cart>

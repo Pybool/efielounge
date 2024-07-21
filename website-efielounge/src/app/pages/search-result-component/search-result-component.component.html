@@ -62,12 +62,12 @@
             <div class="block less-spacing gray-bg top-padd30">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="col-md-8 col-sm-12 col-lg-8">
                             <div class="sec-box">
                                 <div class="remove-ext">
                                     <div class="row">
                                         <ng-container *ngFor="let menu of menus">
-                                            <div class="col-md-4 col-sm-6 col-lg-4">
+                                            <div class="col-md-6 col-sm-6 col-lg-6">
                                                 <div class="popular-dish-box style2 wow fadeIn" data-wow-delay="0.2s">
                                                     <div class="popular-dish-thumb">
                                                         <a href="/menu-detail/{{menu?.slug}}" title=""
@@ -92,17 +92,17 @@
                                                         <span class="price">{{menu?.currency}} {{menu?.price}}</span>
                                                         <a *ngIf="menu.inCart"
                                                             [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}"
-                                                            class="brd-rd4 order" (click)="addToCart(menu?._id, menu.units)" href="javascript:void(0)"
+                                                            class="brd-rd4 order" (click)="orderNow(menu)" href="javascript:void(0)"
                                                             title="Order Again" itemprop="url">Order Again</a>
                                                         <a *ngIf="!menu.inCart" class="brd-rd4 "
-                                                            (click)="addToCart(menu?._id, menu.units)"
+                                                            (click)="orderNow(menu)"
                                                             href="javascript:void(0)" title="Order Now"
                                                             itemprop="url">Order Now</a>
                                                         <div class="restaurant-info">
                                                             <!-- <img class="foot-img" lazy src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
                                                                 alt="restaurant-logo1.png" itemprop="image"> -->
                                                             <span class="delivery"><i class="fa fa-check-circle-o"></i>
-                                                                Min order GHC 50</span>
+                                                                Min order GH₵ 50</span>
                                                             <span class="delivery"><i class="flaticon-transport"></i>
                                                                 30min</span>
 
@@ -123,6 +123,9 @@
                                     <img class="img-404" src="assets/images/resource/search_no_result.png" />
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-lg-4">
+                            <!-- <app-cart-docked (booleanEvent)="handleBooleanEvent($event)" [showCartModal]="showCartModal" [selectedMenu]="selectedMenu"></app-cart-docked> -->
                         </div>
                     </div>
                 </div>

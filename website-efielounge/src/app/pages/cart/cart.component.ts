@@ -62,7 +62,7 @@ export class CartComponent {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   toggleRemoveFromCartModal(name: string, _id: string) {
@@ -99,20 +99,6 @@ export class CartComponent {
     this.cartService.setCartCount( -1)
   }
 
-  addQty(cartItem: any) {
-    if(cartItem.units < 5){
-      cartItem.units += 1;
-    }else{
-      alert("You can only place a maximum of 5 orders for the same menu")
-    }
-  }
-
-  subQty(cartItem: any) {
-    if(cartItem.units > 1){
-      cartItem.units -= 1;
-    }
-  }
-
   checkOut() {
     this.showCheckOutSpinner = true;
     this.cartService
@@ -135,4 +121,20 @@ export class CartComponent {
         }
       );
   }
+
+  addQty(cartItem: any) {
+    if(cartItem.units < 5){
+      cartItem.units += 1;
+    }else{
+      alert("You can only place a maximum of 5 orders for the same menu")
+    }
+  }
+
+  subQty(cartItem: any) {
+    if(cartItem.units > 1){
+      cartItem.units -= 1;
+    }
+  }
+
+  
 }

@@ -13,6 +13,7 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 import { InfiniteLoaderSpinnerComponent } from '../../components/infinite-loader-spinner/infinite-loader-spinner.component';
+import { CartDockedComponent } from '../../components/cart-docked/cart-docked.component';
 
 @Component({
   selector: 'app-search-result-component',
@@ -26,8 +27,9 @@ import { InfiniteLoaderSpinnerComponent } from '../../components/infinite-loader
     CommonModule,
     TruncateTextPipe,
     InfiniteLoaderSpinnerComponent,
+    CartDockedComponent
   ],
-  providers: [MenuService, CartService],
+  providers: [MenuService],
   templateUrl: './search-result-component.component.html',
   styleUrl: './search-result-component.component.scss',
 })
@@ -67,7 +69,7 @@ export class SearchResultComponentComponent implements OnDestroy {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   searchFood(isFresh: boolean = false) {
@@ -109,29 +111,16 @@ export class SearchResultComponentComponent implements OnDestroy {
       );
   }
 
-  addToCart(menu: string, units: number) {
-    const user = this.authService.retrieveUser();
-    if (user) {
-      this.authService.setLoggedIn(true);
-      this.cartService
-        .addToCart({ menu, units })
-        .pipe(take(1))
-        .subscribe(
-          (response: any) => {
-            alert(response.message);
-          },
-          (error: any) => {
-            console.log('error ', error, Object.keys(error));
-            if ([401].includes(error.status)) {
-              this.authService.navigateToUrl('/login');
-            } else {
-              alert('Something went wrong while peforming your request');
-            }
-          }
-        );
-    } else {
-      this.authService.setLoggedIn(false);
-    }
+  toggleAddToCartModal() {
+    this.cartService.toggleAddToCartModal();
+  }
+
+  handleBooleanEvent(value: boolean) {
+    this.cartService.handleBooleanEvent(value);
+  }
+
+  orderNow(menu: any) {
+    this.cartService.orderNow(menu);
   }
 
   async likeMenu(_id: string) {

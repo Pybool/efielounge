@@ -17,7 +17,7 @@ export class ProgressComponent {
     setTimeout(() => {
       this.value = 100;
       this.variant = 'striped';
-    }, 3000);
+    }, 100);
   }
 
 }

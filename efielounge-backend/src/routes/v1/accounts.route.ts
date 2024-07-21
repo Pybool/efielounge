@@ -8,6 +8,11 @@ const authRouter = express.Router();
 authRouter.get('/user-profile', decode, accountController.getUserProfile)
 authRouter.put('/user-profile', decode, getMulterConfigSingle('../public/accounts/admin/'), accountController.saveUserProfile)
 authRouter.post('/upload-avatar', decode, getMulterConfigSingle('../public/accounts/customers/'), accountController.uploadAvatar)
+authRouter.post('/add-address', decode, accountController.addAddress)
+authRouter.get('/get-addresses', decode, accountController.getAddresses)
+authRouter.post('/set-default-address', decode, accountController.setDefaultAddress)
+
+
 
 authRouter.all('/user-profile', handleInvalidMethod);
 authRouter.all('/user-profile', handleInvalidMethod);

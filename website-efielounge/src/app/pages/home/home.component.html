@@ -75,13 +75,13 @@
                             {{readyMeal.name}}</a>
                         </h4>
                         <p itemprop="description">{{readyMeal?.description | truncateText: 90}}</p>
-                        <span class="price">GHC {{readyMeal.price}}</span>
+                        <span class="price">GH₵ {{readyMeal.price}}</span>
                         <a *ngIf="readyMeal.inCart"
                           [ngStyle]="{'background-color': readyMeal.inCart ? 'orange' : 'black'}" class="brd-rd2 order"
-                          href="javascript:void(0)" (click)="addToCart(readyMeal?._id)" title="Order Again"
+                          href="javascript:void(0)" (click)="orderNow(readyMeal)" title="Order Again"
                           itemprop="url">Order Again</a>
 
-                        <a *ngIf="!readyMeal.inCart" class="brd-rd2" (click)="addToCart(readyMeal?._id)"
+                        <a *ngIf="!readyMeal.inCart" class="brd-rd2" (click)="orderNow(readyMeal)"
                           href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
                         <div class="restaurant-info">
                           <img src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}"
@@ -105,7 +105,7 @@
 
     <section>
       <div class="container">
-        <div class="title1-wrapper text-center">
+        <div *ngIf="upcomings.length > 0" class="title1-wrapper text-center">
           <div class="title1-inner">
             <span>We Are Getting These Ready</span>
           </div>
@@ -126,13 +126,13 @@
               <div class="x-flex-row">
                 <div class="caro-dish-name">
                   <h4>{{comingUp?.category.name}}</h4>
-                  <span>GHC {{comingUp?.price}}</span>
+                  <span>GH₵ {{comingUp?.price}}</span>
                 </div>
                 <a *ngIf="comingUp.inCart" [ngStyle]="{'background-color': comingUp.inCart ? 'orange' : 'black'}"
-                  class="brd-rd2 order" (click)="addToCart(comingUp?._id)" href="javascript:void(0)" title="Order Again"
+                  class="brd-rd2 order" (click)="orderNow(comingUp)" href="javascript:void(0)" title="Order Again"
                   itemprop="url">Order Again</a>
-                <a *ngIf="!comingUp.inCart" class="brd-rd2 order" (click)="addToCart(comingUp?._id)"
-                  href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
+                <a *ngIf="!comingUp.inCart" class="brd-rd2 order" (click)="orderNow(comingUp)" href="javascript:void(0)"
+                  title="Order Now" itemprop="url">Order Now</a>
                 <span class="post-rate yellow-bg brd-rd2"><i class="fa"
                     [ngClass]="comingUp?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                   {{comingUp?.ratings?.toFixed(2)}}</span>
@@ -168,12 +168,12 @@
               </div>
               <!-- <div class="caro-dish-name">
                     <h4>{{favourite?.category.name}}</h4>
-                    <span>GHC {{favourite?.price}}</span>
+                    <span>GH₵ {{favourite?.price}}</span>
                   </div> -->
               <div class="loc-btn x-flex-row">
                 <div class="caro-dish-name">
                   <h4>{{favourite?.category.name}}</h4>
-                  <span>GHC {{favourite?.price}}</span>
+                  <span>GH₵ {{favourite?.price}}</span>
                 </div>
                 <span class="post-rate yellow-bg brd-rd2"><i class="fa"
                     [ngClass]="favourite?.iRated ? 'fa-star' : 'fa-star-o'"></i>
@@ -183,9 +183,9 @@
                     class="fa fa-heart"></i>
                   {{favourite?.likes}}</span>
                 <a *ngIf="favourite.inCart" [ngStyle]="{'background-color': favourite.inCart ? 'orange' : 'black'}"
-                  class="brd-rd2 order" (click)="addToCart(favourite?._id)" href="javascript:void(0)"
-                  title="Order Again" itemprop="url">Order Again</a>
-                <a *ngIf="!favourite.inCart" class="brd-rd2 order" (click)="addToCart(favourite?._id)"
+                  class="brd-rd2 order" (click)="orderNow(favourite)" href="javascript:void(0)" title="Order Again"
+                  itemprop="url">Order Again</a>
+                <a *ngIf="!favourite.inCart" class="brd-rd2 order" (click)="orderNow(favourite)"
                   href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
               </div>
             </div>
@@ -220,10 +220,10 @@
                             <span class="red-clr">GCMA STREET, ANYAA, GHANA</span>
                             <h4 itemprop="headline"><a href="/menu-detail/{{popular?.slug}}" title=""
                                 itemprop="url">{{popular?.name}}</a></h4>
-                            <span class="price">GHC {{popular?.price}}</span>
+                            <span class="price">GH₵ {{popular?.price}}</span>
 
                             <ul class="post-meta">
-                              <li><i class="fa fa-check-circle-o"></i> Min order GHC 50</li>
+                              <li><i class="fa fa-check-circle-o"></i> Min order GH₵ 50</li>
                               <li><i class="flaticon-transport"></i> 30min</li>
                             </ul>
                             <span class="post-rate popular-post-rate yellow-bg brd-rd2"><i class="fa"
@@ -237,11 +237,11 @@
 
                             <a *ngIf="popular.inCart"
                               [ngStyle]="{'background-color': popular.inCart ? 'orange' : 'black'}"
-                              class="brd-rd2 order" (click)="addToCart(popular?._id)" href="javascript:void(0)"
+                              class="brd-rd2 order" (click)="orderNow(popular)" href="javascript:void(0)"
                               title="Order Again" itemprop="url">View In
                               Cart</a>
                             <a *ngIf="!popular.inCart" style="margin-bottom: 10px;" class="brd-rd2 order"
-                              (click)="addToCart(popular?._id)" href="javascript:void(0)" title="Order Now"
+                              (click)="orderNow(popular)" href="javascript:void(0)" title="Order Now"
                               itemprop="url">Order Now</a>
                           </div>
 
@@ -312,7 +312,7 @@
                               </ng-container>
                             </span>
                             <ul class="post-meta">
-                              <li><i class="fa fa-check-circle-o"></i> Min order GHC {{filteredMenu?.price}}</li>
+                              <li><i class="fa fa-check-circle-o"></i> Min order GH₵ {{filteredMenu?.price}}</li>
                               <li><i class="flaticon-transport"></i> 30min</li>
                               <li><i class="flaticon-money"></i> Accepts cash & online payments</li>
                             </ul>
@@ -326,10 +326,10 @@
                               {{filteredMenu?.likes}}</span>
                             <a *ngIf="filteredMenu.inCart" style="float:left;"
                               [ngStyle]="{'background-color': filteredMenu.inCart ? 'orange' : 'black'}"
-                              class="brd-rd2 order" (click)="addToCart(filteredMenu?._id)" href="javascript:void(0)"
+                              class="brd-rd2 order" (click)="orderNow(filteredMenu)" href="javascript:void(0)"
                               title="Order Again" itemprop="url">View
                               In Cart</a>
-                            <a *ngIf="!filteredMenu.inCart" class="brd-rd5" (click)="addToCart(filteredMenu?._id)"
+                            <a *ngIf="!filteredMenu.inCart" class="brd-rd5" (click)="orderNow(filteredMenu)"
                               href="javascript:void(0)" title="Order Now">Order Now</a>
                           </div>
                         </div>
@@ -383,6 +383,23 @@
       </div>
     </section><!-- red section -->
     <app-footer></app-footer>
+    <!-- <div id="dock-btn" class="btn" (click)="cartDocker()">
+      <div class="cart-icon">
+        <svg style="width:25px;height:25px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+          <path style="fill:orange"
+            d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z">
+          </path>
+        </svg>
+        <sup><span *ngIf="cartCount>0" class="badge">{{cartCount}}</span></sup>
+      </div>
+    </div>
+    <div id="dock-widget">
+      <app-cart-docked (booleanEvent)="handleBooleanEvent($event)" [showCartModal]="showCartModal"
+        [selectedMenu]="selectedMenu"></app-cart-docked>
+
+    </div> -->
+
+
 
   </main><!-- Main Wrapper -->
 

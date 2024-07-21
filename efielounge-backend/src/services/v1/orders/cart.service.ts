@@ -48,22 +48,27 @@ export class CartService {
           code: 400,
         };
       }
-      const exists = await Cart.findOne({account: req.accountId, menu: cartPayload.menu});
-      if(!exists){
+      const exists = await Cart.findOne({
+        account: req.accountId,
+        menu: cartPayload.menu,
+      });
+      if (!exists) {
         cartPayload.account = account._id;
         cartPayload.createdAt = new Date();
         const cartItem = await Cart.create(cartPayload);
+        const cartData = await cartItem.populate("customMenuItems");
+        cartData._id = cartItem._id;
         return {
           status: true,
           message: "Menu added to cart succesfully",
           isMerged: false,
-          data: cartItem,
+          data: await cartData.populate("menu"),
           code: 200,
         };
       }
       exists.updatedAt = new Date();
       exists.units = exists.units + cartPayload.units;
-      const mergedMenu = await exists.save()
+      const mergedMenu = await exists.save();
       return {
         status: true,
         message: "Merged menu units in your cart",
@@ -71,8 +76,6 @@ export class CartService {
         data: mergedMenu,
         code: 200,
       };
-      
-      
     } catch (error: any) {
       throw error;
     }
@@ -218,7 +221,18 @@ export class CartService {
       for (let cartItem of cartItems) {
         cartItemIds.push(cartItem._id);
         const cartItemDb = await Cart.findOne({ _id: cartItem._id });
+        
+        const selectedCustomMenuItems = []
+        for (let customMenuItem of cartItem.customMenuItems) {
+          if (customMenuItem.isFinalSelect) {
+            selectedCustomMenuItems.push(customMenuItem)
+          }
+        }
+        
         if (cartItemDb) {
+          if(selectedCustomMenuItems.length > 0){
+            cartItemDb.customMenuItems = selectedCustomMenuItems
+          }
           cartItemDb.units = cartItem.units;
           await cartItemDb.save();
         } else {
@@ -241,7 +255,7 @@ export class CartService {
           checkOutId: newCheckOutId,
           cart: cartItemIds,
           account: req.accountId,
-          amount: amount
+          amount: amount,
         });
       } else {
         checkOutIntent = await CheckOut.findOneAndUpdate(
@@ -249,7 +263,7 @@ export class CartService {
           {
             cart: cartItemIds,
             account: req.accountId,
-            amount: amount
+            amount: amount,
           },
           { new: true }
         );
@@ -322,10 +336,10 @@ export class CartService {
         account: checkOutIntent.account,
         checkOutId: checkOutIntent.checkOutId,
         cart: checkOutIntent.cart,
-        status: checkOutIntent.status
-      }
+        status: checkOutIntent.status,
+      };
       await OrderService.createOrder(checkOutIntentMod);
-      
+
       return {
         status: true,
         data: proof,
@@ -338,10 +352,10 @@ export class CartService {
     }
   }
 
-  static async saveTransaction(req:Xrequest){
-    try{
-      const payload = req.body
-      payload.createdAt = new Date()
+  static async saveTransaction(req: Xrequest) {
+    try {
+      const payload = req.body;
+      payload.createdAt = new Date();
       let checkOutIntent = await CheckOut.findOne({
         account: req.accountId,
         checkOutId: payload.checkOutId,
@@ -358,20 +372,18 @@ export class CartService {
         account: checkOutIntent.account,
         checkOutId: checkOutIntent.checkOutId,
         cart: checkOutIntent.cart,
-        status: checkOutIntent.status
-      }
+        status: checkOutIntent.status,
+      };
       await OrderService.createOrder(checkOutIntentMod);
       const transaction = await Transaction.create(payload);
       return {
         status: true,
         message: "Transaction created & saved",
         data: transaction,
-        code: 201
-      }
-
-    }catch(error:any){
+        code: 201,
+      };
+    } catch (error: any) {
       throw error;
     }
   }
-
 }

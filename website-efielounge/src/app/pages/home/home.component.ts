@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { PreloaderComponent } from '../../components/preloader/preloader.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CartDockedComponent } from '../../components/cart-docked/cart-docked.component';
 
 @Component({
   selector: 'app-home',
@@ -28,8 +29,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     TruncateTextPipe,
     ScrollIntoViewDirective,
+    CartDockedComponent,
   ],
-  providers: [AuthService, CartService, MenuService],
+  providers: [AuthService, MenuService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -45,6 +47,20 @@ export class HomeComponent {
   public serverUrl: string = environment.api;
   public page: number = 1;
   public pageSize: number = 3;
+  public _showCartModal: boolean = false;
+  public cartCount = 0;
+  public initialRequest = true;
+  @Output() showCartModal = new EventEmitter<boolean>();
+  
+  public selectedMenu:
+    | { _id:string;
+        name?: string;
+        price?: string;
+        image: string;
+        description: string;
+        extras?: any[];
+      }
+    | any = {};
 
   constructor(
     private menuService: MenuService,
@@ -59,7 +75,7 @@ export class HomeComponent {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   ngOnInit() {
@@ -89,7 +105,6 @@ export class HomeComponent {
       .subscribe(
         (response: any) => {
           if (response.status) {
-            console.log(response.data);
             this.upcomings = response.data;
           }
         },
@@ -97,6 +112,22 @@ export class HomeComponent {
           console.log('Failed to fetch menu');
         }
       );
+
+      // this.cartService
+      // .getCart()
+      // .pipe(take(1))
+      // .subscribe((response: any) => {
+      //   if (response.status) {
+      //     this.cartService.getCartCount().subscribe((count) => {
+      //       console.log("100000000000000000")
+      //       if (this.initialRequest) {
+      //         this.cartCount = response.data.length;
+      //         this.initialRequest = false;
+      //       }
+      //       this.cartCount = this.cartCount + count;
+      //     });
+      //   }
+      // });
   }
 
   onUserfavouritesVisible() {
@@ -107,7 +138,6 @@ export class HomeComponent {
         .subscribe(
           (response: any) => {
             if (response.status) {
-              console.log(response.data);
               this.favourites = response.data;
             }
           },
@@ -126,7 +156,6 @@ export class HomeComponent {
         .subscribe(
           (response: any) => {
             if (response.status) {
-              console.log(response.data);
               this.mostPopular = response.data;
             }
           },
@@ -145,7 +174,6 @@ export class HomeComponent {
         .subscribe(
           (response: any) => {
             if (response.status) {
-              console.log(response.data);
               this.categories = response.data;
             }
           },
@@ -160,7 +188,6 @@ export class HomeComponent {
         .subscribe(
           (response: any) => {
             if (response.status) {
-              console.log(response.data);
               this.filteredMenus = response.data.slice(0, 6);
               this.filteredMenusCache = JSON.parse(
                 JSON.stringify(response.data.slice(0, 6))
@@ -173,6 +200,8 @@ export class HomeComponent {
         );
     }
   }
+
+  
 
   filterByCategory(category: any = null, $event: any) {
     this.activateLink($event);
@@ -212,24 +241,40 @@ export class HomeComponent {
   }
 
   addToCart(menu: string, units: number = 1) {
-    const user = this.authService.retrieveUser();
-    if (user) {
-      this.authService.setLoggedIn(true);
-      this.cartService
-        .addToCart({ menu, units })
-        .pipe(take(1))
-        .subscribe(
-          (response: any) => {
-            alert(response.message);
-          },
-          (error: any) => {
-            console.log('error ', error, Object.keys(error));
-          }
-        );
-    } else {
-      this.authService.setLoggedIn(false);
-      this.authService.navigateToUrl('/login');
-    }
+    // const user = this.authService.retrieveUser();
+    // if (user) {
+    //   this.authService.setLoggedIn(true);
+    //   this.cartService
+    //     .addToCart({ menu, units })
+    //     .pipe(take(1))
+    //     .subscribe(
+    //       (response: any) => {
+    //         alert(response.message);
+    //       },
+    //       (error: any) => {
+    //         console.log('error ', error, Object.keys(error));
+    //       }
+    //     );
+    // } else {
+    //   this.authService.setLoggedIn(false);
+    //   this.authService.navigateToUrl('/login');
+    // }
+  }
+
+  cartDocker() {
+    this.cartService.cartDocker()
+  }
+
+  toggleAddToCartModal() {
+    this.cartService.toggleAddToCartModal()
+  }
+
+  handleBooleanEvent(value: boolean) {
+    this.cartService.handleBooleanEvent(value)
+  }
+
+  orderNow(menu: any) {
+    this.cartService.orderNow(menu)
   }
 
   async likeMenu(_id: string) {

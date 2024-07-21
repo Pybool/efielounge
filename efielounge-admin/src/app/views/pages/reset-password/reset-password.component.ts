@@ -40,7 +40,7 @@ export class ResetPasswordComponent {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   resetPassword() {

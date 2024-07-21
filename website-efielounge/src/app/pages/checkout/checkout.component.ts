@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DirectBankTransferModalComponent } from '../../components/direct-bank-transfer-modal/direct-bank-transfer-modal.component';
 import { PaystackService } from '../../services/paystack.service';
 import { AuthService } from '../../services/auth.service';
+import { AddressModalComponent } from '../../components/address-modal/address-modal.component';
 
 @Component({
   selector: 'app-checkout',
@@ -28,8 +29,9 @@ import { AuthService } from '../../services/auth.service';
     ReactiveFormsModule,
     RemoveFromCartComponent,
     DirectBankTransferModalComponent,
+    AddressModalComponent,
   ],
-  providers: [CartService, PaystackService, AuthService],
+  providers: [ PaystackService, AuthService],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
@@ -47,8 +49,10 @@ export class CheckoutComponent {
     ref: this.checkOutId,
     amount: 0.0,
   };
+  public showCartModal = false;
   public paymentMethod: string = 'card';
   public user: any;
+  public addresses: any = [];
 
   constructor(
     private cartService: CartService,
@@ -65,12 +69,12 @@ export class CheckoutComponent {
     }
     this.activatedRoute$ = this.route.paramMap.subscribe((params) => {
       this.checkOutId = params.get('checkOutId') as string;
-      console.log('this.checkOutId ', this.checkOutId);
       this.cartService
         .getCart(this.checkOutId)
         .pipe(take(1))
         .subscribe(
           (response: any) => {
+            this.cartService.cartDocker(true)
             if (response.status) {
               this.checkOutItems = response.data;
             }
@@ -78,6 +82,24 @@ export class CheckoutComponent {
           (error: any) => {}
         );
     });
+
+    this.cartService
+      .getAddresses()
+      .pipe(take(1))
+      .subscribe((response: any) => {
+        if (response.status) {
+          this.addresses = response.data;
+        }
+      });
+  }
+
+  handleBooleanEvent(value: boolean) {
+    this.showCartModal = value;
+  }
+
+  handleNewAddressEvent(value: boolean) {
+    console.log(value)
+    this.addresses.unshift(value);
   }
 
   ngAfterViewInit() {
@@ -86,7 +108,7 @@ export class CheckoutComponent {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   initiatePayment(amount: number, email: string, checkOutId: string) {
@@ -101,6 +123,32 @@ export class CheckoutComponent {
     });
   }
 
+  setDefaultAddress(address:any) {
+    this.cartService
+      .setDefaultAddress({ addressId: address._id })
+      .pipe(take(1))
+      .subscribe((response: any) => {
+        console.log(response)
+        if(response.status){
+          for(let _address of this.addresses){
+            _address.isDefault = false;
+          }
+          address.isDefault = true
+        }
+      });
+  }
+
+  activatePayment(){
+    let defaultSelected = false;
+    for(let _address of this.addresses){
+      if(_address.isDefault == true){
+        defaultSelected = true
+        break;
+      }
+    }
+    return defaultSelected;
+  }
+
   verifyTransaction(reference: string, checkOutId: string) {
     this.paystackService.verifyTransaction(reference, (paymentResponse) => {
       setTimeout(() => {
@@ -109,7 +157,8 @@ export class CheckoutComponent {
             .saveTransaction(reference, checkOutId, paymentResponse)
             .subscribe((response: any) => {
               if (response.status) {
-                this.router.navigate(['orders']);
+                this.cartService.resetCart()
+                this.router.navigateByUrl('/orders');
               } else {
                 alert(response.message);
               }
@@ -150,6 +199,7 @@ export class CheckoutComponent {
   handleConfirmEvent() {
     console.log('Cart Item removed from cart ', this.removal.name);
     this.deleteObjectById(this.removal._id);
+    this.cartService.setCartCount(-1,this.removal._id)
   }
 
   addQty(checkOutItem: any) {
@@ -167,6 +217,20 @@ export class CheckoutComponent {
   }
 
   checkOut() {
+    // this.payment = {
+    //   ref: this.checkOutId,
+    //   amount: this.getSubTotal() + this.shippingCost,
+    // };
+    // if (this.paymentMethod == 'transfer') {
+    //   this.toggleTransferModal();
+    // } else {
+    //   this.initiatePayment(
+    //     Math.round(Number(this.payment.amount)),
+    //     this.user.email,
+    //     this.checkOutId
+    //   );
+    // }
+
     this.cartService
       .updateCartItemsAndCheckOut(
         {
@@ -179,7 +243,6 @@ export class CheckoutComponent {
       .subscribe(
         (response: any) => {
           if (response.status) {
-            console.log(response.data);
             this.payment = {
               ref: this.checkOutId,
               amount: this.getSubTotal() + this.shippingCost,
@@ -204,11 +267,25 @@ export class CheckoutComponent {
       );
   }
 
-  getSubTotal() {
-    return this.checkOutItems.reduce(
-      (acc, cartItem: any) => acc + cartItem.menu.price * cartItem.units,
+  getCartItemTotal(cartItem: any, extras: any[]) {
+    const extrasTotalPrice = extras.reduce(
+      (acc, extra: any) => acc + extra.price,
       0
     );
+    return ((cartItem.menu.price + extrasTotalPrice) * cartItem?.units).toFixed(
+      2
+    );
+  }
+
+  getSubTotal() {
+    return this.checkOutItems.reduce((acc, cartItem: any) => {
+      const customMenuItemPrice = cartItem.customMenuItems.reduce(
+        (customAcc: any, customItem: { price: any }) =>
+          customAcc + customItem.price * cartItem.units,
+        0
+      );
+      return acc + cartItem.menu.price * cartItem.units + customMenuItemPrice;
+    }, 0);
   }
 
   toggleTransferModal() {

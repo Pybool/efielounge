@@ -83,7 +83,7 @@ export class MenuComponent {
     name: 'Pure heaven',
     status: 'Available',
     price: 750,
-    currency: 'GHC',
+    currency: 'GH₵',
   };
   public attachments: FileList | null = null;
   public menuCategories: any[] = [];

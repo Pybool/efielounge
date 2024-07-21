@@ -21,7 +21,7 @@ menuRouter.get("/get-user-favourites", decode, updateInCart, (async(req:Xrequest
     res.status(result?.code || 500).json(result)
 }));
 
-menuRouter.get("/get-most-popular-menu", decode, updateInCart, (async(req:any, res:any,next:any)=>{
+menuRouter.get("/get-most-popular-menu", decodeExt, updateInCart, (async(req:any, res:any,next:any)=>{
     const result = await OrderService.getMostOrdered(req)
     res.status(result?.code || 500).json(result)
 }));

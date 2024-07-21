@@ -10,9 +10,9 @@ import MenuRatings from "../../../models/menu/ratings.model";
 import { Menuservice } from "../menu/menu.service";
 import MenuLikes from "../../../models/menu/likes.model";
 
-async function checkIfIRated(account:string, menuId:string){
+async function checkIfIRated(account: string, menuId: string) {
   const exists = await MenuRatings.findOne({ account, menu: menuId })!;
-  if(exists?.menu!.toString()=== menuId.toString()){
+  if (exists?.menu!.toString() === menuId.toString()) {
     return true;
   }
   return false;
@@ -81,8 +81,8 @@ export class OrderService {
       // Fetch all orders for the user
       let userOrders;
       let allOrders;
-      let populatedUserTopOrderedMenu:any =[];
-      let populatedOverallTopOrderedMenu:any =[];
+      let populatedUserTopOrderedMenu: any = [];
+      let populatedOverallTopOrderedMenu: any = [];
 
       if (accountId) {
         userOrders = await Order.find({ account: accountId })
@@ -128,22 +128,22 @@ export class OrderService {
         );
       }
 
-      const rateAndLike = (async(arr:any[])=>{
+      const rateAndLike = async (arr: any[]) => {
         for (const menu of arr!) {
           menu.ratings = await Menuservice.computeRating(menu._id.toString());
           menu.likes = await MenuLikes.countDocuments({ menuId: menu._id });
         }
-      })
+      };
 
       if (accountId) {
-        await rateAndLike(populatedUserTopOrderedMenu)
+        await rateAndLike(populatedUserTopOrderedMenu);
         return {
           status: true,
           data: populatedUserTopOrderedMenu,
           code: 200,
         };
       }
-      await rateAndLike(populatedOverallTopOrderedMenu)
+      await rateAndLike(populatedOverallTopOrderedMenu);
       return {
         status: true,
         data: populatedOverallTopOrderedMenu,
@@ -182,7 +182,7 @@ export class OrderService {
   static async computeRating(menu: string) {
     try {
       const ratings = await MenuRatings.find({ menu });
-      
+
       if (ratings.length === 0) {
         return 0;
       }
@@ -214,7 +214,9 @@ export class OrderService {
       }
       data.account = req.accountId!;
       const rating = await MenuRatings.create(data);
-      rating.rating = await Menuservice.computeRating(canRate?.menu._id.toString())
+      rating.rating = await Menuservice.computeRating(
+        canRate?.menu._id.toString()
+      );
       return {
         status: true,
         message: `Thank you for rating ${canRate?.menu?.name}`,
@@ -225,7 +227,6 @@ export class OrderService {
       throw error;
     }
   }
-  
 
   static async fetchOrders(req: Xrequest) {
     try {
@@ -234,15 +235,15 @@ export class OrderService {
       const limit = Number((req.query.limit! as string) || 100);
 
       filter = OrderService.buildFilter(req);
-      console.log("Filter ", filter)
+      console.log("Filter ", filter);
       const skip = (page - 1) * limit; // Calculate the number of documents to skip
 
       const options = {
         skip: skip, // Skip the appropriate number of documents for pagination
         limit: limit, // Limit the number of documents returned
-        sort: { }, // Sort by createdAt in descending order
+        sort: {}, // Sort by createdAt in descending order
       };
-      
+
       const [orders, total]: any = await Promise.all([
         Order.find(filter, null, options)
           .sort({ createdAt: -1 })
@@ -262,8 +263,7 @@ export class OrderService {
           order.menu._id.toString()
         );
         order.menu.likes = await Order.countDocuments({ menu: order.menu._id });
-        order.menu.iRated = await checkIfIRated(req.accountId!, order.menu._id)
-       
+        order.menu.iRated = await checkIfIRated(req.accountId!, order.menu._id);
       }
       return {
         status: true,
@@ -281,13 +281,16 @@ export class OrderService {
   }
 
   static buildFilter(req: Xrequest) {
-    
     try {
-      if (req.query.filter!='all') {
-        return { status: req.query.filter };
-      } else if (req.query.filter == "all") {
-        return {  };
+      if (req.query.filter) {
+        if (req.query.filter != "all") {
+          return { status: req.query.filter };
+        }
+        if (req.query.filter == "all") {
+          return {};
+        }
       }
+
       return { account: req.accountId! };
     } catch {
       return { account: req.accountId! };

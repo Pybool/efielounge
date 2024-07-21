@@ -53,7 +53,7 @@ export class UploadReceiptComponent {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   onFileChange(event: any) {

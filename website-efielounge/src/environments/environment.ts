@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  api: 'https://be.efielounge.com',
-  // api: 'http://localhost:8000',
+  // api: 'https://be.efielounge.com',
+  api: 'http://localhost:8000',
   AES_SECRET_KEY:"XXXX-XXXX-XXXX-XXXX",
   LIVE_PAYSTACK_SECRET_KEY: "sk_live_.c9de1",
   LIVE_PAYSTACK_PUBLIC_KEY: "pk_live_.3c35f",

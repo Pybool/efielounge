@@ -13,6 +13,8 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 import { InfiniteLoaderSpinnerComponent } from '../../components/infinite-loader-spinner/infinite-loader-spinner.component';
+import { CartDockedComponent } from '../../components/cart-docked/cart-docked.component';
+import { AddCartModalComponent } from '../../components/add-cart-modal/add-cart-modal.component';
 
 @Component({
   selector: 'app-main-menu',
@@ -25,9 +27,11 @@ import { InfiniteLoaderSpinnerComponent } from '../../components/infinite-loader
     ReactiveFormsModule,
     CommonModule,
     TruncateTextPipe,
-    InfiniteLoaderSpinnerComponent
+    InfiniteLoaderSpinnerComponent,
+    CartDockedComponent,
+    AddCartModalComponent
   ],
-  providers: [MenuService, CartService],
+  providers: [MenuService],
   templateUrl: './main-menu.component.html',
   styleUrl: './main-menu.component.scss',
 })
@@ -41,6 +45,16 @@ export class MainMenuComponent implements OnDestroy {
   public page = 1;
   public pageSize = 3;
   public totalPages = 0;
+  public showCartModal: boolean = false;
+  public selectedMenu:
+    | { _id:string;
+        name?: string;
+        price?: string;
+        image: string;
+        description: string;
+        extras?: any[];
+      }
+    | any = {};
 
   constructor(
     private menuService: MenuService,
@@ -50,8 +64,7 @@ export class MainMenuComponent implements OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.activatedRoute$ = this.route.queryParams
-    .subscribe((params) => {
+    this.activatedRoute$ = this.route.queryParams.subscribe((params) => {
       this.fetchMenu(params);
       this.setupScrollEventListener();
     });
@@ -63,7 +76,7 @@ export class MainMenuComponent implements OnDestroy {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   fetchMenu(params: any) {
@@ -90,24 +103,17 @@ export class MainMenuComponent implements OnDestroy {
       );
   }
 
-  addToCart(menu: string, units: number) {
-    const user = this.authService.retrieveUser();
-    if (user) {
-      this.authService.setLoggedIn(true);
-      this.cartService
-        .addToCart({ menu, units })
-        .pipe(take(1))
-        .subscribe(
-          (response: any) => {
-            alert(response.message);
-          },
-          (error: any) => {
-            console.log('error ', error, Object.keys(error));
-          }
-        );
-    } else {
-      this.authService.setLoggedIn(false);
-    }
+
+  toggleAddToCartModal() {
+    this.cartService.toggleAddToCartModal()
+  }
+
+  handleBooleanEvent(value: boolean) {
+    this.cartService.handleBooleanEvent(value)
+  }
+
+  orderNow(menu: any) {
+    this.cartService.orderNow(menu)
   }
 
   async likeMenu(_id: string) {
@@ -134,7 +140,7 @@ export class MainMenuComponent implements OnDestroy {
         item.likes += 1;
         item.iLiked = true;
       } else {
-        if(item.likes > 0){
+        if (item.likes > 0) {
           item.likes -= 1;
         }
         item.iLiked = false;

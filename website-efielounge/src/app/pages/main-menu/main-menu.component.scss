@@ -72,6 +72,10 @@ input[type="number"] {
   -moz-appearance: textfield; /* For Firefox */
 }
 
+div.block > div.container{
+  max-width: 90vw!important;
+}
+
 .x-flex-row {
   display: flex;
   flex-direction: row;
@@ -84,10 +88,25 @@ input[type="number"] {
   white-space: nowrap;
 }
 
+.order{
+  background-color: #272727;
+  border: 1px solid transparent;
+  color: #fff;
+  float: right;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 20px;
+  text-transform: uppercase;
+}
+
 .order-now {
   font-family: Poppins;
   font-weight: 500;
   transition: all 0.3s linear;
+}
+
+.number-input{
+  width:30px
 }
 
 .order-now:hover {
@@ -108,6 +127,13 @@ input[type="number"] {
 .post-likes {
   bottom: auto !important;
   top: 80% !important;
+}
+
+.flex-row-sb{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* Extra Small Devices, Phones (0px to 599px) */

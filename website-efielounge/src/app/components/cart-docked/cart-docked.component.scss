@@ -1,0 +1,498 @@
+:root {
+  --primary: #227093;
+  --secondary: #ff5252;
+  --background: #eee;
+  --highlight: #ffda79;
+  /* Theme color */
+  --theme: var(--primary);
+}
+
+.basket-container {
+  width: 100%;
+  background: white;
+  height: 75vh;
+  border-radius: 10px;
+  padding: 20px;
+  position: sticky;
+  top: 150px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.flex-row-sb {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+svg.empty-cart {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  transition: all 1s;
+}
+
+svg.empty-cart > path {
+  transition: all 1s;
+}
+
+svg.empty-cart > path:hover {
+  fill: red;
+}
+
+hr {
+  margin: 0px !important;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-container img {
+  display: block;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  background-color: white;
+  color: gray;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  line-height: 24px;
+  cursor: pointer;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.close-button:hover {
+  background-color: white;
+}
+
+/* Modal container */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden !important;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  width: 35%;
+  max-height: 80%;
+  border-radius: 25px;
+}
+
+.modal-body {
+  padding: 0px !important;
+  overflow-y: auto; /* Enables vertical scrolling */
+}
+
+.modal-body-content {
+  padding: 20px;
+}
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu-name {
+  font-weight: 600;
+}
+
+* {
+  font-family: "EuclidCircularB-SemiBold" !important;
+}
+
+/* Make the scrollbar present but invisible */
+::-webkit-scrollbar {
+  width: 0px; /* Adjust width to desired size */
+  height: 0px; /* Adjust height to desired size */
+}
+
+::-webkit-scrollbar-track {
+  background: white !important; /* Transparent background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent; /* Transparent thumb */
+}
+
+/* Optional: To maintain interactivity on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2); /* Slightly visible on hover */
+}
+
+.form-check-input {
+  width: 22px;
+  height: 22px;
+  margin-right: 20px;
+}
+
+.form-check-input:checked {
+  background-color: orange;
+  border-color: orange;
+}
+
+/* Remove default blue border on focus for checkboxes */
+input[type="checkbox"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important; /* Optional: to reset to the default border color */
+}
+
+img {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.form-check-label {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 30px;
+}
+
+.order-now {
+  background-color: black;
+  border: 1px solid transparent;
+  color: #fff;
+  float: right;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  float: right;
+  width: 100%;
+  border-radius: 0px;
+  padding: 10px;
+}
+
+.order-now:hover {
+  color: orange !important;
+}
+
+.number {
+  margin: 5px;
+  border-radius: 2px;
+  border: 1px solid rgb(245, 242, 242);
+  padding: 7px;
+}
+
+.minus,
+.plus {
+  width: 20px;
+  height: 20px;
+  background: #f2f2f2;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  color: orange;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.minus > span,
+.plus > span {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.number-input {
+  text-align: center;
+  font-size: 18px;
+  background: white !important;
+  width: 20px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* For Firefox */
+}
+
+.basket-content {
+  margin-top: 20px;
+  height: 65%;
+}
+
+label > .qty {
+  width: 10.33% !important;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 20px;
+  border: 1px solid orange;
+}
+
+label > span.menu-name {
+  width: 67% !important;
+}
+
+label > span.menu-price {
+  width: 23% !important;
+  white-space: nowrap;
+  margin-right: 10px;
+  font-weight: 700;
+  color: rgba(113, 169, 29, 0.922);
+}
+
+.edit-cart {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  transition: background 0.5s ease-in-out; /* Add transition property */
+}
+
+.edit-cart:hover {
+  background: rgb(48, 48, 47);
+}
+
+.edit-cart-btn:hover {
+  path {
+    fill: black !important;
+  }
+}
+
+.pill-container {
+  position: relative;
+  display: inline-block;
+}
+
+.form-check-input {
+  width: 22px;
+  height: 22px;
+  margin-right: 20px;
+}
+
+.form-check-input:checked {
+  background-color: orange;
+  border-color: orange;
+}
+
+/* Remove default blue border on focus for checkboxes */
+input[type="checkbox"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important; /* Optional: to reset to the default border color */
+}
+
+img {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.form-check-label {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 30px;
+}
+
+.extras {
+  margin-bottom: 5px;
+  margin-left: 20px;
+  margin-right: 20px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Core styles/functionality */
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.tab__content {
+  max-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.35s;
+}
+.tab input:checked ~ .tab__content {
+  max-height: fit-content;
+}
+
+.close-button {
+  position: absolute;
+  top: -7px;
+  right: -10px;
+  background-color: whitesmoke;
+  color: red;
+  border: 2px solid orange;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 14px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.close-button:hover {
+  background-color: white;
+}
+
+/* Visual styles */
+.accordion {
+  color: var(--theme);
+  border: 1px solid rgb(208, 208, 208);
+  background: whitesmoke;
+  border-radius: 0.5rem;
+  overflow-x: hidden;
+  max-height: 90%;
+  overflow-y: auto;
+}
+.tab__label,
+.tab__close {
+  display: flex;
+  color: grey;
+  background: var(--theme);
+  cursor: pointer;
+  width: 100%;
+}
+.tab__label {
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  background: white;
+}
+.tab__label::after {
+  content: "\276F";
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  transform: rotate(90deg);
+  transition: all 0.35s;
+}
+
+.tab input:checked + .tab__label::after {
+  transform: rotate(270deg);
+}
+.tab__content p {
+  margin: 0;
+  padding: 1rem;
+}
+.tab__close {
+  justify-content: flex-end;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+}
+.accordion--radio {
+  --theme: var(--secondary);
+}
+
+/* Arrow animation */
+.tab input:not(:checked) + .tab__label:hover::after {
+  animation: bounce 0.5s infinite;
+}
+@keyframes bounce {
+  25% {
+    transform: rotate(90deg) translate(0.25rem);
+  }
+  75% {
+    transform: rotate(90deg) translate(-0.25rem);
+  }
+}
+
+
+/* Extra Small Devices, Phones (0px to 599px) */
+@media only screen and (min-width: 300px) and (max-width: 599px) {
+  /* Styles for small phones */
+  .tab__label {
+    flex-wrap: wrap!important;
+  }
+  #dock-widget {
+    top: 15%!important;
+    right: -90%!important;
+    width: 90%!important;
+  }
+}
+
+/* Small Devices, Larger Phones (600px to 767px) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  /* Styles for larger phones */
+  .tab__label {
+    flex-wrap: wrap!important;
+  }
+  #dock-widget {
+    top: 15%!important;
+    right: -90%!important;
+    width: 90%!important;
+  }
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 768px) and (max-width: 819px) {
+  /* Styles for tablets */
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 820px) and (max-width: 991px) {
+  /* Styles for tablets */
+}
+
+@media (max-width: 980px) {
+  .container {
+    width: auto;
+  }
+}
+
+/* Large Devices, Desktops (992px to 1199px) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* Styles for desktops */
+}
+
+/* Extra Large Devices, Large Desktops (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  /* Styles for large desktops */
+}
+
+@media screen and (min-width: 1024px) and (min-height: 600px) and (max-height: 700px) {
+  /* Your styles for screens with width 1024px and height between 600px and 700px */
+
+  .costing {
+    background: white;
+    border-radius: 20px;
+  }
+
+  .basket-container{
+    width: 100%;
+    background: white;
+    height: 50%;
+  }
+}

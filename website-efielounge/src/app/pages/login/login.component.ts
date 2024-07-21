@@ -63,7 +63,7 @@ export class LoginComponent {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   moveBackground(event: MouseEvent): void {

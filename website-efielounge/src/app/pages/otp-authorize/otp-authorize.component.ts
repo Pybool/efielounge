@@ -69,7 +69,7 @@ export class OtpAuthorizeComponent implements OnInit, OnDestroy {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   // ngAfterViewInit() {

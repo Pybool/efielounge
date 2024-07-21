@@ -1,218 +1,277 @@
-.foot-img{
-    width: 30px;
-    height: 30px;
-    margin-right: 20px;
-    border-radius: 50%;
+.foot-img {
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
+  border-radius: 50%;
 }
 
-.img{
-    height: 275px;
-    width: 100%;
-    object-fit: cover;
-    cursor: pointer;
+.img {
+  height: 275px;
+  width: 100%;
+  object-fit: cover;
+  cursor: pointer;
 }
 
-.block{
-    padding-bottom: 50px!important;
+.block {
+  padding-bottom: 50px !important;
 }
 
-.fixed-bg{
-    z-index:-2!important;
+.fixed-bg {
+  z-index: -2 !important;
 }
 
-.x-flex-row{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    // gap:20px
+.x-flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  // gap:20px
 }
 
 .order {
-    background-color: #272727;
-    border: 1px solid transparent;
-    color: #fff;
-    float: right;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 8px 20px;
-    text-transform: uppercase;
+  background-color: #272727;
+  border: 1px solid transparent;
+  color: #fff;
+  float: right;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 20px;
+  text-transform: uppercase;
 }
 
 .caro-dish-name {
-    display: inline-block;
-    padding: 14px 5px;
-    text-align: center;
-    width: 30%;
-}
-
-.caro-dish-name span{
-    white-space: nowrap;
-}
-
-.post-likes{
-    bottom: auto!important;
-    top: 40%!important;
-}
-
-.post-likes:hover{
-    cursor: pointer;
-}
-
-.dish-item{
-    padding-bottom: 50px!important;
-}
-
-.order:hover{
-    background: orange;
+  display: inline-block;
+  padding: 14px 5px;
+  text-align: center;
+  width: 30%;
 }
 
 .caro-dish-name span {
-    text-align: left;
-    font-size: 18px;
-    font-weight: 700;
+  white-space: nowrap;
+}
+
+.post-likes {
+  bottom: auto !important;
+  top: 40% !important;
+}
+
+.post-likes:hover {
+  cursor: pointer;
+}
+
+.dish-item {
+  padding-bottom: 50px !important;
+}
+
+.order:hover {
+  background: orange;
+}
+
+.caro-dish-name span {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .caro-dish-name h4 {
-    text-align: left;
+  text-align: left;
 }
 
-.featured-restaurant-info{
-    background: white!important;
+.featured-restaurant-info {
+  background: white !important;
 }
 
-.price{
-    color: orange;
+.price {
+  color: orange;
 }
 
-.post-rate{
-    cursor: pointer;
+.post-rate {
+  cursor: pointer;
 }
 
-.dishes-caro{
-    margin-left: 0px!important;
+.dishes-caro {
+  margin-left: 0px !important;
 }
-
 
 /* Extra Small Devices, Phones (0px to 599px) */
 @media only screen and (max-width: 599px) {
-    /* Styles for small phones */
-    .dish-item{
-        background: beige;
-        margin-bottom: 20px;
-    }
-
-    .featured-restaurant-info .post-likes.style2 {
-        top: 93px;
-    }
-
-    .filter-likes{
-        top: 23px !important;
-    }
-
-    .featured-restaurant-box{
-        margin-bottom: 20px;
-        background: black;
-    }
-  
-  }
-  
-  /* Small Devices, Larger Phones (600px to 767px) */
-  @media only screen and (min-width: 600px) and (max-width: 767px) {
-    /* Styles for larger phones */
-    .dish-item{
-        background: beige;
-        margin-bottom: 20px;
-    }
-
-    .featured-restaurant-info .post-likes.style2 {
-        top: 93px ;
-    }
-
-    .filter-likes{
-        top: 23px !important;
-    }
-
-    .featured-restaurant-box{
-        margin-bottom: 20px;
-        background: black;
-    }
-
-  }
-  
-  /* Medium Devices, Tablets (768px to 991px) */
-  @media only screen and (min-width: 768px) and (max-width: 819px) {
-    /* Styles for tablets */
-    .loc-btn{
-        flex-direction: column!important;
-        align-items: flex-start!important;
-    }
-
-    .popular-post-rate, .popular-post-likes{
-        position: unset!important;
-    }
-
-    .featured-restaurant-thumb {
-        width: 70%;
-    }
-
-    
+  /* Styles for small phones */
+  .dish-item {
+    background: beige;
+    margin-bottom: 20px;
   }
 
-  /* Medium Devices, Tablets (768px to 991px) */
-  @media only screen and (min-width: 820px) and (max-width: 991px) {
-    /* Styles for tablets */
-    .loc-btn{
-        flex-direction: column!important;
-        align-items: flex-start!important;
-    }
-
-    .popular-post-rate, .popular-post-likes{
-        position: unset!important;
-    }
-
-    .featured-restaurant-thumb {
-        width: 70%;
-    }
-
-     .col-md-6{
-        width: 49%!important
-    }
-
-    .row{
-        margin-left: 0px!important;
-         margin-right: 0px!important;
-
-    }
-
-    .ready-row{
-        margin-left: calc(var(--bs-gutter-x) * -.5)!important;
-        margin-right: calc(var(--bs-gutter-x) * -.5)!important;
-    }
-
-    
-
-    
+  .featured-restaurant-info .post-likes.style2 {
+    top: 93px;
   }
 
- 
-  
-  /* Large Devices, Desktops (992px to 1199px) */
-  @media only screen and (min-width: 992px) and (max-width: 1199px) {
-    /* Styles for desktops */
-    .row{
-        margin-left: 0px!important;
-         margin-right: 0px!important;
-
-    }
-
-    .ready-row{
-        margin-left: calc(var(--bs-gutter-x) * -.5)!important;
-        margin-right: calc(var(--bs-gutter-x) * -.5)!important;
-    }
+  .filter-likes {
+    top: 23px !important;
   }
-  
-  /* Extra Large Devices, Large Desktops (1200px and above) */
-  @media only screen and (min-width: 1200px) {
-    /* Styles for large desktops */
+
+  .featured-restaurant-box {
+    margin-bottom: 20px;
+    background: black;
   }
+}
+
+/* Small Devices, Larger Phones (600px to 767px) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  /* Styles for larger phones */
+  .dish-item {
+    background: beige;
+    margin-bottom: 20px;
+  }
+
+  .featured-restaurant-info .post-likes.style2 {
+    top: 93px;
+  }
+
+  .filter-likes {
+    top: 23px !important;
+  }
+
+  .featured-restaurant-box {
+    margin-bottom: 20px;
+    background: black;
+  }
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 768px) and (max-width: 819px) {
+  /* Styles for tablets */
+  .loc-btn {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .popular-post-rate,
+  .popular-post-likes {
+    position: unset !important;
+  }
+
+  .featured-restaurant-thumb {
+    width: 70%;
+  }
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 820px) and (max-width: 991px) {
+  /* Styles for tablets */
+  .loc-btn {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .popular-post-rate,
+  .popular-post-likes {
+    position: unset !important;
+  }
+
+  .featured-restaurant-thumb {
+    width: 70%;
+  }
+
+  .col-md-6 {
+    width: 49% !important;
+  }
+
+  .row {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+
+  .ready-row {
+    margin-left: calc(var(--bs-gutter-x) * -0.5) !important;
+    margin-right: calc(var(--bs-gutter-x) * -0.5) !important;
+  }
+}
+
+/* Large Devices, Desktops (992px to 1199px) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* Styles for desktops */
+  .row {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+
+  .ready-row {
+    margin-left: calc(var(--bs-gutter-x) * -0.5) !important;
+    margin-right: calc(var(--bs-gutter-x) * -0.5) !important;
+  }
+}
+
+/* Extra Large Devices, Large Desktops (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  /* Styles for large desktops */
+}
+
+#dock-widget {
+  position: fixed;
+  top: 15%;
+  right: -30%; /* Adjust width as needed */
+  width: 30%; /* Adjust width as needed */
+  height: 100%;
+  background-color: #f0f0f0;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 999;
+}
+
+#dock-widget.dock-visible {
+  right: 0;
+}
+
+#dock-btn {
+  position: fixed;
+  top: 50%;
+  right: 0%; /* Adjust width as needed */
+  height: 60px;
+  background-color: #f0f0f0;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#dock-btn.dock-visible {
+  right: 0;
+}
+
+.cart-icon {
+  animation: bounce 2s infinite ease-in-out;
+}
+
+.cart-icon > path{
+    fill:orange;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+
+.badge {
+  position: absolute;
+  top: 17px;
+  right: 0;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 0.25em 0.45em;
+  font-weight: bold;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+}

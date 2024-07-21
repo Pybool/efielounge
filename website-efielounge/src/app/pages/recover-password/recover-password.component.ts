@@ -53,7 +53,7 @@ export class RecoverPasswordComponent {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-    }, 3000);
+    }, 100);
   }
 
   isInvalidEmail() {

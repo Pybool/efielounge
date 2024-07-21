@@ -36,7 +36,7 @@ input:disabled {
 /* Media query for screens smaller than 576px */
 @media screen and (max-width: 576px) {
   .otp {
-    width: 35px !important;
+    width: 100% !important;
     height: 30px!important;
     font-weight: 400!important;
     font-size: 24px!important;

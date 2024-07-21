@@ -63,6 +63,42 @@ const accountController:any = {
       next(error);
     }
   },
+
+  addAddress: async (req: Xrequest, res: Response, next: NextFunction) => {
+    try {
+      let status = 400;
+      const result = await AccountService.addAddress(req);
+      if (result) status = 200;
+      return res.status(status).json(result);
+    } catch (error: any) {
+      error.status = 500;
+      next(error);
+    }
+  },
+
+  getAddresses: async (req: Xrequest, res: Response, next: NextFunction) => {
+    try {
+      let status = 400;
+      const result = await AccountService.getAddresses(req);
+      if (result) status = 200;
+      return res.status(status).json(result);
+    } catch (error: any) {
+      error.status = 500;
+      next(error);
+    }
+  },
+
+  setDefaultAddress: async (req: Xrequest, res: Response, next: NextFunction) => {
+    try {
+      let status = 400;
+      const result = await AccountService.setDefaultAddress(req);
+      if (result) status = 200;
+      return res.status(status).json(result);
+    } catch (error: any) {
+      error.status = 500;
+      next(error);
+    }
+  },
 };
 
 

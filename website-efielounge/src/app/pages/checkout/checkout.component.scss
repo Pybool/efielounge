@@ -16,6 +16,7 @@ textarea {
 
 label {
   font-size: 14px;
+  cursor: pointer;
 }
 
 select {
@@ -216,8 +217,43 @@ label:not(.notes):after {
   gap: 20px;
 }
 
+.addresses,
+.address-item,
+.x-flex-row {
+  padding: 0px !important;
+  border-bottom: 0px !important;
+}
+
+small {
+  white-space: nowrap;
+}
+.address-item {
+  background: white;
+  // border-radius: 5px;
+  width: fit-content;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+svg > path {
+  fill: gray;
+}
+
+.active-address {
+  // border: 2px solid orange;
+}
+
+.address-item > div > span {
+  color: black;
+  padding: 10px;
+}
+
 .order {
-  width: 40% !important;
+  width: 50% !important;
+  background: whitesmoke;
+}
+.page-order {
+  width: 100%;
 }
 
 .remove-from-cart {
@@ -251,7 +287,6 @@ span {
   height: 20px;
   background: #f2f2f2;
   border-radius: 4px;
-  //   padding: 8px 5px 8px 5px;
   border: 1px solid #ddd;
   display: flex;
   align-items: center;
@@ -443,22 +478,22 @@ h3.topborder {
   margin-top: 0;
 }
 
-h3.topborder:before {
-  content: "";
-  display: block;
-  border-top: 1px solid #c2c2c2;
-  width: 100%;
-  height: 1px;
-  position: absolute;
-  top: 50%;
-  z-index: 1;
-}
+// h3.topborder:before {
+//   content: "";
+//   display: block;
+//   border-top: 1px solid #c2c2c2;
+//   width: 100%;
+//   height: 1px;
+//   position: absolute;
+//   top: 50%;
+//   z-index: 1;
+// }
 
 h3.topborder span {
-  background: #fff;
+  background: whitesmoke;
   padding: 0 10px 0 0;
   position: relative;
-  z-index: 5;
+  // z-index: 5;
 }
 /* Heading Top Border Styles End Here */
 
@@ -509,14 +544,13 @@ a:hover {
 
 .order {
   border: 12px solid #f5f5f5;
-  padding: 30px;
+  padding: 10px;
   margin-top: 0px;
 }
 
 .order div:not(.qty) {
   width: 100%;
-  border-bottom: 1px solid #dddddd;
-  padding: 20px 0;
+  padding: 10px 0;
 }
 
 .order a {
@@ -615,6 +649,12 @@ h5 {
   width: 90%;
 }
 
+.price {
+  background: whitesmoke;
+  padding: 12px;
+  border-radius: 30px;
+}
+
 @media (max-width: 1024px) {
   .order-thumb {
     width: unset;
@@ -627,10 +667,28 @@ h5 {
   /* Styles for small phones */
   .order-list-container {
     flex-wrap: wrap;
+    justify-content: center !important;
+  }
+
+  .sec-box {
+    padding: 0px !important;
   }
 
   .checkout {
-    width: 90% !important;
+    width: 100% !important;
+  }
+
+  .red-clr {
+    font-size: 0.7em !important;
+  }
+
+  .headline {
+    font-size: 13px !important;
+  }
+
+  .order {
+    border: 0px;
+    padding: 5px !important;
   }
 
   .coupon input[type="text"] {
@@ -647,10 +705,23 @@ h5 {
   /* Styles for larger phones */
   .order-list-container {
     flex-wrap: wrap;
+    justify-content: center !important;
+  }
+
+  .sec-box {
+    padding: 0px !important;
   }
 
   .checkout {
     width: 90% !important;
+  }
+
+  .red-clr {
+    font-size: 0.7em !important;
+  }
+
+  .headline {
+    font-size: 13px !important;
   }
 
   .coupon input[type="text"] {
@@ -671,12 +742,25 @@ h5 {
     display: block !important;
   }
 
+  .sec-box {
+    padding: 0px !important;
+  }
+
   .order-list-container {
     flex-wrap: wrap;
+    // justify-content: center!important;
+  }
+
+  .red-clr {
+    font-size: 0.7em !important;
+  }
+
+  .headline {
+    font-size: 13px !important;
   }
 
   .checkout {
-    width: 100% !important;
+    width: 90% !important;
   }
 
   .coupon input[type="text"] {
@@ -697,8 +781,21 @@ h5 {
     display: block !important;
   }
 
+  .sec-box {
+    padding: 0px !important;
+  }
+
+  .red-clr {
+    font-size: 0.7em !important;
+  }
+
+  .headline {
+    font-size: 13px !important;
+  }
+
   .order-list-container {
     flex-wrap: wrap;
+    justify-content: center !important;
   }
 
   .checkout {
@@ -727,9 +824,27 @@ h5 {
     width: 100% !important;
     display: block !important;
   }
+
+  .sec-box {
+    padding: 0px !important;
+  }
+
+  .red-clr {
+    font-size: 0.7em !important;
+  }
+
+  .headline {
+    font-size: 13px !important;
+  }
 }
 
 /* Extra Large Devices, Large Desktops (1200px and above) */
 @media only screen and (min-width: 1200px) {
   /* Styles for large desktops */
+}
+
+div.block > div.container {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: fit-content !important;
 }
