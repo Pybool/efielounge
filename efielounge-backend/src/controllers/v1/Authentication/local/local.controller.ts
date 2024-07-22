@@ -32,10 +32,9 @@ const authController: IAuth = {
       next: NextFunction
     ) => {
       try {
-        let status = 400;
+        let status = 200;
         const authentication = new Authentication(req);
         const result:any = await authentication.sendPasswordResetLink();
-        if (result.status) status = 200;
         res.status(status).json(result);
       } catch (error: any) {
         if (error.isJoi === true) error.status = 422;
@@ -52,7 +51,7 @@ const authController: IAuth = {
         let status = 200;
         const authentication = new Authentication(req);
         const result: any = await authentication.sendEmailConfirmationOtp();
-        if (!result.status) status = 400;
+        if (!result.status) status = 422;
         res.status(status).json(result);
       } catch (error: any) {
         if (error.isJoi === true) error.status = 422;
@@ -63,10 +62,9 @@ const authController: IAuth = {
     resetPassword: async (req: Xrequest, res: Response, next: NextFunction) => {
       console.log("reset password token ", req.query.token);
       try {
-        let status = 400;
+        let status = 200;
         const authentication = new Authentication(req);
         const result = await authentication.resetPassword();
-        if (result.status) status = 200;
         res.status(status).json(result);
       } catch (error: any) {
         if (error.isJoi === true) error.status = 422;

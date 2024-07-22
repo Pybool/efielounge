@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
@@ -41,10 +42,16 @@ export class RecoverPasswordComponent {
       .subscribe((response: any) => {
         console.log(response)
         if(response.status){
+          this.authService.setAccountForReset(this.email)
           this.router.navigate(['/reset-password']);
+        }else{
+          Swal.fire(response?.message)
         }
         this.showSpinner = false
-      });
+      },((error:any)=>{
+        this.showSpinner = false
+        Swal.fire( "Something went wrong")
+      }));
   }
 
   ngAfterViewInit() {

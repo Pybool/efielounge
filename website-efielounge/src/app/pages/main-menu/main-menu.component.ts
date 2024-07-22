@@ -43,7 +43,7 @@ export class MainMenuComponent implements OnDestroy {
   private scrollSubscription: Subscription | undefined;
   public loading: boolean = false;
   public page = 1;
-  public pageSize = 3;
+  public pageSize = 20;
   public totalPages = 0;
   public showCartModal: boolean = false;
   public selectedMenu:

@@ -89,7 +89,7 @@ export class LoginComponent {
             this.authService.storeUser(response.data);
             this.authService.setLoggedIn(true);
             setTimeout(() => {
-              this.router.navigate(['/menu']);
+              this.router.navigateByUrl('/');
             }, 1500);
           } else {
             if (response.code == 1001) {

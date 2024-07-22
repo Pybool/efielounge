@@ -27,6 +27,14 @@ export class AuthService {
     this.loggedIn$.next(this.loggedIn);
   }
 
+  setAccountForReset(email:string){
+    this.cookieService.set('rsta', email)
+  }
+
+  getAccountForReset(){
+    return this.cookieService.get('rsta')
+  }
+
   getAuthStatus() {
     return this.loggedIn$.asObservable();
   }

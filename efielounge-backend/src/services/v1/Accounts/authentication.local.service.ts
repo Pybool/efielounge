@@ -124,12 +124,13 @@ export class Authentication {
       );
       const user = await Accounts.findOne({ email: result.email });
       if (!user) {
-        throw createError.NotFound(
-          utils.joinStringsWithSpace([
+        return {
+          status: false,
+          message: utils.joinStringsWithSpace([
             result.email,
             message.auth.notRegisteredPartText,
           ])
-        );
+        };
       }
       const otp: string = generateOtp();
       await setExpirableCode(result.email, "password-reset", otp);
@@ -142,22 +143,34 @@ export class Authentication {
 
   public async resetPassword() {
     try {
-      if (!this.req.query.token)
-        throw createError.BadRequest(message.auth.invalidTokenSupplied);
+      
       const result = await validations.authResetPassword.validateAsync(
         this.req.body
       );
+      const cachedOtp:any = await getExpirableCode("password-reset", result.email);
+      if(!cachedOtp){
+        return {
+          status: false,
+          message: "OTP has expired"
+        }
+      }
+      if(this.req.body.otp.toString() !== cachedOtp.code.toString()){
+        return {
+          status: false,
+          message: "Invalid or expired otp"
+        }
+      }
       const account = await Accounts.findOne({
-        reset_password_token: this.req.body.otp,
-        reset_password_expires: { $gt: Date.now() },
+        email: result.email
       });
       if (!account) {
-        throw createError.NotFound(
-          utils.joinStringsWithSpace([
+        return {
+          status: false,
+          message: utils.joinStringsWithSpace([
             result.email,
-            message.auth.userNotRequestPasswordReset,
+            message.auth.notRegisteredPartText,
           ])
-        );
+        };
       }
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(result.password, salt);
@@ -168,6 +181,10 @@ export class Authentication {
       console.log(error);
       return { status: false, message: message.auth.passwordResetFailed };
     }
+
+
+
+
   }
 
   public async verifyAccountEmail() {

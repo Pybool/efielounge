@@ -16,6 +16,8 @@ const authSendResetPasswordLink = Joi.object({
 });
 
 const authResetPassword = Joi.object({
+  email:Joi.string().email().lowercase().required(),
+  otp: Joi.string().required(),
   password: Joi.string().min(4).required(),
 });
 

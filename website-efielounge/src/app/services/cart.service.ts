@@ -73,6 +73,7 @@ export class CartService {
   }
 
   resetCart() {
+    this.cartCountSubject.next(0)
     this.cartItemsSubject.next({
       cartItems: [],
       subTotal: 0.00,
