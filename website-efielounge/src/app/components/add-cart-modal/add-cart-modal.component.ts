@@ -19,6 +19,7 @@ import Swal from 'sweetalert2';
 export class AddCartModalComponent {
   public serverUrl: string = environment.api;
   public extras: string[] = [];
+  public variants: string[] = [];
   @Input() selectedMenu: any = {
     _id: '',
     name: '',
@@ -26,11 +27,15 @@ export class AddCartModalComponent {
     image: '',
     description: '',
     extras: [],
+    variants: [],
   };
   public orderTotal: number = 0.0;
   public units = 1;
   public orderUnitPrice: number = 0.0;
   public initMult = false;
+  public lastVariantPrice: number = 0.0;
+  public extrasTotal:number = 0.00;
+  public variantPrice:number = 0.00;
 
   @Output() booleanEvent = new EventEmitter<boolean>();
   @Output() addedCartItem = new EventEmitter<boolean>();
@@ -42,6 +47,9 @@ export class AddCartModalComponent {
   ) {}
 
   ngOnInit() {
+    if(this.selectedMenu.variants.length > 0){
+      this.selectedMenu.price = 0.00
+    }
     this.orderTotal = Number(this.selectedMenu.price) * this.units;
     this.orderUnitPrice = this.orderTotal;
   }
@@ -64,10 +72,12 @@ export class AddCartModalComponent {
   computeTotal(newPrice: number = 0.0) {
     if (!this.initMult) {
       this.orderUnitPrice += newPrice;
-      this.orderTotal = this.orderUnitPrice;
+      this.extrasTotal = this.orderUnitPrice;
     } else {
-      this.orderTotal += newPrice;
+      this.extrasTotal += newPrice;
     }
+    this.orderTotal = this.extrasTotal + this.variantPrice
+    this.lastVariantPrice = newPrice; 
   }
 
   updateExtras(extraId: string, price: number) {
@@ -81,6 +91,15 @@ export class AddCartModalComponent {
     }
   }
 
+  updateVariant(name: string, price: number) {
+    price = this.units * price;
+    this.variantPrice = price
+    this.variants = [name]
+    this.selectedMenu.price = price
+    this.orderTotal = (this.extrasTotal + this.variantPrice) * this.units
+     
+  }
+
   addToCart() {
     const user = this.authService.retrieveUser();
     if (user) {
@@ -89,11 +108,12 @@ export class AddCartModalComponent {
       this.cartService.addToCartItems(
         this.selectedMenu,
         this.units,
-        this.extras
+        this.extras,
+        this.variants
       );
     } else {
       this.authService.setLoggedIn(false);
-      this.sendBoolean(false)
+      this.sendBoolean(false);
       this.router.navigateByUrl('/login');
     }
   }
@@ -101,7 +121,7 @@ export class AddCartModalComponent {
   addQty() {
     if (this.units < 5) {
       this.units += 1;
-      this.orderTotal = this.orderUnitPrice * this.units;
+      this.orderTotal = (this.extrasTotal + this.variantPrice) * this.units;
       this.initMult = true;
       console.log(this.orderUnitPrice);
     } else {
@@ -113,7 +133,14 @@ export class AddCartModalComponent {
     if (this.units > 1) {
       this.units -= 1;
       console.log(this.orderTotal, this.orderUnitPrice);
-      this.orderTotal = this.orderUnitPrice * this.units;
+      this.orderTotal = (this.extrasTotal + this.variantPrice) * this.units;
     }
+  }
+
+  disableButton() {
+    if (this.selectedMenu.variants.length > 0 && this.variants.length == 0) {
+      return true;
+    }
+    return false;
   }
 }

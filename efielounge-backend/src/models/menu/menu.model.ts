@@ -27,6 +27,7 @@ const MenuSchema = new Schema({
     default: "GHC",
     enum: ["GHC", "USD"],
   },
+  variants: [],
   attachments: [],
   menuItems: 
     {

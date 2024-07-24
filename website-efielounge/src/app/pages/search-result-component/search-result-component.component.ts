@@ -45,8 +45,20 @@ export class SearchResultComponentComponent implements OnDestroy {
   private scrollSubscription: Subscription | undefined;
   public loading: boolean = false;
   public page = 1;
-  public pageSize = 3;
+  public pageSize = 20;
   public totalPages = 0;
+  public showCartModal: boolean = false;
+  public menuCategories: any[] = [];
+  public params: any;
+  public selectedMenu:
+    | { _id:string;
+        name?: string;
+        price?: string;
+        image: string;
+        description: string;
+        extras?: any[];
+      }
+    | any = {};
 
   constructor(
     private menuService: MenuService,
@@ -59,8 +71,47 @@ export class SearchResultComponentComponent implements OnDestroy {
     this.activatedRoute$ = this.route.queryParams.subscribe((params) => {
       this.searchString = params?.['q'];
       this.searchFood();
+      this.fetchCategories();
       this.setupScrollEventListener();
     });
+  }
+
+  fetchCategories() {
+    this.menuService
+      .fetchCategories()
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          if (response.status) {
+            this.menuCategories = response.data;
+            this.setActiveMenu();
+          }
+        },
+        (error: any) => {
+          alert('Failed to fetch menu categories');
+        }
+      );
+  }
+
+  setActiveMenu() {
+    try {
+      setTimeout(() => {
+        let filter = 'default'
+        if(this.params['filter']){
+          filter = this.params['filter']
+        }
+        const id = 'breadcrumb-'+ filter;
+        const activeEl = document.getElementById(id) as HTMLElement;
+        const breadCrumbs = document.querySelectorAll('.breadcrumb-item') as any;
+        for( let breadCrumb of breadCrumbs){
+          breadCrumb.classList.remove('active');
+        };
+        console.log('activeEl ', activeEl, id);
+        if (activeEl) {
+          activeEl.parentElement!.classList.add('active');
+        }
+      }, 100);
+    } catch (error) {}
   }
 
   ngAfterViewInit() {

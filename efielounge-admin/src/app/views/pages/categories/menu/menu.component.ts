@@ -84,14 +84,16 @@ export class MenuComponent {
     status: 'Available',
     price: 750,
     currency: 'GH₵',
+    variants: [],
   };
+  public variant: { name?: string; price?: number | null } = { price:null };
   public attachments: FileList | null = null;
   public menuCategories: any[] = [];
   public menuItems: any[] = [];
-  public statuses:string[] = ["Cooking", "Ready", "You're Too Late"]
-  public selectedMenu:any = {}
-  public menuIndex:number = 0;
-  
+  public statuses: string[] = ['Cooking', 'Ready', "You're Too Late"];
+  public selectedMenu: any = {};
+  public menuIndex: number = 0;
+
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit() {
@@ -121,6 +123,63 @@ export class MenuComponent {
           this.menuItems = response.data;
         }
       });
+
+      console.log("Variant ", this.variant)
+  }
+
+  addVariant() {
+    const variantName = this.variant.name!?.trim().toLowerCase();
+    const variantExists = this.form.variants.some(
+      (v: { name: string }) => v.name.trim().toLowerCase() === variantName
+    );
+
+    if (variantName !== '' && !variantExists) {
+      return this.form.variants.unshift(
+        JSON.parse(JSON.stringify(this.variant))
+      );
+    } else {
+      return alert(`${this.variant.name} has already been added`);
+    }
+  }
+
+  updateVariant() {
+    const variantName = this.variant.name!?.trim().toLowerCase();
+    const variantExists = this.selectedMenu.variants.some(
+      (v: { name: string }) => v.name?.trim()?.toLowerCase() === variantName
+    );
+
+    if (variantName !== '' && !variantExists) {
+      return this.selectedMenu.variants.unshift(
+        JSON.parse(JSON.stringify(this.variant))
+      );
+    } else {
+      return alert(`${this.variant.name} has already been added`);
+    }
+  }
+
+  removeVariant(arr: any[], variantName: string, update = false) {
+    const confirmation = confirm(
+      'Are you sure you want to remove this variant?'
+    );
+    if (!confirmation) {
+      return null;
+    }
+
+    const removeFromArray = (arr: any[], variantName: string) => {
+      return arr.filter(
+        (item) =>
+          item.name?.trim()?.toLowerCase() !== variantName?.trim()?.toLowerCase()
+      );
+    };
+
+    if (update) {
+      this.selectedMenu.variants = removeFromArray(arr, variantName);
+      this.editMenu();
+    } else {
+      this.form.variants = removeFromArray(arr, variantName);
+    }
+
+    return null;
   }
 
   onFileChange(event: any): void {
@@ -159,16 +218,17 @@ export class MenuComponent {
   setMenuToEdit(index: number) {
     this.menuIndex = index;
     this.selectedMenu = JSON.parse(JSON.stringify(this.menus[this.menuIndex]));
-    this.selectedMenu.category = this.selectedMenu.category._id
-    console.log(this.selectedMenu);
+    this.selectedMenu.category = this.selectedMenu.category._id;
+    console.log(this.selectedMenu)
+    this.variant = {}
   }
 
-  setCategory($event:any){
+  setCategory($event: any) {
     this.selectedMenu.category = $event.target.value;
-    console.log("Category ", this.selectedMenu.category)
+    console.log('Category ', this.selectedMenu.category);
   }
 
-  cleanPayload(){
+  cleanPayload() {
     delete this.selectedMenu.attachments;
     delete this.selectedMenu.archive;
     delete this.selectedMenu.__v;
@@ -181,7 +241,7 @@ export class MenuComponent {
   }
 
   editMenu() {
-    this.cleanPayload()
+    this.cleanPayload();
     console.log(this.selectedMenu);
     this.categoryService
       .editMenu(this.selectedMenu)
@@ -207,9 +267,7 @@ export class MenuComponent {
       .pipe(take(1))
       .subscribe(
         (response: any) => {
-          this.menus = this.menus.filter(
-            (element, idx) => idx !== index
-          );
+          this.menus = this.menus.filter((element, idx) => idx !== index);
           alert(response.message);
         },
         (error: any) => {

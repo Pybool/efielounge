@@ -1,8 +1,12 @@
 <!-- Modal Structure -->
 <div id="transferModal" class="modal">
     <div class="modal-content">
-        <h4>Direct Bank Transfer</h4>
-        <p>Transfer to any of the accounts below and use <span style="color:orange">{{payment?.ref}}</span> as your payment reference</p>
+        <div class="flex-row-sb">
+            <h4>Direct Bank Transfer</h4>
+            <button (click)="toggleTransferModal()" class="close-button">&times;</button>
+        </div>
+        <p>Transfer to any of the accounts below and use <span style="color:orange">{{payment?.ref}}</span> as your
+            payment reference</p>
         <div class="card-container">
             <div class="bank-account-card" *ngFor="let account of bankAccounts">
                 <img class="logo" src="{{account.logo}}" />
@@ -14,7 +18,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a href="/upload-proof-of-payment?ref={{payment?.ref}}" id="cancelButton" class="modal-close has-paid btn">I have Paid</a>
+            <a href="/upload-proof-of-payment?ref={{payment?.ref}}" id="cancelButton" class="modal-close has-paid btn">I
+                have Paid</a>
             <button (click)="toggleTransferModal()" id="cancelButton" class="modal-close btn">Exit</button>
         </div>
     </div>

@@ -140,6 +140,25 @@
                 </span>
                 <input (change)="onFileChange($event)" name="attachments" multiple type="file" cFormControl />
             </c-input-group>
+            <c-input-group class="mb-3 variant">
+                <label cInputGroupText>
+                    Variants:
+                </label>
+                <div style="margin-left: 10px;" class="flex-row-sb">
+                    <input [(ngModel)]="variant.name" class="variant"  name="variants" autoComplete="name" cFormControl placeholder="variant" />
+                    <input [(ngModel)]="variant.price" class="variant"  name="price"  cFormControl placeholder="Price" />
+
+                    <button class="btn btn-primary" (click)="addVariant()">Add</button>
+                </div>
+                <div style="flex-wrap: wrap;margin-left: 10px;" class="flex-row-sb pill">
+                    <ng-container *ngFor="let _variant of form.variants">
+                        <div class="variant-pill">
+                            {{_variant.name}}
+                            <button (click)="removeVariant(form.variants,_variant.name)" class="close-btn">&times;</button>
+                        </div>                        
+                    </ng-container>
+                </div>
+            </c-input-group>
             <c-input-group class="mb-3">
                 <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
@@ -215,6 +234,25 @@
                     <option disabled>Select a status</option>
                     <option *ngFor="let status of statuses">{{status}}</option>
                 </select>
+            </c-input-group>
+            <c-input-group class="mb-3 variant">
+                <label cInputGroupText>
+                    Variants:
+                </label>
+                <div style="margin-left: 10px;" class="flex-row-sb">
+                    <input [(ngModel)]="variant.name" class="variant"  name="variants" autoComplete="name" cFormControl placeholder="variant" />
+
+                    <input [(ngModel)]="variant.price" class="variant"  name="price"  cFormControl placeholder="Price" />
+                    <button class="btn btn-primary" (click)="updateVariant()">Add</button>
+                </div>
+                <div style="flex-wrap: wrap;margin-left: 10px;" class="flex-row-sb pill">
+                    <ng-container *ngFor="let _variant of selectedMenu.variants">
+                        <div class="variant-pill">
+                            {{_variant.name}}
+                            <button (click)="removeVariant(selectedMenu.variants,_variant.name, true)" class="close-btn">&times;</button>
+                        </div>                        
+                    </ng-container>
+                </div>
             </c-input-group>
             <c-input-group class="mb-3">
                 <span cInputGroupText>

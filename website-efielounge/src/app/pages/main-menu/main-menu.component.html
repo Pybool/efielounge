@@ -42,7 +42,12 @@
             <div class="container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Home</a></li>
-                    <li class="breadcrumb-item active">our menus</li>
+                    <li class="breadcrumb-item active"><a id="breadcrumb-default" href="/menu">our menus</a></li>
+                    <li class="breadcrumb-item">||</li>
+                    <ng-container *ngFor="let category of menuCategories">
+                        <li class="breadcrumb-item"><a href="/menu?name={{category.name}}&field=category&filter={{category._id}}"
+                                id="breadcrumb-{{category._id}}" title="" itemprop="url">{{category.name}}</a></li>
+                    </ng-container>
                 </ol>
             </div>
         </div>

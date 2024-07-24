@@ -37,6 +37,7 @@ export class CartDockedComponent {
     image: '',
     description: '',
     extras: [],
+    variants: [],
   };
   public orderTotal: number = 0.0;
   public units = 1;
@@ -218,5 +219,15 @@ export class CartDockedComponent {
           alert('Unable to checkout at this moment');
         }
       );
+  }
+
+  dumpCart() {
+    if(this.cartItems.length > 0){
+      const confirmDump = confirm('Are you sure you want to dump cart?');
+      if (confirmDump) {
+        this.cartService.dumpCart();
+      }
+    }
+    return null;
   }
 }

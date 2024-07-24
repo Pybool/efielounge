@@ -235,4 +235,65 @@
   input[type="number"] {
     -moz-appearance: textfield; /* For Firefox */
   }
+
+  
+/* Extra Small Devices, Phones (0px to 599px) */
+@media only screen and (min-width: 300px) and (max-width: 599px) {
+  /* Styles for small phones */
+  .modal-content {
+    width: 100%;
+    margin-top: 50%;
+  }
+
+}
+
+/* Small Devices, Larger Phones (600px to 767px) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  /* Styles for larger phones */
+  .modal-content {
+    width: 100%;
+    margin-top: 50%;
+  }
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 768px) and (max-width: 819px) {
+  /* Styles for tablets */
+  .modal-content {
+    width: 50%;
+    margin-top: 50%;
+  }
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 820px) and (max-width: 991px) {
+  /* Styles for tablets */
+  .modal-content {
+    width: 75%;
+    margin-top: 15%;
+  }
+}
+
+@media (max-width: 980px) {
+  .container {
+    width: auto;
+  }
+}
+
+/* Large Devices, Desktops (992px to 1199px) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* Styles for desktops */
+  .modal-content {
+    width: 75%;
+    margin-top: 15%;
+    height: fit-content
+  }
+}
+
+/* Extra Large Devices, Large Desktops (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  /* Styles for large desktops */
+  
+}
+
   

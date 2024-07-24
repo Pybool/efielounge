@@ -10,6 +10,8 @@ clientCartRouter.get("/get-cart", authMiddleware, clientCartController.getCart);
 clientCartRouter.patch("/remove-from-cart", authMiddleware, clientCartController.removeFromCart);
 clientCartRouter.put("/update-cart", authMiddleware, clientCartController.updateCart);
 clientCartRouter.put("/checkout", authMiddleware, clientCartController.checkOut);
+clientCartRouter.delete("/dump-cart", authMiddleware, clientCartController.dumpCart);
+
 
 clientCartRouter.post("/upload-receipt", authMiddleware, getMulterConfigSingle('../public/receipts/'), clientCartController.uploadReceipt);
 

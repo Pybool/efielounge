@@ -13,6 +13,7 @@ export class CartService {
   public cartCount = 0;
   public initialRequest = true;
   public extras: string[] = [];
+  public variants: string[] = [];
   public orderTotal: number = 0.0;
   public units = 1;
   public cartItems: any = [];
@@ -53,13 +54,27 @@ export class CartService {
     cartItem: any,
     basePrice: number,
     extras: any[],
+    variants: any[],
     units = 1
   ) {
     const extrasTotalPrice = extras.reduce(
       (acc, extra: any) => acc + extra.price,
       0
     );
-    cartItem.total = (basePrice + extrasTotalPrice) * cartItem?.units;
+    const getVariantPrice = () => {
+      return cartItem.menu.variants.find((variant: any) => {
+        if (variant.name === variants[0]) {
+          return variant;
+        }
+      });
+    };
+    if (variants.length > 0) {
+      cartItem.total =
+        (Number(getVariantPrice().price) + extrasTotalPrice) * cartItem?.units;
+    } else {
+      cartItem.total = (basePrice + extrasTotalPrice) * cartItem?.units;
+    }
+
     return this.calculateSubTotal();
   }
 
@@ -73,12 +88,11 @@ export class CartService {
   }
 
   resetCart() {
-    this.cartCountSubject.next(0)
+    this.cartCountSubject.next(0);
     this.cartItemsSubject.next({
       cartItems: [],
-      subTotal: 0.00,
+      subTotal: 0.0,
     });
-    console.log("resetttin cart")
   }
 
   setCartItems(cartItem: any) {
@@ -95,11 +109,12 @@ export class CartService {
         cartItem,
         cartItem.menu.price,
         cartItem.customMenuItems,
+        cartItem.variants,
         cartItem.units
       );
-      for(let extra of cartItem.customMenuItems) {
+      for (let extra of cartItem.customMenuItems) {
         extra.isFinalSelect = true;
-      };
+      }
     }
     this.cartItemsSubject.next({
       cartItems: this.cartItems,
@@ -128,6 +143,7 @@ export class CartService {
 
     try {
       data.customMenuItems = value.data.customMenuItems;
+      data.variants = value.data.variants;
       data.menu = value.data.menu;
       data.units = value.data.units;
       data._id = value.data._id;
@@ -135,11 +151,12 @@ export class CartService {
         data,
         data.menu.price,
         data.customMenuItems,
+        data.variants,
         data.units
       );
-      for(let extra of data.customMenuItems) {
+      for (let extra of data.customMenuItems) {
         extra.isFinalSelect = true;
-      };
+      }
       this.cartItems.unshift(data);
       this.handleBooleanEvent(false);
       this.calculateSubTotal();
@@ -191,6 +208,7 @@ export class CartService {
     menu: string;
     units: number;
     customMenuItems: any[];
+    variants: string[];
   }): Observable<any> {
     return this.http
       .post(`${environment.api}/api/v1/cart/add-to-cart`, payload)
@@ -222,6 +240,24 @@ export class CartService {
     );
   }
 
+  dumpCart() {
+    this.http
+      .delete(`${environment.api}/api/v1/cart/dump-cart`, {})
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          if (response.status) {
+            this.resetCart();
+          } else {
+            alert('Could not dump your cart at the moment');
+          }
+        },
+        (error: any) => {
+          alert('Could not dump your cart at the moment');
+        }
+      );
+  }
+
   updateCartItemsAndCheckOut(payload: any, checkOutId: string | null = null) {
     let url = `${environment.api}/api/v1/cart/checkout`;
     if (checkOutId) {
@@ -238,6 +274,17 @@ export class CartService {
   }
 
   cartDocker(close = false) {
+    const path = window.location.pathname;
+    const exclusivePathNames = ['/menu', '/search-menu'];
+    if (exclusivePathNames.includes(path)) {
+      const inPagesCartWidget = document.querySelector(
+        'app-cart-docked'
+      ) as any;
+      if (inPagesCartWidget) {
+        inPagesCartWidget.scrollIntoView();
+      }
+      return null;
+    }
     const dockWidget = document.getElementById('dock-widget') as any;
     dockWidget.classList.toggle('dock-visible');
     const body = document.querySelector('body') as any;
@@ -275,10 +322,11 @@ export class CartService {
     }
   }
 
-  addToCartItems(menu: any, units: number, extras: any[]) {
+  addToCartItems(menu: any, units: number, extras: any[], variants: string[]) {
     this.units = units;
     this.selectedMenu = menu;
     this.extras = extras;
+    this.variants = variants;
     console.log('Cart data ', {
       menu: this.selectedMenu._id,
       units: this.units,
@@ -288,6 +336,7 @@ export class CartService {
       menu: this.selectedMenu._id,
       units: this.units,
       customMenuItems: this.extras,
+      variants: this.variants,
     })
       .pipe(take(1))
       .subscribe(
@@ -324,6 +373,7 @@ export class CartService {
       image: menu.attachments[0],
       description: menu.description,
       extras: menu.menuItems,
+      variants: menu.variants,
     };
     const body = document.querySelector('body') as any;
     body.style.overflow = 'hidden';

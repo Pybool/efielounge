@@ -28,7 +28,8 @@ const menuSchema = Joi.object({
   price: Joi.number(),
   currency: Joi.string(),
   status: Joi.string(),
-  menuItems: Joi.array()
+  menuItems: Joi.array(),
+  variants: Joi.array()
 });
 
 const validations = {

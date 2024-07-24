@@ -39,6 +39,7 @@ export class AppComponent {
 
   ngOnInit() {
     const user = this.authService.retrieveUser();
+    
     if (user) {
       this.user = user;
       this.authService.setLoggedIn(true);

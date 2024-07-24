@@ -67,7 +67,6 @@ export class Menuservice {
         limit: limit, // Limit the number of documents returned
         sort: { }, // Sort by createdAt in descending order
       };
-
       const [menus, total] =  await Promise.all([
         Menu.find(filter, null, options)
           .sort({ })

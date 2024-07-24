@@ -48,34 +48,34 @@ export class CartService {
           code: 400,
         };
       }
-      const exists = await Cart.findOne({
-        account: req.accountId,
-        menu: cartPayload.menu,
-      });
-      if (!exists) {
-        cartPayload.account = account._id;
-        cartPayload.createdAt = new Date();
-        const cartItem = await Cart.create(cartPayload);
-        const cartData = await cartItem.populate("customMenuItems");
-        cartData._id = cartItem._id;
-        return {
-          status: true,
-          message: "Menu added to cart succesfully",
-          isMerged: false,
-          data: await cartData.populate("menu"),
-          code: 200,
-        };
-      }
-      exists.updatedAt = new Date();
-      exists.units = exists.units + cartPayload.units;
-      const mergedMenu = await exists.save();
+      // const exists = await Cart.findOne({
+      //   account: req.accountId,
+      //   menu: cartPayload.menu,
+      // });
+      // if (!exists) {
+      cartPayload.account = account._id;
+      cartPayload.createdAt = new Date();
+      const cartItem = await Cart.create(cartPayload);
+      const cartData = await cartItem.populate("customMenuItems");
+      cartData._id = cartItem._id;
       return {
         status: true,
-        message: "Merged menu units in your cart",
-        isMerged: true,
-        data: mergedMenu,
+        message: "Menu added to cart succesfully",
+        isMerged: false,
+        data: await cartData.populate("menu"),
         code: 200,
       };
+      // }
+      // exists.updatedAt = new Date();
+      // exists.units = exists.units + cartPayload.units;
+      // const mergedMenu = await exists.save();
+      // return {
+      //   status: true,
+      //   message: "Merged menu units in your cart",
+      //   isMerged: true,
+      //   data: mergedMenu,
+      //   code: 200,
+      // };
     } catch (error: any) {
       throw error;
     }
@@ -168,6 +168,20 @@ export class CartService {
     }
   }
 
+  static async dumpCart(req: Xrequest) {
+    try {
+      const userId = req.accountId;
+      await Cart.deleteMany({ account: userId });
+      return {
+        status: true,
+        message: "Cart deleted succesfully",
+        code: 200,
+      };
+    } catch (error: any) {
+      throw error;
+    }
+  }
+
   static async updateCart(req: Xrequest) {
     try {
       const cartItemId = req.body?.cartItemId! as string;
@@ -221,17 +235,17 @@ export class CartService {
       for (let cartItem of cartItems) {
         cartItemIds.push(cartItem._id);
         const cartItemDb = await Cart.findOne({ _id: cartItem._id });
-        
-        const selectedCustomMenuItems = []
+
+        const selectedCustomMenuItems = [];
         for (let customMenuItem of cartItem.customMenuItems) {
           if (customMenuItem.isFinalSelect) {
-            selectedCustomMenuItems.push(customMenuItem)
+            selectedCustomMenuItems.push(customMenuItem);
           }
         }
-        
+
         if (cartItemDb) {
-          if(selectedCustomMenuItems.length > 0){
-            cartItemDb.customMenuItems = selectedCustomMenuItems
+          if (selectedCustomMenuItems.length > 0) {
+            cartItemDb.customMenuItems = selectedCustomMenuItems;
           }
           cartItemDb.units = cartItem.units;
           await cartItemDb.save();

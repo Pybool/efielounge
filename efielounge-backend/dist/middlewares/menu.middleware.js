@@ -61,7 +61,6 @@ function arraifyUploads(attachmentsFolder) {
 }
 function singleUpload(attachmentsFolder) {
     try {
-        console.log(10000);
         const storage = multer_1.default.diskStorage({
             destination: function (req, file, cb) {
                 cb(null, attachmentsFolder);

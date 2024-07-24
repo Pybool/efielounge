@@ -18,13 +18,13 @@ import { environment } from '../../../environments/environment';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  public avatar:string | null = null;
+  public avatar: string | null = null;
   public user: any = null;
   public menuCategories: any[] = [];
   public cartCount = 0;
   public initialRequest = true;
   public serverUrl = environment.api;
-  
+
   constructor(
     private menuService: MenuService,
     private authService: AuthService,
@@ -37,15 +37,15 @@ export class HeaderComponent {
     this.user = this.authService.retrieveUser();
     if (this.user) {
       this.authService.setLoggedIn(true);
-      this.avatar = this.user?.avatar
+      this.avatar = this.user?.avatar;
     } else {
       this.authService.setLoggedIn(false);
     }
-    this.setActiveLinkFromUrl()
+    this.setActiveLinkFromUrl();
     const activeLink = this.getActiveLink();
     this.markActiveLink(activeLink);
     this.cartService.getCartCount().subscribe((count) => {
-        this.cartCount =  count;
+      this.cartCount = count;
     });
 
     this.menuService
@@ -65,22 +65,38 @@ export class HeaderComponent {
   }
 
   cartDocker() {
-    this.cartService.cartDocker()
+    this.cartService.cartDocker();
+  }
+
+  toggleMobileSubMenu() {
+    const mobileSubMenu = document.querySelector(`.mobile-sub-menu`) as any;
+    const menuCaret = document.querySelector(`.menu-caret`) as any;
+    if (mobileSubMenu) {
+      mobileSubMenu.classList.toggle('show-sub-menu');
+      if (Array.from(mobileSubMenu.classList).includes('show-sub-menu')) {
+        if (menuCaret) {
+          menuCaret.style.transition = 'transform 0.5s';
+          menuCaret.style.transform = 'rotate(90deg)';
+        } 
+      }else {
+        console.log("Here")
+        menuCaret.style.transition = 'transform 0.5s';
+        menuCaret.style.transform = 'rotate(360deg)';
+      }
+    }
   }
 
   markActiveLink(link: string) {
-    setTimeout(()=>{
+    setTimeout(() => {
       const linkEl = document.querySelector(`#${link}`) as any;
       if (linkEl) {
-        
         linkEl.querySelector('a').style.color = 'orange';
         linkEl
           .querySelector('a')
           .querySelector('svg')
           .querySelector('path').style.fill = 'orange';
       }
-    },1000)
-    
+    }, 1000);
   }
 
   shortenEmail(email: string) {
@@ -102,65 +118,63 @@ export class HeaderComponent {
     this.cookieService.set('efielounge-activeLink', link);
   }
 
-  setActiveLinkFromUrl(){
-    let link:any;
+  setActiveLinkFromUrl() {
+    let link: any;
     const href = document.location.pathname;
-    if(href=='/'){
-      link = 'home'
+    if (href == '/') {
+      link = 'home';
+    } else if (href == '/about-us') {
+      link = 'about';
+    } else if (href == '/menu') {
+      link = 'menu';
+    } else if (href == '/cart') {
+      link = 'cart';
+    } else if (href == '/orders') {
+      link = 'orders';
+    } else if (href == '/contact-us') {
+      link = 'contact';
     }
-    else if(href=='/about-us'){
-      link = 'about'
-    }
-    else if(href=='/menu'){
-      link = 'menu'
-    }
-    else if(href=='/cart'){
-      link = 'cart'
-    }
-    else if(href=='/orders'){
-      link = 'orders'
-    }
-    else if(href=='/contact-us'){
-      link = 'contact'
-    }
-    this.markActiveLink(link)
-
+    this.markActiveLink(link);
   }
 
   getActiveLink() {
     return this.cookieService.get('efielounge-activeLink');
   }
 
-  changeAvatar($event:any){
-    const imgInput = document.querySelector('.avatar-input') as HTMLInputElement;
-    imgInput?.click()
+  changeAvatar($event: any) {
+    const imgInput = document.querySelector(
+      '.avatar-input'
+    ) as HTMLInputElement;
+    imgInput?.click();
   }
 
-  onAvatarChange($event:any){
+  onAvatarChange($event: any) {
     const file = $event?.target?.files[0];
     if (file) {
       const formData = new FormData();
       formData.append('attachments', file);
 
-      this.uploadAvatar(formData).pipe(take(1)).subscribe(
-        (response: any) => {
-          this.avatar = response.data.avatar;
-        },
-        (error: any) => {
-          console.error('Upload failed', error);
-        }
-      );
+      this.uploadAvatar(formData)
+        .pipe(take(1))
+        .subscribe(
+          (response: any) => {
+            this.avatar = response.data.avatar;
+          },
+          (error: any) => {
+            console.error('Upload failed', error);
+          }
+        );
     }
   }
 
   uploadAvatar(formData: FormData) {
-   return this.authService.uploadAvatar(formData)
+    return this.authService.uploadAvatar(formData);
   }
 
-  toggleMobileNavMenu(){
-    const navMenu = document.querySelector(".responsive-menu") as any;
-    if(navMenu){
-      navMenu.classList.toggle("responsive-menu-show")
+  toggleMobileNavMenu() {
+    const navMenu = document.querySelector('.responsive-menu') as any;
+    if (navMenu) {
+      navMenu.classList.toggle('responsive-menu-show');
     }
   }
 

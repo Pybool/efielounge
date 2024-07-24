@@ -1,0 +1,46 @@
+.flex-row-sb{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.variant-pill {
+    position: relative;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 20px;
+    background: gray;
+}
+
+
+.pill {
+    position: relative;
+    margin-top: 30px;
+}
+
+.close-btn{
+    position: absolute;
+    top: -25px;
+    right: 0px;
+    background: white;
+    color: red;
+    border: none;
+    border-radius: 50% !important;
+    padding: 5px;
+    cursor: pointer;
+    display: none;
+    font-size: 28px;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+}
+
+.variant-pill:hover .close-btn {
+    display: flex;
+}
+
+
+.variant{
+    width: 100%;
+}

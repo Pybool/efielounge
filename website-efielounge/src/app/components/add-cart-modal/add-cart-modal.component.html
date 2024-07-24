@@ -5,9 +5,23 @@
             <img src="{{serverUrl}}{{selectedMenu.image?.replace('/public','')}}" />
             <button (click)="sendBoolean($event)" class="close-button">&times;</button>
             <div class="modal-body-content">
-                <h4 class="menu-name">{{selectedMenu?.name}}</h4>
+                <h4 class="menu-name">{{selectedMenu?.name}} <span *ngIf="variants.length>0">( {{variants[0]}} )</span></h4>
                 <h5>GH₵ {{selectedMenu?.price}}</h5>
                 <p class="menu-name">{{selectedMenu?.description}}</p>
+                <ng-container *ngIf="selectedMenu?.variants.length > 0">
+                    <h4 style="margin-top:30px; font-weight: 700;">Select a Variant <span class=required>Required</span></h4>
+                    <ng-container *ngFor="let variant of selectedMenu.variants">
+                        <div class="form-check">
+                            <input class="form-check-input" name="variant" (change)="updateVariant(variant.name, variant?.price)"
+                                type="radio" value="" id="add-{{variant?.name}}">
+                            <label class="form-check-label flex-row-sb" for="add-{{variant.name}}">
+                                <span class="">{{variant?.name}}</span>
+                                <span class="">+ GH₵ {{variant?.price}} </span>
+                            </label>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                
 
                 <h4 style="margin-top:30px; font-weight: 700;">Extras</h4>
                 <ng-container *ngFor="let extra of selectedMenu.extras">
@@ -38,7 +52,7 @@
                     </svg></span>
 
             </div>
-            <a class="btn order-now" (click)="addToCart()" href="javascript:void(0)">Add GH₵ {{orderTotal.toLocaleString()}}</a>
+            <button [disabled]="disableButton()" class="btn order-now" (click)="addToCart()" >Add GH₵ {{orderTotal.toLocaleString()}}</button>
         </div>
 
 

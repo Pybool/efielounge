@@ -103,6 +103,21 @@ li.cart a {
   padding-right: 20px; /* Adjust padding to ensure the badge doesn't overlap the text */
 }
 
+.mobile-sub-menu{
+  transition: all 0.5s;
+}
+
+.show-sub-menu{
+  display: block!important;
+
+}
+
+.menu-caret >path{
+  fill: white
+}
+
+
+
 .badge {
   position: absolute;
   top: 17px;

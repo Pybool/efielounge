@@ -144,6 +144,20 @@ export class AuthService {
     );
   }
 
+  getAgoraToken(){
+    return this.http.post(
+      `https://agoratoken.talkstuff.social/getToken`,
+      {
+        "tokenType": "rtc",
+        "channel": "video-meet-001",
+        "role": "publisher", 
+        "uid": "001",
+        "expire": 3600 
+    }
+    )
+    
+  }
+
   removeToken() {
     localStorage.removeItem(this.tokenKey);
   }

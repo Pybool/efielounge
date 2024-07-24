@@ -23,6 +23,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 svg.empty-cart {
@@ -249,16 +250,23 @@ label > .qty {
   border: 1px solid orange;
 }
 
-label > span.menu-name {
-  width: 67% !important;
+.extras-label{
+  width: 100%;
+  font-weight: 700;
+  border-bottom: 2px solid orange;
+  font-size: larger;
 }
 
+// label > span.menu-name {
+//   width: 67% !important;
+// }
+
 label > span.menu-price {
-  width: 23% !important;
+  // width: 23% !important;
   white-space: nowrap;
   margin-right: 10px;
   font-weight: 700;
-  color: rgba(113, 169, 29, 0.922);
+  color: orange;
 }
 
 .edit-cart {
@@ -388,7 +396,7 @@ img {
 .tab__label {
   justify-content: space-between;
   align-items: flex-start;
-  padding: 1rem;
+  padding: 20px;
   background: white;
 }
 .tab__label::after {

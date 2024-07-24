@@ -12,6 +12,23 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.close-button {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  background-color: white;
+  color: gray;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  line-height: 24px;
+  cursor: pointer;
+  font-size: 32px;
+  font-weight: bold;
+}
+
 /* Modal content box */
 body {
   position: fixed;
@@ -23,6 +40,15 @@ body {
 .has-paid{
     background-color: orange!important;
 }
+
+
+.flex-row-sb {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 
 .logo {
     float: left;
@@ -125,3 +151,106 @@ body {
 .bank-account-card p {
   margin-bottom: 0;
 }
+
+
+
+/* Extra Small Devices, Phones (0px to 599px) */
+@media only screen and (min-width: 300px) and (max-width: 599px) {
+  /* Styles for small phones */
+  .bank-account-card {
+    width: 100%;
+  }
+
+  .card-container {
+    flex-direction: column;
+  }
+
+  .modal-content {
+    margin: 30% auto;
+    width: 100%;
+    max-width: 100%; 
+    border-radius: 5px;
+}
+
+}
+
+/* Small Devices, Larger Phones (600px to 767px) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  /* Styles for larger phones */
+  .bank-account-card {
+    width: 100%;
+  }
+
+  .card-container {
+    flex-direction: column;
+  }
+
+  .modal-content {
+    margin: 30% auto;
+    width: 100%;
+    max-width: 100%; 
+    border-radius: 5px;
+}
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 768px) and (max-width: 819px) {
+  /* Styles for tablets */
+  .bank-account-card {
+    width: 100%;
+  }
+
+  .card-container {
+    flex-direction: column;
+  }
+  .modal-content {
+    margin: 30% auto;
+    width: 100%;
+    max-width: 100%; 
+    border-radius: 5px;
+}
+}
+
+/* Medium Devices, Tablets (768px to 991px) */
+@media only screen and (min-width: 820px) and (max-width: 991px) {
+  /* Styles for tablets */
+  .bank-account-card {
+    width: 100%;
+  }
+
+  .card-container {
+    flex-direction: column;
+  }
+  .modal-content {
+    margin: 30% auto;
+    width: 100%;
+    max-width: 100%; 
+    border-radius: 5px;
+}
+}
+
+@media (max-width: 980px) {
+  .container {
+    width: auto;
+  }
+}
+
+/* Large Devices, Desktops (992px to 1199px) */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* Styles for desktops */
+ 
+  .modal-content {
+    margin: 30% auto;
+    width: 100%;
+    max-width: 100%; 
+    border-radius: 5px;
+}
+}
+
+/* Extra Large Devices, Large Desktops (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  /* Styles for large desktops */
+  
+}
+
+  

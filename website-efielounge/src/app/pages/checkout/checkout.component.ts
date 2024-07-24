@@ -31,7 +31,7 @@ import { AddressModalComponent } from '../../components/address-modal/address-mo
     DirectBankTransferModalComponent,
     AddressModalComponent,
   ],
-  providers: [ PaystackService, AuthService],
+  providers: [PaystackService, AuthService],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
@@ -74,7 +74,7 @@ export class CheckoutComponent {
         .pipe(take(1))
         .subscribe(
           (response: any) => {
-            this.cartService.cartDocker(true)
+            this.cartService.cartDocker(true);
             if (response.status) {
               this.checkOutItems = response.data;
             }
@@ -98,7 +98,7 @@ export class CheckoutComponent {
   }
 
   handleNewAddressEvent(value: boolean) {
-    console.log(value)
+    console.log(value);
     this.addresses.unshift(value);
   }
 
@@ -123,26 +123,26 @@ export class CheckoutComponent {
     });
   }
 
-  setDefaultAddress(address:any) {
+  setDefaultAddress(address: any) {
     this.cartService
       .setDefaultAddress({ addressId: address._id })
       .pipe(take(1))
       .subscribe((response: any) => {
-        console.log(response)
-        if(response.status){
-          for(let _address of this.addresses){
+        console.log(response);
+        if (response.status) {
+          for (let _address of this.addresses) {
             _address.isDefault = false;
           }
-          address.isDefault = true
+          address.isDefault = true;
         }
       });
   }
 
-  activatePayment(){
+  activatePayment() {
     let defaultSelected = false;
-    for(let _address of this.addresses){
-      if(_address.isDefault == true){
-        defaultSelected = true
+    for (let _address of this.addresses) {
+      if (_address.isDefault == true) {
+        defaultSelected = true;
         break;
       }
     }
@@ -157,14 +157,14 @@ export class CheckoutComponent {
             .saveTransaction(reference, checkOutId, paymentResponse)
             .subscribe((response: any) => {
               if (response.status) {
-                this.cartService.resetCart()
+                this.cartService.resetCart();
                 this.router.navigateByUrl('/orders');
               } else {
                 alert(response.message);
               }
             });
         }
-      }, 2000);
+      }, 1000);
     });
   }
 
@@ -197,9 +197,8 @@ export class CheckoutComponent {
   }
 
   handleConfirmEvent() {
-    console.log('Cart Item removed from cart ', this.removal.name);
     this.deleteObjectById(this.removal._id);
-    this.cartService.setCartCount(-1,this.removal._id)
+    this.cartService.setCartCount(-1, this.removal._id);
   }
 
   addQty(checkOutItem: any) {

@@ -17,6 +17,7 @@ const CartSchema = new Schema({
     default: 1,
     required: false,
   },
+  variants: [],
   customMenuItems: {
     type: [Schema.Types.ObjectId],
     ref: "menuitem",

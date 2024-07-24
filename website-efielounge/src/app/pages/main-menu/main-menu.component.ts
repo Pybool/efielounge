@@ -29,7 +29,7 @@ import { AddCartModalComponent } from '../../components/add-cart-modal/add-cart-
     TruncateTextPipe,
     InfiniteLoaderSpinnerComponent,
     CartDockedComponent,
-    AddCartModalComponent
+    AddCartModalComponent,
   ],
   providers: [MenuService],
   templateUrl: './main-menu.component.html',
@@ -46,13 +46,17 @@ export class MainMenuComponent implements OnDestroy {
   public pageSize = 20;
   public totalPages = 0;
   public showCartModal: boolean = false;
+  public menuCategories: any[] = [];
+  public params: any;
   public selectedMenu:
-    | { _id:string;
+    | {
+        _id: string;
         name?: string;
         price?: string;
         image: string;
         description: string;
         extras?: any[];
+        variants?: any[];
       }
     | any = {};
 
@@ -65,9 +69,49 @@ export class MainMenuComponent implements OnDestroy {
 
   ngOnInit() {
     this.activatedRoute$ = this.route.queryParams.subscribe((params) => {
+      this.params = params;
       this.fetchMenu(params);
+      this.fetchCategories();
       this.setupScrollEventListener();
     });
+  }
+
+  fetchCategories() {
+    this.menuService
+      .fetchCategories()
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          if (response.status) {
+            this.menuCategories = response.data;
+            this.setActiveMenu();
+          }
+        },
+        (error: any) => {
+          alert('Failed to fetch menu categories');
+        }
+      );
+  }
+
+  setActiveMenu() {
+    try {
+      setTimeout(() => {
+        let filter = 'default'
+        if(this.params['filter']){
+          filter = this.params['filter']
+        }
+        const id = 'breadcrumb-'+ filter;
+        const activeEl = document.getElementById(id) as HTMLElement;
+        const breadCrumbs = document.querySelectorAll('.breadcrumb-item') as any;
+        for( let breadCrumb of breadCrumbs){
+          breadCrumb.classList.remove('active');
+        };
+        console.log('activeEl ', activeEl, id);
+        if (activeEl) {
+          activeEl.parentElement!.classList.add('active');
+        }
+      }, 100);
+    } catch (error) {}
   }
 
   ngAfterViewInit() {
@@ -103,17 +147,16 @@ export class MainMenuComponent implements OnDestroy {
       );
   }
 
-
   toggleAddToCartModal() {
-    this.cartService.toggleAddToCartModal()
+    this.cartService.toggleAddToCartModal();
   }
 
   handleBooleanEvent(value: boolean) {
-    this.cartService.handleBooleanEvent(value)
+    this.cartService.handleBooleanEvent(value);
   }
 
   orderNow(menu: any) {
-    this.cartService.orderNow(menu)
+    this.cartService.orderNow(menu);
   }
 
   async likeMenu(_id: string) {

@@ -103,6 +103,13 @@ export class CategoryService {
     );
   }
 
+  removeVariant(payload: any) {
+    return this.http.patch(
+      `${environment.api}/api/v1/admin/menu/remove-variant`,
+      payload
+    );
+  }
+
   archiveMenu(payload: { _id: string; archive: number }) {
     return this.http.patch(
       `${environment.api}/api/v1/admin/menu/archive-menu`,
