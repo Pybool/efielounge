@@ -134,6 +134,7 @@ div.block > div.container{
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 /* Extra Small Devices, Phones (0px to 599px) */
@@ -169,6 +170,10 @@ div.block > div.container{
 /* Extra Large Devices, Large Desktops (1200px and above) */
 @media only screen and (min-width: 1200px) {
   /* Styles for large desktops */
+}
+
+.price, .order-now{
+  white-space: nowrap;
 }
 
 

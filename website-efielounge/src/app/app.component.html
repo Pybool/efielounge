@@ -17,3 +17,60 @@
 </div>
 
 <div (click)="cartDocker()" class="cart-overlay "></div>
+<div class="base-cookie-banner">
+    <h6 class="text-left">This Website uses cookies</h6>
+    <p class="b-text">
+      We value your privacy and want you to understand how we collect, use, and
+      safeguard your personal information. Our website uses cookies, which are
+      small text files stored on your device, to enhance your browsing experience.
+      These cookies help us analyze website traffic, personalize content and ads,
+      and provide social media features.<br>
+      We may also share information about your use of our site with our social
+      media, advertising, and analytics partners, who may combine it with other
+      information that you’ve provided to them or that they’ve collected from your
+      use of their services.
+    </p>
+    <div class="flex-row-sb b-text">
+      <div class="col-md-9 col-sm-12 col-lg-9" style="padding-top:10px;">
+        By clicking "Allow Cookies" or continuing to use our website, you consent to
+        the use of cookies as described in our
+        <a href="’insert"> cookie policy</a>.
+      </div>
+      <button (click)="acceptCookies()" class="accept-cookies btn" id="accept-cookies-btn">
+        Allow Cookies
+      </button>
+      
+    </div>
+    <p></p>
+
+
+  </div>
+
+  <div *ngIf="promotions.length > 0" id="promotions-modal" class="modal">
+    <div class="modal-content">
+        <div class="flex-row-sb">
+            <h4 class="flex-row-sb">
+              <app-ringing-bell></app-ringing-bell>
+              <span style="color:orange">ALERT!!</span>
+            </h4>
+            <button (click)="toggleTransferModal()" class="close-button">&times;</button>
+        </div>
+        <div class="card-container ">
+            <div class="promotions-card" *ngFor="let promotion of promotions">
+                <div *ngIf="promotionIsScreenEligible" class="">
+                  <h6 style="padding:12px; background: ghostwhite; font-size: 1.2em;">{{promotion.description}}</h6>  
+                  <div style="gap: 20px; flex-wrap: wrap; justify-content: end;" class="flex-row-sb">
+                    <ng-container *ngFor="let attachment of promotion.attachments">
+                      <img class="promotion-image" src="{{serverUrl}}{{attachment.url.replace('/public','')}}"/>
+                    </ng-container>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="javascript:void(0)" (click)="markPromotionAsSeen()" class="has-paid btn">Next Time</a>
+            <button (click)="toggleTransferModal()" id="cancelButton" class="modal-close btn">Exit</button>
+        </div>
+    </div>
+
+  </div>

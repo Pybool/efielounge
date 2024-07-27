@@ -35,7 +35,7 @@ import { AddressModalComponent } from '../../components/address-modal/address-mo
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnDestroy {
   public units: number = 1;
   public menus: any[] = [];
   public serverUrl: string = environment.api;
@@ -53,9 +53,12 @@ export class CheckoutComponent {
   public paymentMethod: string = 'card';
   public user: any;
   public addresses: any = [];
+  public subTotal = 0.0;
+  public cartItems$: any;
+  Math = Math;
 
   constructor(
-    private cartService: CartService,
+    public cartService: CartService,
     private route: ActivatedRoute,
     private paystackService: PaystackService,
     private authService: AuthService,
@@ -69,18 +72,14 @@ export class CheckoutComponent {
     }
     this.activatedRoute$ = this.route.paramMap.subscribe((params) => {
       this.checkOutId = params.get('checkOutId') as string;
-      this.cartService
-        .getCart(this.checkOutId)
-        .pipe(take(1))
-        .subscribe(
-          (response: any) => {
-            this.cartService.cartDocker(true);
-            if (response.status) {
-              this.checkOutItems = response.data;
-            }
-          },
-          (error: any) => {}
-        );
+      this.cartItems$ = this.cartService.getCartItems().subscribe(
+        (response: any) => {
+          this.cartService.cartDocker(true);
+          this.checkOutItems = response.cartItems || [];
+          this.subTotal = response.subTotal;
+        },
+        (error: any) => {}
+      );
     });
 
     this.cartService
@@ -98,7 +97,6 @@ export class CheckoutComponent {
   }
 
   handleNewAddressEvent(value: boolean) {
-    console.log(value);
     this.addresses.unshift(value);
   }
 
@@ -123,12 +121,30 @@ export class CheckoutComponent {
     });
   }
 
+  verifyTransaction(reference: string, checkOutId: string) {
+    this.paystackService.verifyTransaction(reference, (paymentResponse) => {
+      setTimeout(() => {
+        if (paymentResponse.data.status == 'success') {
+          this.cartService
+            .saveTransaction(reference, checkOutId, paymentResponse)
+            .subscribe((response: any) => {
+              if (response.status) {
+                this.cartService.resetCart();
+                this.router.navigateByUrl('/orders');
+              } else {
+                alert(response.message);
+              }
+            });
+        }
+      }, 1000);
+    });
+  }
+
   setDefaultAddress(address: any) {
     this.cartService
       .setDefaultAddress({ addressId: address._id })
       .pipe(take(1))
       .subscribe((response: any) => {
-        console.log(response);
         if (response.status) {
           for (let _address of this.addresses) {
             _address.isDefault = false;
@@ -147,25 +163,6 @@ export class CheckoutComponent {
       }
     }
     return defaultSelected;
-  }
-
-  verifyTransaction(reference: string, checkOutId: string) {
-    this.paystackService.verifyTransaction(reference, (paymentResponse) => {
-      setTimeout(() => {
-        if (paymentResponse.data.status == 'success') {
-          this.cartService
-            .saveTransaction(reference, checkOutId, paymentResponse)
-            .subscribe((response: any) => {
-              if (response.status) {
-                this.cartService.resetCart();
-                this.router.navigateByUrl('/orders');
-              } else {
-                alert(response.message);
-              }
-            });
-        }
-      }, 1000);
-    });
   }
 
   toggleRemoveFromCartModal(name: string, _id: string) {
@@ -244,7 +241,7 @@ export class CheckoutComponent {
           if (response.status) {
             this.payment = {
               ref: this.checkOutId,
-              amount: this.getSubTotal() + this.shippingCost,
+              amount: this.subTotal + this.shippingCost,
             };
             this.checkOutId = response.data.checkOutId;
             if (this.paymentMethod == 'transfer') {
@@ -292,5 +289,10 @@ export class CheckoutComponent {
     if (transferModal) {
       transferModal.style.display = 'block';
     }
+  }
+
+  ngOnDestroy() {
+    this.cartItems$?.unsubsribe();
+    this.activatedRoute$?.unsubsribe();
   }
 }

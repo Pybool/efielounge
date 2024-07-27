@@ -31,11 +31,15 @@ const OrderSchema = new Schema({
     type: Date,
     required: true,
   },
+  notes:{
+    type: String,
+    required: false,
+  },
   status: {
     type: String,
     default: "PENDING",
     required: false,
-    enum: ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELED"],
+    enum: ["PENDING", "CONFIRMED", "IN-TRANSIT", "DELIVERED", "CANCELED"],
   },
 });
 

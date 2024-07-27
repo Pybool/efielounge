@@ -18,6 +18,7 @@ export class CartService {
   public units = 1;
   public cartItems: any = [];
   public subTotal: number = 0.0;
+  public isCartDockerOpen = false;
 
   public selectedMenu:
     | {
@@ -93,6 +94,7 @@ export class CartService {
       cartItems: [],
       subTotal: 0.0,
     });
+    this.cartItems = [];
   }
 
   setCartItems(cartItem: any) {
@@ -296,6 +298,7 @@ export class CartService {
       dockWidget.classList.remove('dock-visible');
       if (cartOverlay) {
         cartOverlay.style.display = 'none';
+        this.isCartDockerOpen = false
       }
       return null;
     }
@@ -305,21 +308,28 @@ export class CartService {
       body.style.position = 'unset';
       if (cartOverlay) {
         cartOverlay.style.display = 'none';
+        this.isCartDockerOpen = false
       }
     } else {
       body.style.overflow = 'hidden';
       body.style.position = 'fixed';
       if (cartOverlay) {
         cartOverlay.style.display = 'block';
+        this.isCartDockerOpen = true
       }
     }
     return null;
+  }
+
+  getShowCartModalStatus(){
+    return this.isCartDockerOpen
   }
 
   toggleAddToCartModal() {
     if (this.showCartModal == false) {
       this.showCartModal = true;
     }
+    console.log("Here Toggling ")
   }
 
   addToCartItems(menu: any, units: number, extras: any[], variants: string[]) {

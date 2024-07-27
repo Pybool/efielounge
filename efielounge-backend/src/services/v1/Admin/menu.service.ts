@@ -151,11 +151,11 @@ export class Menuservice {
       }
 
       if (menu) {
-        let archiveState = false;
-        if (data.archiveState === 1) {
-          archiveState = true;
+        let archive = false;
+        if (data.archive === 1) {
+          archive = true;
         }
-        menu.archive = archiveState;
+        menu.archive = archive;
         const updated = await menu.save();
         return {
           status: true,
@@ -178,11 +178,9 @@ export class Menuservice {
   static async createMenuItem(req: Xrequest) {
     try {
       const requestBody = req.body;
-      console.log(requestBody.data);
       const requestBodyData = JSON.parse(requestBody.data);
       const validatedResult: ImenuItem =
         await validations.menuItemSchema.validateAsync(requestBodyData);
-      console.log(validatedResult);
       const existingMenuItem: any = await MenuItem.findOne({
         name: validatedResult.name,
       });
@@ -206,7 +204,6 @@ export class Menuservice {
       }
 
       let menuAttachments = req.attachments!;
-      console.log("menuAttachments ", menuAttachments);
       if (
         menuAttachments.length == 0 ||
         req.files.length != menuAttachments.length

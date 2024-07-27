@@ -88,4 +88,4 @@
 </div>
 <app-add-cart-modal *ngIf="showCartModal" (addedCartItem)="handleAddedCartItem($event)"
     (booleanEvent)="handleBooleanEvent($event)" [selectedMenu]="selectedMenu"></app-add-cart-modal>
-<app-remove-from-cart [removal]="removal" (confirmEvent)="handleConfirmEvent()"></app-remove-from-cart>
+<app-remove-from-cart *ngIf="removal._id!==''" [removal]="removal" (confirmEvent)="handleConfirmEvent()">{{removal._id}}</app-remove-from-cart>

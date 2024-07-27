@@ -48,6 +48,13 @@ export const navItems: any = [
     url: '/users',
     iconComponent: { name: 'cil-speedometer' }
   },
+  {
+    name: 'Website',
+    url: '/client-site-configuration',
+    iconComponent: { name: 'cil-speedometer' }
+  },
+
+  
 
   {
     name: 'Login',

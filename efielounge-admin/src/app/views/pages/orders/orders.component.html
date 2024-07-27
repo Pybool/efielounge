@@ -10,6 +10,7 @@
     <!-- <button style="white-space: nowrap;" [cModalToggle]="verticallyCenteredModalAddorder.id" cButton color="primary">Create order
     </button> -->
 </div>
+
 <c-row>
     <c-col xs>
         <c-card class="mb-4">
@@ -38,7 +39,7 @@
                             </td>
                             <td>
                                 <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
-                                    <a href="javascript:void(0)" (click)="setorderToEdit(i)">Manage Order</a>
+                                    <a [cModalToggle]="manageSelectedOrder.id" href="javascript:void(0)" (click)="setorderToEdit(i)">Manage Order</a>
                                 </div>
                             </td>
                         </tr>
@@ -49,3 +50,138 @@
         </c-card>
     </c-col>
 </c-row>
+
+<c-modal #manageSelectedOrder alignment="center" size="xl" scrollable id="manageSelectedOrder">
+    <c-modal-header>
+        <h5 cModalTitle>Order {{orders[index]?.checkOutId}}</h5>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm>
+            <div class="account">
+                <div class="container mx-auto" cForm>
+                    <div style="gap:10px; margin-bottom: 10px;" class="flex-row-sb">
+                        <img class="avatar" src="{{serverUrl}}/{{account?.avatar}}">
+                      
+                    </div>
+                    <div style="gap:10px" class="flex-row-sb">
+                        <c-input-group class="mb-3">
+                            <span class="edit-false" cInputGroupText>
+                                <span class="edit-false">Firstname</span>
+                            </span>
+                            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="account.firstName" name="firstName" autoComplete="name" cFormControl />
+                        </c-input-group>
+                       
+                        <c-input-group class="mb-3">
+                            <span class="edit-false" cInputGroupText>
+                                <span class="edit-false">Lastname</span>
+                            </span>
+                            <input [readonly]="isReadOnly" class="edit-false"  [(ngModel)]="account.lastName" name="lastName" autoComplete="price" cFormControl />
+                        </c-input-group>
+                        <c-input-group class="mb-3">
+                            <span class="edit-false" cInputGroupText>
+                                <span class="edit-false">Username</span>
+                            </span>
+                            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="account.userName" name="userName" autoComplete="price" cFormControl />
+                        </c-input-group>
+                    </div>
+                    <div style="gap:10px" class="flex-row-sb">
+                        <c-input-group class="mb-3">
+                            <span class="edit-false" cInputGroupText>
+                                <span class="edit-false">Email</span>
+                            </span>
+                            <input [readonly]="true" class="edit-false" [(ngModel)]="account.email" name="email" autoComplete="name" cFormControl />
+                        </c-input-group>
+                       
+                        <c-input-group class="mb-3">
+                            <span class="edit-false" cInputGroupText>
+                                <span class="edit-false">Phone</span>
+                            </span>
+                            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="account.phone" name="phone" autoComplete="price" cFormControl />
+                        </c-input-group>
+                        <c-input-group class="mb-3">
+                            <span class="edit-false" cInputGroupText>
+                                <span class="edit-false">Phone2</span>
+                            </span>
+                            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="account.altPhone" name="altPhone" autoComplete="price" cFormControl />
+                        </c-input-group>
+                    </div>
+                    <div style="gap:10px" class="flex-row-sb">
+                        <c-input-group class="mb-3">
+                            <span class="edit-false" cInputGroupText>
+                                <span class="edit-false">Street</span>
+                            </span>
+                            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="account.street" name="street" autoComplete="name" cFormControl />
+                        </c-input-group>
+                       
+                        <c-input-group class="mb-3">
+                            <span class="edit-false" cInputGroupText>
+                                <span class="edit-false">City</span>
+                            </span>
+                            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="account.city" name="city" autoComplete="price" cFormControl />
+                        </c-input-group>
+                        <c-input-group class="mb-3">
+                            <span class="edit-false" cInputGroupText>
+                                <span class="edit-false">State</span>
+                            </span>
+                            <input [readonly]="isReadOnly" class="edit-false" [(ngModel)]="account.stateOfResidence" name="state" autoComplete="price" cFormControl />
+                        </c-input-group>
+                
+                    </div>
+                </div>
+            </div>
+            <div class="orders">
+                <ng-container *ngFor="let order of selectedOrder.orders">
+                    <div style="justify-content: space-between;align-items: flex-start;" class="flex-row-sb">
+                        <img class="order-image col-md-3" src="http://localhost:8000//menu-attachments/20-06-2024/de19b82a-8a8a-4629-8fc6-6786c2109091-traditional-chinese-food-char-siu.webp"/>
+                        <div class=col-md-3>
+                            <c-input-group class="mb-3">
+                                <span cInputGroupText>
+                                    Menu
+                                </span>
+                                <input [(ngModel)]="order.menu.name" name="{{order.menu.name}}" autoComplete="name" cFormControl placeholder="Name" />
+                            </c-input-group>
+                            <c-input-group class="mb-3">
+                                <span cInputGroupText>
+                                    QTY
+                                </span>
+                                <input [(ngModel)]="order.units" name="{{order._id}}" autoComplete="name" cFormControl placeholder="Name" />
+                            </c-input-group>
+                        </div>
+                        <div style="align-items: flex-start; justify-content: flex-start;" class="extras flex-row-sb col-md-3">
+                            <ng-container *ngFor="let extra of order.customMenuItems">
+                                <div class="extras-pill">{{extra.name}}</div>
+                            </ng-container>
+                        </div>
+                        <button disabled class="btn btn-secondary col-md-3">Mark for refund</button>
+                    </div>
+                    
+                </ng-container>
+                <div class="grand-total">Grand Total: <span>{{selectedOrder.grandTotal}}</span></div>
+            </div>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <select [(ngModel)]="selectedOrder.status" name="status" aria-label="Default select example" cselect class="form-select" >
+                    <option>Mark As</option>
+                    <ng-container *ngFor="let status of statuses">
+                        <option value="{{status}}">{{status}}</option>
+                    </ng-container>
+                </select>
+            </c-input-group>
+            <c-input-group class="mb-3">
+                <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                </span>
+                <textarea [(ngModel)]="selectedOrder.notes" name="message" cFormControl
+                    placeholder="Notes"></textarea>
+            </c-input-group>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+        <button class="close-order" [cModalToggle]="manageSelectedOrder.id" cButton color="secondary">
+            Close
+        </button>
+        <button (click)=submit() cButton color="primary">Submit</button>
+    </c-modal-footer>
+</c-modal>

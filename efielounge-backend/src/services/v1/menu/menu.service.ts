@@ -54,7 +54,6 @@ export class Menuservice {
 
   static async getMenus(req: Xrequest) {
     try {
-      await delay(1000)
       let filter: any = {};
       const page = Number((req.query.page! as string) || 1);
       const limit = Number((req.query.limit! as string) || 20);
@@ -74,12 +73,14 @@ export class Menuservice {
           .populate("menuItems"),
         Menu.countDocuments(filter),
       ]);
+      
 
       const totalPages = Math.ceil(total / limit);
       for (const menu of menus) {
         menu.ratings = await Menuservice.computeRating(menu._id.toString());
         menu.likes = await MenuLikes.countDocuments({ menuId: menu._id });
       }
+
       return {
         status: true,
         data: menus,

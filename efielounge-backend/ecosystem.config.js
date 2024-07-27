@@ -14,3 +14,5 @@ module.exports = {
   ]
 };
 // pm2 start ecosystem.config.js --env prod
+
+// Server IP : 137.184.21.178

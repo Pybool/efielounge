@@ -4,20 +4,36 @@ import fs from "fs";
 import { existsSync, mkdirSync } from "fs";
 import Xrequest from "../interfaces/extensions.interface";
 import sharp from "sharp";
-const { v4: uuidv4 } = require('uuid');
-const os = require('os');
+const { v4: uuidv4 } = require("uuid");
+const os = require("os");
 
-function arraifyUploads(attachmentsFolder: string) {
+function arraifyUploads(attachmentsFolder: string, type: string) {
   try {
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {
         cb(null, attachmentsFolder);
       },
-      filename: function (req:Xrequest, file, cb) {
+      filename: function (req: Xrequest, file, cb) {
         const uniqueFilename = `${uuidv4()}-${file.originalname}`;
         const filePath = path.join(attachmentsFolder, uniqueFilename);
         req.attachments = req.attachments || [];
-        req.attachments.push(filePath.replaceAll("..","").replaceAll("\\","/").replaceAll("efielounge-backend",""))
+        if (type == "string") {
+          req.attachments.push(
+            filePath
+              .replaceAll("..", "")
+              .replaceAll("\\", "/")
+              .replaceAll("efielounge-backend", "")
+          );
+        } else {
+          req.attachments.push({
+            type: "image",
+            url: filePath
+              .replaceAll("..", "")
+              .replaceAll("\\", "/")
+              .replaceAll("efielounge-backend", ""),
+          });
+        }
+
         cb(null, uniqueFilename);
       },
     });
@@ -30,8 +46,11 @@ function arraifyUploads(attachmentsFolder: string) {
       // fileFilter: this.attachmentsFilter,
     });
 
-    return async (req:Xrequest, res:any, next:any) => {
-      const upload = config.array('attachments', parseInt(process.env.EFIELOUNGE_MAX_IMAGES || "3"));
+    return async (req: Xrequest, res: any, next: any) => {
+      const upload = config.array(
+        "attachments",
+        parseInt(process.env.EFIELOUNGE_MAX_IMAGES || "3")
+      );
 
       upload(req, res, async (err) => {
         if (err) {
@@ -40,16 +59,16 @@ function arraifyUploads(attachmentsFolder: string) {
         }
         // Resize images using Sharp
         if (req.files && req.files.length > 0) {
-          await Promise.all(req.files.map(async (file:any) => {
-            const filePath = path.join(attachmentsFolder, file.filename);
-            const tempFilePath = `${filePath}-temp`;
+          await Promise.all(
+            req.files.map(async (file: any) => {
+              const filePath = path.join(attachmentsFolder, file.filename);
+              const tempFilePath = `${filePath}-temp`;
 
-            await sharp(filePath)
-              .resize(450, 300)
-              .toFile(tempFilePath);
+              await sharp(filePath).resize(450, 300).toFile(tempFilePath);
 
-            fs.renameSync(tempFilePath, filePath+'-450x300.png');
-          }));
+              fs.renameSync(tempFilePath, filePath + "-450x300.png");
+            })
+          );
         }
 
         next();
@@ -61,18 +80,25 @@ function arraifyUploads(attachmentsFolder: string) {
   }
 }
 
-
 function singleUpload(attachmentsFolder: string) {
   try {
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {
         cb(null, attachmentsFolder);
       },
-      filename: function (req:Xrequest, file, cb) {
-        const uniqueFilename = `${uuidv4()}-${file.originalname}`.replaceAll(" ", "-");
+      filename: function (req: Xrequest, file, cb) {
+        const uniqueFilename = `${uuidv4()}-${file.originalname}`.replaceAll(
+          " ",
+          "-"
+        );
         const filePath = path.join(attachmentsFolder, uniqueFilename);
         req.attachments = req.attachments || [];
-        req.attachments.push(filePath.replaceAll("..","").replaceAll("\\","/").replaceAll("efielounge-backend",""))
+        req.attachments.push(
+          filePath
+            .replaceAll("..", "")
+            .replaceAll("\\", "/")
+            .replaceAll("efielounge-backend", "")
+        );
         cb(null, uniqueFilename);
       },
     });
@@ -85,8 +111,8 @@ function singleUpload(attachmentsFolder: string) {
       // fileFilter: this.attachmentsFilter,
     });
 
-    return async (req:Xrequest, res:any, next:any) => {
-      const upload = config.single('attachments');
+    return async (req: Xrequest, res: any, next: any) => {
+      const upload = config.single("attachments");
       upload(req, res, async (err) => {
         if (err) {
           console.error("Error during upload:", err);
@@ -94,16 +120,16 @@ function singleUpload(attachmentsFolder: string) {
         }
         // Resize images using Sharp
         if (req.files && req.files.length > 0) {
-          await Promise.all(req.files.map(async (file:any) => {
-            const filePath = path.join(attachmentsFolder, file.filename);
-            const tempFilePath = `${filePath}-temp`;
+          await Promise.all(
+            req.files.map(async (file: any) => {
+              const filePath = path.join(attachmentsFolder, file.filename);
+              const tempFilePath = `${filePath}-temp`;
 
-            await sharp(filePath)
-              .resize(450, 300)
-              .toFile(tempFilePath);
+              await sharp(filePath).resize(450, 300).toFile(tempFilePath);
 
-            fs.renameSync(tempFilePath, filePath+'-450x300.png');
-          }));
+              fs.renameSync(tempFilePath, filePath + "-450x300.png");
+            })
+          );
         }
 
         next();
@@ -130,19 +156,22 @@ function createfolder(folderUrl: string) {
   }
 }
 
-export function getMulterConfig() {
+export function getMulterConfig(
+  folder: string = "../public/menu-attachments/",
+  type = "string"
+) {
   const today = new Date();
   const month = String(today.getMonth() + 1).padStart(2, "0"); // Add leading zero for single-digit months
   const day = String(today.getDate()).padStart(2, "0");
   const year = today.getFullYear();
   const formattedDate2 = `${day}-${month}-${year}`;
-  let attachmentsFolder = `../public/menu-attachments/${formattedDate2}`;
+  let attachmentsFolder = `${folder}${formattedDate2}`;
   createfolder(attachmentsFolder);
-  const multerConfig = arraifyUploads(attachmentsFolder);
+  const multerConfig = arraifyUploads(attachmentsFolder, type);
   return multerConfig;
 }
 
-export function getMulterConfigSingle(folder:string) {
+export function getMulterConfigSingle(folder: string) {
   const today = new Date();
   const month = String(today.getMonth() + 1).padStart(2, "0"); // Add leading zero for single-digit months
   const day = String(today.getDate()).padStart(2, "0");
@@ -151,6 +180,5 @@ export function getMulterConfigSingle(folder:string) {
   let attachmentsFolder = folder + `${formattedDate2}`;
   createfolder(attachmentsFolder);
   const multerConfig = singleUpload(attachmentsFolder);
-  console.log(multerConfig)
   return multerConfig;
 }

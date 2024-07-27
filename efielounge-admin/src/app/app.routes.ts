@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout';
 
+
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
   },
+  
   {
     path: '',
     component: DefaultLayoutComponent,
@@ -133,6 +135,19 @@ export const routes: Routes = [
           title: 'Profile',
         },
       },
+      {
+        path: 'client-site-configuration',
+        loadComponent: () =>
+          import('./views/pages/client-site-homepage/client-site-homepage.component').then(
+            (m) => m.ClientSiteHomepageComponent
+          ),
+        data: {
+          title: 'Configurations',
+        },    
+      },
+      
+
+      
       
     ],
   },
@@ -147,6 +162,7 @@ export const routes: Routes = [
       title: 'Page 500',
     },
   },
+  
   {
     path: 'login',
     loadComponent: () =>

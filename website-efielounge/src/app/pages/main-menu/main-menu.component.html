@@ -64,7 +64,8 @@
                                             <div class="col-md-6 col-sm-6 col-lg-6">
                                                 <div class="popular-dish-box style2 wow fadeIn" data-wow-delay="0.2s">
                                                     <div class="popular-dish-thumb">
-                                                        <a href="/menu-detail/{{menu?.slug}}" title="" itemprop="url"><img
+                                                        <!-- /menu-detail/{{menu?.slug}} -->
+                                                        <a href="javascript:void(0)" title="" itemprop="url"><img
                                                             class="img"
                                                                 src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
                                                                 alt="popular-dish-img1.jpg" itemprop="image"></a>
@@ -73,7 +74,7 @@
                                                             class="fa fa-heart"></i> {{menu?.likes}}</span>
                                                     </div>
                                                     <div class="popular-dish-info">
-                                                        <h4 itemprop="headline"><a href="/menu-detail/{{menu._id}}" title=""
+                                                        <h4 itemprop="headline"><a href="javascript:void(0)" title=""
                                                                 itemprop="url">{{menu?.name}}</a></h4>
                                                         <p itemprop="description">{{menu?.description | truncateText: 110}} <br> <a class="desc-read-more" href="">Read More</a></p>
                                                         
@@ -93,7 +94,7 @@
                                                         <div class="restaurant-info">
                                                             <!-- <img class="foot-img" lazy src="{{serverUrl}}{{menu?.attachments[0].replace('//', '/').replace('public','')}}"
                                                                 alt="restaurant-logo1.png" itemprop="image"> -->
-                                                            <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GH₵ 50</span>
+                                                            <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GH₵ {{menu?.price.toFixed(2)}}</span>
                                                             <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
                                                             
                                                         </div>

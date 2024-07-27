@@ -22,11 +22,15 @@ const CheckoutIntentSchema = new Schema({
     required: true,
     default: 0.00
   },
+  notes:{
+    type: String,
+    required: false,
+  },
   status: {
     type: String,
     default: "PENDING",
     required: false,
-    enum: ['PENDING', 'PLACED', 'SHIPPED', 'DELIVERED', 'CANCELED']
+    enum: ["PENDING", "CONFIRMED", "IN-TRANSIT", "DELIVERED", "CANCELED"],
   },
 });
 

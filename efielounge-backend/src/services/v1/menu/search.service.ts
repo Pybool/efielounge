@@ -14,7 +14,6 @@ function calculateStartIndex(page: number, limit: number) {
   return (page - 1) * limit;
 }
 export class SearchMenuservice {
-
   static buildMenuFilter(searchString: string) {
     try {
       const searchTerms = searchString
@@ -22,14 +21,19 @@ export class SearchMenuservice {
         .filter((term) => term.trim() !== "");
       const regex = searchTerms.map((term) => new RegExp(term, "i"));
       return {
-        $or: [
-          { name: { $in: regex } },
-          { description: { $in: regex } },
-          { slug: { $in: regex } },
+        $and: [
+          {
+            $or: [
+              { name: { $in: regex } },
+              { description: { $in: regex } },
+              { slug: { $in: regex } },
+            ],
+          },
+          { archive: false },
         ],
       };
     } catch {
-      return {};
+      return { archive: false };
     }
   }
 
@@ -85,7 +89,6 @@ export class SearchMenuservice {
 
   static async searchMenus(req: Xrequest) {
     try {
-      await delay(2000)
       let filter: any = {};
       const searchString: string = req.query.searchString as string;
       filter = SearchMenuservice.buildMenuFilter(searchString);
@@ -96,19 +99,19 @@ export class SearchMenuservice {
       const options = {
         skip: skip, // Skip the appropriate number of documents for pagination
         limit: limit, // Limit the number of documents returned
-        sort: { }, // Sort by createdAt in descending order
+        sort: {}, // Sort by createdAt in descending order
       };
 
-      console.log("Search ", await Menu.find(filter))
+      console.log("Search ", await Menu.find(filter));
       const [menus, total] = await Promise.all([
         Menu.find(filter, null, options)
-          .sort({ })
+          .sort({})
           .populate("category")
           .populate("menuItems"),
         Menu.countDocuments(filter),
       ]);
 
-      console.log("Menus length ", menus.length, total)
+      console.log("Menus length ", menus.length, total);
       for (const menu of menus) {
         menu.ratings = await SearchMenuservice.computeRating(
           menu._id.toString()
@@ -130,6 +133,7 @@ export class SearchMenuservice {
       for (let menuCategoriesId of menuCategoriesIds) {
         const results = await Menu.find({
           category: new mongoose.Types.ObjectId(menuCategoriesId._id),
+          archive: false,
         })
           .populate("category")
           .populate("menuItems");
@@ -158,6 +162,7 @@ export class SearchMenuservice {
       for (let menuItemId of menuItemIds) {
         const results = await Menu.find({
           menuItems: new mongoose.Types.ObjectId(menuItemId._id),
+          archive: false,
         })
           .populate("category")
           .populate("menuItems");
@@ -211,15 +216,15 @@ export class SearchMenuservice {
         }
       }
 
-      let searchResults:any = aggregatedResults.slice(startOffset, endOffset);
+      let searchResults: any = aggregatedResults.slice(startOffset, endOffset);
       if (page > totalPages) {
         searchResults = [];
       }
 
-      const removeDuplicates = (array:any) => {
+      const removeDuplicates = (array: any) => {
         const seen = new Set();
         return array.filter((item: any) => {
-          const duplicate:any = seen.has(item._id.toString());
+          const duplicate: any = seen.has(item._id.toString());
           seen.add(item._id.toString());
           return !duplicate;
         });

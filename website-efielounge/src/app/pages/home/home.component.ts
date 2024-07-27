@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartDockedComponent } from '../../components/cart-docked/cart-docked.component';
+import { HomeService } from '../../services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -50,10 +51,14 @@ export class HomeComponent {
   public _showCartModal: boolean = false;
   public cartCount = 0;
   public initialRequest = true;
+  public home: any = {};
+  public banner: string = '';
+  public homePageData: any = {};
   @Output() showCartModal = new EventEmitter<boolean>();
-  
+
   public selectedMenu:
-    | { _id:string;
+    | {
+        _id: string;
         name?: string;
         price?: string;
         image: string;
@@ -66,6 +71,7 @@ export class HomeComponent {
     private menuService: MenuService,
     private cartService: CartService,
     private authService: AuthService,
+    private homeService: HomeService,
     private router: Router
   ) {}
 
@@ -112,22 +118,19 @@ export class HomeComponent {
           console.log('Failed to fetch menu');
         }
       );
-
-      // this.cartService
-      // .getCart()
-      // .pipe(take(1))
-      // .subscribe((response: any) => {
-      //   if (response.status) {
-      //     this.cartService.getCartCount().subscribe((count) => {
-      //       console.log("100000000000000000")
-      //       if (this.initialRequest) {
-      //         this.cartCount = response.data.length;
-      //         this.initialRequest = false;
-      //       }
-      //       this.cartCount = this.cartCount + count;
-      //     });
-      //   }
-      // });
+    this.homeService.getHomeDataObs().subscribe((homePageData: any) => {
+      console.log("homePageData ", homePageData)
+      this.homePageData = homePageData;
+      this.home = this.homePageData.home;
+      if (this.home?.banner) {
+        this.banner =
+          environment.api +
+          this.home?.banner
+            .replace('/public', '')
+            .replace('/efielounge-backend', '');
+        console.log(this.banner);
+      }
+    });
   }
 
   onUserfavouritesVisible() {
@@ -201,8 +204,6 @@ export class HomeComponent {
     }
   }
 
-  
-
   filterByCategory(category: any = null, $event: any) {
     this.activateLink($event);
     if (!category) {
@@ -262,19 +263,19 @@ export class HomeComponent {
   }
 
   cartDocker() {
-    this.cartService.cartDocker()
+    this.cartService.cartDocker();
   }
 
   toggleAddToCartModal() {
-    this.cartService.toggleAddToCartModal()
+    this.cartService.toggleAddToCartModal();
   }
 
   handleBooleanEvent(value: boolean) {
-    this.cartService.handleBooleanEvent(value)
+    this.cartService.handleBooleanEvent(value);
   }
 
   orderNow(menu: any) {
-    this.cartService.orderNow(menu)
+    this.cartService.orderNow(menu);
   }
 
   async likeMenu(_id: string) {

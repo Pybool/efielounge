@@ -6,12 +6,22 @@ import { CartService } from './services/cart.service';
 import { CartDockedComponent } from './components/cart-docked/cart-docked.component';
 import { take } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { HomeService } from './services/home.service';
+import { environment } from '../environments/environment';
+import { RingingBellComponent } from './components/ringing-bell/ringing-bell.component';
+
+interface Ipromotion {
+  _id?: string;
+  description?: string;
+  attachments?: { type: string; url: string }[];
+  isActive?: boolean;
+}
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule, CartDockedComponent, CommonModule],
-  providers: [HttpClientModule, AuthService, CartService],
+  imports: [RouterOutlet, HttpClientModule, CartDockedComponent, CommonModule, RingingBellComponent],
+  providers: [HttpClientModule, AuthService, CartService, HomeService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -21,6 +31,12 @@ export class AppComponent {
   public cartCount = 0;
   public initialRequest = true;
   public user = null;
+  public createdAt?: Date;
+  public serverUrl:string = environment.api;
+  public promotions: Ipromotion[] = [];
+  public promotionIsScreenEligible: boolean = false;
+  public homePageData:any = {}
+
   public selectedMenu:
     | {
         _id: string;
@@ -34,12 +50,26 @@ export class AppComponent {
 
   constructor(
     private authService: AuthService,
-    private cartService: CartService
-  ) {}
+    private cartService: CartService,
+    private homeService: HomeService
+  ) {
+    this.homeService.getHomeData()
+    this.homeService.getHomeDataObs().subscribe((homePageData:any)=>{
+      this.homePageData = homePageData;
+      this.promotions = this.homePageData.promotions;
+    })
+  
+    const status = this.checkIfPromotionsIsScreenEligible();
+    if (status) {
+      setTimeout(() => {
+        this.toggleTransferModal();
+      }, 3000);
+    }
+  }
 
   ngOnInit() {
     const user = this.authService.retrieveUser();
-    
+
     if (user) {
       this.user = user;
       this.authService.setLoggedIn(true);
@@ -57,6 +87,26 @@ export class AppComponent {
     });
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      const cookiesAccepted = window.localStorage.getItem('eflc-ack');
+      if (cookiesAccepted !== 'seen') {
+        const banner = document.querySelector('.base-cookie-banner') as any;
+        if (banner) {
+          banner.style.display = 'flex';
+        }
+      }
+    }, 5000);
+  }
+
+  acceptCookies() {
+    window.localStorage.setItem('eflc-ack', 'seen');
+    const banner = document.querySelector('.base-cookie-banner') as any;
+    if (banner) {
+      banner.style.display = 'none';
+    }
+  }
+
   cartDocker() {
     this.cartService.cartDocker();
   }
@@ -71,5 +121,49 @@ export class AppComponent {
 
   orderNow(menu: any) {
     this.cartService.orderNow(menu);
+  }
+
+  private checkIfPromotionsIsScreenEligible() {
+    let lastPromotionMeta = window.localStorage.getItem('eflp-meta') as any;
+    lastPromotionMeta = JSON.parse(lastPromotionMeta);
+    if (!lastPromotionMeta) {
+      this.promotionIsScreenEligible = true;
+      return true;
+    }
+
+    for (let promotion of this.promotions) {
+      let _promotion = promotion as any;
+      if (promotion) {
+        if (lastPromotionMeta.seenAt < _promotion!.createdAt) {
+          this.promotionIsScreenEligible = true;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public markPromotionAsSeen() {
+    window.localStorage.setItem(
+      'eflp-meta',
+      JSON.stringify({ seenAt: new Date() })
+    );
+    this.toggleTransferModal();
+  }
+
+  toggleTransferModal() {
+    const transferModal = document.querySelector('#promotions-modal') as any;
+    const body = document.querySelector('body') as any;
+    if (transferModal) {
+      if (transferModal.style.display == 'block') {
+        transferModal.style.display = 'none';
+        body.style.overflow = 'auto';
+        body.style.position = 'unset';
+      } else {
+        transferModal.style.display = 'block';
+        body.style.overflow = 'hidden';
+        body.style.position = 'fixed';
+      }
+    }
   }
 }

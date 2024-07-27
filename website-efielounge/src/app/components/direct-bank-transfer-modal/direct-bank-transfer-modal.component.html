@@ -10,10 +10,12 @@
         <div class="card-container">
             <div class="bank-account-card" *ngFor="let account of bankAccounts">
                 <img class="logo" src="{{account.logo}}" />
-                <div style="margin-top: 10px;">
+                <div style="margin-top: 10px; display: flex; flex-direction: column;">
                     <p>Account Name: {{ account.name }}</p>
-                    <p>Account Number: {{ account.number }}</p>
-                    <p>Amount: GH₵ {{ payment?.amount?.toFixed(2).toLocaleString() }}</p>
+                    <p>Account Number: <span style="color:steelblue">{{ account.number }}</span></p>
+                    <ng-container *ngIf="payment.amount">
+                        <p >Amount: GH₵ {{  Math.ceil(payment.amount)!.toFixed(2).toLocaleString() }}</p>
+                    </ng-container>
                 </div>
             </div>
         </div>

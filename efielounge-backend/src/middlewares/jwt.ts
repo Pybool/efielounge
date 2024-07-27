@@ -42,11 +42,14 @@ export const decodeExt = async (req: Xrequest, res: Response, next: any) => {
 };
 
 export function ensureAdmin(req: Xrequest, res: Response, next: NextFunction) {
-  const account = req.account;
-  console.log(account, account.role==="ADMIN")
-  if (account && account.role=== "ADMIN") {
-    next();
-  } else {
-    res.status(403).json({ message: "Forbidden: Account is not an admin" });
+  try {
+    const account = req.account;
+    if (account && account.role === "ADMIN") {
+      next();
+    } else {
+      res.status(403).json({ message: "Forbidden: Account is not an admin" });
+    }
+  } catch (error: any) {
+    return next();
   }
 }

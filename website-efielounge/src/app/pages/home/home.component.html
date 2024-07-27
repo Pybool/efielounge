@@ -27,7 +27,7 @@
 
     <section class="main-section" style="margin-top:100px">
       <div class="block blackish opac50">
-        <div class="banner" style="background-image: url(assets/images/parallax2.jpg);"></div>
+        <div class="banner" style="background-image: url({{banner}});"></div>
         <div class="restaurant-searching style2 text-center">
           <div class="restaurant-searching-inner col">
             <h2>Discover the best of world cuisine</h2>
@@ -59,7 +59,7 @@
                   <div class="col-md-6 col-sm-6 col-lg-4">
                     <div class="popular-dish-box wow fadeIn" data-wow-delay="0.2s">
                       <div class="popular-dish-thumb">
-                        <a href="/menu-detail/{{readyMeal?.slug}}" title="" itemprop="url"><img
+                        <a href="javascript:void(0)" title="" itemprop="url"><img
                             src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}"
                             alt="popular-dish-img1.jpg" itemprop="image" class="img"></a>
                         <span class="post-rate yellow-bg brd-rd2"><i class="fa"
@@ -71,7 +71,7 @@
                           {{readyMeal?.likes}}</span>
                       </div>
                       <div class="popular-dish-info">
-                        <h4 itemprop="headline"><a href="/menu-detail/{{readyMeal?.slug}}" title="" itemprop="url">
+                        <h4 itemprop="headline"><a href="javascript:void(0)" title="" itemprop="url">
                             {{readyMeal.name}}</a>
                         </h4>
                         <p itemprop="description">{{readyMeal?.description | truncateText: 90}}</p>
@@ -210,18 +210,18 @@
                       <ng-container *ngFor="let popular of mostPopular; let i=index">
                         <div class="featured-restaurant-box wow fadeIn" [attr.data-wow-delay]="'0.' + (i + 1) + 's'">
                           <div class="featured-restaurant-thumb">
-                            <a href="/menu-detail/{{popular?.slug}}" title="" itemprop="url"><img class="brd-rd2"
+                            <a href="javascript:void(0)" title="" itemprop="url"><img class="brd-rd2"
                                 src="{{serverUrl}}{{popular?.attachments[0].replaceAll('/public','')}}"
                                 alt="featured-meal-img1.jpg" itemprop="image"></a>
                           </div>
                           <div class="featured-restaurant-info">
                             <span class="red-clr">WE SERVE YOU THE BEST</span>
-                            <h4 itemprop="headline"><a href="/menu-detail/{{popular?.slug}}" title=""
+                            <h4 itemprop="headline"><a href="javascript:void(0)" title=""
                                 itemprop="url">{{popular?.name}}</a></h4>
                             <span class="price">GH₵ {{popular?.price}}</span>
 
                             <ul class="post-meta">
-                              <li><i class="fa fa-check-circle-o"></i> Min order GH₵ 50</li>
+                              <li><i class="fa fa-check-circle-o"></i> Min order GH₵ {{popular?.price}}</li>
                               <li><i class="flaticon-transport"></i> 30min</li>
                             </ul>
                             <span class="post-rate popular-post-rate yellow-bg brd-rd2"><i class="fa"
@@ -253,11 +253,11 @@
                     <div class="featured-restaurant-gallery">
                       <div class="featured-restaurant-carousel">
                         <div class="featured-restaurant-thumb"><img class="brd-rd2"
-                            src="/assets/images/resource/featured-restaurant-gallery1.jpg"
-                            alt="featured-restaurant-gallery1.jpg" itemprop="image"></div>
+                            src="/assets/images/efielounge/stacked-1.jpg"
+                            alt="stacked-1.jpg" itemprop="image"></div>
                         <div class="featured-restaurant-thumb"><img class="brd-rd2"
-                            src="/assets/images/resource/featured-restaurant-gallery2.jpg"
-                            alt="featured-restaurant-gallery2.jpg" itemprop="image"></div>
+                            src="/assets/images/efielounge/stacked-2.jpg"
+                            alt="stacked-2.jpg" itemprop="image"></div>
                       </div>
                     </div><!-- Featured Restaurant Gallery -->
                   </div>
@@ -296,13 +296,13 @@
                       <div class="col-md-6 col-sm-6 col-lg-6 filter-item filter-item1">
                         <div class="featured-restaurant-box style2 brd-rd12 wow fadeIn" data-wow-delay="0.1s">
                           <div class="featured-restaurant-thumb">
-                            <a href="/menu-detail/{{filteredMenu?.slug}}" title="" itemprop="url"><img
+                            <a href="javascript:void(0)" title="" itemprop="url"><img
                                 src="{{serverUrl}}{{filteredMenu?.attachments[0].replaceAll('/public','')}}"
                                 alt="most-popular-img1-1.png" itemprop="image"></a>
                           </div>
                           <div class="featured-restaurant-info">
                             <span class="red-clr">WE SERVE YOU THE BEST</span>
-                            <h4 itemprop="headline"><a href="/menu-detail/{{filteredMenu?.slug}}" title=""
+                            <h4 itemprop="headline"><a href="javascript:void(0)" title=""
                                 itemprop="url">{{filteredMenu?.name}}</a></h4>
                             <span class="food-types">Extras:
                               <ng-container *ngFor="let extra of filteredMenu?.menuItems;">
@@ -347,6 +347,8 @@
 
   
     <app-footer></app-footer>
+    <!-- Modal Structure -->
+    
     
 
 

@@ -27,12 +27,12 @@ export class AuthService {
     this.loggedIn$.next(this.loggedIn);
   }
 
-  setAccountForReset(email:string){
-    this.cookieService.set('rsta', email)
+  setAccountForReset(email: string) {
+    this.cookieService.set('rsta', email);
   }
 
-  getAccountForReset(){
-    return this.cookieService.get('rsta')
+  getAccountForReset() {
+    return this.cookieService.get('rsta');
   }
 
   getAuthStatus() {
@@ -128,35 +128,32 @@ export class AuthService {
   }
 
   uploadAvatar(formData: any) {
-    return this.http.post(
-      `${environment.api}/api/v1/accounts/upload-avatar`,
-      formData
-    ).pipe(
-      tap((res:any) => {
-        if(res.status){
-          this.storeUser(res?.data)
-        }
-      }),
-      catchError((error) => {
-        console.error('Avatar update failed', error);
-        throw error;
-      })
-    );
+    return this.http
+      .post(`${environment.api}/api/v1/accounts/upload-avatar`, formData)
+      .pipe(
+        tap((res: any) => {
+          if (res.status) {
+            this.storeUser(res?.data);
+          }
+        }),
+        catchError((error) => {
+          console.error('Avatar update failed', error);
+          throw error;
+        })
+      );
   }
 
-  getAgoraToken(){
-    return this.http.post(
-      `https://agoratoken.talkstuff.social/getToken`,
-      {
-        "tokenType": "rtc",
-        "channel": "video-meet-001",
-        "role": "publisher", 
-        "uid": "001",
-        "expire": 3600 
-    }
-    )
-    
+  getAgoraToken() {
+    return this.http.post(`https://agoratoken.talkstuff.social/getToken`, {
+      tokenType: 'rtc',
+      channel: 'video-meet-001',
+      role: 'publisher',
+      uid: '001',
+      expire: 3600,
+    });
   }
+
+  
 
   removeToken() {
     localStorage.removeItem(this.tokenKey);

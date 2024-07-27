@@ -165,14 +165,27 @@ export class OrderService {
 
     const collapsedOrders = await Promise.all(
       Object.entries(groupedOrders).map(async ([checkOutId, orders]) => {
-        const checkOut = await CheckOut.findOne({ checkOutId: checkOutId });
+        const checkOut = await CheckOut.findOne({ checkOutId: checkOutId })!;
         const date = groupedOrders[checkOutId][0]?.createdAt;
-        return {
-          checkOutId,
-          orders,
-          date,
-          grandTotal: checkOut ? checkOut.amount : 0, // or another default value if not found
-        };
+        if(checkOut){
+          return {
+            checkOutId,
+            orders,
+            date,
+            grandTotal: checkOut ? checkOut.amount : 0,
+            status: checkOut!.status,
+            notes: checkOut!.notes || ""
+          };
+        }else{
+          return {
+            checkOutId,
+            orders,
+            date,
+            grandTotal: 0,
+            status: "",
+            notes: ""
+          };
+        }
       })
     );
 
@@ -253,7 +266,8 @@ export class OrderService {
               path: "menuItems",
             },
           })
-          .populate("customMenuItems"),
+          .populate("customMenuItems")
+          .populate("account"),
         Order.countDocuments(filter),
       ]);
 
@@ -277,6 +291,28 @@ export class OrderService {
       };
     } catch (error: any) {
       throw error;
+    }
+  }
+
+  static async updateOrderStatus(req: Xrequest){
+    try{
+      const data = req.body
+      const checkOutId = data.checkOutId;
+      const result = await CheckOut.findOneAndUpdate({ checkOutId: checkOutId }, data, {new: true})!
+      if(result){
+        return {
+          status: true,
+          message:"Order status was updated",
+          code: 200
+        }
+      }
+      return {
+        status: false,
+        message:"Order could not be updated",
+        code: 400
+      }
+    }catch(error:any){
+      throw error
     }
   }
 

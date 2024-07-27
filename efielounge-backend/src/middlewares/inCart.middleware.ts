@@ -44,7 +44,6 @@ export function updateInCart(
         menu.iLiked = await checkIfILiked(req.accountId, menu._id)
         menu.iRated = await checkIfIRated(req.accountId, menu._id)
       }
-
       response.data = menudata;
       return JSON.stringify(response)
       

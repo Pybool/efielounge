@@ -1,0 +1,69 @@
+<div class="container mx-auto" cdiv>
+    <div>
+        <img class="avatar" src="{{banner}}">
+        <div style="gap:20px;" class="flex-row-sb">
+            <c-input-group class="flex-row-sb">
+                <span style="margin-right: 20px;" class="edit-false" cInputGroupText>
+                    <span style="font-weight: 700; font-size: 18px;" class="edit-false" cIcon name="cilUser">Website
+                        Banner</span>
+                </span>
+                <input style="margin-right: 20px;" (change)="onFileChange($event)"
+                    class="edit-false avatar-file form-control" name="attachments" type="file" cFormControl />
+            </c-input-group>
+            <button (click)="saveBackground()" style="white-space: nowrap;" class="btn btn-primary" cButton
+                color="primary">Submit
+            </button>
+        </div>
+    </div>
+
+    <section style="margin-top: 30px;">
+        <div class="flex-row-sb">
+            <h3>Promotions</h3>
+            <a [cModalToggle]="promotionsModal.id"  style="white-space: nowrap;" class="btn btn-primary" cButton
+                color="primary">New Promotion
+            </a>
+        </div>
+
+        <div class="promotions-content">
+            <ng-container *ngFor="let promotion of promotions">
+                <div class="promotion-item">
+                    <div class="promotion-description">{{promotion.description}}</div>
+                    <div class="flex-row-sb">
+                        <ng-container *ngFor="let attachment of promotion.attachments">
+                            <img class="promotion-image" src="{{serverUrl}}{{attachment.url.replace('/public', '')}}"/>
+                        </ng-container>
+                        
+                        <div style="gap:10px" class="flex-row-sb">
+                            <button *ngIf="!promotion.isActive" (click)="activatePromotion(promotion!._id, true)" cButton class="btn btn-primary">Activate</button>
+                            <button *ngIf="promotion.isActive" (click)="activatePromotion(promotion!._id, false)" cButton class="btn btn-primary">De-activate</button>
+                            <button (click)="deletePromotion(promotion._id)" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </section>
+
+
+</div>
+
+<c-modal #promotionsModal alignment="center" id="promotionsModal">
+    <c-modal-header>
+        <h5 cModalTitle>Create Promotion</h5>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm>
+
+            <textarea [(ngModel)]="promotion.description" name="description" cFormControl
+                placeholder="Notes"></textarea>
+
+            <input style="margin-top: 10px;" (change)="onFileChange($event)" name="attachments" multiple type="file" cFormControl />
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+        <button [cModalToggle]="promotionsModal.id" cButton color="secondary">
+            Close
+        </button>
+        <button (click)="createPromotion()" cButton color="primary">Submit</button>
+    </c-modal-footer>
+</c-modal>

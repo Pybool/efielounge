@@ -243,6 +243,7 @@ export class MenuComponent {
   editMenu() {
     this.cleanPayload();
     console.log(this.selectedMenu);
+    delete this.selectedMenu.createdAt
     this.categoryService
       .editMenu(this.selectedMenu)
       .pipe(take(1))

@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddCartModalComponent } from '../add-cart-modal/add-cart-modal.component';
@@ -26,7 +32,7 @@ import { EmptyCartComponent } from '../empty-cart/empty-cart.component';
   templateUrl: './cart-docked.component.html',
   styleUrl: './cart-docked.component.scss',
 })
-export class CartDockedComponent {
+export class CartDockedComponent implements OnDestroy {
   public serverUrl: string = environment.api;
   public extras: string[] = [];
   @Input() showCartModal = false;
@@ -51,6 +57,8 @@ export class CartDockedComponent {
   public removal: { name: string; _id: string } = { name: '', _id: '' };
   public checkoutId: string = '';
   public showCheckOutSpinner: boolean = false;
+  public cartItems$: any;
+  public cartItemRemoved$: any;
 
   constructor(
     private cartService: CartService,
@@ -59,15 +67,19 @@ export class CartDockedComponent {
   ) {}
 
   ngOnInit() {
-    this.cartService.getCartItems().subscribe((response: any) => {
-      this.cartItems = response.cartItems;
-      this.subTotal = response.subTotal;
-    });
-    this.cartService.cartItemRemoved().subscribe((cartItemId: string) => {
-      this.deleteObjectById(cartItemId);
-      this.subTotal = 0.0;
-      this.deliveryFee = 0.0;
-    });
+    this.cartItems$ = this.cartService
+      .getCartItems()
+      .subscribe((response: any) => {
+        this.cartItems = response.cartItems;
+        this.subTotal = response.subTotal;
+      });
+    this.cartItemRemoved$ = this.cartService
+      .cartItemRemoved()
+      .subscribe((cartItemId: string) => {
+        this.deleteObjectById(cartItemId);
+        this.subTotal = 0.0;
+        this.deliveryFee = 0.0;
+      });
   }
 
   handleBooleanEvent(value: boolean) {
@@ -164,8 +176,7 @@ export class CartDockedComponent {
   }
 
   toggleRemoveFromCartModal(name: string, _id: string) {
-    this.removal.name = name;
-    this.removal._id = _id;
+    this.removal = { name, _id };
     const confirmationModal = document.querySelector(
       '#confirmationModal'
     ) as any;
@@ -222,12 +233,17 @@ export class CartDockedComponent {
   }
 
   dumpCart() {
-    if(this.cartItems.length > 0){
+    if (this.cartItems.length > 0) {
       const confirmDump = confirm('Are you sure you want to dump cart?');
       if (confirmDump) {
         this.cartService.dumpCart();
       }
     }
     return null;
+  }
+
+  ngOnDestroy(): void {
+    this.cartItems$?.unsubscribe();
+    this.cartItemRemoved$?.unsubscribe();
   }
 }

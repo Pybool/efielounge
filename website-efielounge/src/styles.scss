@@ -1,17 +1,21 @@
 
-@import url('https://fonts.googleapis.com/css?family=Great+Vibes|Lato|Poppins:300,400,400i,500,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=Great+Vibes|Lato|Rajdhani,sans-serif:300,400,400i,500,600,700,800');
 
 /*===== Plugin Stylesheets Import =====*/
 // @import url(assets/css/plugins.css);
 
 /*===== General Styling =====*/
 
+*:not(i){
+  font-family: "EuclidCircularB-SemiBold" !important;
+}
+
 body {
   float: left;
   width: 100%;
   margin: 0;
   padding: 0;
-  font-family: "Poppins";
+  font-family: "Rajdhani,sans-serif";
 }
 
 h1,
@@ -20,7 +24,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Poppins";
+  font-family: "Rajdhani,sans-serif";
 }
 p {
   font-size: 15px;
@@ -33,7 +37,7 @@ p {
 
 ul li,
 ol li {
-  font-family: "Poppins";
+  font-family: "Rajdhani,sans-serif";
 }
 
 a,
@@ -616,7 +620,7 @@ header {
   line-height: 46px;
   font-size: 10px;
   color: #fff;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 500;
   position: relative;
   padding-left: 0;
@@ -637,7 +641,7 @@ header {
 .topbar-register {
   float: right;
   font-size: 12px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 500;
   color: #fff;
   padding: 15px 0 14px 40px;
@@ -657,7 +661,7 @@ header {
 }
 .select-wrp .chosen-container-single .chosen-drop > ul li {
   font-size: 12px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 600;
   color: #2d2d2d;
   border-bottom: 1px solid #ededed;
@@ -723,7 +727,7 @@ nav > div > ul {
 nav > div > ul > li {
     color: #333;
     float: left;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 18px;
     font-weight: 600;
     margin-right: 35px;
@@ -794,7 +798,7 @@ nav ul ul li {
   font-size: 13px;
   font-weight: 600;
   color: #2d2d2d;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   border-bottom: 1px solid #dedede;
   float: left;
   width: 100%;
@@ -928,7 +932,7 @@ header.sticky nav > div > ul > li span {font-size: 11px;}
 .menu-lst > ul li {
   float: left;
   width: 100%;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #fff;
   font-size: 18px;
   position: relative;
@@ -992,7 +996,7 @@ header.sticky nav > div > ul > li span {font-size: 11px;}
 .register-btn > a {
   font-size: 12px;
   color: #2a2a2a;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   padding: 11px 25px 10px;
   display: inline-block;
 }
@@ -1013,7 +1017,7 @@ header.sticky nav > div > ul > li span {font-size: 11px;}
   width: 100%;
 }
 .restaurant-searching-inner > h2 {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #fff;
   font-size: 50px;
   max-width: 70%;
@@ -1077,7 +1081,7 @@ header.sticky nav > div > ul > li span {font-size: 11px;}
 .restaurant-search-form button {
   color: #fff;
   font-weight: 700;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   padding: 15.9px 20px;
   width: 100%;
   font-size: 13.5px;
@@ -1114,7 +1118,7 @@ header.sticky nav > div > ul > li span {font-size: 11px;}
 }
 .fact-inner > strong {
     color: #fff;
-    font-family: Poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 30px;
 }
 .fact-inner > h5 {
@@ -1185,7 +1189,7 @@ header.sticky nav > div > ul > li span {font-size: 11px;}
 .title1-inner > h3 {
     color: #222;
     display: inline-block;
-    font-family: Poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 40px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -1302,7 +1306,7 @@ header.sticky nav > div > ul > li span {font-size: 11px;}
 }
 .title2-wrapper > h2,
 .title2-wrapper > h3 {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #5d2a2a;
   font-size: 40px;
   margin-bottom: 10px;
@@ -1377,7 +1381,7 @@ h3.marginb-0 {margin-bottom: 0;}
   top: 20px;
   font-size: 11px;
   color: #fff;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 700;
   padding: 6px 10px;
   z-index: 1;
@@ -1438,7 +1442,7 @@ h3.marginb-0 {margin-bottom: 0;}
 .price {
   float: left;
   font-size: 22px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #1e1e1e;
 	font-weight: bold;
 }
@@ -1471,14 +1475,14 @@ h3.marginb-0 {margin-bottom: 0;}
 }
 .restaurant-info-inner > h6 {
     color: #636363;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 15px;
     font-weight: 500;
     line-height: 19px;
     margin: 3px 0 0;
 }
 .restaurant-info-inner > span {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 12px;
 }
 /*===== Featured Restaurant Section =====*/
@@ -1536,7 +1540,7 @@ h3.marginb-0 {margin-bottom: 0;}
 .featured-restaurant-info {padding-left: 25px;}
 .featured-restaurant-info > span.red-clr {
   display: block;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 400;
   font-size: 12px;
   letter-spacing: 0.2px;
@@ -1646,7 +1650,7 @@ h3.marginb-0 {margin-bottom: 0;}
   font-size: 13px;
   color: #a0a0a0;
   font-weight: 600;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   margin-top: 5px;
 }
 .featured-restaurant-gallery .featured-restaurant-info {padding-left: 0;}
@@ -1764,7 +1768,7 @@ h3.marginb-0 {margin-bottom: 0;}
 .food-types {
   float: left;
   width: 100%;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 700;
   font-size: 13px;
   margin-top: 8px;
@@ -1774,7 +1778,7 @@ color: #171717;
 .food-types > a {
   display: inline-block;
   font-size: 11px;
-  font-family: poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 400;
   color: #171717;
   margin-left: 5px;
@@ -1799,7 +1803,7 @@ color: #171717;
     background-color: #ececec;
     color: #232323;
     float: left;
-    font-family: Poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -1909,7 +1913,7 @@ footer {
 }
 .widget.style2 ul li a ~ span {
   float: right;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #535353;
 }
 .widget ul li a:before {
@@ -2030,7 +2034,7 @@ footer {
 }
 
 .popular-dish-box.style2 .popular-dish-info > a {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 500;
 }
 .popular-dish-box.style2 .popular-dish-info > a.red-bg:hover,
@@ -2079,7 +2083,7 @@ footer {
   position: relative;
   padding-left: 25px;
   font-size: 15px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 500;
   color: #606060;
 }
@@ -2142,7 +2146,7 @@ footer {
 .post-date {
   color: #fff;
   font-size: 10px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 500;
   padding: 7.5px 13px 4.5px;
   float: left;
@@ -2154,7 +2158,7 @@ footer {
 .read-more {
   float: left;
   clear: both;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 12px;
   color: #000;
   background-color: #f5f5f5;
@@ -2216,7 +2220,7 @@ footer {
 }
 .page-title-inner > h1 {
     color: #fff;
-    font-family: Poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 40px;
     font-weight: bold;
     margin-bottom: 2px;
@@ -2243,7 +2247,7 @@ footer {
   padding: 24px 0;
 }
 .breadcrumb > li {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #9c9c9c;
   font-size: 13px;
 }
@@ -2267,7 +2271,7 @@ footer {
   margin: 2px;
   line-height: 38px;
   font-weight: 700;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #2d2d2d;
   width: 38px;
   vertical-align: middle;
@@ -2403,7 +2407,7 @@ footer {
   padding: 18.5px 20px;
   border-bottom: 1px solid #ededed;
   font-size: 14px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #353535;
 }
 .price-box > a {
@@ -2411,7 +2415,7 @@ footer {
   font-size: 12px;
   color: #fff;
   font-weight: 700;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   padding: 16.5px 40px;
   background-color: #2d2d2d;
 }
@@ -2591,7 +2595,7 @@ footer {
 }
 .mini-post-data {
   font-size: 11px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   float: left;
 }
 .mini-post-data > i {
@@ -2602,7 +2606,7 @@ footer {
 .widget.style2 ul {padding: 0 15px;}
 .widget.style2 ul li {
   color: #535353;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   margin-top: 0;
 }
 .widget.style2 ul li + li {
@@ -2658,7 +2662,7 @@ footer {
 
 .contact-form-inner > h3 {
   font-size: 30px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   display: inline-block;
   max-width: 80%;
   margin-bottom: 20px;
@@ -2779,7 +2783,7 @@ footer {
 }
 .restaurant-detail-title > h1 {
   font-size: 34px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #202020;
   margin-bottom: 3px;
   display: inline-block;
@@ -2816,7 +2820,7 @@ footer {
   border-style: solid;
   z-index: 1;
   font-size: 12px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #252525;
 }
 .gradient-brd:before {
@@ -2951,7 +2955,7 @@ footer {
   display: inline-block;
   position: relative;
   font-size: 25px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   margin-bottom: 40px;
   font-weight: 600;
 	margin-top: 0;
@@ -2959,7 +2963,7 @@ footer {
 }
 h2.title3 {font-size: 40px;}
 .title4 {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 700;
 }
 h3.title4 {font-size: 24px;}
@@ -3021,7 +3025,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
   border: 1px solid;
     color: #fff;
     display: inline-block;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 12px;
     font-weight: bold;
     padding: 9px 21px;
@@ -3126,7 +3130,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
 .rate-box > span {
   font-size: 12px;
   font-weight: 600;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #3f3f3f;
   float: left;
   width: 100%;
@@ -3155,7 +3159,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
 .rating-box > i {  
   font-style: normal;
   line-height: 30px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 14px;
   color: #3f3f3f;
   margin-left: 20px;
@@ -3277,7 +3281,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
   top: 0;
 }
 .restaurant-info-list > li > strong {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #222;
   font-size: 16px;
   display: block;
@@ -3308,7 +3312,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
   float: left;
   width: 100%;
   text-align: center;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 25px;
   margin: 30px 0;
 }
@@ -3341,7 +3345,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
 }
 .dish-name > i {
   font-size: 15px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-style: normal;
   color: #1e1e1e;
   position: absolute;
@@ -3465,7 +3469,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
 .order-total > li {
   float: left;
   width: 100%;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 15px;
   color: #fff;
   position: relative;
@@ -3505,7 +3509,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
 .order-method > li {
   float: left;
   width: 100%;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #fff;
   font-size: 18px;
 }
@@ -3773,7 +3777,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
 }
 .post-detail-date {
   font-size: 13px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 500;
   float: left;
 }
@@ -3786,7 +3790,7 @@ h2.title3 span.sudo-bottom:before {bottom: 7px;}
   margin-top: 0;
 }
 .post-meta > span {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #a5a5a5;
   font-weight: 500;
   display: inline-block;
@@ -3811,7 +3815,7 @@ blockquote {
   font-size: 16px;
   color: #aaa;
   font-style: italic;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   margin: 25px 0 15px;
   border-left-width: 3px;
   line-height: 32px;
@@ -3839,7 +3843,7 @@ blockquote {
   float: left;
   width: 100%;
   margin-top: 20px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 500;
   font-size: 14px;
 }
@@ -3866,7 +3870,7 @@ blockquote {
 }
 .post-share > span {
   font-size: 18px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #222;
   font-weight: 600;
   display: inline-block;
@@ -3887,7 +3891,7 @@ blockquote {
 .post-share > a:focus {color: #fff;}
 .post-next-prev {
   float: right;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 500;
   font-size: 12px;
   color: #aaa;
@@ -4008,7 +4012,7 @@ blockquote {
   color: #fff;
   font-weight: 500;
   border: 1px solid;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 14px;
   padding: 14px 30px;
 }
@@ -4062,7 +4066,7 @@ blockquote {
 }
 .food-featured-post-info > a {
   font-size: 11px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #fff;
   margin-top: 35px;
   float: left;
@@ -4151,7 +4155,7 @@ blockquote {
 .featured-restaurant-food-info > a {
   display: inline-block;
   color: #fff;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   margin-top: 27px;
   padding: 9px 30px;
 }
@@ -4220,7 +4224,7 @@ blockquote {
   width: 100%;
   padding: 11px 30px 20px;
   border-bottom: 1px solid transparent;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 16px;
   margin-bottom: 0;
   color: #222;
@@ -4320,7 +4324,7 @@ input:checked + .switch-slider:before {
   padding: 20px;
   font-size: 15px;
   color: #3f3f3f;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 600;
   border-right: 1px solid #f1f1f1;
   width: 18%;
@@ -4352,7 +4356,7 @@ input:checked + .switch-slider:before {
   float: left;
   text-align: center;
   font-size: 12px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
 }
 .share-wrapper a {
   border-width: 2px;
@@ -4405,7 +4409,7 @@ input:checked + .switch-slider:before {
   float: left;
   width: 100%;
   margin-bottom: 0;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 700;
   font-size: 14px;
   color: #444;
@@ -4508,7 +4512,7 @@ input:checked + .switch-slider:before {
 .restaurant-info-form h4 {
   margin: 32px 0 23px;
   font-size: 18px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #3c3838;
 }
 .restaurant-info-form .select-wrp,
@@ -4542,7 +4546,7 @@ input:checked + .switch-slider:before {
   width: 17px;
 }
 .restaurant-info-form .check-box label {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #444;
   font-size: 11px;
   line-height: 24px;
@@ -4566,7 +4570,7 @@ input:checked + .switch-slider:before {
   background-color: #2a2a2a;
   color: #fff;
   font-size: 11px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   padding: 13px 25px;
   display: inline-block;
   margin: 0 5px;
@@ -4601,7 +4605,7 @@ input:checked + .switch-slider:before {
   padding: 18px 15px 16px;
   color: #fff;
   font-size: 11px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
 }
 
 .select-package-wrapper {
@@ -4611,7 +4615,7 @@ input:checked + .switch-slider:before {
 }
 .reservation-tab-content .tab-pane > div > h4 {
   font-size: 20px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #3c3838;
   margin-bottom: 30px;
   margin-top: 0;
@@ -4643,7 +4647,7 @@ input:checked + .switch-slider:before {
 }
 .package-header > span {
   font-size: 15px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 500;
 }
 .package-header > span small {font-size: 10px;}
@@ -4672,7 +4676,7 @@ input:checked + .switch-slider:before {
   color: #fff;
   padding: 12.5px 32px;
   background-color: #2a2a2a;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.04);
   -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.04);
   -o-box-shadow: 0 3px 10px rgba(0,0,0,0.04);
@@ -4711,7 +4715,7 @@ input:checked + .switch-slider:before {
 }
 .ordr-lst > li {
   font-size: 12px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   line-height: 55px;
   padding-left: 40px;
 }
@@ -4747,7 +4751,7 @@ input:checked + .switch-slider:before {
 .pay-mnt .radio-box label {
   font-size: 13px;
   color: #444;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 400;
 }
 .pay-mnt .radio-box + .radio-box {margin-top: 18px;}
@@ -4758,7 +4762,7 @@ input:checked + .switch-slider:before {
 .ordr-btn > a {
   display: inline-block;
   color: #fff;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 12px;
   padding: 14px 40px;
 }
@@ -4783,12 +4787,12 @@ input:checked + .switch-slider:before {
 }
 .coming-soon-inner > span {
   font-size: 20px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   display: block;
 }
 .coming-soon-inner > h1 {
     color: #fff;
-    font-family: Poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 80px;
     font-weight: bold;
     margin-bottom: 23px;
@@ -4817,7 +4821,7 @@ input:checked + .switch-slider:before {
   padding-top: 50px;
   color: #2a2a2a;
   font-weight: 700;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   margin: 4px 2px;
 }
 .countdown > li p {
@@ -4836,7 +4840,7 @@ input:checked + .switch-slider:before {
   margin-top: 35px;
 }
 .follow-us > span {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #fff;
   font-size: 18px;
   display: inline-block;
@@ -4853,7 +4857,7 @@ input:checked + .switch-slider:before {
 .copyright > p {
     color: #fff;
     display: inline-block;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 0;
@@ -4873,7 +4877,7 @@ input:checked + .switch-slider:before {
 }
 .search-found .search-frm{max-width: 80%;}
 .search-found > h3 {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 28px;
   color: #444;
   margin-bottom: 13px;
@@ -4887,7 +4891,7 @@ input:checked + .switch-slider:before {
 .search-found > h2 {
   font-size: 29px;
   color: #cecece;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   margin: 50px 0 0;
 }
 .search-frm {
@@ -4929,7 +4933,7 @@ input:checked + .switch-slider:before {
 .error-page-inner > h1 {
   font-size: 180px;
   color: #fff;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   -webkit-text-shadow: 0 5px 0 rgba(0,0,0,0.38);
   -ms-text-shadow: 0 5px 0 rgba(0,0,0,0.38);
   -o-text-shadow: 0 5px 0 rgba(0,0,0,0.38);
@@ -4974,7 +4978,7 @@ input:checked + .switch-slider:before {
 }
 .error-page-inner > h4 {
   font-size: 42px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #fff;
   margin-bottom: 15px;
   margin-top: 0;
@@ -4989,7 +4993,7 @@ input:checked + .switch-slider:before {
 }
 .error-page-inner > a {
   display: inline-block;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 700;
   font-size: 12px;
   color: #171616;
@@ -5045,7 +5049,7 @@ input:checked + .switch-slider:before {
 }
 .newsletter-popup-inner > h3 {
   font-size: 22px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #444;
   line-height: 20px;
   margin-bottom: 24px;
@@ -5093,7 +5097,7 @@ input:checked + .switch-slider:before {
   color: #fff;
   font-size: 13px;
   font-weight: 700;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   padding: 0 30px;
 }
 .newsletter-popup-inner > span {
@@ -5243,14 +5247,14 @@ input:checked + .switch-slider:before {
 }
 .sign-popup-title > h4 {
   font-size: 30px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #000;
   margin-bottom: 3px;
   margin-top: 0;
 }
 .sign-popup-title > span {
   font-size: 13px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #444;
 }
 .popup-social {
@@ -5278,7 +5282,7 @@ input:checked + .switch-slider:before {
 .popup-seprator > i {
   font-style: normal;
   font-size: 13px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #444;
   position: absolute;
   left: 50%;
@@ -5307,7 +5311,7 @@ input:checked + .switch-slider:before {
   width: 100%;
   color: #fff;
   font-weight: 700;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   padding: 15px 20px;
 }
 .sign-form button:hover {color: #333;}
@@ -5316,7 +5320,7 @@ input:checked + .switch-slider:before {
   margin-top: 19px;
   color: #444;
   font-size: 11px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
 }
 .sign-form a.recover-btn {float: right;}
 /*===== Login & Register Popup =====*/
@@ -5429,7 +5433,7 @@ html.thanks-message-popup-active .thanks-message {
   float: left;
   width: 100%;
   font-size: 22px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #0c0c0c;
   margin-bottom: 30px;
 }
@@ -5443,7 +5447,7 @@ html.thanks-message-popup-active .thanks-message {
 }
 .payment-popup-info > h5 {
   font-size: 18px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #333;
   margin-bottom: 30px;
 }
@@ -5463,7 +5467,7 @@ html.thanks-message-popup-active .thanks-message {
   width: 100%;
   padding-bottom: 10px;
   color: #555;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   position: relative;
   padding-left: 25%;
   border-bottom: 1px solid #e0e0e0;
@@ -5481,7 +5485,7 @@ html.thanks-message-popup-active .thanks-message {
 }
 .payment-info-list > li a {
   font-size: 15px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   display: inline-block;
   margin-left: 5px;
 }
@@ -5536,7 +5540,7 @@ html.thanks-message-popup-active .thanks-message {
 .confrm-order-btn > a {
   color: #fff;
   background-color: #1a1a1a;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 12px;
   padding: 22.5px 35px;
   display: inline-block;
@@ -5551,7 +5555,7 @@ html.thanks-message-popup-active .thanks-message {
 .payment-popup-info-inner h5 {
   font-size: 18px;
   color: #333;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   float: left;
   width: 100%;
   margin: 35px 0 10px;
@@ -5592,7 +5596,7 @@ html.thanks-message-popup-active .thanks-message {
 .thanks-message .payment-popup-inner > h3 {
   font-size: 30px;
   color: #fff;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   margin: 27px 0 8px;
 }
 .thanks-message .payment-popup-inner > p {
@@ -5641,11 +5645,11 @@ html.thanks-message-popup-active .thanks-message {
 .user-info-inner {display: table;}
 .user-info-inner > h5 {
   color: #fff;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   margin: 0 0 5px;
 }
 .user-info-inner > span {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #fff;
   display: block;
   font-size: 11px;
@@ -5653,7 +5657,7 @@ html.thanks-message-popup-active .thanks-message {
 .user-info-inner > a {float: left;}
 .user-info-inner > a {
   float: left;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 10px;
   font-weight: 700;
   padding: 8px 20px;
@@ -5675,7 +5679,7 @@ html.thanks-message-popup-active .thanks-message {
   width: 100%;
   margin-bottom: 0;
   font-size: 12px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #444;
 }
 .profile-sidebar-inner > .dashboard-tabs > button a {
@@ -5724,7 +5728,7 @@ html.thanks-message-popup-active .thanks-message {
 }
 .welcome-note > h4 {
   font-size: 16px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #fff;
   margin: 0 0 10px;
 }
@@ -5753,7 +5757,7 @@ html.thanks-message-popup-active .thanks-message {
   margin-bottom: 30px;
 }
 .dashboard-title > h4 {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #3c3838;
   margin-top: 0;
 }
@@ -5813,7 +5817,7 @@ html.thanks-message-popup-active .thanks-message {
   padding: 50px;
 }
 .tabs-wrp > h4 {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 22px;
   color: #3c3838;
   display: inline-block;
@@ -5862,7 +5866,7 @@ html.thanks-message-popup-active .thanks-message {
   box-shadow: 0 0 30px rgba(0,0,0,.04);
 }
 .booking-table > table thead th {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   padding: 21px 40px;
   font-size: 11px;
   font-weight: 700;
@@ -5872,7 +5876,7 @@ html.thanks-message-popup-active .thanks-message {
 .booking-table > table tbody td:first-child {text-align: left;}
 .booking-table > table tbody td {
   padding: 25px 40px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 11px;
   color: #444;
   position: relative;
@@ -6008,7 +6012,7 @@ i.off {color: #d7d7d7;}
 .order-info > span.red-clr,
 .order-info > span.yellow-clr {
   font-size: 12px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   display: block;
 }
 .order-info > h4 {
@@ -6059,13 +6063,13 @@ i.off {color: #d7d7d7;}
 }
 .statement-table table th {
   font-size: 11px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   padding: 20px 20px;
   text-align: inherit;
 }
 .statement-table table tbody {background-color: #fff;}
 .statement-table table tbody td {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 12px;
   color: #666;
   padding: 30px 20px;
@@ -6119,7 +6123,7 @@ i.off {color: #d7d7d7;}
 .profile-img-upload-btn > label {
   padding: 13px 30px;
   font-size: 10px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 700;
   display: inline-block;
   margin-bottom: 0;
@@ -6174,7 +6178,7 @@ i.off {color: #d7d7d7;}
 .qty-wrap .input-group-btn button {
   height: 45px;
   text-align: center;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-weight: 700;
 }
 .restaurant-detail-title > a {
@@ -6244,7 +6248,7 @@ i.off {color: #d7d7d7;}
 .track-close:hover,
 .track-close:focus {color: #fff;}
 .track-popup-innr > h3 {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 31px;
   color: #333;
 }
@@ -6281,7 +6285,7 @@ i.off {color: #d7d7d7;}
   color: #fff;
   font-weight: 800;
   font-size: 13px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   padding: 15px 40px;
   margin-top: 15px;
 }
@@ -6331,7 +6335,7 @@ i.off {color: #d7d7d7;}
 }
 .order-lst-wrp > h4 {
   font-size: 22px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #444;
   margin-bottom: 35px;
 }
@@ -6368,7 +6372,7 @@ i.off {color: #d7d7d7;}
   margin-top: 20px;
 }
 .order-time-left {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 13px;
   font-weight: 700;
   color: #494949;
@@ -6378,7 +6382,7 @@ i.off {color: #d7d7d7;}
 .order-time-left > span {font-size: 22px;}
 .order-time > a {
   font-size: 11px;
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   display: inline-block;
   font-weight: 700;
   color: #1e1e1e;
@@ -6417,13 +6421,13 @@ i.off {color: #d7d7d7;}
   width: 100%;
 }
 .buyer-info-innr > h5 {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   font-size: 16px;
   color: #fff;
   margin-bottom: 2px;
 }
 .buyer-info-innr > span {
-  font-family: Poppins;
+  font-family: Rajdhani,sans-serif;
   color: #fff;
   font-size: 11px;
   word-wrap: break-word;
@@ -6495,7 +6499,7 @@ a.thanks-close:focus {color: #333;}
 	color: #111111;
 }
 .article-info-meta > a {
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 13px;
     line-height: 18px;
     text-transform: capitalize;
@@ -6573,7 +6577,7 @@ a.thanks-close:focus {color: #333;}
 .item-meta > div span {
     color: #333333;
     display: inline-block;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 15px;
     font-weight: 600;
     width: 100%;
@@ -6610,7 +6614,7 @@ a.thanks-close:focus {color: #333;}
     bottom: 10px;
     color: #fff;
     display: inline-block;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-weight: bold;
     left: 50%;
     padding: 15px 40px;
@@ -6709,7 +6713,7 @@ a.thanks-close:focus {color: #333;}
 .welcome-secinfo > span {
     color: #fff;
     display: inline-block;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 11px;
     margin-bottom: 30px;
     padding: 5px 30px;
@@ -6761,7 +6765,7 @@ a.thanks-close:focus {color: #333;}
 .award > span em {
     color: #bababa;
     display: inline-block;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 8px;
     font-style: normal;
     font-weight: 500;
@@ -6836,7 +6840,7 @@ a.thanks-close:focus {color: #333;}
 .uper-meta > span {
     color: #e7e7e7;
     display: inline-block;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     width: 100%;
 }
 /*--- new chef section home2 ---*/
@@ -6937,7 +6941,7 @@ a.thanks-close:focus {color: #333;}
 .food-menu-sec > .tab-btn button a {
     border-radius: 40px;
     display: inline-block;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 18px;
     font-weight: 600;
     text-transform: capitalize;
@@ -7013,7 +7017,7 @@ a.thanks-close:focus {color: #333;}
 }
 .form-meta > span {
     display: inline-block;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 14px;
     width: 100%;
 }
@@ -7027,7 +7031,7 @@ a.thanks-close:focus {color: #333;}
     border: medium none;
     border-radius: 40px;
     color: #a1a1a1;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 12px;
     margin-bottom: 5px;
     padding: 17px 30px;
@@ -7037,7 +7041,7 @@ a.thanks-close:focus {color: #333;}
     border: medium none;
     border-radius: 40px;
     color: #fff;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 12px;
     font-weight: 600;
     line-height: 52px;
@@ -7052,7 +7056,7 @@ a.thanks-close:focus {color: #333;}
 }
 .upcoming-event .title1-inner > span {
     color: #999;
-    font-family: poppins;
+    font-family: Rajdhani,sans-serif;
     font-size: 12px;
 }
 .upcoming-event .title1-inner > b {

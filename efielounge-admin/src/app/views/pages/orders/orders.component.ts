@@ -78,14 +78,25 @@ import { OrderService } from '../../../services/order.service';
 export class OrdersComponent {
   public orders: any[] = [];
   public serverUrl: string = environment.api;
+  public selectedOrder: any = {};
+  public index: number = -1;
+  public account: any = {};
+  public isReadOnly: boolean = true;
+  public statuses = [
+    'PENDING',
+    'CONFIRMED',
+    'IN-TRANSIT',
+    'DELIVERED',
+    'CANCELED',
+  ];
 
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
-    this.fetchOrders()
+    this.fetchOrders();
   }
 
-  fetchOrders(){
+  fetchOrders() {
     this.orderService
       .fetchOrders()
       .pipe(take(1))
@@ -93,7 +104,7 @@ export class OrdersComponent {
         (response: any) => {
           if (response.status) {
             this.orders = response.data;
-            console.log("len ", this.orders.length)
+            console.log('len ', this.orders.length);
           } else {
             alert(response.message);
           }
@@ -105,6 +116,35 @@ export class OrdersComponent {
   }
 
   setorderToEdit(index: number = 0) {
-    alert(`Feature to manage orders ${this.orders[index].checkOutId} Coming soon`)
+    this.index = index;
+    this.selectedOrder = this.orders[index];
+    this.account = this.selectedOrder.orders[0].account;
+    console.log(this.selectedOrder);
+  }
+
+  submit() {
+    const payload = {
+      checkOutId: this.selectedOrder.checkOutId,
+      status: this.selectedOrder.status,
+      notes: this.selectedOrder.notes,
+    };
+    this.orderService
+      .updateOrderStatus(payload)
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          Swal.fire(response.message);
+          if (response.status) {
+            const closeBtn = document.querySelector('.close-order') as any;
+            if (closeBtn) {
+              closeBtn.click();
+            }
+          }
+        },
+        (error: any) => {
+          alert('Something went wrong');
+        }
+      );
+    console.log('Submission payload ==> ', payload);
   }
 }
