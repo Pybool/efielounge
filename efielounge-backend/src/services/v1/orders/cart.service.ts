@@ -244,9 +244,7 @@ export class CartService {
         }
 
         if (cartItemDb) {
-          if (selectedCustomMenuItems.length > 0) {
-            cartItemDb.customMenuItems = selectedCustomMenuItems;
-          }
+          cartItemDb.customMenuItems = selectedCustomMenuItems;
           cartItemDb.units = cartItem.units;
           await cartItemDb.save();
         } else {
