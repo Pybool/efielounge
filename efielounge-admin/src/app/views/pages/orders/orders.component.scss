@@ -1,5 +1,5 @@
 .orders{
-    background: ghostwhite;
+    // background: ghostwhite;
     border-radius: 6px;
     padding: 10px;
     margin-bottom: 10px;
@@ -14,10 +14,11 @@
 }
 
 .extras{
-    background: ghostwhite;
+    // background: ghostwhite;
     border-radius: 6px;
     padding-left: 10px;
     margin-bottom: 10px;
+    flex-wrap: wrap;
 }
 
 .extras-pill{
@@ -25,7 +26,9 @@
     color: white;
     border-radius: 15px;
     padding: 7px;
+    white-space: nowrap;
     margin-right: 10px;
+    margin-top: 4px;
 }
 
 .grand-total{

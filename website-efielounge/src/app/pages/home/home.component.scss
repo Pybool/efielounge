@@ -6,10 +6,25 @@
 }
 
 .img {
-  height: 275px;
+  max-height: 160px;
   width: 100%;
   object-fit: cover;
   cursor: pointer;
+}
+
+.popular-dish-info > p {
+  margin-bottom: 0px!important;
+}
+.popular-dish-info {
+  padding: 10px!important;
+}
+
+.restaurant-info {
+  border-top: 1px solid #e2e2e2;
+  float: left;
+  margin-top: 13px;
+  padding-top: 10px;
+  width: 100%;
 }
 
 .block {

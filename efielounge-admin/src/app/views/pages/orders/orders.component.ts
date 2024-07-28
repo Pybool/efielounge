@@ -104,7 +104,6 @@ export class OrdersComponent {
         (response: any) => {
           if (response.status) {
             this.orders = response.data;
-            console.log('len ', this.orders.length);
           } else {
             alert(response.message);
           }
@@ -120,6 +119,23 @@ export class OrdersComponent {
     this.selectedOrder = this.orders[index];
     this.account = this.selectedOrder.orders[0].account;
     console.log(this.selectedOrder);
+    for (let order of this.selectedOrder.orders) {
+      this.setFullName(order);
+    }
+  }
+
+  setFullName(order: any) {
+    let variantName = '';
+    try {
+      if (order.variants[0]) {
+        variantName = ' ' + order.variants[0];
+      } else {
+        variantName = '';
+      }
+    } catch {
+      variantName = '';
+    }
+    if (variantName) order.menu.name = `${order.menu.name}${variantName}`;
   }
 
   submit() {

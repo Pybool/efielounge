@@ -56,7 +56,7 @@ export class AppComponent {
     this.homeService.getHomeData()
     this.homeService.getHomeDataObs().subscribe((homePageData:any)=>{
       this.homePageData = homePageData;
-      this.promotions = this.homePageData.promotions;
+      this.promotions = this.homePageData.promotions || [];
     })
   
     const status = this.checkIfPromotionsIsScreenEligible();

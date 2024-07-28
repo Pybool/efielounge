@@ -14,7 +14,7 @@
     <div class="basket-content">
         <section class="accordion accordion--radio">
             <app-empty-cart *ngIf="cartItems?.length == 0" class="container"></app-empty-cart>
-            <ng-container *ngFor="let cartItem of cartItems">
+            <ng-container *ngFor="let cartItem of cartItems; let i=index">
                 <div class="tab">
                     <input class="checkbox" type="checkbox" name="accordion-2" id="{{cartItem?._id}}">
 
@@ -41,13 +41,13 @@
                     
                     <div style="flex-wrap: wrap;" class="tab__content extras flex-row-sb">
                         <div class="extras-label">Extras</div>
-                        <ng-container *ngFor="let extra of cartItem.customMenuItems">
+                        <ng-container *ngFor="let extra of getModifiedExtras(cartItem); let j = index">
                             <div class="pill-container">
                                 <div class="form-check">
                                     <input [checked]="extra.isFinalSelect"
                                         (change)="isChosenExtra($event,cartItem,extra)" class="form-check-input"
-                                        type="checkbox" value="" id="{{extra?._id}}">
-                                    <label class="form-check-label flex-row-sb" for="{{extra?._id}}">
+                                        type="checkbox" value="" [id]="extra?._id + i + j">
+                                    <label class="form-check-label flex-row-sb" [for]="extra?._id + i + j">
                                         <span class="">{{extra?.name}}</span>
                                     </label>
                                 </div>

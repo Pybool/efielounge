@@ -122,17 +122,19 @@
                                                                     </div>
 
                                                                     <ul>
-                                                                        <li
-                                                                            *ngFor="let customMenuItem of checkOutItem.customMenuItems">
-                                                                            <div class="flex-row-sb">
-                                                                                <span>{{customMenuItem.name}}</span>
-                                                                                <span style="white-space: nowrap;font-weight: 700;"
-                                                                                    class="">GH₵
-                                                                                    {{Math.ceil(customMenuItem.price).toFixed(2).toLocaleString()}}
-                                                                                </span>
-                                                                            </div>
-
-                                                                        </li>
+                                                                        <ng-container *ngFor="let customMenuItem of checkOutItem.customMenuItems">
+                                                                            <li *ngIf="customMenuItem.isFinalSelect">
+                                                                                <div  class="flex-row-sb">
+                                                                                    <span>{{customMenuItem.name}}</span>
+                                                                                    <span style="white-space: nowrap;font-weight: 700;"
+                                                                                        class="">GH₵
+                                                                                        {{Math.ceil(customMenuItem.price).toFixed(2).toLocaleString()}}
+                                                                                    </span>
+                                                                                </div>
+    
+                                                                            </li>
+                                                                        </ng-container>
+                                                                        
                                                                     </ul>
 
                                                                     <div class="x-flex-row">
@@ -182,14 +184,19 @@
                                                                         (click)="setDefaultAddress(address)"
                                                                         class="address-item  active-address">
                                                                         <div style="padding: 10px; margin-right: 30px;">
-                                                                            <small>
-                                                                                <svg style="width:20px;height:20px"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                                                    <path
-                                                                                        d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
-                                                                                </svg> {{address.address}}
-                                                                            </small>
+                                                                            <div style="flex-wrap: nowrap;" class="flex-row-sb">
+                                                                                <small>
+                                                                                    <svg style="width:20px;height:20px"
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                                                        <path
+                                                                                            d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
+                                                                                    </svg> {{address.address}}
+                                                                                </small>
+                                                                                <div (click)="removeAddress(address.address)" style="width: 30px!important" class="remove-from-cart">
+                                                                                    <i _ngcontent-ng-c4121622085="" class="fa fa-trash"></i>
+                                                                                </div>
+                                                                            </div>
                                                                             <div style="padding-left:4px"
                                                                                 class="flex-row-sb">
                                                                                 <small>
@@ -211,14 +218,19 @@
                                                                         (click)="setDefaultAddress(address)"
                                                                         class="address-item  ">
                                                                         <div style="padding: 10px;margin-right: 30px;">
-                                                                            <small>
-                                                                                <svg style="width:20px;height:20px"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                                                    <path
-                                                                                        d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
-                                                                                </svg> {{address.address}}
-                                                                            </small>
+                                                                            <div style="flex-wrap: nowrap;" class="flex-row-sb">
+                                                                                <small>
+                                                                                    <svg style="width:20px;height:20px"
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                                                        <path
+                                                                                            d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
+                                                                                    </svg> {{address.address}}
+                                                                                </small>
+                                                                                <div (click)="removeAddress(address.address)" style="width: 30px!important" class="remove-from-cart">
+                                                                                    <i _ngcontent-ng-c4121622085="" class="fa fa-trash"></i>
+                                                                                </div>
+                                                                            </div>
                                                                             <div style="padding-left:4px"
                                                                                 class="flex-row-sb">
                                                                                 <small>

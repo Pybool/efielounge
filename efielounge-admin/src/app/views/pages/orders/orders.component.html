@@ -132,8 +132,8 @@
             <div class="orders">
                 <ng-container *ngFor="let order of selectedOrder.orders">
                     <div style="justify-content: space-between;align-items: flex-start;" class="flex-row-sb">
-                        <img class="order-image col-md-3" src="http://localhost:8000//menu-attachments/20-06-2024/de19b82a-8a8a-4629-8fc6-6786c2109091-traditional-chinese-food-char-siu.webp"/>
-                        <div class=col-md-3>
+                        <img class="order-image col-md-3" src="{{serverUrl}}{{order.menu.attachments[0].replace('/public', '')}}"/>
+                        <div class=col-md-5>
                             <c-input-group class="mb-3">
                                 <span cInputGroupText>
                                     Menu
@@ -147,12 +147,12 @@
                                 <input [(ngModel)]="order.units" name="{{order._id}}" autoComplete="name" cFormControl placeholder="Name" />
                             </c-input-group>
                         </div>
-                        <div style="align-items: flex-start; justify-content: flex-start;" class="extras flex-row-sb col-md-3">
+                        <div style="align-items: flex-start; justify-content: flex-start;" class="extras flex-row-sb col-md-2">
                             <ng-container *ngFor="let extra of order.customMenuItems">
                                 <div class="extras-pill">{{extra.name}}</div>
                             </ng-container>
                         </div>
-                        <button disabled class="btn btn-secondary col-md-3">Mark for refund</button>
+                        <button disabled class="btn btn-secondary col-md-2">Mark for refund</button>
                     </div>
                     
                 </ng-container>

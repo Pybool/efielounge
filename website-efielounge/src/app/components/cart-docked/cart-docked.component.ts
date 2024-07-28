@@ -45,6 +45,8 @@ export class CartDockedComponent implements OnDestroy {
     extras: [],
     variants: [],
   };
+  public lastExtraId:string = ""
+  public lastEntropy:string = ""
   public orderTotal: number = 0.0;
   public units = 1;
   public cartItems: any[] = [];
@@ -59,6 +61,7 @@ export class CartDockedComponent implements OnDestroy {
   public showCheckOutSpinner: boolean = false;
   public cartItems$: any;
   public cartItemRemoved$: any;
+  public lockedExtras:any = {}
 
   constructor(
     private cartService: CartService,
@@ -108,6 +111,46 @@ export class CartDockedComponent implements OnDestroy {
       this.handleBooleanEvent(false);
       this.calculateSubTotal();
     } catch {}
+  }
+
+  private getObjectById(array: any, id: string | undefined) {
+    return array.find((item: { _id: string }) => item._id === id);
+  }
+
+  private generateRandomId(length:number) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+
+  getModifiedExtras(cartItem: any):any {
+    for(let extra of cartItem.menu.menuItems){
+      if(!this.getObjectById(cartItem.customMenuItems, extra._id)){
+        cartItem.customMenuItems.push(extra)
+      }
+    }
+    return cartItem.customMenuItems
+  }
+
+  getModifiedExtraId(id:string, index:number):string{
+    const key = id + `-00${index}`
+    if(!this.lockedExtras[key]){
+      let entropy = this.lastEntropy;
+      if(id !== this.lastExtraId){
+        entropy = this.generateRandomId(10)
+      }
+      this.lastEntropy =  entropy;
+      this.lastExtraId = id;
+      this.lockedExtras[key] = entropy
+      return `${id}-${entropy}`
+    }
+    return `${id}-${this.lockedExtras[key]}`
+    
   }
 
   calculatePricePerMeal(
@@ -164,7 +207,9 @@ export class CartDockedComponent implements OnDestroy {
   }
 
   isChosenExtra($event: any, cartItem: any, extra: any) {
+    console.log("Before ", extra.isFinalSelect)
     extra.isFinalSelect = !extra.isFinalSelect;
+    console.log("After ", extra.isFinalSelect)
     if (!extra.isFinalSelect) {
       const amountToDeduct = cartItem.units * extra.price;
       cartItem.total = cartItem.total - amountToDeduct;

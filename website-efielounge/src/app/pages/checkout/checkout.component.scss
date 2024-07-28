@@ -873,3 +873,35 @@ div.block > div.container {
   margin-right: auto !important;
   max-width: fit-content !important;
 }
+
+
+.popular-dish-info > p {
+  margin-bottom: 0px!important;
+}
+.popular-dish-info {
+  padding: 10px!important;
+}
+
+.restaurant-info {
+  border-top: 1px solid #e2e2e2;
+  float: left;
+  margin-top: 13px;
+  padding-top: 10px;
+  width: 100%;
+}
+
+.order-item{
+  display: flex!important;
+    flex-wrap: wrap!important;
+    padding: 10px!important;
+}
+
+
+.order-item .order-thumb {
+  display: inline-block;
+  margin: 0px!important;
+}
+
+.order-info >div > h4{
+  padding: 0px!important;
+}

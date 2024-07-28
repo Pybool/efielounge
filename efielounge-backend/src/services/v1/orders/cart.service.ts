@@ -238,7 +238,7 @@ export class CartService {
 
         const selectedCustomMenuItems = [];
         for (let customMenuItem of cartItem.customMenuItems) {
-          if (customMenuItem.isFinalSelect) {
+          if (customMenuItem.isFinalSelect==true) {
             selectedCustomMenuItems.push(customMenuItem);
           }
         }

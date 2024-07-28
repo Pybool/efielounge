@@ -193,6 +193,10 @@ export class CheckoutComponent implements OnDestroy {
     }
   }
 
+  removeAddress(address:string){
+    console.log("Removing address ", address)
+  }
+
   handleConfirmEvent() {
     this.deleteObjectById(this.removal._id);
     this.cartService.setCartCount(-1, this.removal._id);
