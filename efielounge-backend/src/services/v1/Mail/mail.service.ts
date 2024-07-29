@@ -1,7 +1,7 @@
 import ejs from "ejs";
 import sendMail from "./mailtrigger.service";
 let env = process.env.NODE_ENV;
-let path = "";
+let path = "dist/";
 if (env == "dev") {
   path = "src/";
 }

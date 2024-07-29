@@ -21,29 +21,29 @@
   padding: 20px;
 }
 
-.order-card{
+.order-card {
   background: whitesmoke;
   padding: 10px;
   border-radius: 7px;
 }
 
-.pending{
+.pending {
   background: gray;
 }
 
-.confirmed{
+.confirmed {
   background: rgb(121, 173, 216);
 }
 
-.in-transit{
+.in-transit {
   background: orange;
 }
 
-.delivered{
+.delivered {
   background: green;
 }
 
-.canceled{
+.canceled {
   background: red;
 }
 
@@ -91,6 +91,15 @@
     text-align: start;
     white-space: nowrap;
   }
+
+  .flex-row-sb {
+    flex-wrap: wrap;
+  }
+
+  .order-thumb {
+    width: auto !important;
+    max-width: fit-content;
+  }
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */
@@ -99,6 +108,15 @@
   .grand-total {
     text-align: start;
     white-space: nowrap;
+  }
+
+  .flex-row-sb {
+    flex-wrap: wrap;
+  }
+
+  .order-thumb {
+    width: auto !important;
+    max-width: fit-content;
   }
 }
 
