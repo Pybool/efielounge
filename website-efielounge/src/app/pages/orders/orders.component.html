@@ -32,11 +32,15 @@
 
                         <div class="order-item brd-rd5 ">
                             <div class="flex-col">
-                                <span class="mb-10 price">{{order.checkOutId}}</span>
+                                <div class="flex-row-sb">
+                                    <span class="mb-10 price">{{order.checkOutId}}</span>
+                                    <span [ngClass]="order?.status?.toLowerCase()" class="processing brd-rd3">{{order?.status}}</span>
+                                </div>
                                 <hr>
                                 <div class="orders-panel flex-row-sb">
+                                    
                                     <ng-container *ngFor="let sortedOrder of order.orders">
-                                        <div class="flex-row-sb">
+                                        <div class="flex-row-sb order-card">
                                             <div class="zoom order-thumb brd-rd5">
                                                 <a href="#" title="" itemprop="url"><img
                                                         src="{{serverUrl}}{{sortedOrder.menu?.attachments[0].replace('//', '/').replace('public','')}}"
@@ -55,7 +59,7 @@
                                                         <a href="#" title="" itemprop="url">{{extra?.name}}</a>,
                                                     </ng-container>
                                                 </span>
-                                                <span class="processing brd-rd3">{{sortedOrder?.status}}</span>
+                                                
                                             </div>
                                         </div>
                                     </ng-container>

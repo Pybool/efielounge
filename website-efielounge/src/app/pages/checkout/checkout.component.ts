@@ -14,6 +14,7 @@ import { DirectBankTransferModalComponent } from '../../components/direct-bank-t
 import { PaystackService } from '../../services/paystack.service';
 import { AuthService } from '../../services/auth.service';
 import { AddressModalComponent } from '../../components/address-modal/address-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-checkout',
@@ -44,7 +45,7 @@ export class CheckoutComponent implements OnDestroy {
   public removal: { name: string; _id: string } = { name: '', _id: '' };
   public activatedRoute$: any;
   public checkOutId: any = null;
-  public shippingCost = 5.0;
+  public deliveryCost = 30.0;
   public payment: { ref: string; amount: number | string } = {
     ref: this.checkOutId,
     amount: 0.0,
@@ -72,6 +73,8 @@ export class CheckoutComponent implements OnDestroy {
     }
     this.activatedRoute$ = this.route.paramMap.subscribe((params) => {
       this.checkOutId = params.get('checkOutId') as string;
+      // this.deliveryCost
+
       this.cartItems$ = this.cartService.getCartItems().subscribe(
         (response: any) => {
           this.cartService.cartDocker(true);
@@ -180,25 +183,41 @@ export class CheckoutComponent implements OnDestroy {
     }
   }
 
-  deleteObjectById(id: string) {
-    const index = this.checkOutItems.findIndex(
-      (obj: { _id: string }) => obj._id === id
-    );
+  deleteObjectById(arr: any, id: string) {
+    const index = arr.findIndex((obj: { _id: string }) => obj._id === id);
 
     if (index !== -1) {
-      this.checkOutItems.splice(index, 1); // Remove the object at the found index
+      arr.splice(index, 1); // Remove the object at the found index
       return true;
     } else {
       return false;
     }
   }
 
-  removeAddress(address:string){
-    console.log("Removing address ", address)
+  removeAddress(addressId: string) {
+    const confirmation = confirm(
+      'Are you sure you want to delete this address?'
+    );
+    if (confirmation) {
+      this.cartService
+        .removeAddress({ addressId })
+        .pipe(take(1))
+        .subscribe(
+          (response: any) => {
+            Swal.fire(response.message);
+            if (response.data) {
+              this.deleteObjectById(this.addresses, response.data._id);
+            }
+          },
+          (error: any) => {
+            alert(error.message);
+          }
+        );
+    }
   }
 
   handleConfirmEvent() {
-    this.deleteObjectById(this.removal._id);
+    this.deleteObjectById(this.checkOutItems, this.removal._id);
     this.cartService.setCartCount(-1, this.removal._id);
   }
 
@@ -219,7 +238,7 @@ export class CheckoutComponent implements OnDestroy {
   checkOut() {
     // this.payment = {
     //   ref: this.checkOutId,
-    //   amount: this.getSubTotal() + this.shippingCost,
+    //   amount: this.getSubTotal() + this.deliveryCost,
     // };
     // if (this.paymentMethod == 'transfer') {
     //   this.toggleTransferModal();
@@ -235,7 +254,7 @@ export class CheckoutComponent implements OnDestroy {
       .updateCartItemsAndCheckOut(
         {
           cartItems: this.checkOutItems,
-          amount: this.getSubTotal() + this.shippingCost,
+          amount: this.getSubTotal() + this.deliveryCost,
         },
         this.checkOutId
       )
@@ -245,7 +264,7 @@ export class CheckoutComponent implements OnDestroy {
           if (response.status) {
             this.payment = {
               ref: this.checkOutId,
-              amount: this.subTotal + this.shippingCost,
+              amount: this.subTotal + this.deliveryCost,
             };
             this.checkOutId = response.data.checkOutId;
             if (this.paymentMethod == 'transfer') {
@@ -296,7 +315,9 @@ export class CheckoutComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.cartItems$?.unsubsribe();
-    this.activatedRoute$?.unsubsribe();
+    try{
+      this.cartItems$?.unsubsribe();
+      this.activatedRoute$?.unsubsribe();
+    }catch{}
   }
 }

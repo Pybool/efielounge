@@ -77,7 +77,6 @@ export class ResetPasswordComponent {
       .pipe(take(1))
       .subscribe(
         (response: any) => {
-          console.log(response);
           if (response.status) {
             this.authService.setAccountForReset(
               this.authService.getAccountForReset()

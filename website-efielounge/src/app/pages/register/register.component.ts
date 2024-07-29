@@ -125,7 +125,6 @@ export class RegisterComponent {
     if(this.credentials.password == "" || this.passwordAgain == ""){
       return true
     }
-    console.log(this.credentials.password != this.passwordAgain , this.isInvalidEmail())
     return (this.credentials.password != this.passwordAgain) && !this.isInvalidEmail()
   }
 }

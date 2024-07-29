@@ -89,8 +89,9 @@ export class LoginComponent {
             this.authService.storeUser(response.data);
             this.authService.setLoggedIn(true);
             setTimeout(() => {
-              this.router.navigateByUrl('/');
-            }, 1500);
+              // this.router.navigateByUrl('/');
+              document.location.href="/"
+            }, 500);
           } else {
             if (response.code == 1001) {
               const queryParams = { account_id: response.data };
@@ -108,7 +109,6 @@ export class LoginComponent {
           }
         },
         (error: any) => {
-          console.log(error)
           this.showSpinner = false;
           Swal.fire({
             position: 'top-end',

@@ -60,7 +60,6 @@ export class TokenService {
 
   async refresh() {
     const refreshToken = this.retrieveToken('efielounge-refreshToken');
-    console.log('Refresh token ', refreshToken);
     if (refreshToken == undefined || refreshToken == 'undefined') {
       return this.logout();
     }

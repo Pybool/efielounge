@@ -124,7 +124,8 @@ export class AuthService {
     this.cookieService.delete('efielounge-refreshToken');
     window.localStorage.removeItem('efielounge-accessToken');
     window.localStorage.removeItem('efielounge-refreshToken');
-    return this.router.navigateByUrl('/login');
+    //  this.router.navigateByUrl('/login');
+     return document.location.href="/"
   }
 
   uploadAvatar(formData: any) {

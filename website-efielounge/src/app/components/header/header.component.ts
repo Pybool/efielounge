@@ -54,7 +54,6 @@ export class HeaderComponent {
       .subscribe(
         (response: any) => {
           if (response.status) {
-            console.log(response.data);
             this.menuCategories = response.data;
           }
         },
@@ -79,7 +78,6 @@ export class HeaderComponent {
           menuCaret.style.transform = 'rotate(90deg)';
         } 
       }else {
-        console.log("Here")
         menuCaret.style.transition = 'transform 0.5s';
         menuCaret.style.transform = 'rotate(360deg)';
       }

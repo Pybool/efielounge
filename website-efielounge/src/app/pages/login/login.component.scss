@@ -5,38 +5,54 @@
   display: none;
 }
 
-.auth{
+.auth {
   margin-top: 140px;
   margin-left: 250px;
   margin-right: 250px;
 }
 
-
-
 /* Extra Small Devices, Phones (0px to 599px) */
 @media only screen and (min-width: 300px) and (max-width: 599px) {
   /* Styles for small phones */
-  .auth{
+  .auth {
     margin-top: 140px;
     margin-left: 0px;
     margin-right: 0px;
+  }
+
+  .sign-popup-wrapper {
+    padding: 0px !important;
+  }
+
+  .parent{
+    padding-left: 0px!important;
+    padding-right: 0px!important;
   }
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */
 @media only screen and (min-width: 600px) and (max-width: 767px) {
   /* Styles for larger phones */
-  .auth{
+  .auth {
     margin-top: 140px;
     margin-left: 0px;
     margin-right: 0px;
+  }
+
+  .sign-popup-wrapper {
+    padding: 0px !important;
+  }
+
+  .parent{
+    padding-left: 0px!important;
+    padding-right: 0px!important;
   }
 }
 
 /* Medium Devices, Tablets (768px to 991px) */
 @media only screen and (min-width: 768px) and (max-width: 819px) {
   /* Styles for tablets */
-  .auth{
+  .auth {
     margin-top: 140px;
     margin-left: 0px;
     margin-right: 0px;
@@ -72,7 +88,7 @@
     border-radius: 20px;
   }
 
-  .basket-container{
+  .basket-container {
     width: 100%;
     background: white;
     height: 50%;

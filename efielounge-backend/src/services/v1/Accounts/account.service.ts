@@ -159,11 +159,11 @@ export class AccountService {
         account: req.accountId!,
         isDefault: true,
       });
-      if(defaultAddress){
+      if (defaultAddress) {
         defaultAddress.isDefault = false;
         await defaultAddress.save();
       }
-      
+
       const addressId = req.body.addressId;
       const newDefault = await Address.findOne({
         account: req.accountId!,
@@ -186,6 +186,32 @@ export class AccountService {
       return {
         status: false,
         message: "We could not sset default address at this moment",
+      };
+    }
+  }
+
+  static async removeAddress(req: Xrequest) {
+    try {
+      const addressId = req.body.addressId;
+      const deletedAddress: any = await Address.findOneAndDelete({
+        account: req.accountId!,
+        _id: addressId,
+      });
+      if (deletedAddress) {
+        return {
+          status: true,
+          message: "Address was deleted",
+          data: deletedAddress,
+        };
+      }
+      return {
+        status: false,
+        message: "Address does not exist!",
+      };
+    } catch (error: any) {
+      return {
+        status: false,
+        message: "We could not delete address at this moment",
       };
     }
   }

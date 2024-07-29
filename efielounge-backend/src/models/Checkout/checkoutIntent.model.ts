@@ -26,6 +26,11 @@ const CheckoutIntentSchema = new Schema({
     type: String,
     required: false,
   },
+  deliveryCost:{
+    type: Number,
+    required: false,
+    default: 0.00
+  },
   status: {
     type: String,
     default: "PENDING",

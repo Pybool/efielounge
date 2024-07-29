@@ -10,4 +10,10 @@ transactionRouter.post(
   transactionController.saveTransaction
 );
 
+transactionRouter.get(
+  "/paystack/verify-transaction",
+  authMiddleware,
+  transactionController.verifyTransaction
+);
+
 export default transactionRouter;

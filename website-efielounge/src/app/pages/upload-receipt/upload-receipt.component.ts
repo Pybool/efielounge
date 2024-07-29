@@ -92,7 +92,6 @@ export class UploadReceiptComponent {
         .pipe(take(1))
         .subscribe((response: any) => {
           // Handle successful upload response (e.g., display success message)
-          console.log('Upload successful:', response);
           Swal.fire(response?.message);
           this.selectedFile = null;
           this.fileName = null;

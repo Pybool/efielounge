@@ -45,8 +45,8 @@ export class CartDockedComponent implements OnDestroy {
     extras: [],
     variants: [],
   };
-  public lastExtraId:string = ""
-  public lastEntropy:string = ""
+  public lastExtraId: string = '';
+  public lastEntropy: string = '';
   public orderTotal: number = 0.0;
   public units = 1;
   public cartItems: any[] = [];
@@ -61,7 +61,7 @@ export class CartDockedComponent implements OnDestroy {
   public showCheckOutSpinner: boolean = false;
   public cartItems$: any;
   public cartItemRemoved$: any;
-  public lockedExtras:any = {}
+  public lockedExtras: any = {};
 
   constructor(
     private cartService: CartService,
@@ -70,19 +70,22 @@ export class CartDockedComponent implements OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.cartItems$ = this.cartService
-      .getCartItems()
-      .subscribe((response: any) => {
-        this.cartItems = response.cartItems;
-        this.subTotal = response.subTotal;
-      });
-    this.cartItemRemoved$ = this.cartService
-      .cartItemRemoved()
-      .subscribe((cartItemId: string) => {
-        this.deleteObjectById(cartItemId);
-        this.subTotal = 0.0;
-        this.deliveryFee = 0.0;
-      });
+    const user = this.authService.retrieveUser();
+    if (user) {
+      this.cartItems$ = this.cartService
+        .getCartItems()
+        .subscribe((response: any) => {
+          this.cartItems = response.cartItems;
+          this.subTotal = response.subTotal;
+        });
+      this.cartItemRemoved$ = this.cartService
+        .cartItemRemoved()
+        .subscribe((cartItemId: string) => {
+          this.deleteObjectById(cartItemId);
+          this.subTotal = 0.0;
+          this.deliveryFee = 0.0;
+        });
+    }
   }
 
   handleBooleanEvent(value: boolean) {
@@ -117,40 +120,39 @@ export class CartDockedComponent implements OnDestroy {
     return array.find((item: { _id: string }) => item._id === id);
   }
 
-  private generateRandomId(length:number) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  private generateRandomId(length: number) {
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
-}
-
-
-  getModifiedExtras(cartItem: any):any {
-    for(let extra of cartItem.menu.menuItems){
-      if(!this.getObjectById(cartItem.customMenuItems, extra._id)){
-        cartItem.customMenuItems.push(extra)
-      }
-    }
-    return cartItem.customMenuItems
   }
 
-  getModifiedExtraId(id:string, index:number):string{
-    const key = id + `-00${index}`
-    if(!this.lockedExtras[key]){
-      let entropy = this.lastEntropy;
-      if(id !== this.lastExtraId){
-        entropy = this.generateRandomId(10)
+  getModifiedExtras(cartItem: any): any {
+    for (let extra of cartItem.menu.menuItems) {
+      if (!this.getObjectById(cartItem.customMenuItems, extra._id)) {
+        cartItem.customMenuItems.push(extra);
       }
-      this.lastEntropy =  entropy;
-      this.lastExtraId = id;
-      this.lockedExtras[key] = entropy
-      return `${id}-${entropy}`
     }
-    return `${id}-${this.lockedExtras[key]}`
-    
+    return cartItem.customMenuItems;
+  }
+
+  getModifiedExtraId(id: string, index: number): string {
+    const key = id + `-00${index}`;
+    if (!this.lockedExtras[key]) {
+      let entropy = this.lastEntropy;
+      if (id !== this.lastExtraId) {
+        entropy = this.generateRandomId(10);
+      }
+      this.lastEntropy = entropy;
+      this.lastExtraId = id;
+      this.lockedExtras[key] = entropy;
+      return `${id}-${entropy}`;
+    }
+    return `${id}-${this.lockedExtras[key]}`;
   }
 
   calculatePricePerMeal(
@@ -207,9 +209,7 @@ export class CartDockedComponent implements OnDestroy {
   }
 
   isChosenExtra($event: any, cartItem: any, extra: any) {
-    console.log("Before ", extra.isFinalSelect)
     extra.isFinalSelect = !extra.isFinalSelect;
-    console.log("After ", extra.isFinalSelect)
     if (!extra.isFinalSelect) {
       const amountToDeduct = cartItem.units * extra.price;
       cartItem.total = cartItem.total - amountToDeduct;

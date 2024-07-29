@@ -13,10 +13,18 @@
 }
 
 .popular-dish-info > p {
-  margin-bottom: 0px!important;
+  margin-bottom: 0px !important;
 }
 .popular-dish-info {
-  padding: 10px!important;
+  padding: 10px !important;
+}
+
+.post-meta > li {
+  font-size: 15px !important;
+}
+
+.food-types > a {
+  font-size: 13px !important;
 }
 
 .restaurant-info {
@@ -262,8 +270,8 @@
   animation: bounce 2s infinite ease-in-out;
 }
 
-.cart-icon > path{
-    fill:orange;
+.cart-icon > path {
+  fill: orange;
 }
 
 @keyframes bounce {
@@ -276,10 +284,9 @@
   }
 }
 
-.banner{
+.banner {
   background-size: cover;
 }
-
 
 .badge {
   position: absolute;

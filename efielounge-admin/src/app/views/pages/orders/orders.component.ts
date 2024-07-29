@@ -143,6 +143,7 @@ export class OrdersComponent {
       checkOutId: this.selectedOrder.checkOutId,
       status: this.selectedOrder.status,
       notes: this.selectedOrder.notes,
+      // deliveryCost: this.selectedOrder.deliveryCost
     };
     this.orderService
       .updateOrderStatus(payload)

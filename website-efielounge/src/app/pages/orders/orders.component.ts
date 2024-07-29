@@ -49,7 +49,6 @@ export class OrdersComponent {
         (response: any) => {
           if (response.status) {
             this.orders = response.data;
-            console.log(this.orders);
           }
         },
         (error: any) => {
@@ -95,7 +94,6 @@ export class OrdersComponent {
   }
 
   ratingChanged(rating:number){
-    console.log("Rating was changed")
     this.menuToRate.iRated = true;
     this.menuToRate.ratings = rating;
   }

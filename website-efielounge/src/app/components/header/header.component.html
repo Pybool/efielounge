@@ -163,21 +163,22 @@
                     </a>
                 </li>
 
-                <!-- <li id="contact"><a (click)="setActiveLink($event)" href="/contact-us" title="Contact Us"
-                        itemprop="url"><span class="red-clr">WE LISTEN</span><svg class="icon"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512">
+                 <li id="contact">
+                    <a *ngIf="user" class="logout" (click)="logout()" href="javascript:void(0)" title="Logout"
+                        itemprop="url"><svg class="icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                             <path
-                                d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
-                        </svg>Contact us</a>
-                </li> -->
+                                d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
+                        </svg>Logout</a>
+                </li>
 
             </ul>
         </div>
         <div *ngIf="!user" class="topbar-register">
             <a class="log-popup-btn" href="/login" title="Login" itemprop="url">LOGIN</a> / <a class="sign-popup-btn"
-                href="#" title="Register" itemprop="url">REGISTER</a>
+                href="/register" title="Register" itemprop="url">REGISTER</a>
         </div>
+        
         
         <div class="social2">
             <a class="brd-rd50" href="https://web.facebook.com/efielounge" title="Facebook" itemprop="url" target="_blank"><i
@@ -186,7 +187,7 @@
                 target="_blank"><i class="fa fa-instagram"></i></a>
             <a class="brd-rd50" href="https://x.com/efielounge" title="Twitter" itemprop="url" target="_blank"><i
                     class="fa fa-twitter"></i></a>
-            <a class="brd-rd50" href="https://wa.me/233535845865" title="Pinterest" itemprop="url" target="_blank"><i
+            <a class="brd-rd50" href="https://wa.me/message/VO5PHQ43MGGXF1" title="Pinterest" itemprop="url" target="_blank"><i
                     class="fa fa-whatsapp"></i></a>
         </div>
         <!-- <div *ngIf="!user" class="register-btn">

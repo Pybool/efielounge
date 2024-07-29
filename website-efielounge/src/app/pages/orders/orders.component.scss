@@ -21,6 +21,32 @@
   padding: 20px;
 }
 
+.order-card{
+  background: whitesmoke;
+  padding: 10px;
+  border-radius: 7px;
+}
+
+.pending{
+  background: gray;
+}
+
+.confirmed{
+  background: rgb(121, 173, 216);
+}
+
+.in-transit{
+  background: orange;
+}
+
+.delivered{
+  background: green;
+}
+
+.canceled{
+  background: red;
+}
+
 .post-rate {
   cursor: pointer;
 }

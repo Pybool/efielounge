@@ -62,7 +62,10 @@ export class CartService {
         status: true,
         message: "Menu added to cart succesfully",
         isMerged: false,
-        data: await cartData.populate("menu"),
+        data: await cartData.populate({
+          path: "menu",
+          populate: { path: "menuItems" },
+        }),
         code: 200,
       };
       // }
@@ -238,7 +241,7 @@ export class CartService {
 
         const selectedCustomMenuItems = [];
         for (let customMenuItem of cartItem.customMenuItems) {
-          if (customMenuItem.isFinalSelect==true) {
+          if (customMenuItem.isFinalSelect == true) {
             selectedCustomMenuItems.push(customMenuItem);
           }
         }
@@ -394,6 +397,38 @@ export class CartService {
         data: transaction,
         code: 201,
       };
+    } catch (error: any) {
+      throw error;
+    }
+  }
+
+  static async getCheckOut(req: Xrequest) {
+    try {
+      const checkOutId = req.query.checkOutId! as string;
+      if (checkOutId.startsWith("EF")) {
+        const checkOutIntent = await CheckOut.findOne({
+          checkOutId: checkOutId,
+        });
+        if (checkOutIntent) {
+          return {
+            status: true,
+            message: "Checkout was fetched succesfully",
+            data: checkOutIntent,
+            code: 200,
+          };
+        }
+        return {
+          status: false,
+          message: "Checkout Id Not found",
+          code: 400,
+        };
+      } else {
+        return {
+          status: false,
+          message: "Invalid checkout id",
+          code: 400,
+        };
+      }
     } catch (error: any) {
       throw error;
     }

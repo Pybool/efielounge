@@ -119,7 +119,6 @@ export class HomeComponent {
         }
       );
     this.homeService.getHomeDataObs().subscribe((homePageData: any) => {
-      console.log("homePageData ", homePageData)
       this.homePageData = homePageData;
       this.home = this.homePageData.home;
       if (this.home?.banner) {
@@ -128,7 +127,6 @@ export class HomeComponent {
           this.home?.banner
             .replace('/public', '')
             .replace('/efielounge-backend', '');
-        console.log(this.banner);
       }
     });
   }

@@ -40,7 +40,6 @@ export class RecoverPasswordComponent {
       .sendPasswordResetOtp(this.email)
       .pipe(take(1))
       .subscribe((response: any) => {
-        console.log(response)
         if(response.status){
           this.authService.setAccountForReset(this.email)
           this.router.navigate(['/reset-password']);

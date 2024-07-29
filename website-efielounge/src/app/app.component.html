@@ -46,7 +46,7 @@
 
   </div>
 
-  <div *ngIf="promotions.length > 0" id="promotions-modal" class="modal">
+  <div *ngIf="promotions.length > 0"  id="promotions-modal" class="modal">
     <div class="modal-content">
         <div class="flex-row-sb">
             <h4 class="flex-row-sb">
@@ -55,7 +55,7 @@
             </h4>
             <button (click)="toggleTransferModal()" class="close-button">&times;</button>
         </div>
-        <div class="card-container ">
+        <div #scrollablePromotions class="card-container ">
             <div class="promotions-card" *ngFor="let promotion of promotions">
                 <div *ngIf="promotionIsScreenEligible" class="">
                   <h6 style="padding:12px; background: ghostwhite; font-size: 1.2em;">{{promotion.description}}</h6>  

@@ -106,7 +106,6 @@ export class MainMenuComponent implements OnDestroy {
         for( let breadCrumb of breadCrumbs){
           breadCrumb.classList.remove('active');
         };
-        console.log('activeEl ', activeEl, id);
         if (activeEl) {
           activeEl.parentElement!.classList.add('active');
         }

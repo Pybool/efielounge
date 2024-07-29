@@ -99,6 +99,18 @@ const accountController:any = {
       next(error);
     }
   },
+
+  removeAddress: async (req: Xrequest, res: Response, next: NextFunction) => {
+    try {
+      let status = 400;
+      const result = await AccountService.removeAddress(req);
+      if (result) status = 200;
+      return res.status(status).json(result);
+    } catch (error: any) {
+      error.status = 500;
+      next(error);
+    }
+  },
 };
 
 

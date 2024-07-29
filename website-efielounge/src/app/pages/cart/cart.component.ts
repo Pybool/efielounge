@@ -94,7 +94,6 @@ export class CartComponent {
   }
 
   handleConfirmEvent() {
-    console.log('Cart Item removed from cart ', this.removal.name);
     this.deleteObjectById(this.removal._id);
     this.cartService.setCartCount( -1)
   }
@@ -108,7 +107,6 @@ export class CartComponent {
         (response: any) => {
           this.showCheckOutSpinner = false;
           if (response.status) {
-            console.log(response.data)
             this.checkoutId = response.data.checkOutId;
             this.router.navigateByUrl(`/checkout/${this.checkoutId}`);
           } else {

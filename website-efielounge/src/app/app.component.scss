@@ -34,6 +34,25 @@
   right: 0;
 }
 
+/* Make the scrollbar present but invisible */
+::-webkit-scrollbar {
+  width: 0px; /* Adjust width to desired size */
+  height: 0px; /* Adjust height to desired size */
+}
+
+::-webkit-scrollbar-track {
+  background: white !important; /* Transparent background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent; /* Transparent thumb */
+}
+
+/* Optional: To maintain interactivity on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2); /* Slightly visible on hover */
+}
+
 .cart-icon {
   animation: bounce 2s infinite ease-in-out;
 }

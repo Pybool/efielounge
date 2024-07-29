@@ -1,5 +1,12 @@
 import { HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  NgZone,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { CartService } from './services/cart.service';
@@ -20,22 +27,30 @@ interface Ipromotion {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule, CartDockedComponent, CommonModule, RingingBellComponent],
+  imports: [
+    RouterOutlet,
+    HttpClientModule,
+    CartDockedComponent,
+    CommonModule,
+    RingingBellComponent,
+  ],
   providers: [HttpClientModule, AuthService, CartService, HomeService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title = 'efielounge';
   public showCartModal: boolean = false;
   public cartCount = 0;
   public initialRequest = true;
   public user = null;
   public createdAt?: Date;
-  public serverUrl:string = environment.api;
+  public serverUrl: string = environment.api;
   public promotions: Ipromotion[] = [];
   public promotionIsScreenEligible: boolean = false;
-  public homePageData:any = {}
+  public homePageData: any = {};
+  @ViewChild('scrollablePromotions') scrollablePromotions!: ElementRef;
+  private scrollTimeout: any;
 
   public selectedMenu:
     | {
@@ -49,16 +64,17 @@ export class AppComponent {
     | any = {};
 
   constructor(
+    private ngZone: NgZone,
     private authService: AuthService,
     private cartService: CartService,
     private homeService: HomeService
   ) {
-    this.homeService.getHomeData()
-    this.homeService.getHomeDataObs().subscribe((homePageData:any)=>{
+    this.homeService.getHomeData();
+    this.homeService.getHomeDataObs().subscribe((homePageData: any) => {
       this.homePageData = homePageData;
       this.promotions = this.homePageData.promotions || [];
-    })
-  
+    });
+
     const status = this.checkIfPromotionsIsScreenEligible();
     if (status) {
       setTimeout(() => {
@@ -73,18 +89,18 @@ export class AppComponent {
     if (user) {
       this.user = user;
       this.authService.setLoggedIn(true);
+      this.cartService.getCartCount().subscribe((count) => {
+        this.cartCount = count;
+      });
+
+      this.cartService.getCartModalAndSelectedMenu().subscribe((data: any) => {
+        this.showCartModal = data.showCartModal;
+        this.selectedMenu = data.selectedMenu;
+      });
     } else {
       this.authService.setLoggedIn(false);
       // this.authService.navigateToUrl("/login")
     }
-    this.cartService.getCartCount().subscribe((count) => {
-      this.cartCount = count;
-    });
-
-    this.cartService.getCartModalAndSelectedMenu().subscribe((data: any) => {
-      this.showCartModal = data.showCartModal;
-      this.selectedMenu = data.selectedMenu;
-    });
   }
 
   ngAfterViewInit() {
@@ -96,7 +112,51 @@ export class AppComponent {
           banner.style.display = 'flex';
         }
       }
+      //Promotions
+      this.scrollablePromotions.nativeElement.addEventListener('scroll', () => {
+        clearTimeout(this.scrollTimeout);
+        this.resetScrollTimeout();
+      });
+
+      this.resetScrollTimeout();
     }, 5000);
+  }
+
+  resetScrollTimeout() {
+    this.scrollTimeout = setTimeout(() => {
+      this.slowScroll();
+    }, 6000); // 10 seconds
+  }
+
+  slowScroll() {
+    const scrollablePromotions = this.scrollablePromotions.nativeElement;
+    const scrollStep = 1; // Adjust this value to control scroll speed
+    const scrollInterval = 50; // Adjust this value to control scroll speed
+
+    const scrollDown = () => {
+      if (
+        scrollablePromotions.scrollTop <
+        scrollablePromotions.scrollHeight - scrollablePromotions.clientHeight
+      ) {
+        scrollablePromotions.scrollTop += scrollStep;
+        setTimeout(scrollDown, scrollInterval);
+      } else {
+        setTimeout(scrollUp, 1000); // Pause at the bottom before scrolling up
+      }
+    };
+
+    const scrollUp = () => {
+      if (scrollablePromotions.scrollTop > 0) {
+        scrollablePromotions.scrollTop -= scrollStep;
+        setTimeout(scrollUp, scrollInterval);
+      } else {
+        this.resetScrollTimeout();
+      }
+    };
+
+    this.ngZone.runOutsideAngular(() => {
+      scrollDown();
+    });
   }
 
   acceptCookies() {

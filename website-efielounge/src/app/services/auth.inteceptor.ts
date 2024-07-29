@@ -34,7 +34,6 @@ export class AuthInterceptor implements HttpInterceptor {
           return (this.tokenService.refreshObservable()).pipe(
             switchMap((res: any) => {
               res.pipe(take(1)).subscribe((res:any)=>{
-                console.log(res)
                 if (!res.status) {
                   this.tokenService.logout();
                 } 

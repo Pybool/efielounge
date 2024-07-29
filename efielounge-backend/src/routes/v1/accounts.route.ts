@@ -11,6 +11,7 @@ authRouter.post('/upload-avatar', decode, getMulterConfigSingle('../public/accou
 authRouter.post('/add-address', decode, accountController.addAddress)
 authRouter.get('/get-addresses', decode, accountController.getAddresses)
 authRouter.post('/set-default-address', decode, accountController.setDefaultAddress)
+authRouter.post('/remove-address', decode, accountController.removeAddress)
 
 
 

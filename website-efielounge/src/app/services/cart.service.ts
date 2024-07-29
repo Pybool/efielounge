@@ -34,6 +34,10 @@ export class CartService {
   getAddresses() {
     return this.http.get(`${environment.api}/api/v1/accounts/get-addresses`);
   }
+
+  removeAddress(payload:{addressId:string}) {
+    return this.http.post(`${environment.api}/api/v1/accounts/remove-address`, payload);
+  }
   private cartCountSubject: BehaviorSubject<number> =
     new BehaviorSubject<number>(0);
   private cartModalAndSelectedMenuSubject: BehaviorSubject<number> =
@@ -43,7 +47,7 @@ export class CartService {
     new BehaviorSubject<any>({});
   public cartItemsSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
     this.getCartCounting();
   }
 
@@ -125,7 +129,9 @@ export class CartService {
   }
 
   getCartItems() {
-    this.getCart()
+    const user = this.authService.retrieveUser()
+    if(user){
+      this.getCart()
       .pipe(take(1))
       .subscribe(
         (response: any) => {
@@ -137,7 +143,13 @@ export class CartService {
         },
         (error: any) => {}
       );
+    }
+    
     return this.cartItemsSubject.asObservable();
+  }
+
+  private getObjectById(array: any, id: string | undefined) {
+    return array.find((item: { _id: string }) => item._id === id);
   }
 
   handleAddedCartItem(value: any) {
@@ -149,6 +161,7 @@ export class CartService {
       data.menu = value.data.menu;
       data.units = value.data.units;
       data._id = value.data._id;
+      
       this.calculatePricePerMeal(
         data,
         data.menu.price,
@@ -159,6 +172,7 @@ export class CartService {
       for (let extra of data.customMenuItems) {
         extra.isFinalSelect = true;
       }
+
       this.cartItems.unshift(data);
       this.handleBooleanEvent(false);
       this.calculateSubTotal();
@@ -182,13 +196,17 @@ export class CartService {
   }
 
   getCartCounting() {
-    this.getCart()
+    const user = this.authService.retrieveUser()
+    if(user){
+      this.getCart()
       .pipe(take(1))
       .subscribe((response: any) => {
         if (response.status) {
           this.cartCountSubject.next(response.data.length);
         }
       });
+    }
+    this.cartCountSubject.next(0);
   }
 
   setCartModalAndSelectedMenu(data: any): void {
@@ -197,6 +215,12 @@ export class CartService {
 
   getCartModalAndSelectedMenu(): Observable<any> {
     return this.cartModalAndSelectedMenuSubject.asObservable();
+  }
+
+  getCheckOutItem(checkOutId:string){
+    return this.http.get(
+      `${environment.api}/api/v1/cart/get-checkout?checkOutId=${checkOutId}`,
+    );
   }
 
   setDefaultAddress(payload: { addressId: string }) {
@@ -217,7 +241,6 @@ export class CartService {
       .pipe(
         tap((res: any) => {
           const currentCount = this.cartCountSubject.value;
-          console.log('Accurate current count ', currentCount);
           if (!res?.isMerged) {
             this.cartCountSubject.next(currentCount + 1);
           }
@@ -329,19 +352,15 @@ export class CartService {
     if (this.showCartModal == false) {
       this.showCartModal = true;
     }
-    console.log("Here Toggling ")
   }
+
+  
 
   addToCartItems(menu: any, units: number, extras: any[], variants: string[]) {
     this.units = units;
     this.selectedMenu = menu;
     this.extras = extras;
     this.variants = variants;
-    console.log('Cart data ', {
-      menu: this.selectedMenu._id,
-      units: this.units,
-      customMenuItems: this.extras,
-    });
     this.addToCart({
       menu: this.selectedMenu._id,
       units: this.units,
@@ -351,7 +370,6 @@ export class CartService {
       .pipe(take(1))
       .subscribe(
         (response: any) => {
-          // this.addedCartItem.emit(response);
           this.setCartItems(response);
         },
         (error: any) => {

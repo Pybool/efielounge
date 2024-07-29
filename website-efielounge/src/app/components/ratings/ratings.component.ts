@@ -72,7 +72,6 @@ export class RatingsComponent {
   }
 
   starClicked(event: MouseEvent): void {
-    console.log('start clicked ', event.target);
     const currentStar = event.currentTarget as HTMLElement;
     const rating = currentStar.dataset['rating']
       ? parseInt(currentStar.dataset['rating'])
@@ -94,7 +93,6 @@ export class RatingsComponent {
 
   submitCandidateRating(): void {
     if (this.selectedRating && this.selectedRating > 0) {
-      console.log(`Submit rating: ${this.selectedRating} stars`);
       // Use a service to submit the rating
       
       this.orderService

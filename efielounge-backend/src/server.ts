@@ -18,6 +18,7 @@ import clientCartRouter from "./routes/v1/cart.route";
 import orderRouter from "./routes/v1/orders.route";
 import transactionRouter from "./routes/v1/transaction.route";
 import Menu from "./models/menu/menu.model";
+import { decode } from "./middlewares/jwt";
 
 dotenvConfig();
 dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
@@ -25,9 +26,9 @@ dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
 const SERVER_URL = "0.0.0.0";
 
 const corsOptions = {
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
@@ -45,17 +46,31 @@ app.use(passport.session());
 
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static("public"));
-console.log("PUBLIC FOLDER ", process.env.EFIELOUNGE_PUBLIC_FOLDER)
+console.log("PUBLIC FOLDER ", process.env.EFIELOUNGE_PUBLIC_FOLDER);
 app.use(express.static(process.env.EFIELOUNGE_PUBLIC_FOLDER!));
 
-app.get('/test', async(req:any, res:any) => {
-  // const menus = await Menu.find({})
-  // for(let menu of menus){
-  //   menu.archive = false
-  //   await menu.save()
-  // }
-  res.status(200).send('Hello from Efielounge Backend Server\n');
+app.get("/test", async (req: any, res: any) => {
+  res.status(200).send("Hello from Efielounge Backend Server\n");
 });
+
+app.get(
+  "/api/v1/paystack/get-public-key",
+  decode,
+  async (req: any, res: any) => {
+    try {
+      const key = `EFIELOUNGE_${process.env.NODE_ENV!.toUpperCase()}_PAYSTACK_PUBLIC_KEY`;
+      return res.send({
+        status: true,
+        PUBLIC_KEY: process.env[key] || null,
+      });
+    } catch (error) {
+      return res.send({
+        status: false,
+        PUBLIC_KEY: null,
+      });
+    }
+  }
+);
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/admin", adminRouter);
@@ -64,7 +79,6 @@ app.use("/api/v1/order", orderRouter);
 app.use("/api/v1/cart", clientCartRouter);
 app.use("/api/v1/accounts", accountsRouter);
 app.use("/api/v1/transactions", transactionRouter);
-
 
 app.use((err: any, req: any, res: any, next: any) => {
   console.error(err.stack);
