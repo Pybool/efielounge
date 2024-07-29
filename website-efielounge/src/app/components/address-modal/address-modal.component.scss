@@ -96,12 +96,12 @@
     margin: 10% auto;
     width: 35%;
     max-height: 80%;
-    border-radius: 25px;
+    border-radius: 0px!important;
   }
   
   .modal-body {
     padding: 0px !important;
-    overflow-y: auto; /* Enables vertical scrolling */
+    // overflow-y: auto; 
   }
   
   .modal-body-content {

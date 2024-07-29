@@ -9,8 +9,14 @@
 
                 <div class="form">
                     <div class="form-group">
-                        <label>Address<sup style="color: red;">*</sup></label>
-                        <input [(ngModel)]="contact.address" name="address" placeholder="Enter full address" class="form-control"/>
+                        <label>Street<sup style="color: red;">*</sup></label>
+                        <input [(ngModel)]="contact.address" name="address" placeholder="What Street ?" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label>District/Province<sup style="color: red;">*</sup></label>
+                        <div>
+                            <app-region-dropdown (selectionChanged)="onSelectionChange($event)"></app-region-dropdown>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Phone</label>
@@ -22,7 +28,7 @@
             </div>
         </div>
         <div class="flex-row-sb">
-            <button (click)="addAddress()" [disabled]="!(contact.address.length > 5)" class="btn order-now">Add Address</button>
+            <button (click)="addAddress()" [disabled]="!(contact.address.length > 5) || (contact.district?.trim() == '')" class="btn order-now">Add Address</button>
         </div>
 
 

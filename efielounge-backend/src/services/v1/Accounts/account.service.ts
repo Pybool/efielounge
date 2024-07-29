@@ -113,8 +113,12 @@ export class AccountService {
 
   static async addAddress(req: Xrequest) {
     try {
-      const data: { address: string; phone?: string; account: string } =
-        req.body!;
+      const data: {
+        address: string;
+        phone?: string;
+        district?: string;
+        account: string;
+      } = req.body!;
       if (data?.address?.trim().length > 5) {
         data.account = req.accountId! as string;
         const address = await Address.create(data);

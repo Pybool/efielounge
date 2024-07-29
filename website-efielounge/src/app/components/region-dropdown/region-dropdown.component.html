@@ -1,0 +1,12 @@
+<div class="custom-dropdown">
+    <div class="flex-row-sb">
+        <input (click)="showDropdownMenu();filterItems()" type="text" [(ngModel)]="searchTerm" (keyup)="filterItems()" placeholder="Search..." />
+        <span class="clear" (click)="clearInput();showDropdownMenu()">&times;</span>
+    </div>
+    <div class="dropdown-menu" *ngIf="filteredItems.length > 0 && show">
+      <div *ngFor="let item of filteredItems" (click)="selectItem(item)">
+        {{ item }}
+      </div>
+    </div>
+</div>
+  

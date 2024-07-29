@@ -1,0 +1,44 @@
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+  
+  input {
+    width: 95%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+
+  .clear{
+    color: gray;
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  input:hover{
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 10;
+    display: block;
+  }
+  
+  .dropdown-menu div {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu div:hover {
+    background-color: #f1f1f1;
+  }
+  

@@ -24,13 +24,13 @@ export class DirectBankTransferModalComponent {
 
   ngOnInit(): void {
     this.bankAccounts = [
-      {
-        name: 'Thames Flow Investment LTD',
-        bankName: 'Momo',
-        number: '0535845865',
-        balance: 0.0,
-        logo: '/assets/images/momo.webp',
-      },
+      // {
+      //   name: 'Thames Flow Investment LTD',
+      //   bankName: 'Momo',
+      //   number: '0535845865',
+      //   balance: 0.0,
+      //   logo: '/assets/images/momo.webp',
+      // },
       {
         name: 'Thames Flow Investment LTD',
         bankName: 'Republic Bank',

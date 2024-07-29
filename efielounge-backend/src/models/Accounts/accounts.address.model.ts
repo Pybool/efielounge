@@ -12,6 +12,11 @@ const Addresschema = new Schema({
     default: null,
     required: true,
   },
+  district: {
+    type: String,
+    default: null,
+    required: true,
+  },
   phone: {
     type: String,
     default: null,

@@ -4,16 +4,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { take } from 'rxjs';
 import Swal from 'sweetalert2';
+import { RegionDropdownComponent } from '../region-dropdown/region-dropdown.component';
 
 @Component({
   selector: 'app-address-modal',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, RegionDropdownComponent],
   templateUrl: './address-modal.component.html',
   styleUrl: './address-modal.component.scss',
 })
 export class AddressModalComponent {
-  public contact: { address: string; phone?: string } = { address: '' };
+  public contact: { address: string; phone?: string; district?:string } = { address: '', district: '' };
   @Output() booleanEvent = new EventEmitter<boolean>();
   @Output() newAddressEvent = new EventEmitter<boolean>();
 
@@ -45,5 +46,10 @@ export class AddressModalComponent {
 
   sendBoolean(event: any, value: boolean = false) {
     this.booleanEvent.emit(value);
+  }
+
+  onSelectionChange(district: string): void {
+    console.log(`Selected item: ${district}`);
+    this.contact.district = district;
   }
 }

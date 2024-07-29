@@ -27,6 +27,14 @@
   font-size: 13px !important;
 }
 
+.flex-row-sb{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
 .restaurant-info {
   border-top: 1px solid #e2e2e2;
   float: left;
@@ -60,13 +68,14 @@
   font-weight: bold;
   padding: 8px 20px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .caro-dish-name {
   display: inline-block;
   padding: 14px 5px;
   text-align: center;
-  width: 30%;
+  // width: 30%;
 }
 
 .caro-dish-name span {
@@ -83,7 +92,10 @@
 }
 
 .dish-item {
-  padding-bottom: 50px !important;
+  padding-bottom: 10px !important; 
+  margin-top: 20px;
+  border: 1px solid ghostwhite;
+  padding-left: 10px;
 }
 
 .order:hover {

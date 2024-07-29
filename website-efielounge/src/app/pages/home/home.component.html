@@ -83,13 +83,10 @@
 
                         <a *ngIf="!readyMeal.inCart" class="brd-rd2" (click)="orderNow(readyMeal)"
                           href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
-                        <div class="restaurant-info">
-                          <img src="{{serverUrl}}{{readyMeal?.attachments[0].replaceAll('/public','')}}"
-                            class="foot-img" alt="restaurant-logo1.png" itemprop="image">
-                          <div class="restaurant-info-inner">
-                            <span class="red-clr">WE SERVE YOU THE BEST</span>
+                          <div class="restaurant-info flex-row-sb">
+                            <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GH₵ {{readyMeal?.price.toFixed(2)}}</span>
+                            <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
                           </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -110,18 +107,22 @@
         </div>
         <div class="row dishes-caro col-md-12">
           <ng-container *ngFor="let comingUp of upcomings;">
-            <div class="dish-item col-md-6">
+            <div class="dish-item col-md-6 flex-row-sb">
               <figure><img class="img" src="{{serverUrl}}{{comingUp?.attachments[0].replaceAll('/public','')}}" alt="">
               </figure>
-              <div class="item-meta">
+              <!-- <div class="item-meta">
                 <img style="margin-right:0px;object-fit: cover;" class="foot-img"
                   src="{{serverUrl}}{{comingUp?.attachments[0].replaceAll('/public','')}}" alt="">
                 <div>
                   <span>{{comingUp?.name | truncateText: 25}}</span>
                   <p>WE SERVE YOU THE BEST </p>
                 </div>
+              </div> -->
+              <div class="restaurant-info flex-row-sb">
+                <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GH₵ {{comingUp?.price.toFixed(2)}}</span>
+                <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
               </div>
-              <div class="x-flex-row">
+              <div style="width:100%;align-items: end;" class="x-flex-row">
                 <div class="caro-dish-name">
                   <h4>{{comingUp?.category.name}}</h4>
                   <span>GH₵ {{comingUp?.price}}</span>
