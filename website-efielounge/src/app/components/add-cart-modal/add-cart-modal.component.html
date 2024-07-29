@@ -13,8 +13,8 @@
                     <ng-container *ngFor="let variant of selectedMenu.variants">
                         <div class="form-check">
                             <input class="form-check-input" name="variant" (change)="updateVariant(variant.name, variant?.price)"
-                                type="radio" value="" id="add-{{variant?.name}}">
-                            <label class="form-check-label flex-row-sb" for="add-{{variant.name}}">
+                                type="radio" value="" id="add-{{variant?.name.replaceAll(' ', '-').toLowerCase()}}">
+                            <label class="form-check-label flex-row-sb" for="add-{{variant?.name.replaceAll(' ', '-').toLowerCase()}}">
                                 <span class="">{{variant?.name}}</span>
                                 <span class="">+ GH₵ {{variant?.price}} </span>
                             </label>
@@ -44,16 +44,19 @@
                         <path
                             d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
                     </svg></span>
-                <input [(ngModel)]="units" class="number-input" value="1" name="units" min="1" max="10" type="number" />
+                <input [(ngModel)]="units" (keyup)="typedQuatity()" class="number-input" value="1" name="units" min="1" max="10" type="number" />
                 <span (click)="addQty()" class="plus"><svg xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 448 512">
                         <path
                             d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
                     </svg></span>
 
+
             </div>
             <button [disabled]="disableButton()" class="btn order-now" (click)="addToCart()" >Add GH₵ {{orderTotal.toLocaleString()}}</button>
         </div>
+        <small *ngIf="showMaxUnitsError" style="color: gray;padding: 10px;">Units cannot be more than 50</small>
+
 
 
 

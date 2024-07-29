@@ -14,8 +14,8 @@ export const navItems: any = [
     iconComponent: { name: 'cil-star' },
     children: [
       {
-        name: 'Categories',
-        url: '/menu-categories',
+        name: 'MenuItem Categories',
+        url: '/menuitem-categories',
         icon: 'nav-icon-bullet',
       },
       {
@@ -24,8 +24,8 @@ export const navItems: any = [
         icon: 'nav-icon-bullet',
       },
       {
-        name: 'MenuItem Categories',
-        url: '/menuitem-categories',
+        name: 'Categories',
+        url: '/menu-categories',
         icon: 'nav-icon-bullet',
       },
       {

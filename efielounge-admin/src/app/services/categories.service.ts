@@ -31,7 +31,7 @@ export class CategoryService {
 
   fetchCategories() {
     return this.http.get(
-      `${environment.api}/api/v1/menu/fetch-menu-categories`
+      `${environment.api}/api/v1/menu/fetch-menu-categories?limit=${200}`
     );
   }
 
@@ -58,7 +58,7 @@ export class CategoryService {
 
   fetchMenuItemCategories() {
     return this.http.get(
-      `${environment.api}/api/v1/menu/fetch-menuitem-categories`
+      `${environment.api}/api/v1/menu/fetch-menuitem-categories?limit=${200}`
     );
   }
 
@@ -85,7 +85,7 @@ export class CategoryService {
 
   fetchMenuItems() {
     return this.http.get(
-      `${environment.api}/api/v1/menu/fetch-menu-item`
+      `${environment.api}/api/v1/menu/fetch-menu-item?limit=${200}`
     );
   }
 
@@ -119,7 +119,7 @@ export class CategoryService {
 
   fetchMenu() {
     return this.http.get(
-      `${environment.api}/api/v1/menu/fetch-menu`
+      `${environment.api}/api/v1/menu/fetch-menu?limit=${200}`
     );
   }
   

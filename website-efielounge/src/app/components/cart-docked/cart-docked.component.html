@@ -59,31 +59,32 @@
                     </div>
                 </div>
             </ng-container>
+            <div  class="costing" style="padding:10px; padding-top:0px">
+                <div class="flex-row-sb">
+                    <div style="font-weight: 600;">Subtotal: </div>
+                    <div style="font-weight: 700;">GH₵ {{subTotal?.toLocaleString()}} </div>
+        
+                </div>
+                <div class="flex-row-sb">
+                    <div style="font-weight: 600;">Delivery fee: </div>
+                    <div style="font-weight: 700;">GH₵ {{deliveryFee.toFixed(2)}} </div>
+        
+                </div>
+                <div class="flex-row-sb">
+                    <div style="font-weight: 600;">Total: </div>
+                    <div style="font-weight: 700;">GH₵ {{(subTotal + deliveryFee)?.toLocaleString()}} </div>
+        
+                </div>
+            </div>
         </section>
 
     </div>
-    <div  class="costing" style="padding:10px; padding-top:0px">
-        <div class="flex-row-sb">
-            <div style="font-weight: 600;">Subtotal: </div>
-            <div style="font-weight: 700;">GH₵ {{subTotal?.toLocaleString()}} </div>
-
-        </div>
-        <div class="flex-row-sb">
-            <div style="font-weight: 600;">Delivery fee: </div>
-            <div style="font-weight: 700;">GH₵ {{deliveryFee.toFixed(2)}} </div>
-
-        </div>
-        <div class="flex-row-sb">
-            <div style="font-weight: 600;">Total: </div>
-            <div style="font-weight: 700;">GH₵ {{(subTotal + deliveryFee)?.toLocaleString()}} </div>
-
-        </div>
-    </div>
+    
     <!-- <div *ngIf="cartItems.length > 0"  class="x-flex-row brd-rd2 checkout">
         <div *ngIf="showCheckOutSpinner" class="spinner"></div>
         <a class="order-now" href="javascript:void(0)"  title="" itemprop="url">Proceed to Checkout</a>
     </div> -->
-    <button [disabled]="cartItems?.length == 0" (click)="checkOut()" style="background:orange;color:white;font-weight: 600;" class="btn btn-default">Proceed to Checkout</button>
+    <button [disabled]="cartItems?.length == 0" (click)="checkOut()" style="background:orange;color:white;font-weight: 600; margin-top: 20px;" class="btn btn-default">Proceed to Checkout</button>
 
 </div>
 <app-add-cart-modal *ngIf="showCartModal" (addedCartItem)="handleAddedCartItem($event)"

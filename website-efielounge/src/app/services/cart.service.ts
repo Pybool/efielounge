@@ -75,7 +75,7 @@ export class CartService {
     };
     if (variants.length > 0) {
       cartItem.total =
-        (Number(getVariantPrice().price) + extrasTotalPrice) * cartItem?.units;
+        (basePrice + Number(getVariantPrice().price) + extrasTotalPrice) * cartItem?.units;
     } else {
       cartItem.total = (basePrice + extrasTotalPrice) * cartItem?.units;
     }
@@ -393,23 +393,28 @@ export class CartService {
   }
 
   orderNow(menu: any) {
-    this.toggleAddToCartModal();
-    this.selectedMenu = {
-      _id: menu._id,
-      name: menu.name,
-      price: menu.price.toFixed(2).toLocaleString(),
-      image: menu.attachments[0],
-      description: menu.description,
-      extras: menu.menuItems,
-      variants: menu.variants,
-    };
-    const body = document.querySelector('body') as any;
-    body.style.overflow = 'hidden';
-    body.style.position = 'fixed';
-
-    this.setCartModalAndSelectedMenu({
-      showCartModal: this.showCartModal,
-      selectedMenu: this.selectedMenu,
-    });
+    if(this.authService.retrieveUser()){
+      this.toggleAddToCartModal();
+      this.selectedMenu = {
+        _id: menu._id,
+        name: menu.name,
+        price: menu.price.toFixed(2).toLocaleString(),
+        image: menu.attachments[0],
+        description: menu.description,
+        extras: menu.menuItems,
+        variants: menu.variants,
+      };
+      const body = document.querySelector('body') as any;
+      body.style.overflow = 'hidden';
+      body.style.position = 'fixed';
+  
+      this.setCartModalAndSelectedMenu({
+        showCartModal: this.showCartModal,
+        selectedMenu: this.selectedMenu,
+      });
+    }else{
+      document.location.href = "/login"
+    }
+    
   }
 }

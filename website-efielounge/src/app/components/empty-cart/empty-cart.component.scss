@@ -5,6 +5,14 @@
   font-family: "Maison Neue";
   font-weight: 300;
 }
+
+.flex-col-cn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 svg {
   max-width: 40%;
   padding: 0px;

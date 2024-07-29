@@ -13,7 +13,7 @@ const menuItemCategoriesSchema = Joi.object({
 const menuItemSchema = Joi.object({
   _id:Joi.string(),
   name: Joi.string().required(),
-  description: Joi.string(),
+  description: Joi.string().allow(''),
   category: Joi.string(),
   price: Joi.number(),
   currency: Joi.string(),
@@ -23,7 +23,7 @@ const menuItemSchema = Joi.object({
 const menuSchema = Joi.object({
   _id:Joi.string(),
   name: Joi.string().required(),
-  description: Joi.string(),
+  description: Joi.string().allow(''),
   category: Joi.string(),
   price: Joi.number(),
   currency: Joi.string(),

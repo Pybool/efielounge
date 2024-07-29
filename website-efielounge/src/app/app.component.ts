@@ -113,12 +113,15 @@ export class AppComponent implements AfterViewInit {
         }
       }
       //Promotions
-      this.scrollablePromotions.nativeElement.addEventListener('scroll', () => {
-        clearTimeout(this.scrollTimeout);
+      try{
+        this.scrollablePromotions.nativeElement.addEventListener('scroll', () => {
+          clearTimeout(this.scrollTimeout);
+          this.resetScrollTimeout();
+        });
+  
         this.resetScrollTimeout();
-      });
-
-      this.resetScrollTimeout();
+      }
+      catch{}
     }, 5000);
   }
 

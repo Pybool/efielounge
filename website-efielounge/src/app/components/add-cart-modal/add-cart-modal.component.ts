@@ -1,12 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { take } from 'rxjs';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-cart-modal',
@@ -16,7 +20,7 @@ import Swal from 'sweetalert2';
   templateUrl: './add-cart-modal.component.html',
   styleUrl: './add-cart-modal.component.scss',
 })
-export class AddCartModalComponent {
+export class AddCartModalComponent implements AfterViewInit {
   public serverUrl: string = environment.api;
   public extras: string[] = [];
   public variants: string[] = [];
@@ -34,8 +38,19 @@ export class AddCartModalComponent {
   public orderUnitPrice: number = 0.0;
   public initMult = false;
   public lastVariantPrice: number = 0.0;
-  public extrasTotal:number = 0.00;
-  public variantPrice:number = 0.00;
+  public extrasTotal: number = 0.0;
+  public variantPrice: number = 0.0;
+  public baseVariant: any = null;
+  public showMaxUnitsError = false
+  public clonedMenu: any = {
+    _id: '',
+    name: '',
+    price: 0.0,
+    image: '',
+    description: '',
+    extras: [],
+    variants: [],
+  };
 
   @Output() booleanEvent = new EventEmitter<boolean>();
   @Output() addedCartItem = new EventEmitter<boolean>();
@@ -47,11 +62,38 @@ export class AddCartModalComponent {
   ) {}
 
   ngOnInit() {
-    if(this.selectedMenu.variants.length > 0){
-      this.selectedMenu.price = 0.00
-    }
+    this.clonedMenu = JSON.parse(JSON.stringify(this.selectedMenu));
     this.orderTotal = Number(this.selectedMenu.price) * this.units;
     this.orderUnitPrice = this.orderTotal;
+  }
+
+  ngAfterViewInit() {
+    this.getBaseVariant();
+    console.log(this.getBaseVariant());
+    if (this.baseVariant) {
+      const baseVariantEl = document.querySelector(
+        `#add-${this.baseVariant.name.replaceAll(' ', '-').toLowerCase()}`
+      ) as any;
+      if (baseVariantEl) {
+        console.log('baseVariantEl ', baseVariantEl);
+        baseVariantEl.click();
+        this.updateVariant(this.baseVariant.name, this.baseVariant?.price);
+      }
+    }
+  }
+
+  getBaseVariant() {
+    try {
+      for (let variant of this.selectedMenu.variants) {
+        if (Number(variant.price) === 0) {
+          this.baseVariant = variant;
+          return variant;
+        }
+      }
+      return null;
+    } catch {
+      return null;
+    }
   }
 
   externalClose(event: any) {
@@ -76,8 +118,9 @@ export class AddCartModalComponent {
     } else {
       this.extrasTotal += newPrice;
     }
-    this.orderTotal = this.extrasTotal + this.variantPrice
-    this.lastVariantPrice = newPrice; 
+    this.orderTotal =
+      this.selectedMenu.price + this.extrasTotal + this.variantPrice;
+    this.lastVariantPrice = newPrice;
   }
 
   updateExtras(extraId: string, price: number) {
@@ -92,19 +135,22 @@ export class AddCartModalComponent {
   }
 
   updateVariant(name: string, price: number) {
-    price = this.units * price;
-    this.variantPrice = price
-    this.variants = [name]
-    this.selectedMenu.price = price
-    this.orderTotal = (this.extrasTotal + this.variantPrice) * this.units
-     
+    // price = this.units * price;
+    this.variantPrice = price;
+    this.variants = [name];
+    this.selectedMenu.price =
+      Number(this.clonedMenu.price) + Number(this.variantPrice);
+    console.log(Number(this.clonedMenu.price), Number(this.variantPrice));
+    this.orderTotal =
+      (Number(this.clonedMenu.price) +
+        this.extrasTotal +
+        Number(this.variantPrice)) *
+      this.units;
   }
 
   addToCart() {
     const user = this.authService.retrieveUser();
     if (user) {
-      this.authService.setLoggedIn(true);
-      this;
       this.cartService.addToCartItems(
         this.selectedMenu,
         this.units,
@@ -118,22 +164,42 @@ export class AddCartModalComponent {
     }
   }
 
+  typedQuatity() {
+    if(this.units > 50){
+      this.units = 1
+      this.showMaxUnitsError = true
+    }else{
+      this.showMaxUnitsError = false
+    }
+    this.orderTotal =
+      (Number(this.clonedMenu.price) +
+        this.extrasTotal +
+        Number(this.variantPrice)) *
+      this.units;
+  }
+
   addQty() {
-    if (this.units < 5) {
+    if (this.units < 50) {
       this.units += 1;
-      this.orderTotal = (this.extrasTotal + this.variantPrice) * this.units;
+      this.orderTotal =
+        (Number(this.clonedMenu.price) +
+          this.extrasTotal +
+          Number(this.variantPrice)) *
+        this.units;
       this.initMult = true;
-      console.log(this.orderUnitPrice);
     } else {
-      alert('You can only place a maximum of 5 orders for the same menu');
+      alert('You can only place a maximum of 50 orders for the same menu');
     }
   }
 
   subQty() {
     if (this.units > 1) {
       this.units -= 1;
-      console.log(this.orderTotal, this.orderUnitPrice);
-      this.orderTotal = (this.extrasTotal + this.variantPrice) * this.units;
+      this.orderTotal =
+        (Number(this.clonedMenu.price) +
+          this.extrasTotal +
+          Number(this.variantPrice)) *
+        this.units;
     }
   }
 

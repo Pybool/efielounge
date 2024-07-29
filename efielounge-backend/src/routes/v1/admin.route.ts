@@ -116,7 +116,7 @@ adminRouter.post(
   "/website/create-promotion",
   decode,
   ensureAdmin,
-  getMulterConfig("../efielounge-backend/public/website/promotions/", "object"),
+  getMulterConfig("../public/website/promotions/", "object"),
   promotionsController.createPromotion
 );
 
@@ -173,7 +173,7 @@ adminRouter.post(
   "/change-banner-image",
   decode,
   ensureAdmin,
-  getMulterConfigSingle("../efielounge-backend/public/home/"),
+  getMulterConfigSingle("../public/home/"),
   async (req: Xrequest, res: any) => {
     try {
       const home = await Home.findOne({});
