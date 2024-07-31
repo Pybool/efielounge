@@ -32,11 +32,13 @@ import { WidgetsBrandComponent } from 'src/app/views/widgets/widgets-brand/widge
 import Swal from 'sweetalert2';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { OrderService } from '../../../services/order.service';
 import { debounceTime, filter, fromEvent, Subscription, take } from 'rxjs';
+import { TransactionService } from '../../../services/transactions.service';
+
+
 
 @Component({
-  selector: 'app-orders',
+  selector: 'app-transactions',
   standalone: true,
   imports: [
     HttpClientModule,
@@ -71,43 +73,35 @@ import { debounceTime, filter, fromEvent, Subscription, take } from 'rxjs';
     ReactiveFormsModule,
     CommonModule,
   ],
-  providers: [OrderService],
-  templateUrl: './orders.component.html',
-  styleUrl: './orders.component.scss',
+  providers: [TransactionService],
+  templateUrl: './transactions.component.html',
+  styleUrl: './transactions.component.scss'
 })
-export class OrdersComponent {
-  public orders: any[] = [];
-  public serverUrl: string = environment.api;
-  public selectedOrder: any = {};
-  public index: number = -1;
-  public account: any = {};
-  public isReadOnly: boolean = true;
-  public statuses = [
-    'PENDING',
-    'CONFIRMED',
-    'IN-TRANSIT',
-    'DELIVERED',
-    'CANCELED',
-  ];
+export class TransactionsComponent {
+
+  public transactions: any[] = [];
   private scrollSubscription: Subscription | undefined;
   public loading: boolean = false;
   public page = 1;
-  public pageSize = 20;
+  public pageSize = 10;
   public totalPages = 0;
+  public serverUrl = environment.api
 
-  constructor(private orderService: OrderService) {}
+  constructor(private transactionService: TransactionService){
+
+  }
 
   ngOnInit() {
-    this.fetchOrders();
+    this.fetchTransactions();
     this.setupScrollEventListener();
   }
 
-  fetchOrders(fetch:boolean=true) {
+  fetchTransactions(fetch:boolean=true) {
 
     if(fetch){
       this.loading = true;
-      this.orderService
-      .fetchOrders(this.page, this.pageSize)
+      this.transactionService
+      .fetchTransactions(this.page, this.pageSize)
         .pipe(take(1))
         .subscribe(
           (response: any) => {
@@ -117,7 +111,7 @@ export class OrdersComponent {
               response.data.forEach((menu: any) => {
                 menu.units = 1;
               });
-              this.orders.push(...response.data);
+              this.transactions.push(...response.data);
             }
             this.loading = false;
           },
@@ -130,56 +124,12 @@ export class OrdersComponent {
     
   }
 
+  formatDate(dateString: string) {
+    const date = new Date(dateString);
 
-  setorderToEdit(index: number = 0) {
-    this.index = index;
-    this.selectedOrder = this.orders[index];
-    this.account = this.selectedOrder.orders[0].account;
-    console.log(this.selectedOrder);
-    for (let order of this.selectedOrder.orders) {
-      this.setFullName(order);
-    }
-  }
-
-  setFullName(order: any) {
-    let variantName = '';
-    try {
-      if (order.variants[0]) {
-        variantName = ' ' + order.variants[0];
-      } else {
-        variantName = '';
-      }
-    } catch {
-      variantName = '';
-    }
-    if (variantName) order.menu.name = `${order.menu.name}${variantName}`;
-  }
-
-  submit() {
-    const payload = {
-      checkOutId: this.selectedOrder.checkOutId,
-      status: this.selectedOrder.status,
-      notes: this.selectedOrder.notes,
-      // deliveryCost: this.selectedOrder.deliveryCost
-    };
-    this.orderService
-      .updateOrderStatus(payload)
-      .pipe(take(1))
-      .subscribe(
-        (response: any) => {
-          Swal.fire(response.message);
-          if (response.status) {
-            const closeBtn = document.querySelector('.close-order') as any;
-            if (closeBtn) {
-              closeBtn.click();
-            }
-          }
-        },
-        ((error:any)=>{
-          Swal.fire("Could not process your request at this time")
-        })
-      );
-    console.log('Submission payload ==> ', payload);
+    // Format the date using Intl.DateTimeFormat
+    const options: any = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   }
 
   setupScrollEventListener() {
@@ -195,8 +145,9 @@ export class OrdersComponent {
       )
       .subscribe(() => {
         if (this.page <= this.totalPages) {
-          this.fetchOrders(true);
+          this.fetchTransactions(true);
         }
       });
   }
+
 }

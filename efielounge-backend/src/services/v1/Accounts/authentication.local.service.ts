@@ -26,7 +26,7 @@ export class Authentication {
   public async createAccount() {
     try {
       const session = await mongoose.startSession();
-      const result = await validations.authSchema.validateAsync(this.req.body);
+      const result:any = await validations.authSchema.validateAsync(this.req.body);
       const user = await Accounts.findOne({ email: result.email }).session(
         session
       );
@@ -34,13 +34,22 @@ export class Authentication {
         throw createError.Conflict(message.auth.alreadyExistPartText);
       }
       result.createdAt = new Date();
+      if(this.req?.account){
+        if(this.req!.account!.role === "ADMIN"){
+          result.emailConfirmed = true;
+        }
+      }
+      
       const pendingAccount = new Accounts(result);
       const savedUser: any = await pendingAccount.save();
 
       if (savedUser._id.toString()) {
-        const otp: string = generateOtp();
-        await setExpirableCode(result.email, "account-verification", otp);
-        mailActions.auth.sendEmailConfirmationOtp(result.email, otp);
+        if(!this.req?.account){
+          const otp: string = generateOtp();
+            await setExpirableCode(result.email, "account-verification", otp);
+            mailActions.auth.sendEmailConfirmationOtp(result.email, otp);
+        }
+        
         return {
           status: true,
           data: savedUser._id,

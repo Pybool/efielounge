@@ -4,12 +4,15 @@ import { Title } from '@angular/platform-browser';
 
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './icons/icon-subset';
+import { AuthService } from './services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   template: '<router-outlet />',
-  standalone: true,
-  imports: [RouterOutlet]
+  standalone: true,  
+  imports: [RouterOutlet, HttpClientModule],
+  providers: [AuthService],
 })
 export class AppComponent implements OnInit {
   title = 'Efielounge Admin Panel';
@@ -20,7 +23,6 @@ export class AppComponent implements OnInit {
     private iconSetService: IconSetService
   ) {
     this.titleService.setTitle(this.title);
-    // iconSet singleton
     this.iconSetService.icons = { ...iconSubset };
   }
 
@@ -30,5 +32,16 @@ export class AppComponent implements OnInit {
         return;
       }
     });
+
+    this.forceLogOut()
+  }
+
+  forceLogOut(){
+    const status = window.localStorage.getItem("de-auth") as string;
+    if(!status || status !== `${document.location.host}-1`){
+      this.router.navigate(['/login']);
+      window.localStorage.setItem("de-auth", `${document.location.host}-1`)
+    }
+    
   }
 }

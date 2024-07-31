@@ -13,11 +13,12 @@
   border-radius: 10px;
   padding: 20px;
   position: sticky;
-  top: 150px;
+  top: 7em;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   height: 80vh;
 }
+
 
 .flex-row-sb {
   display: flex;
@@ -450,6 +451,10 @@ img {
     right: -90%!important;
     width: 90%!important;
   }
+
+  .basket-container {
+    top: 0px;
+  }
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */
@@ -462,6 +467,9 @@ img {
     top: 15%!important;
     right: -90%!important;
     width: 90%!important;
+  }
+  .basket-container {
+    top: 0px;
   }
 }
 

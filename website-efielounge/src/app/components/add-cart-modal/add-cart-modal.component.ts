@@ -111,26 +111,24 @@ export class AddCartModalComponent implements AfterViewInit {
     event.stopPropagation();
   }
 
-  computeTotal(newPrice: number = 0.0) {
-    if (!this.initMult) {
-      this.orderUnitPrice += newPrice;
-      this.extrasTotal = this.orderUnitPrice;
-    } else {
-      this.extrasTotal += newPrice;
-    }
-    this.orderTotal =
-      this.selectedMenu.price + this.extrasTotal + this.variantPrice;
+  computeExtrasTotal(newPrice: number = 0.0) {
+   
+    this.extrasTotal += newPrice;
     this.lastVariantPrice = newPrice;
+    this.orderTotal =
+      (Number(this.clonedMenu.price) +
+        this.extrasTotal +
+        Number(this.variantPrice)) *
+      this.units;
   }
 
   updateExtras(extraId: string, price: number) {
-    price = this.units * price;
     if (this.extras.includes(extraId)) {
       this.extras = this.extras.filter((item) => item !== extraId);
-      this.computeTotal(price * -1);
+      this.computeExtrasTotal(price * -1);
     } else {
       this.extras.unshift(extraId);
-      this.computeTotal(price);
+      this.computeExtrasTotal(price);
     }
   }
 

@@ -1,4 +1,4 @@
-<div style="justify-content: space-between;gap:50px; align-items: flex-start;" class="mb-5 flex-row-sb">
+<div style="justify-content: space-between;gap:50px; align-items: flex-start; " class="mb-5 flex-row-sb">
     <h3>Menu</h3>
     <div style="width: 60vw;" class="flex-row-sb">
         <c-input-group>
@@ -60,8 +60,8 @@
                             <td>
                                 <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
                                     <a [cModalToggle]="editverticallyCenteredModalAddMenu.id"
-                                    href="javascript:void(0)" (click)="setMenuToEdit(i)">Edit</a>
-                                    <a (click)="archiveMenu(i)" href="javascript:void(0)">Delete</a>
+                                    href="javascript:void(0)" class="btn btn-primary" (click)="setMenuToEdit(i)">Edit</a>
+                                    <a (click)="archiveMenu(i)" class="btn btn-danger" href="javascript:void(0)">Delete</a>
                                 </div>
                             </td>
                         </tr>
@@ -79,18 +79,18 @@
     <c-modal-header>
         <h5 cModalTitle>Create Menu</h5>
     </c-modal-header>
-    <c-modal-body>
+    <c-modal-body style="overflow-y: auto; max-height: 70vh;">
         <form cForm>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Name <span style="color:red">*</span>
+                </label>
                 <input [(ngModel)]="form.name" name="name" autoComplete="name" cFormControl placeholder="Name" />
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Category<span style="color:red">*</span>
+                </label>
                 <select [(ngModel)]="form.category" name="category" aria-label="Default select example" cselect class="form-select" >
                     <option disabled>Choose a menu category</option>
                     <ng-container *ngFor="let menuCategory of menuCategories;">
@@ -99,9 +99,9 @@
                 </select>
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Extras
+                </label>
                 <select multiple [(ngModel)]="form.menuItems" name="menuItems" aria-label="Default select example" cselect class="form-select" >
                     <option disabled>Select one or more menu items</option>
                     <ng-container *ngFor="let menuItem of menuItems;">
@@ -110,15 +110,15 @@
                 </select>
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    BasePrice<span style="color:red">*</span>
+                </label>
                 <input [(ngModel)]="form.price" name="price" autoComplete="price" cFormControl placeholder="Price" />
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Currency<span style="color:red">*</span>
+                </label>
                 <select [(ngModel)]="form.currency" name="currency" aria-label="Default select example" cselect class="form-select" >
                     <option>Choose a currency</option>
                     <option>GH₵</option>
@@ -126,43 +126,44 @@
                 </select>
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Status<span style="color:red">*</span>
+                </label>
                 <select [(ngModel)]="form.status" name="status" aria-label="Default select example" cselect class="form-select" >
                     <option disabled>Select a status</option>
                     <option *ngFor="let status of statuses">{{status}}</option>
                 </select>
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Attachments<span style="color:red">*</span>
+                </label>
                 <input (change)="onFileChange($event)" name="attachments" multiple type="file" cFormControl />
             </c-input-group>
             <c-input-group class="mb-3 variant">
-                <label cInputGroupText>
-                    Variants:
-                </label>
+                
                 <div style="margin-left: 10px;" class="flex-row-sb">
+                    <label style="width:25%" cInputGroupText>
+                        Variants:
+                    </label>
                     <input [(ngModel)]="variant.name" class="variant"  name="variants" autoComplete="name" cFormControl placeholder="variant" />
                     <input [(ngModel)]="variant.price" class="variant"  name="price"  cFormControl placeholder="Price" />
-
                     <button class="btn btn-primary" (click)="addVariant()">Add</button>
                 </div>
                 <div style="flex-wrap: wrap;margin-left: 10px;" class="flex-row-sb pill">
                     <ng-container *ngFor="let _variant of form.variants">
                         <div class="variant-pill">
                             {{_variant.name}}
+                            <input class="variant-price" [(ngModel)]="_variant.price" name="{{_variant.name}}" type="number"/>
                             <button (click)="removeVariant(form.variants,_variant.name)" class="close-btn">&times;</button>
                         </div>                        
                     </ng-container>
                 </div>
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Description
+                </label>
                 <textarea [(ngModel)]="form.description" name="name" autoComplete="name" cFormControl
                     placeholder="Description"></textarea>
             </c-input-group>
@@ -180,18 +181,18 @@
     <c-modal-header>
         <h5 cModalTitle>Edit Menu</h5>
     </c-modal-header>
-    <c-modal-body>
-        <form cForm>
+    <c-modal-body style="overflow-y: auto; max-height: 70vh;">
+        <form  cForm>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Name<span style="color:red">*</span>
+                </label>
                 <input [(ngModel)]="selectedMenu.name" name="name" autoComplete="name" cFormControl placeholder="Name" />
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Category<span style="color:red">*</span>
+                </label>
                 <select [(ngModel)]="selectedMenu.category" name="category" aria-label="Default select example" cselect class="form-select" >
                     <option disabled>Choose a menu category</option>
                     <ng-container *ngFor="let menuCategory of menuCategories;">
@@ -200,9 +201,9 @@
                 </select>
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Extras:
+                </label>
                 <select multiple [(ngModel)]="selectedMenu.menuItems" name="menuItems" aria-label="Default select example" cselect class="form-select" >
                     <option disabled>Select one or more menu items</option>
                     <ng-container *ngFor="let menuItem of menuItems;">
@@ -211,15 +212,15 @@
                 </select>
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Baseprice<span style="color:red">*</span>
+                </label>
                 <input [(ngModel)]="selectedMenu.price" name="price" autoComplete="price" cFormControl placeholder="Price" />
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Currency<span style="color:red">*</span>
+                </label>
                 <select [(ngModel)]="selectedMenu.currency" name="currency" aria-label="Default select example" cselect class="form-select" >
                     <option>Choose a currency</option>
                     <option>GH₵</option>
@@ -227,19 +228,20 @@
                 </select>
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Status<span style="color:red">*</span>
+                </label>
                 <select [(ngModel)]="selectedMenu.status" name="status" aria-label="Default select example" cselect class="form-select" >
                     <option disabled>Select a status</option>
                     <option *ngFor="let status of statuses">{{status}}</option>
                 </select>
             </c-input-group>
             <c-input-group class="mb-3 variant">
-                <label cInputGroupText>
-                    Variants:
-                </label>
+                
                 <div style="margin-left: 10px;" class="flex-row-sb">
+                    <label cInputGroupText>
+                        Variants:
+                    </label>
                     <input [(ngModel)]="variant.name" class="variant"  name="variants" autoComplete="name" cFormControl placeholder="variant" />
 
                     <input [(ngModel)]="variant.price" class="variant"  name="price"  cFormControl placeholder="Price" />
@@ -249,15 +251,16 @@
                     <ng-container *ngFor="let _variant of selectedMenu.variants">
                         <div class="variant-pill">
                             {{_variant.name}}
+                            <input class="variant-price" [(ngModel)]="_variant.price" name="{{_variant.name}}" type="number"/>
                             <button (click)="removeVariant(selectedMenu.variants,_variant.name, true)" class="close-btn">&times;</button>
                         </div>                        
                     </ng-container>
                 </div>
             </c-input-group>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                </span>
+                <label cInputGroupText>
+                    Description:
+                </label>
                 <textarea [(ngModel)]="selectedMenu.description" name="description" cFormControl
                     placeholder="Description"></textarea>
             </c-input-group>

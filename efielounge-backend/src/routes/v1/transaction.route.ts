@@ -1,5 +1,5 @@
 import express from "express";
-import { decode } from "../../middlewares/jwt";
+import { decode, ensureAdmin } from "../../middlewares/jwt";
 import transactionController from "../../controllers/v1/transaction.controller";
 const authMiddleware = decode;
 const transactionRouter = express.Router();
@@ -15,5 +15,14 @@ transactionRouter.get(
   authMiddleware,
   transactionController.verifyTransaction
 );
+
+transactionRouter.get(
+  "/fetch-transactions",
+  authMiddleware,
+  ensureAdmin,
+  transactionController.fetchTransactions
+);
+
+
 
 export default transactionRouter;

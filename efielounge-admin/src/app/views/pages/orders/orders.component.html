@@ -1,5 +1,6 @@
 <div style="justify-content: space-between;gap:50px; align-items: flex-start;" class="mb-5 flex-row-sb">
     <h3>Orders</h3>
+    
     <div style="width: 60vw;" class="flex-row-sb">
         <c-input-group>
             <input class="search-bar"  autoComplete="name" cFormControl placeholder="Search for anything (Coming soon)" />
@@ -7,8 +8,11 @@
         <button style="white-space: nowrap;"  cButton color="primary">Go
         </button>
     </div>
-    <!-- <button style="white-space: nowrap;" [cModalToggle]="verticallyCenteredModalAddorder.id" cButton color="primary">Create order
-    </button> -->
+    <select style="width:200px"  name="" color="primary" aria-label="Default select example" cselect class="form-select" >
+        <option value="customers">PENDING</option>
+        <option value="staff">DELIVERED</option>
+    </select>
+    
 </div>
 
 <c-row>
@@ -39,7 +43,7 @@
                             </td>
                             <td>
                                 <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
-                                    <a [cModalToggle]="manageSelectedOrder.id" href="javascript:void(0)" (click)="setorderToEdit(i)">Manage Order</a>
+                                    <a [cModalToggle]="manageSelectedOrder.id" href="javascript:void(0)" class="btn btn-primary" (click)="setorderToEdit(i)">Manage Order</a>
                                 </div>
                             </td>
                         </tr>
@@ -154,13 +158,35 @@
                         </div>
                         <button disabled class="btn btn-secondary col-md-2">Mark for refund</button>
                     </div>
+                    <hr>
                     
                 </ng-container>
                 <div class="grand-total">Grand Total: <span>{{selectedOrder.grandTotal}}</span></div>
             </div>
+            <h6>Delivery Address</h6>
+            <div class="flex-row-sb">
+                <c-input-group class="mb-3">
+                    <span class="edit-false" cInputGroupText>
+                        <span class="edit-false">Street</span>
+                    </span>
+                    <input readonly cFormControl value="{{selectedOrder?.deliveryAddress?.address}}"/>
+                </c-input-group>
+                <c-input-group class="mb-3">
+                    <span class="edit-false" cInputGroupText>
+                        <span class="edit-false">District</span>
+                    </span>
+                    <input readonly cFormControl value="{{selectedOrder?.deliveryAddress?.district}}"/>
+                </c-input-group>
+                <c-input-group class="mb-3">
+                    <span class="edit-false" cInputGroupText>
+                        <span class="edit-false">Phone</span>
+                    </span>
+                    <input readonly cFormControl type="telephone" value="{{selectedOrder.deliveryAddress?.phone}}"/>
+                </c-input-group>
+            </div>
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
+                <span class="edit-false" cInputGroupText>
+                    <span class="edit-false">Order Status</span>
                 </span>
                 <select [(ngModel)]="selectedOrder.status" name="status" aria-label="Default select example" cselect class="form-select" >
                     <option>Mark As</option>
@@ -176,8 +202,8 @@
                 <input [(ngModel)]="selectedOrder.deliveryCost" name="{{selectedOrder.deliveryCost}}" autoComplete="name" cFormControl placeholder="Delivery Fee" />
             </c-input-group> -->
             <c-input-group class="mb-3">
-                <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
+                <span class="edit-false" cInputGroupText>
+                    <span class="edit-false">Notes</span>
                 </span>
                 <textarea [(ngModel)]="selectedOrder.notes" name="message" cFormControl
                     placeholder="Notes"></textarea>

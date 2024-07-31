@@ -1,10 +1,10 @@
 import express from 'express';
 import authController from '../../controllers/v1/Authentication/local/local.controller';
-import { decode } from '../../middlewares/jwt';
+import { decode, decodeExt } from '../../middlewares/jwt';
 import { handleInvalidMethod } from '../../middlewares/invalidrequest';
 const authRouter = express.Router();
 
-authRouter.post('/register', authController.createAccount)
+authRouter.post('/register', decodeExt, authController.createAccount)
 authRouter.post('/resend-email-verification-otp', authController.sendEmailConfirmationOtp)
 authRouter.post('/send-password-reset-otp', authController.sendPasswordResetLink)
 authRouter.post('/reset-password', authController.resetPassword)

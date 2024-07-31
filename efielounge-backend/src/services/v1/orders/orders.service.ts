@@ -165,7 +165,7 @@ export class OrderService {
 
     const collapsedOrders = await Promise.all(
       Object.entries(groupedOrders).map(async ([checkOutId, orders]) => {
-        const checkOut = await CheckOut.findOne({ checkOutId: checkOutId })!;
+        const checkOut = await CheckOut.findOne({ checkOutId: checkOutId })!.populate("address");
         const date = groupedOrders[checkOutId][0]?.createdAt;
         if(checkOut){
           return {
@@ -174,7 +174,8 @@ export class OrderService {
             date,
             grandTotal: checkOut ? checkOut.amount : 0,
             status: checkOut!.status,
-            notes: checkOut!.notes || ""
+            notes: checkOut!.notes || "",
+            deliveryAddress: checkOut.address
           };
         }else{
           return {
@@ -299,6 +300,8 @@ export class OrderService {
       const data = req.body
       const checkOutId = data.checkOutId;
       const result = await CheckOut.findOneAndUpdate({ checkOutId: checkOutId }, data, {new: true})!
+      delete data.notes
+      await Order.findOneAndUpdate({ checkOutId: checkOutId }, data, {new: true})!
       if(result){
         return {
           status: true,

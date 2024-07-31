@@ -74,11 +74,10 @@ export class RegisterComponent {
 
               setTimeout(() => {
                 const queryParams = { account_id: response.data };
-                localStorage.setItem(response.data, this.credentials.email);
-                this.router.navigate(['/account-verification'], {
+                this.router.navigate([`/account-profile/${queryParams.account_id}`], {
                   queryParams,
                 });
-              }, 2000);
+              }, 200);
             } else {
               Swal.fire({
                 position: 'top-end',

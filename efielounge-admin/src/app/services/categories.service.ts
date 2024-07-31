@@ -56,9 +56,9 @@ export class CategoryService {
     );
   }
 
-  fetchMenuItemCategories() {
+  fetchMenuItemCategories(page:number, limit:number) {
     return this.http.get(
-      `${environment.api}/api/v1/menu/fetch-menuitem-categories?limit=${200}`
+      `${environment.api}/api/v1/menu/fetch-menuitem-categories?page=${page}&limit=${limit}`
     );
   }
 
@@ -83,9 +83,9 @@ export class CategoryService {
     );
   }
 
-  fetchMenuItems() {
+  fetchMenuItems(page:number, limit:number) {
     return this.http.get(
-      `${environment.api}/api/v1/menu/fetch-menu-item?limit=${200}`
+      `${environment.api}/api/v1/menu/fetch-menu-item?page=${page}&limit=${limit}`
     );
   }
 
@@ -117,9 +117,9 @@ export class CategoryService {
     );
   }
 
-  fetchMenu() {
+  fetchMenu(page:number, limit:number) {
     return this.http.get(
-      `${environment.api}/api/v1/menu/fetch-menu?limit=${200}`
+      `${environment.api}/api/v1/menu/fetch-menu?page=${page}&limit=${limit}`
     );
   }
   

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout';
+import { AdminGuard } from './services/admin-guard.service'
 
 
 export const routes: Routes = [
@@ -15,6 +16,7 @@ export const routes: Routes = [
     data: {
       title: 'Home',
     },
+    canActivate: [AdminGuard],
     children: [
       {
         path: 'dashboard',
@@ -116,13 +118,33 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'users',
+        path: 'transactions',
+        loadComponent: () =>
+          import('./views/pages/transactions/transactions.component').then(
+            (m) => m.TransactionsComponent
+          ),
+        data: {
+          title: 'Transactions',
+        },
+      },
+      {
+        path: 'customers',
         loadComponent: () =>
           import('./views/pages/accounts/accounts.component').then(
             (m) => m.AccountsComponent
           ),
         data: {
-          title: 'Users',
+          title: 'Customers',
+        },
+      },
+      {
+        path: 'staff',
+        loadComponent: () =>
+          import('./views/pages/staff/staff.component').then(
+            (m) => m.StaffComponent
+          ),
+        data: {
+          title: 'staff',
         },
       },
       {

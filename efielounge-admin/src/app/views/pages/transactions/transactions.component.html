@@ -1,10 +1,25 @@
-<app-widgets-dropdown [cardsData]="cardsData" />
-<c-row class="mt-4">
-  <h6>Recent Transactions</h6>
-  <c-col xs>
-    <c-card class="mb-4">
-      <c-card-body>
-        <table
+<div style="justify-content: space-between;gap:50px; align-items: flex-start;" class="mb-5 flex-row-sb">
+    <h3>Transactions</h3>
+    
+    <div style="width: 60vw;" class="flex-row-sb">
+        <c-input-group>
+            <input class="search-bar"  autoComplete="name" cFormControl placeholder="Search for anything (Coming soon)" />
+        </c-input-group>
+        <button style="white-space: nowrap;"  cButton color="primary">Go
+        </button>
+    </div>
+    <!-- <select style="width:200px"  name="" color="primary" aria-label="Default select example" cselect class="form-select" >
+        <option value="customers">PENDING</option>
+        <option value="staff">DELIVERED</option>
+    </select> -->
+    
+</div>
+
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-body>
+                <table
           [hover]="true"
           [responsive]="true"
           [striped]="true"
@@ -65,7 +80,7 @@
             }
           </tbody>
         </table>
-      </c-card-body>
-    </c-card>
-  </c-col>
+            </c-card-body>
+        </c-card>
+    </c-col>
 </c-row>

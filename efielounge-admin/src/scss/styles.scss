@@ -22,26 +22,56 @@
 // We use those styles to show code examples, you should remove them in your application.
 @import "examples";
 
-button{
-    border-radius: 0px!important;
+button {
+  border-radius: 0px !important;
 }
 
-.flex-row-sb{
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+.d-flex.card-body{
+    // height: 150px!important;
 }
 
-.search-bar{
-    border-top-right-radius: 0px!important;
-    border-bottom-right-radius: 0px!important;
-}
-
-li{
-    list-style-type: disclosure-closed!important;
+.spinner {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    border: 1px solid white;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    text-align: center !important;
+    animation: spin 1s linear infinite; /* Animation property for rotation */
   }
 
+  
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.flex-row-sb {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-bar {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
+li {
+  list-style-type: disclosure-closed !important;
+}
+
+.input-group-text {
+    width: 25%!important;
+    text-align: center;
+}
 
 // .modal-content, c-modal-content{
 //     height: 50vh!important;

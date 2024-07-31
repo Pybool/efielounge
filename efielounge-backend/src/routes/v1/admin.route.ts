@@ -11,6 +11,7 @@ import Home from "../../models/home.model";
 import clientOrderController from "../../controllers/v1/Orders/orders.controller";
 import promotionsController from "../../controllers/v1/Admin/promotion.controller";
 import Promotions from "../../models/promotions.model";
+import dashboardController from "../../controllers/v1/Admin/dashboard.controller";
 
 const adminRouter = express.Router();
 
@@ -135,11 +136,18 @@ adminRouter.post(
 );
 
 adminRouter.get(
+  "/dashboard",
+  decode,
+  ensureAdmin,
+  dashboardController.fecthDashBoardData
+);
+
+adminRouter.get(
   "/get-client-home",
   decodeExt,
   async (req: Xrequest, res: any) => {
     try {
-      let filter:{isActive?:boolean} = { isActive: true };
+      let filter: { isActive?: boolean } = { isActive: true };
       const account = req.account!;
       if (account && account.role === "ADMIN") {
         filter = {};

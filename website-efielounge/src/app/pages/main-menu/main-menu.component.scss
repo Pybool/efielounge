@@ -159,12 +159,18 @@ div.block > div.container{
 /* Extra Small Devices, Phones (0px to 599px) */
 @media only screen and (max-width: 599px) {
   /* Styles for small phones */
+  .breadcrumb {
+    flex-direction: column;
+}
   
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */
 @media only screen and (min-width: 600px) and (max-width: 767px) {
   /* Styles for larger phones */
+  .breadcrumb {
+    flex-direction: column;
+}
   
 }
 

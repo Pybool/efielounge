@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class TokenService {
+  userKey: string = 'user';
   private tokenKey = 'efielounge-admin-accessToken';
   private refreshTokenKey = 'efielounge-admin-refreshToken';
 
@@ -25,10 +26,10 @@ export class TokenService {
     return token || null;
   }
 
-//   refresh() {
-//     const refreshToken = this.retrieveToken(this.refreshTokenKey);
-//     return this.http.post(`${environment.api}/api/v1/auth/refresh-token`, { refreshToken });
-//   }
+  retrieveUser() {
+    const user = localStorage.getItem(this.userKey);
+    return user ? JSON.parse(user) : null;
+  }
 
   removeTokens() {
     this.cookieService.delete(this.tokenKey);

@@ -1,6 +1,5 @@
 <div style="justify-content: space-between;gap:50px; align-items: flex-start;" class="mb-5 flex-row-sb">
-    <h3 style="white-space: nowrap;" *ngIf="accountType=='staff'">Active Staff</h3>
-    <h3 *ngIf="accountType=='customers'">Customers</h3>
+    <h3 style="white-space: nowrap;" >Active Staff</h3>
     <div style="width: 60vw;" class="flex-row-sb">
         <c-input-group>
             <input class="search-bar"  autoComplete="name" cFormControl placeholder="Search for anything (Coming soon)" />
@@ -8,10 +7,8 @@
         <button style="white-space: nowrap;"  cButton color="primary">Go
         </button>
     </div>
-    <select [(ngModel)]="accountType" (change)="filterAccounts()" style="width:200px"  name="accountType" color="primary" aria-label="Default select example" cselect class="form-select" >
-      <option value="customers">Customers</option>
-      <!-- <option value="staff">Staff</option> -->
-  </select>
+    <button style="white-space: nowrap;" [cModalToggle]="createStaff.id" cButton color="primary">New Staff
+    </button>
  
   </div>
   <c-row>
@@ -89,25 +86,46 @@
     </c-col>
   </c-row>
   
-  <c-modal #verticallyCenteredModalAccount alignment="center" id="verticallyCenteredModalAccount">
+  <c-modal #createStaff alignment="center" id="createStaff">
     <c-modal-header>
-      <h5 cModalTitle>New Account</h5>
+      <h5 cModalTitle>New Staff</h5>
     </c-modal-header>
     <c-modal-body>
       <form cForm>
         <c-input-group class="mb-3">
-          <span cInputGroupText>
-            <svg cIcon name="cilUser"></svg>
-          </span>
-          <input name="name" autoComplete="name" cFormControl placeholder="Category Name" />
-        </c-input-group>
+            <span cInputGroupText>
+              <span>Username</span>
+            </span>
+            <input [(ngModel)]="credentials.userName" type="text" name="userName" cFormControl placeholder="Username" />
+          </c-input-group>
+          <c-input-group class="mb-3">
+            <span cInputGroupText>&#64;mail</span>
+            <input [(ngModel)]="credentials.email" type="email" name="email" cFormControl placeholder="Email" />
+          </c-input-group>
+          <c-input-group class="mb-3">
+            <span cInputGroupText>
+              <span>Password</span>
+            </span>
+            <input [(ngModel)]="credentials.password" name="password" cFormControl placeholder="Password" type="password" />
+          </c-input-group>
+          <c-input-group class="mb-4">
+            <span cInputGroupText>
+              <span>Password Again</span>
+            </span>
+            <input [(ngModel)]="passwordAgain" name="passwordAgain" cFormControl placeholder="Repeat password" type="password" />
+          </c-input-group>
+          
       </form>
     </c-modal-body>
     <c-modal-footer>
-      <button [cModalToggle]="verticallyCenteredModalAccount.id" cButton color="secondary">
+      <button [cModalToggle]="createStaff.id" cButton color="secondary">
         Close
       </button>
-      <button  cButton color="primary">Submit</button>
+      <div class="d-grid">
+        <button (click)="register()" [disabled]="isInvalidEmail()" cButton color="success">Create Account</button>
+      </div>
     </c-modal-footer>
   </c-modal>
+  
+
   

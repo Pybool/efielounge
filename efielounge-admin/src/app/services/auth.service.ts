@@ -35,6 +35,10 @@ export class AuthService {
     return this.http.post(`${environment.api}/api/v1/auth/login`, credentials);
   }
 
+  fetchDashBoardData(limit:number) {
+    return this.http.get(`${environment.api}/api/v1/admin/dashboard?page=1&limit=${limit}`);
+  }
+
   register(user: any) {
     return this.http.post(`${environment.api}/api/v1/auth/register`, user);
   }

@@ -1,5 +1,5 @@
 <div style="justify-content: space-between;gap:50px; align-items: flex-start;" class="mb-5 flex-row-sb">
-    <h3>MenuItem Categories</h3>
+    <h3 style="white-space: nowrap;">Extras Categories</h3>
     <div style="width: 60vw;" class="flex-row-sb">
         <c-input-group>
             <input class="search-bar" autoComplete="name" cFormControl placeholder="Search for anything (Coming soon)" />
@@ -8,7 +8,7 @@
         </button>
     </div>
     <button style="white-space: nowrap;" [cModalToggle]="verticallyCenteredModalAddMenuItem.id" cButton
-        color="primary">Create MenuItem Category
+        color="primary">Create Extras Category
     </button>
 </div>
 <c-row>
@@ -36,8 +36,8 @@
                             <td>
                                 <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
                                     <a [cModalToggle]="editverticallyCenteredModalAddMenuItem.id"
-                                    (click)="setMenuItemCategoryToEdit(i)" href="javascript:void(0)">Edit</a>
-                                    <a (click)="archiveMenuItemCategory(i)" href="javascript:void(0)">Delete</a>
+                                    (click)="setMenuItemCategoryToEdit(i)" class="btn btn-primary" href="javascript:void(0)">Edit</a>
+                                    <a (click)="archiveMenuItemCategory(i)" class="btn btn-danger" href="javascript:void(0)">Delete</a>
                                 </div>
                             </td>
                         </tr>

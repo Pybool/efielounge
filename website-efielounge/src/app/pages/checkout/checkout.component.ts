@@ -56,6 +56,7 @@ export class CheckoutComponent implements OnDestroy {
   public addresses: any = [];
   public subTotal = 0.0;
   public cartItems$: any;
+  public addressId: string = ""
   Math = Math;
 
   constructor(
@@ -144,6 +145,7 @@ export class CheckoutComponent implements OnDestroy {
   }
 
   setDefaultAddress(address: any) {
+    this.addressId = address._id
     this.cartService
       .setDefaultAddress({ addressId: address._id })
       .pipe(take(1))
@@ -161,6 +163,7 @@ export class CheckoutComponent implements OnDestroy {
     let defaultSelected = false;
     for (let _address of this.addresses) {
       if (_address.isDefault == true) {
+        this.addressId = _address._id;
         defaultSelected = true;
         break;
       }
@@ -254,7 +257,8 @@ export class CheckoutComponent implements OnDestroy {
       .updateCartItemsAndCheckOut(
         {
           cartItems: this.checkOutItems,
-          amount: this.getSubTotal() + this.deliveryCost,
+          amount: this.subTotal + this.deliveryCost,
+          addressId: this.addressId
         },
         this.checkOutId
       )

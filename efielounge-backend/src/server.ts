@@ -19,6 +19,7 @@ import orderRouter from "./routes/v1/orders.route";
 import transactionRouter from "./routes/v1/transaction.route";
 import Menu from "./models/menu/menu.model";
 import { decode } from "./middlewares/jwt";
+import Order from "./models/Orders/order.model";
 
 dotenvConfig();
 dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
@@ -48,6 +49,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(express.static("public"));
 console.log("PUBLIC FOLDER ", process.env.EFIELOUNGE_PUBLIC_FOLDER);
 app.use(express.static(process.env.EFIELOUNGE_PUBLIC_FOLDER!));
+app.use(express.static(process.env.EFIELOUNGE_PUBLIC_FOLDER2!));
 
 app.get("/test", async (req: any, res: any) => {
   res.status(200).send("Hello from Efielounge Backend Server\n");
@@ -79,6 +81,10 @@ app.use("/api/v1/order", orderRouter);
 app.use("/api/v1/cart", clientCartRouter);
 app.use("/api/v1/accounts", accountsRouter);
 app.use("/api/v1/transactions", transactionRouter);
+
+
+
+
 
 app.use((err: any, req: any, res: any, next: any) => {
   console.error(err.stack);

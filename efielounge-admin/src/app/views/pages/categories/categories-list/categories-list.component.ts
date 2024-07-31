@@ -136,9 +136,9 @@ export class CategoriesListComponent {
       })
       .pipe(take(1))
       .subscribe((response: any) => {
-          alert(response.message)
+          Swal.fire(response.message)
       },((error:any)=>{
-        alert("Something went wrong")
+        Swal.fire("Something went wrong")
       }));
   }
 
@@ -154,9 +154,9 @@ export class CategoriesListComponent {
       .pipe(take(1))
       .subscribe((response: any) => {
         this.categories = this.categories.filter((element, idx) => idx !== index);
-          alert(response.message)
+          Swal.fire(response.message)
       },((error:any)=>{
-        alert("Something went wrong")
+        Swal.fire("Something went wrong")
       }));
   }
 }

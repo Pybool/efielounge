@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgStyle } from '@angular/common';
+import { CommonModule, NgStyle } from '@angular/common';
 import { IconDirective } from '@coreui/icons-angular';
 import {
   ContainerComponent,
@@ -45,36 +45,37 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormControlDirective,
     ButtonDirective,
     NgStyle,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   providers:[AuthService]
 })
 export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
-
+  public showLoginSpinner: boolean = false;
   public credentials: { email: string; password: string } = {
     email: '',
     password: '',
   };
 
   login() {
+    this.showLoginSpinner = true
     this.authService
     .login(this.credentials)
     .pipe(take(1))
     .subscribe(
       (response: any) => {
+        
         if (response.status) {
           this.authService.storeTokens(response);
           this.authService.storeUser(response.data);
           this.authService.setLoggedIn(true);
           setTimeout(() => {
+            this.showLoginSpinner = false
             this.router.navigate(['/dashboard']);
-          }, 1500);
+          }, 100);
         } else {
-          // if (response.code == 1001) {
-          //   const queryParams = { account_id: response.data };
-          //   this.router.navigate(['dashboard'], { queryParams });
-          // }
+          this.showLoginSpinner = false
           Swal.fire({
             position: 'top-end',
             icon: 'warning',
@@ -87,6 +88,7 @@ export class LoginComponent {
       },
       (error: any) => {
         console.log(error)
+        this.showLoginSpinner = false
         Swal.fire({
           position: 'top-end',
           icon: 'error',

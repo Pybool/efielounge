@@ -6,19 +6,12 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderService {
+export class TransactionService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  fetchOrders(page:number, limit:number, filter='all') {
+  fetchTransactions(page:number, limit:number) {
     return this.http.get(
-      `${environment.api}/api/v1/order/fetch-orders?page=${page}&limit=${limit}&filter=${filter}`
-    );
-  }
-
-  updateOrderStatus(payload: any) {
-    return this.http.patch(
-      `${environment.api}/api/v1/admin/orders/update-order-status`,
-      payload
+      `${environment.api}/api/v1/transactions/fetch-transactions?page=${page}&limit=${limit}`
     );
   }
 }

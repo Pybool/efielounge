@@ -34,8 +34,8 @@
               </td>
               <td>
                 <div style="justify-content: flex-start;gap:20px" class="flex-row-sb">
-                  <a [cModalToggle]="editverticallyCenteredModal.id" (click)="setcategoryToEdit(i)" href="javascript:void(0)">Edit</a>
-                  <a (click)="archiveCategory(i)" href="javascript:void(0)">Archive</a>
+                  <a [cModalToggle]="editverticallyCenteredModal.id" class="btn btn-primary" (click)="setcategoryToEdit(i)" href="javascript:void(0)">Edit</a>
+                  <a (click)="archiveCategory(i)" class="btn btn-warning" href="javascript:void(0)">Archive</a>
                 </div>
               </td>
             </tr>
@@ -54,9 +54,9 @@
   <c-modal-body>
     <form cForm>
       <c-input-group class="mb-3">
-        <span cInputGroupText>
-          <svg cIcon name="cilUser"></svg>
-        </span>
+        <label cInputGroupText>
+          Name:
+        </label>
         <input [(ngModel)]="name" name="name" autoComplete="name" cFormControl placeholder="Category Name" />
       </c-input-group>
     </form>
@@ -76,9 +76,9 @@
   <c-modal-body>
     <form cForm>
       <c-input-group class="mb-3">
-        <span cInputGroupText>
-          <svg cIcon name="cilUser"></svg>
-        </span>
+        <label cInputGroupText>
+          Name:
+        </label>
         <input [(ngModel)]="selectedCategory.name" name="name" autoComplete="name" cFormControl placeholder="Category Name" />
       </c-input-group>
     </form>

@@ -28,8 +28,15 @@
                 </c-input-group>
                 <c-row>
                   <c-col xs="6">
-                    <button (click)="login()" cButton class="px-4" color="primary">
-                      Login
+                    <button (click)="login()" cButton class="px-4 flex-row-sb" color="primary">
+                      <div
+                *ngIf="showLoginSpinner"
+                style="margin-top: 0px"
+                class="spinner-container"
+              >
+                <div class="spinner"></div>
+              </div>
+                      <span>Sign In</span>
                     </button>
                   </c-col>
                   <c-col class="text-right" xs="6">
@@ -44,14 +51,12 @@
           <c-card [ngStyle]="{'minWidth.%': 44}" class="text-white bg-primary py-5">
             <c-card-body class="text-center">
               <div>
-                <h2>Sign up</h2>
+                <h2>Sign In</h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
+                  Welcome to <br>
+                  Efielounge 
+                  Administrative Panel, Login to get started
                 </p>
-                <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
-                  Register Now!
-                </button>
               </div>
             </c-card-body>
           </c-card>

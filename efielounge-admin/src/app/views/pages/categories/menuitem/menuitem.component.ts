@@ -30,7 +30,7 @@ import { IconDirective } from '@coreui/icons-angular';
 import { WidgetsDropdownComponent } from 'src/app/views/widgets/widgets-dropdown/widgets-dropdown.component';
 import { WidgetsBrandComponent } from 'src/app/views/widgets/widgets-brand/widgets-brand.component';
 import { CategoryService } from '../../../../services/categories.service';
-import { take } from 'rxjs';
+import { debounceTime, filter, fromEvent, Subscription, take } from 'rxjs';
 import Swal from 'sweetalert2';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -79,36 +79,52 @@ export class MenuitemComponent {
   public name: string = '';
   public menuItems: any[] = [];
   public serverUrl: string = environment.api;
-  public form: any = {
-    name: 'Pure heaven',
-    status: 'Available',
-    price: 750,
-    currency: 'GH₵',
-  };
+  public form: any = {};
   public attachments: FileList | null = null;
   public menuItemCategories: any[] = [];
   public selectedMenuItem: any = {};
   public menuItemIndex: number = 0;
+  private scrollSubscription: Subscription | undefined;
+  public loading: boolean = false;
+  public page = 1;
+  public pageSize = 10;
+  public totalPages = 0;
 
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit() {
     this.categoryService
-      .fetchMenuItemCategories()
+      .fetchMenuItemCategories(1,-1)// -1 means dont paginate
       .pipe(take(1))
       .subscribe((response: any) => {
         if (response.status) {
           this.menuItemCategories = response.data;
-          this.categoryService
-            .fetchMenuItems()
-            .pipe(take(1))
-            .subscribe((response: any) => {
-              if (response.status) {
-                this.menuItems = response.data;
-              }
-            });
+          this.fetchMenuItems()
         }
       });
+  }
+
+  fetchMenuItems(fetch:boolean=true){
+    if(fetch){
+      this.loading = true;
+      this.categoryService
+        .fetchMenuItems(this.page, this.pageSize)
+        .pipe(take(1))
+        .subscribe(
+          (response: any) => {
+            if (response.status) {
+              this.totalPages = response.totalPages;
+              this.page++;
+              this.menuItems.push(...response.data);
+            }
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            alert('Failed to fetch menu');
+          }
+        );
+    }
   }
 
   onFileChange(event: any): void {
@@ -141,7 +157,9 @@ export class MenuitemComponent {
           this.menuItems.unshift(response.data);
         }
         Swal.fire(response.message);
-      });
+      },((error:any)=>{
+        Swal.fire("Could not process your request at this time")
+      }));
   }
 
   setMenuItemToEdit(index: number) {
@@ -154,7 +172,6 @@ export class MenuitemComponent {
 
   setCategory($event:any){
     this.selectedMenuItem.category = $event.target.value;
-    console.log("Category ", this.selectedMenuItem.category)
   }
 
   editMenuItem() {
@@ -171,9 +188,9 @@ export class MenuitemComponent {
         (response: any) => {
           alert(response.message);
         },
-        (error: any) => {
-          alert('Something went wrong');
-        }
+        ((error:any)=>{
+          Swal.fire("Could not process your request at this time")
+        })
       );
   }
 
@@ -193,9 +210,27 @@ export class MenuitemComponent {
           );
           alert(response.message);
         },
-        (error: any) => {
-          alert('Something went wrong');
-        }
+        ((error:any)=>{
+          Swal.fire("Could not process your request at this time")
+        })
       );
+  }
+
+  setupScrollEventListener() {
+    this.scrollSubscription = fromEvent(window, 'scroll')
+      .pipe(
+        debounceTime(200),
+        filter(() => {
+          const scrollPosition = window.pageYOffset + window.innerHeight;
+          const maxScroll = document.documentElement.scrollHeight;
+          const threshold = window.innerHeight * 2;
+          return !this.loading && maxScroll - scrollPosition < threshold;
+        })
+      )
+      .subscribe(() => {
+        if (this.page <= this.totalPages) {
+          this.fetchMenuItems(true);
+        }
+      });
   }
 }

@@ -1,6 +1,6 @@
 #dock-widget {
   position: fixed;
-  top: 15%;
+  top: 10%;
   right: -30%; /* Adjust width as needed */
   width: 30%; /* Adjust width as needed */
   height: 100%;
@@ -20,8 +20,8 @@
   top: 50%;
   right: 0%; /* Adjust width as needed */
   height: 60px;
-  background-color: #f0f0f0;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
+  // box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
   padding: 20px;
   transition: right 0.3s ease;
   z-index: 1000;
@@ -138,7 +138,7 @@
     flex-wrap: wrap !important;
   }
   #dock-widget {
-    top: 15% !important;
+    top: 10% !important;
     right: -100% !important;
     width: 100% !important;
   }
@@ -154,7 +154,7 @@
     flex-wrap: wrap !important;
   }
   #dock-widget {
-    top: 15% !important;
+    top: 10% !important;
     right: -100% !important;
     width: 100% !important;
   }
@@ -170,7 +170,7 @@
     flex-wrap: wrap !important;
   }
   #dock-widget {
-    top: 15% !important;
+    top: 12% !important;
     right: -70% !important;
     width: 70% !important;
   }
@@ -189,7 +189,7 @@
     top: 9% !important;
     right: -70% !important;
     width: 70% !important;
-    height: 80% !important;
+    height: 82% !important;
   }
   #dock-widget.dock-visible {
     right: 0 !important;
@@ -236,7 +236,6 @@
 
 @media screen and (min-width: 1024px) and (min-height: 600px) and (max-height: 700px) {
   /* Your styles for screens with width 1024px and height between 600px and 700px */
-
   #dock-widget {
     top: 35% !important;
   }

@@ -232,7 +232,7 @@ export class CartService {
 
   static async checkOut(req: Xrequest) {
     try {
-      const { cartItems, amount } = req.body!;
+      const { cartItems, amount, addressId } = req.body!;
       const checkOutId = req.query.checkOutId! as string;
       const cartItemIds = [];
       for (let cartItem of cartItems) {
@@ -271,6 +271,7 @@ export class CartService {
           cart: cartItemIds,
           account: req.accountId,
           amount: amount,
+          address: addressId
         });
       } else {
         checkOutIntent = await CheckOut.findOneAndUpdate(
@@ -279,6 +280,7 @@ export class CartService {
             cart: cartItemIds,
             account: req.accountId,
             amount: amount,
+            address: addressId
           },
           { new: true }
         );

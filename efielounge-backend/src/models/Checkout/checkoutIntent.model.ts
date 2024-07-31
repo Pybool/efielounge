@@ -17,6 +17,11 @@ const CheckoutIntentSchema = new Schema({
     ref: "cart",
     required: true,
   },
+  address: {
+    type: Schema.Types.ObjectId,
+    ref: "Address",
+    required: false,
+  },
   amount:{
     type: Number,
     required: true,
@@ -37,6 +42,7 @@ const CheckoutIntentSchema = new Schema({
     required: false,
     enum: ["PENDING", "CONFIRMED", "IN-TRANSIT", "DELIVERED", "CANCELED"],
   },
+  
 });
 
 const CheckOut = mongoose.model("checkoutintent", CheckoutIntentSchema);

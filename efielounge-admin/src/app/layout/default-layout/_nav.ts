@@ -5,7 +5,7 @@ export const navItems: any = [
     iconComponent: { name: 'cil-speedometer' },
     badge: {
       color: 'info',
-      text: 'COMING SOON',
+      text: '',
     },
   },
   {
@@ -14,12 +14,12 @@ export const navItems: any = [
     iconComponent: { name: 'cil-star' },
     children: [
       {
-        name: 'MenuItem Categories',
+        name: 'Extras Categories',
         url: '/menuitem-categories',
         icon: 'nav-icon-bullet',
       },
       {
-        name: 'MenuItem',
+        name: 'Extras',
         url: '/menuitem',
         icon: 'nav-icon-bullet',
       },
@@ -44,8 +44,21 @@ export const navItems: any = [
     },
   },
   {
-    name: 'Users',
-    url: '/users',
+    name: 'Transactions',
+    url: '/transactions',
+    iconComponent: { name: 'cil-speedometer' },
+    badge: {
+      color: 'info',
+    },
+  },
+  {
+    name: 'Customers',
+    url: '/customers',
+    iconComponent: { name: 'cil-speedometer' }
+  },
+  {
+    name: 'Staff',
+    url: '/staff',
     iconComponent: { name: 'cil-speedometer' }
   },
   {
@@ -54,16 +67,4 @@ export const navItems: any = [
     iconComponent: { name: 'cil-speedometer' }
   },
 
-  
-
-  {
-    name: 'Login',
-    url: '/login',
-    iconComponent: { name: 'cil-speedometer' },
-  },
-  {
-    name: 'Register',
-    url: '/register',
-    iconComponent: { name: 'cil-speedometer' },
-  },
 ];
