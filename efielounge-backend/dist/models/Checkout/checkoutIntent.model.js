@@ -30,7 +30,7 @@ const CheckoutIntentSchema = new Schema({
         type: String,
         default: "PENDING",
         required: false,
-        enum: ['PENDING', 'PLACED', 'SHIPPED', 'DELIVERED', 'CANCELED']
+        enum: ['PENDING', 'PLACED', 'SHIPPED', 'DELIVERED', 'CANCELLED']
     },
 });
 const CheckOut = mongoose_1.default.model("checkoutintent", CheckoutIntentSchema);

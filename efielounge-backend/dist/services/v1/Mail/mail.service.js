@@ -60,7 +60,7 @@ const mailActions = {
         },
     },
     orders: {
-        sendOrderConfirmationMail: async (email, orderId) => {
+        sendOrderSuccessfulMail: async (email, orderId) => {
             return new Promise(async (resolve, reject) => {
                 try {
                     const template = await ejs_1.default.renderFile(`${path}templates/orderConfirmation.ejs`, { email, orderId });

@@ -36,11 +36,19 @@ const CheckoutIntentSchema = new Schema({
     required: false,
     default: 0.00
   },
+  readyIn:{
+    type: Number,
+    required: false
+  },
+  readyInSetAt:{
+    type: Date,
+    required: false
+  },
   status: {
     type: String,
     default: "PENDING",
     required: false,
-    enum: ["PENDING", "CONFIRMED", "IN-TRANSIT", "DELIVERED", "CANCELED"],
+    enum: ["PENDING", "CONFIRMED", "DISPATCHED", "DELIVERED", "CANCELLED"],
   },
   
 });

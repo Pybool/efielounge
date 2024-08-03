@@ -29,6 +29,10 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         console.log("Intercept error ",err.status)
+        if (err.status === 404 && err?.error?.message=="No such user account was found"){
+          this.tokenService.logout()
+          document.location.href="/login"
+        }
         if ((err.status === 401 || err.status === 403) && !this.refresh) {
           // this.refresh = true;
           return (this.tokenService.refreshObservable()).pipe(

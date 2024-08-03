@@ -47,7 +47,7 @@ export class HomeComponent {
   public searchString: string | null = null;
   public serverUrl: string = environment.api;
   public page: number = 1;
-  public pageSize: number = 3;
+  public pageSize: number = 6;
   public _showCartModal: boolean = false;
   public cartCount = 0;
   public initialRequest = true;

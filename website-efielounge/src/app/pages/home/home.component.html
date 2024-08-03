@@ -280,7 +280,7 @@
                 <div style="background:whitesmoke; padding: 40px;" class="title1-wrapper text-center">
                   <div class="title1-inner">
                     <span>Have a quick glance at our menu</span>
-                    <h2 itemprop="headline">choose your food</h2>
+                    <h2 itemprop="headline">a quick peek</h2>
                   </div>
                 </div>
                 <ul class="filter-buttons center ext-btm20">
@@ -302,7 +302,7 @@
                                 alt="most-popular-img1-1.png" itemprop="image"></a>
                           </div>
                           <div class="featured-restaurant-info">
-                            <span class="red-clr">WE SERVE YOU THE BEST</span>
+                            <!-- <span class="red-clr">WE SERVE YOU THE BEST</span> -->
                             <h4 itemprop="headline"><a href="javascript:void(0)" title=""
                                 itemprop="url">{{filteredMenu?.name}}</a></h4>
                             <span class="food-types">Extras:
@@ -335,7 +335,11 @@
                       </div>
                     </ng-container>
                     <span style="color:orangered;text-align: center;margin-top: 30px;"
-                      *ngIf="filteredMenus?.length == 0">No search results were found for this filter</span>
+                      *ngIf="filteredMenus?.length == 0">No search results were found for this filter
+                    </span>
+                    <div style="justify-content: center;" class="flex-row-sb see-more-parent">
+                      <a class="see-more brd-rd2 order" href="/menu">See more</a>
+                    </div>
                   </div>
                 </div>
               </div>

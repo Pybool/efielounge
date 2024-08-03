@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-add-cart-modal',
@@ -42,6 +43,7 @@ export class AddCartModalComponent implements AfterViewInit {
   public variantPrice: number = 0.0;
   public baseVariant: any = null;
   public showMaxUnitsError = false
+  public loading:boolean = false;
   public clonedMenu: any = {
     _id: '',
     name: '',
@@ -75,7 +77,6 @@ export class AddCartModalComponent implements AfterViewInit {
         `#add-${this.baseVariant.name.replaceAll(' ', '-').toLowerCase()}`
       ) as any;
       if (baseVariantEl) {
-        console.log('baseVariantEl ', baseVariantEl);
         baseVariantEl.click();
         this.updateVariant(this.baseVariant.name, this.baseVariant?.price);
       }
@@ -147,6 +148,7 @@ export class AddCartModalComponent implements AfterViewInit {
   }
 
   addToCart() {
+    this.loading = true;
     const user = this.authService.retrieveUser();
     if (user) {
       this.cartService.addToCartItems(
@@ -154,7 +156,14 @@ export class AddCartModalComponent implements AfterViewInit {
         this.units,
         this.extras,
         this.variants
-      );
+      ).pipe(take(1)).subscribe((response:any)=>{
+        if(response){
+          console.log(response)
+          // this.loading = false;
+        }
+      },((error:any)=>{
+        this.loading = false;
+      }))
     } else {
       this.authService.setLoggedIn(false);
       this.sendBoolean(false);

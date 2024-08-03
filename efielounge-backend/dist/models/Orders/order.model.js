@@ -38,7 +38,7 @@ const OrderSchema = new Schema({
         type: String,
         default: "PENDING",
         required: false,
-        enum: ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELED"],
+        enum: ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"],
     },
 });
 const Order = mongoose_1.default.model("orders", OrderSchema);

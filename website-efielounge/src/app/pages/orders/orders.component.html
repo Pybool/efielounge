@@ -28,13 +28,14 @@
             <div class="tabs-wrp brd-rd5">
                 <h2 style="background: ghostwhite; padding: 20px;font-weight: 700;" itemprop="headline">MY ORDERS</h2>
                 <div class="order-list">
-                    <ng-container *ngFor="let order of orders;">
+                    <ng-container *ngFor="let order of orders; let i= index">
 
                         <div class="order-item brd-rd5 ">
                             <div class="flex-col">
                                 <div class="flex-row-sb">
                                     <span class="mb-10 price">{{order.checkOutId}}</span>
                                     <span [ngClass]="order?.status?.toLowerCase()" class="processing brd-rd3">{{order?.status}}</span>
+                                    <button *ngIf="order?.status != 'DELIVERED' && order?.status != 'PENDING' &&  order?.status != 'CANCELLED'" (click)="showTimeLeft(order)" class="brd-2 order">Time Left</button>
                                 </div>
                                 <hr>
                                 <div class="orders-panel flex-row-sb">
@@ -80,6 +81,21 @@
         </div>
         <app-footer></app-footer>
         <app-ratings (ratingChanged)="ratingChanged($event)" [menuToRate]="menuToRate"></app-ratings>
+        <div id="timer-modal" (click)="externalClose($event)" class="modal">
+            <div class="modal-content">
+                <div class="modal-body image-container">
+                    <button style="font-size: 18px;" (click)="externalClose($event)" class="close-button">&times;</button>
+                   
+                    <div class="modal-body-content container">
+                        <app-countdown-timer *ngIf="selectedOrder" [timeLeft]="selectedOrder.timeLeft" [order]="selectedOrder"></app-countdown-timer>
+                        <h6 style="text-align: center;" >Your order will soon be ready!!</h6>
+                    </div>
+                </div>
+                
+            </div>
+        
+        </div>
+
     </main>
 </body>
 

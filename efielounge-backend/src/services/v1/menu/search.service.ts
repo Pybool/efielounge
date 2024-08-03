@@ -111,7 +111,6 @@ export class SearchMenuservice {
         Menu.countDocuments(filter),
       ]);
 
-      console.log("Menus length ", menus.length, total);
       for (const menu of menus) {
         menu.ratings = await SearchMenuservice.computeRating(
           menu._id.toString()

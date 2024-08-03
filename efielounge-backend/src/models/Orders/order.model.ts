@@ -35,11 +35,19 @@ const OrderSchema = new Schema({
     type: String,
     required: false,
   },
+  readyIn:{
+    type: Number,
+    required: false
+  },
+  readyInSetAt:{
+    type: Date,
+    required: false
+  },
   status: {
     type: String,
     default: "PENDING",
     required: false,
-    enum: ["PENDING", "CONFIRMED", "IN-TRANSIT", "DELIVERED", "CANCELED"],
+    enum: ["PENDING", "CONFIRMED", "DISPATCHED", "DELIVERED", "CANCELLED"],
   },
 });
 

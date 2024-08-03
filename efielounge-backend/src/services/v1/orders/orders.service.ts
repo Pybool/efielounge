@@ -65,7 +65,7 @@ export class OrderService {
       console.log("All orders created successfully!");
       const account = await Accounts.findOne({ _id: checkOutIntent.account })!;
       if (account) {
-        mailActions.orders.sendOrderConfirmationMail(
+        mailActions.orders.sendOrderSuccessfulMail(
           account!.email as string,
           checkOutIntent.checkOutId
         );
@@ -175,7 +175,9 @@ export class OrderService {
             grandTotal: checkOut ? checkOut.amount : 0,
             status: checkOut!.status,
             notes: checkOut!.notes || "",
-            deliveryAddress: checkOut.address
+            deliveryAddress: checkOut.address,
+            readyIn: checkOut?.readyIn || null,
+            readyInSetAt: checkOut?.readyInSetAt,
           };
         }else{
           return {
@@ -297,12 +299,26 @@ export class OrderService {
 
   static async updateOrderStatus(req: Xrequest){
     try{
-      const data = req.body
+      const data = JSON.parse(JSON.stringify(req.body))
       const checkOutId = data.checkOutId;
-      const result = await CheckOut.findOneAndUpdate({ checkOutId: checkOutId }, data, {new: true})!
+      if(data.setReady){
+        data.readyInSetAt = new Date();
+        delete data.setReady
+      }
+      let result:any = await CheckOut.findOneAndUpdate({ checkOutId: checkOutId }, data, {new: true})!
+      if(result){
+        result = await result.populate("account")
+      }
       delete data.notes
+      result = JSON.parse(JSON.stringify(result))
+      
       await Order.findOneAndUpdate({ checkOutId: checkOutId }, data, {new: true})!
       if(result){
+        if(req.body.setReady){
+          //Send Mail
+          mailActions.orders.sendOrderUpdateMail(result.account?.email, result.status!, checkOutId)
+        }
+
         return {
           status: true,
           message:"Order status was updated",

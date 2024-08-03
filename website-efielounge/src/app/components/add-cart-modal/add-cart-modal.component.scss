@@ -15,7 +15,7 @@
   align-items: center;
 }
 
-.required{
+.required {
   padding: 6px;
   background: red;
   color: white;
@@ -298,7 +298,7 @@ input[type="number"] {
   .modal-content {
     width: 75%;
     margin-top: 15%;
-    height: fit-content
+    height: fit-content;
   }
 }
 
@@ -308,5 +308,25 @@ input[type="number"] {
   .modal-content {
     width: 45%;
     margin-top: 10%;
+  }
+}
+
+.spinner {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  border: 1px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  text-align: center !important;
+  animation: spin 1s linear infinite; /* Animation property for rotation */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

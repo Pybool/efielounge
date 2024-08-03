@@ -58,7 +58,7 @@ class OrderService {
             console.log("All orders created successfully!");
             const account = await accounts_model_1.default.findOne({ _id: checkOutIntent.account });
             if (account) {
-                mail_service_1.default.orders.sendOrderConfirmationMail(account.email, checkOutIntent.checkOutId);
+                mail_service_1.default.orders.sendOrderSuccessfulMail(account.email, checkOutIntent.checkOutId);
             }
         }
         catch (error) {

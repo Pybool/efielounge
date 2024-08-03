@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
-import { BehaviorSubject, catchError, Observable, take, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, ReplaySubject, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,7 @@ export class CartService {
   public cartItems: any = [];
   public subTotal: number = 0.0;
   public isCartDockerOpen = false;
+  private cartSubject = new ReplaySubject<any>(1);
 
   public selectedMenu:
     | {
@@ -371,11 +372,15 @@ export class CartService {
       .subscribe(
         (response: any) => {
           this.setCartItems(response);
+          this.cartSubject.next(response); // Emit the response
         },
         (error: any) => {
           console.log('error ', error, Object.keys(error));
+          this.cartSubject.error(error); // Emit the error
         }
       );
+      // Return the subject as an observable for external subscriptions
+    return this.cartSubject.asObservable();
   }
 
   handleBooleanEvent(value: boolean) {

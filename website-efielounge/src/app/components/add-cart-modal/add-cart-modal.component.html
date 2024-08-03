@@ -53,7 +53,10 @@
 
 
             </div>
-            <button [disabled]="disableButton()" class="btn order-now" (click)="addToCart()" >Add GH₵ {{orderTotal.toLocaleString()}}</button>
+            <button [disabled]="disableButton()" class="btn order-now flex-row-sb" (click)="addToCart()" >
+                <div *ngIf="loading" class="spinner"></div>
+                <span>Add GH₵ {{orderTotal.toLocaleString()}}</span>
+            </button>
         </div>
         <small *ngIf="showMaxUnitsError" style="color: gray;padding: 10px;">Units cannot be more than 50</small>
 
