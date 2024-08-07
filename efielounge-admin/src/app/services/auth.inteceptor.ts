@@ -33,7 +33,11 @@ export class AuthInterceptor implements HttpInterceptor {
         if ((err.status === 401 || err.status === 403) && !this.refresh) {
           this.refresh = true;
           if(err.status == 403){
-            document.location.href = "/login"
+            const currentUrl:string = document.location.href
+            const timestamp = Date.now()
+            const url = `/login?next=${currentUrl}&idn=${timestamp}`;
+            console.log(url)
+            document.location.href = url
           }
           // return this.tokenService.refresh().pipe(
           //   switchMap((res: any) => {

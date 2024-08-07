@@ -31,7 +31,7 @@ export class OrdersComponent {
   public serverUrl: string = environment.api;
   public parseFloat = parseFloat;
   public menuToRate: any = { name: '' };
-  selectedOrder: any = {};
+  selectedOrder: any = null;
 
   ngAfterViewInit() {
     const pageLoader = document.querySelector(

@@ -87,7 +87,7 @@
                                                                 <span class="plus">+</span>
                                                             </div> -->
                                                             <a *ngIf="menu.inCart" [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}" class="brd-rd4 order-now" (click)="orderNow(menu)" href="javascript:void(0)" title="Order Again" itemprop="url">Order Again</a>
-                                                            <a *ngIf="!menu.inCart" class="brd-rd4 order-now " (click)="orderNow(menu)" href="javascript:void(0)" title="Order Now"
+                                                            <a *ngIf="!menu.inCart" class="brd-rd4 order-now " id="{{menu?._id}}" (click)="orderNow(menu)" href="javascript:void(0)" title="Order Now"
                                                                 itemprop="url">Order Now</a>
                                                         </div>
                                                         

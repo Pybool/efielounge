@@ -19,7 +19,6 @@
   height: 80vh;
 }
 
-
 .flex-row-sb {
   display: flex;
   flex-direction: row;
@@ -252,7 +251,7 @@ label > .qty {
   border: 1px solid orange;
 }
 
-.extras-label{
+.extras-label {
   width: 100%;
   font-weight: 700;
   border-bottom: 2px solid orange;
@@ -439,17 +438,16 @@ img {
   }
 }
 
-
 /* Extra Small Devices, Phones (0px to 599px) */
 @media only screen and (min-width: 300px) and (max-width: 599px) {
   /* Styles for small phones */
   .tab__label {
-    flex-wrap: wrap!important;
+    flex-wrap: wrap !important;
   }
   #dock-widget {
-    top: 15%!important;
-    right: -90%!important;
-    width: 90%!important;
+    top: 15% !important;
+    right: -90% !important;
+    width: 90% !important;
   }
 
   .basket-container {
@@ -461,16 +459,49 @@ img {
 @media only screen and (min-width: 600px) and (max-width: 767px) {
   /* Styles for larger phones */
   .tab__label {
-    flex-wrap: wrap!important;
+    flex-wrap: wrap !important;
   }
   #dock-widget {
-    top: 15%!important;
-    right: -90%!important;
-    width: 90%!important;
+    top: 15% !important;
+    right: -90% !important;
+    width: 90% !important;
   }
   .basket-container {
     top: 0px;
   }
+}
+
+.cart-header {
+  background: ghostwhite;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+}
+
+.empty-all-cart {
+  color: gray;
+  font-weight: 900;
+  margin-top: 0px;
+  border-radius: 50%;
+  background: whitesmoke;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-cart {
+  color: gray;
+  font-weight: 900;
+  margin-top: 20px;
+  border-radius: 50%;
+  background: whitesmoke;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Medium Devices, Tablets (768px to 991px) */
@@ -507,7 +538,7 @@ img {
     border-radius: 20px;
   }
 
-  .basket-container{
+  .basket-container {
     width: 100%;
     background: white;
     height: 50%;

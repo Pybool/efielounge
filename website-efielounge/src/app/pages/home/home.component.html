@@ -78,10 +78,10 @@
                         <span class="price">GH₵ {{readyMeal.price}}</span>
                         <a *ngIf="readyMeal.inCart"
                           [ngStyle]="{'background-color': readyMeal.inCart ? 'orange' : 'black'}" class="brd-rd2 order"
-                          href="javascript:void(0)" (click)="orderNow(readyMeal)" title="Order Again"
+                          href="javascript:void(0)" id="{{readyMeal?._id}}" (click)="orderNow(readyMeal)" title="Order Again"
                           itemprop="url">Order Again</a>
 
-                        <a *ngIf="!readyMeal.inCart" class="brd-rd2" (click)="orderNow(readyMeal)"
+                        <a *ngIf="!readyMeal.inCart" class="brd-rd2" id="{{readyMeal?._id}}" (click)="orderNow(readyMeal)"
                           href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
                           <div class="restaurant-info flex-row-sb">
                             <!-- <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GH₵ {{readyMeal?.price.toFixed(2)}}</span> -->
@@ -127,10 +127,10 @@
                   <h4>{{comingUp?.category.name}}</h4>
                   <span>GH₵ {{comingUp?.price}}</span>
                 </div>
-                <a *ngIf="comingUp.inCart" [ngStyle]="{'background-color': comingUp.inCart ? 'orange' : 'black'}"
+                <a *ngIf="comingUp.inCart" id="{{comingUp?._id}}" [ngStyle]="{'background-color': comingUp.inCart ? 'orange' : 'black'}"
                   class="brd-rd2 order" (click)="orderNow(comingUp)" href="javascript:void(0)" title="Order Again"
                   itemprop="url">Order Again</a>
-                <a *ngIf="!comingUp.inCart" class="brd-rd2 order" (click)="orderNow(comingUp)" href="javascript:void(0)"
+                <a *ngIf="!comingUp.inCart" id="{{comingUp?._id}}"  class="brd-rd2 order" (click)="orderNow(comingUp)" href="javascript:void(0)"
                   title="Order Now" itemprop="url">Order Now</a>
                 <span class="post-rate yellow-bg brd-rd2"><i class="fa"
                     [ngClass]="comingUp?.iRated ? 'fa-star' : 'fa-star-o'"></i>
@@ -181,10 +181,10 @@
                   class="post-likes style2 red-clr"><i [ngStyle]="{'color': favourite?.iLiked ? 'orange' : 'gray'}"
                     class="fa fa-heart"></i>
                   {{favourite?.likes}}</span>
-                <a *ngIf="favourite.inCart" [ngStyle]="{'background-color': favourite.inCart ? 'orange' : 'black'}"
+                <a *ngIf="favourite.inCart" id="{{favourite?._id}}"  [ngStyle]="{'background-color': favourite.inCart ? 'orange' : 'black'}"
                   class="brd-rd2 order" (click)="orderNow(favourite)" href="javascript:void(0)" title="Order Again"
                   itemprop="url">Order Again</a>
-                <a *ngIf="!favourite.inCart" class="brd-rd2 order" (click)="orderNow(favourite)"
+                <a *ngIf="!favourite.inCart" id="{{favourite?._id}}"  class="brd-rd2 order" (click)="orderNow(favourite)"
                   href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
               </div>
             </div>
@@ -236,11 +236,11 @@
 
                             <a *ngIf="popular.inCart"
                               [ngStyle]="{'background-color': popular.inCart ? 'orange' : 'black'}"
-                              class="brd-rd2 order" (click)="orderNow(popular)" href="javascript:void(0)"
+                              class="brd-rd2 order" id="{{popular?._id}}" (click)="orderNow(popular)" href="javascript:void(0)"
                               title="Order Again" itemprop="url">View In
                               Cart</a>
                             <a *ngIf="!popular.inCart" style="margin-bottom: 10px;" class="brd-rd2 order"
-                              (click)="orderNow(popular)" href="javascript:void(0)" title="Order Now"
+                              (click)="orderNow(popular)" id="{{popular?._id}}" href="javascript:void(0)" title="Order Now"
                               itemprop="url">Order Now</a>
                           </div>
 
@@ -323,12 +323,12 @@
                               class="post-likes style2 filter-likes red-clr"><i
                                 [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
                               {{filteredMenu?.likes}}</span>
-                            <a *ngIf="filteredMenu.inCart" style="float:left;"
+                            <a *ngIf="filteredMenu.inCart" style="float:left;" id="{{filteredMenu?._id}}"
                               [ngStyle]="{'background-color': filteredMenu.inCart ? 'orange' : 'black'}"
                               class="brd-rd2 order" (click)="orderNow(filteredMenu)" href="javascript:void(0)"
                               title="Order Again" itemprop="url">View
                               In Cart</a>
-                            <a *ngIf="!filteredMenu.inCart" class="brd-rd5" (click)="orderNow(filteredMenu)"
+                            <a *ngIf="!filteredMenu.inCart" id="{{filteredMenu?._id}}" class="brd-rd5" (click)="orderNow(filteredMenu)"
                               href="javascript:void(0)" title="Order Now">Order Now</a>
                           </div>
                         </div>

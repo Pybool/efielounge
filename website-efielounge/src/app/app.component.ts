@@ -7,7 +7,7 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { CartService } from './services/cart.service';
 import { CartDockedComponent } from './components/cart-docked/cart-docked.component';
@@ -51,7 +51,7 @@ export class AppComponent implements AfterViewInit {
   public homePageData: any = {};
   @ViewChild('scrollablePromotions') scrollablePromotions!: ElementRef;
   private scrollTimeout: any;
-
+  public mId:any = null
   public selectedMenu:
     | {
         _id: string;
@@ -67,7 +67,8 @@ export class AppComponent implements AfterViewInit {
     private ngZone: NgZone,
     private authService: AuthService,
     private cartService: CartService,
-    private homeService: HomeService
+    private homeService: HomeService,
+    private route: ActivatedRoute
   ) {
     this.homeService.getHomeData();
     this.homeService.getHomeDataObs().subscribe((homePageData: any) => {
@@ -85,6 +86,9 @@ export class AppComponent implements AfterViewInit {
 
   ngOnInit() {
     const user = this.authService.retrieveUser();
+    this.route.queryParams.subscribe((params:any) => {
+      this.mId = params?.['id'];
+    });
 
     if (user) {
       this.user = user;
@@ -123,6 +127,18 @@ export class AppComponent implements AfterViewInit {
       }
       catch{}
     }, 5000);
+    if(this.mId){
+      this.scrollToElement()
+    }
+    
+  
+  }
+
+  scrollToElement(){ 
+    const item:any = document.getElementById(this.mId);
+    if(item){
+      item.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
   }
 
   resetScrollTimeout() {

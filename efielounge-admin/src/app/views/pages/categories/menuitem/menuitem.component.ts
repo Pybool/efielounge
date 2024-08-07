@@ -133,24 +133,22 @@ export class MenuitemComponent {
 
   async createMenuItem(): Promise<void> {
     if (
-      !this.attachments ||
-      this.attachments.length === 0 ||
       !this.form.name ||
       !this.form.status ||
       !this.form.category
     ) {
-      console.log('Please fill out all fields and select at least one image.');
+      alert('Please fill out all required fields.');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('data', JSON.stringify(this.form));
+    // const formData = new FormData();
+    // formData.append('data', JSON.stringify(this.form));
 
-    const firstFile = this.attachments[0];
-    formData.append('attachments', firstFile);
+    // const firstFile = this.attachments[0];
+    // formData.append('attachments', firstFile);
 
     this.categoryService
-      .createMenuItem(formData)
+      .createMenuItem(this.form)
       .pipe(take(1))
       .subscribe((response: any) => {
         if (response.status) {

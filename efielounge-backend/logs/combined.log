@@ -7830,3 +7830,25 @@ info:
  {"timestamp":"2024-08-03T03:41:45.319+01:00"}
 info: Mongoose connected to db {"timestamp":"2024-08-03T03:41:45.416+01:00"}
 info: MongoDB connected Successfully. {"timestamp":"2024-08-03T03:41:45.424+01:00"}
+info: MONGO_URI: mongodb://localhost:27017/ {"timestamp":"2024-08-03T16:17:23.766+01:00"}
+info: DATABASE NAME EFIELOUNGE {"timestamp":"2024-08-03T16:17:23.773+01:00"}
+info: 
+ ----------------------------------------------------------------
+|  EFIELOUNGE DEVELOPMENT SERVER IS RUNNING ON 0.0.0.0:8000  |
+|  😊 Development Server started successfully.  |
+|  🎧 Listening on port 8000...  |
+ ----------------------------------------------------------------
+ {"timestamp":"2024-08-03T16:17:33.553+01:00"}
+info: Mongoose connected to db {"timestamp":"2024-08-03T16:17:33.614+01:00"}
+info: MongoDB connected Successfully. {"timestamp":"2024-08-03T16:17:33.620+01:00"}
+info: MONGO_URI: mongodb://localhost:27017/ {"timestamp":"2024-08-07T03:05:05.857+01:00"}
+info: DATABASE NAME EFIELOUNGE {"timestamp":"2024-08-07T03:05:05.880+01:00"}
+info: 
+ ----------------------------------------------------------------
+|  EFIELOUNGE DEVELOPMENT SERVER IS RUNNING ON 0.0.0.0:8000  |
+|  😊 Development Server started successfully.  |
+|  🎧 Listening on port 8000...  |
+ ----------------------------------------------------------------
+ {"timestamp":"2024-08-07T03:05:22.339+01:00"}
+info: Mongoose connected to db {"timestamp":"2024-08-07T03:05:22.448+01:00"}
+info: MongoDB connected Successfully. {"timestamp":"2024-08-07T03:05:22.454+01:00"}

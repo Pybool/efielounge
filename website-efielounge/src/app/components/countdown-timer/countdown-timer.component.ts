@@ -9,7 +9,7 @@ const ALERT_THRESHOLD = 5;
 const COLOR_CODES = {
   info: { color: 'green' },
   warning: { color: 'orange', threshold: WARNING_THRESHOLD },
-  alert: { color: 'red', threshold: ALERT_THRESHOLD }
+  alert: { color: 'red', threshold: ALERT_THRESHOLD },
 };
 
 const TIME_LIMIT = 20;
@@ -18,28 +18,44 @@ const TIME_LIMIT = 20;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './countdown-timer.component.html',
-  styleUrl: './countdown-timer.component.scss'
+  styleUrl: './countdown-timer.component.scss',
 })
 export class CountdownTimerComponent implements OnInit, OnDestroy {
-  TIME_LIMIT = 20
-  @Input() order:any = ""
-  @Input() timeLeft:any;
+  TIME_LIMIT = 20;
+  @Input() order: any = '';
+  @Input() timeLeft: any;
   timePassed = 0;
   timerInterval: any;
-  formattedTime:any
+  formattedTime: any;
   remainingPathColor = COLOR_CODES.info.color;
 
   ngOnInit() {
-    setTimeout(()=>{
+    let str = JSON.parse(
+      window.localStorage.getItem('tmr') as any
+    );
+    console.log(str)
+    if (str) {
+      this.TIME_LIMIT = str[this.order._id].tmr;
+    } else {
       this.TIME_LIMIT = this.getTimeLeft(
         this.order.readyInSetAt,
         this.order.readyIn
       );
+
+      console.log(
+        'Mothrfucker ',
+        this.TIME_LIMIT,
+        this.order.readyInSetAt,
+        this.order.readyIn
+      );
       this.startTimer();
-    },3000)
+    }
   }
 
   ngOnDestroy() {
+    const str: any = {};
+    str[this.order._id] = this.TIME_LIMIT.toString();
+    window.localStorage.setItem('tmr', JSON.stringify(str));
     if (this.timerInterval) {
       clearInterval(this.timerInterval);
     }
@@ -61,10 +77,10 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   startTimer() {
     this.timerInterval = setInterval(() => {
       this.timePassed += 1;
-      this.timeLeft =  this.TIME_LIMIT - this.timePassed;
-      this.formattedTime = this.formatTime(this.TIME_LIMIT - this.timePassed)
+      this.timeLeft = this.TIME_LIMIT - this.timePassed;
+      this.formattedTime = this.formatTime(this.TIME_LIMIT - this.timePassed);
       this.updateDisplay();
-      
+
       if (this.timeLeft <= 0) {
         this.onTimesUp();
       }
@@ -82,7 +98,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
 
   formatTime(time: number): string {
     const minutes = Math.floor(time / 60);
-    let seconds:any = time % 60;
+    let seconds: any = time % 60;
 
     if (seconds < 10) {
       seconds = `0${seconds}`;
@@ -94,7 +110,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   setRemainingPathColor(timeLeft: number) {
     const { alert, warning, info } = COLOR_CODES;
     const pathElement = document.getElementById('base-timer-path-remaining')!;
-    
+
     if (timeLeft <= alert.threshold) {
       pathElement.classList.remove(warning.color);
       pathElement.classList.add(alert.color);
@@ -105,8 +121,8 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   }
 
   calculateTimeFraction(): number {
-    const rawTimeFraction = this.timeLeft /  this.TIME_LIMIT;
-    return rawTimeFraction - (1 /  this.TIME_LIMIT) * (1 - rawTimeFraction);
+    const rawTimeFraction = this.timeLeft / this.TIME_LIMIT;
+    return rawTimeFraction - (1 / this.TIME_LIMIT) * (1 - rawTimeFraction);
   }
 
   setCircleDasharray() {

@@ -58,7 +58,7 @@ adminRouter.post(
   "/menu/create-menu-item",
   decode,
   ensureAdmin,
-  getMulterConfig(),
+  // getMulterConfig(),
   menuController.createMenuItem
 );
 adminRouter.put(

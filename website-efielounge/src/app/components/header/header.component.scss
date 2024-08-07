@@ -104,20 +104,20 @@ li.cart a {
   padding-right: 20px; /* Adjust padding to ensure the badge doesn't overlap the text */
 }
 
-.mobile-sub-menu{
+.mobile-sub-menu {
   transition: all 0.5s;
+  // max-height: 25vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.show-sub-menu{
-  display: block!important;
-
+.show-sub-menu {
+  display: block !important;
 }
 
-.menu-caret >path{
-  fill: white
+.menu-caret > path {
+  fill: white;
 }
-
-
 
 .badge {
   position: absolute;
@@ -148,24 +148,27 @@ li.cart a {
   transition: all 1s;
 }
 
-
-.responsive-header{
+.responsive-header {
   position: fixed;
-  z-index: 2
+  z-index: 2;
 }
 
 .responsive-menu-show {
   position: fixed;
   top: 0;
   right: 0px;
-  opacity: 1; 
-  visibility: visible; 
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-lst {
+  height: 82%!important;
 }
 
 .menu-lst > ul {
-  height: fit-content;
+  height: 95%;
+  overflow-x: hidden;
 }
-
 
 .menu-lst > ul > li:before {
   content: "";
@@ -173,10 +176,10 @@ li.cart a {
 }
 
 .menu-lst > ul > li > a > svg {
-  margin-left:10px;
-  margin-right:10px
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.menu-lst > ul > li > a > svg> path {
-  fill: white!important;
+.menu-lst > ul > li > a > svg > path {
+  fill: white !important;
 }

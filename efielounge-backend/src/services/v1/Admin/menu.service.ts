@@ -116,7 +116,7 @@ export class Menuservice {
         const updated = await Menu.findOneAndUpdate(
           { _id: validatedResult._id },
           validatedResult,
-          { new: true }
+          // { new: true }
         );
         return {
           status: true,
@@ -177,8 +177,8 @@ export class Menuservice {
 
   static async createMenuItem(req: Xrequest) {
     try {
-      const requestBody = req.body;
-      const requestBodyData = JSON.parse(requestBody.data);
+      // const requestBody = req.body;
+      const requestBodyData = req.body; //JSON.parse(requestBody.data);
       const validatedResult: ImenuItem =
         await validations.menuItemSchema.validateAsync(requestBodyData);
       const existingMenuItem: any = await MenuItem.findOne({
@@ -203,19 +203,19 @@ export class Menuservice {
         };
       }
 
-      let menuAttachments = req.attachments!;
-      if (
-        menuAttachments.length == 0 ||
-        req.files.length != menuAttachments.length
-      ) {
-        return {
-          status: false,
-          message: "Menu creation failed, no valid images were sent",
-          data: null,
-          code: 422,
-        };
-      }
-      validatedResult.attachments = menuAttachments;
+      // let menuAttachments = req.attachments!;
+      // if (
+      //   menuAttachments.length == 0 ||
+      //   req.files.length != menuAttachments.length
+      // ) {
+      //   return {
+      //     status: false,
+      //     message: "Menu creation failed, no valid images were sent",
+      //     data: null,
+      //     code: 422,
+      //   };
+      // }
+      // validatedResult.attachments = menuAttachments;
 
       const menuItem = await MenuItem.create(validatedResult);
       if (menuItem) {

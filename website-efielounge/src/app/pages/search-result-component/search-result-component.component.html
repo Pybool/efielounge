@@ -99,7 +99,7 @@
                                                             [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}"
                                                             class="brd-rd4 order" (click)="orderNow(menu)" href="javascript:void(0)"
                                                             title="Order Again" itemprop="url">Order Again</a>
-                                                        <a *ngIf="!menu.inCart" class="brd-rd4 "
+                                                        <a *ngIf="!menu.inCart" id="{{menu?._id}}" class="brd-rd4 "
                                                             (click)="orderNow(menu)"
                                                             href="javascript:void(0)" title="Order Now"
                                                             itemprop="url">Order Now</a>

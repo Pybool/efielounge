@@ -167,7 +167,11 @@ export class AddCartModalComponent implements AfterViewInit {
     } else {
       this.authService.setLoggedIn(false);
       this.sendBoolean(false);
-      this.router.navigateByUrl('/login');
+      const currentUrl:string = document.location.href
+      const timestamp = Date.now()
+      const url = `/login?next=${currentUrl}&idn=${timestamp}`;
+      console.log(url)
+      this.router.navigateByUrl(url);
     }
   }
 

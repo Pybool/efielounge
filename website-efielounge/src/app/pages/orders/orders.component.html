@@ -35,7 +35,7 @@
                                 <div class="flex-row-sb">
                                     <span class="mb-10 price">{{order.checkOutId}}</span>
                                     <span [ngClass]="order?.status?.toLowerCase()" class="processing brd-rd3">{{order?.status}}</span>
-                                    <button *ngIf="order?.status != 'DELIVERED' && order?.status != 'PENDING' &&  order?.status != 'CANCELLED'" (click)="showTimeLeft(order)" class="brd-2 order">Time Left</button>
+                                    <!-- <button *ngIf="order?.status != 'DELIVERED' && order?.status != 'PENDING' &&  order?.status != 'CANCELLED'" (click)="showTimeLeft(order)" class="brd-2 order">Time Left</button> -->
                                 </div>
                                 <hr>
                                 <div class="orders-panel flex-row-sb">

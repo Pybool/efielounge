@@ -17,9 +17,9 @@
                 <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
                     <thead class="text-nowrap text-truncate">
                         <tr>
-                            <th class="bg-body-tertiary text-center ">
+                            <!-- <th class="bg-body-tertiary text-center ">
                                 <svg cIcon name="cilPeople"></svg>
-                            </th>
+                            </th> -->
                             <th class="bg-body-tertiary">Menu Item</th>
                             <th class="bg-body-tertiary">Category</th>
                             <th class="bg-body-tertiary">Description</th>
@@ -32,11 +32,11 @@
                     <tbody>
                         @for (menuItem of menuItems; track menuItem?.name; let i = $index) {
                         <tr>
-                            <td class="text-center">
+                            <!-- <td class="text-center">
                                 <c-avatar [size]="'md'"
                                     src="{{serverUrl}}{{ menuItem.attachments[0].replace('//', '/').replace('public','').replace('efielounge-backend','').replace('..','') }}"
                                     status="success" />
-                            </td>
+                            </td> -->
                             <td>
                                 <div>{{ menuItem?.name }}</div>
                             </td>
@@ -120,12 +120,12 @@
                     <option>You're Too Late</option>
                 </select>
             </c-input-group>
-            <c-input-group class="mb-3">
+            <!-- <c-input-group class="mb-3">
                 <label cInputGroupText>
                     Attachments<span style="color:red">*</span>
                 </label>
                 <input (change)="onFileChange($event)" name="attachments" type="file" cFormControl />
-            </c-input-group>
+            </c-input-group> -->
             <c-input-group class="mb-3">
                 <label cInputGroupText>
                     Description

@@ -120,6 +120,10 @@ export class CartDockedComponent implements OnDestroy {
     return array.find((item: { _id: string }) => item._id === id);
   }
 
+  toggleDocker(){
+    this.cartService.cartDocker()
+  }
+
   private generateRandomId(length: number) {
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

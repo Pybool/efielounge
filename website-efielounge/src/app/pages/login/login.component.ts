@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { take } from 'rxjs';
 import Swal from 'sweetalert2';
 import { PreloaderComponent } from '../../components/preloader/preloader.component';
@@ -47,9 +47,15 @@ export class LoginComponent {
     email: '',
     password: '',
   };
-
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
     self = this;
+  }
+
+  ngOnInit() {
+   
   }
 
   setActiveTab(tab: string): void {
@@ -76,6 +82,8 @@ export class LoginComponent {
     bgElement.style.backgroundPosition = backgroundPosition;
   }
 
+
+
   login() {
     this.showSpinner = true;
     this.authService
@@ -89,8 +97,13 @@ export class LoginComponent {
             this.authService.storeUser(response.data);
             this.authService.setLoggedIn(true);
             setTimeout(() => {
-              // this.router.navigateByUrl('/');
-              document.location.href="/"
+              const urlParams = new URLSearchParams(window.location.search);
+              const returnUrl = urlParams.get('next');
+              if (returnUrl) {
+                window.location.href = decodeURIComponent(returnUrl);
+              } else {
+                window.location.href = '/'; // Default to home page
+              }
             }, 500);
           } else {
             if (response.code == 1001) {

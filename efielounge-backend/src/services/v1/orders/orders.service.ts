@@ -314,8 +314,7 @@ export class OrderService {
       
       await Order.findOneAndUpdate({ checkOutId: checkOutId }, data, {new: true})!
       if(result){
-        if(req.body.setReady){
-          //Send Mail
+        if(req.body.setReady && result.status! !== "PENDING"){
           mailActions.orders.sendOrderUpdateMail(result.account?.email, result.status!, checkOutId)
         }
 

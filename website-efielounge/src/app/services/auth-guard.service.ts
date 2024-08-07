@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
   constructor(public tokenService: TokenService, public router: Router) {}
   canActivate(): boolean {
     if (!this.tokenService.retrieveToken('efielounge-accessToken')) {
-      this.router.navigateByUrl('/authentication');
+      this.router.navigateByUrl('/login');
       return true; //change back to false
     }
     return true;

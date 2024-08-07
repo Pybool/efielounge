@@ -3,7 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
-import { BehaviorSubject, catchError, Observable, ReplaySubject, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  Observable,
+  ReplaySubject,
+  take,
+  tap,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,8 +43,11 @@ export class CartService {
     return this.http.get(`${environment.api}/api/v1/accounts/get-addresses`);
   }
 
-  removeAddress(payload:{addressId:string}) {
-    return this.http.post(`${environment.api}/api/v1/accounts/remove-address`, payload);
+  removeAddress(payload: { addressId: string }) {
+    return this.http.post(
+      `${environment.api}/api/v1/accounts/remove-address`,
+      payload
+    );
   }
   private cartCountSubject: BehaviorSubject<number> =
     new BehaviorSubject<number>(0);
@@ -76,7 +86,8 @@ export class CartService {
     };
     if (variants.length > 0) {
       cartItem.total =
-        (basePrice + Number(getVariantPrice().price) + extrasTotalPrice) * cartItem?.units;
+        (basePrice + Number(getVariantPrice().price) + extrasTotalPrice) *
+        cartItem?.units;
     } else {
       cartItem.total = (basePrice + extrasTotalPrice) * cartItem?.units;
     }
@@ -130,22 +141,22 @@ export class CartService {
   }
 
   getCartItems() {
-    const user = this.authService.retrieveUser()
-    if(user){
+    const user = this.authService.retrieveUser();
+    if (user) {
       this.getCart()
-      .pipe(take(1))
-      .subscribe(
-        (response: any) => {
-          if (response.status) {
-            this.cartItems = response.data;
-            this.recalculate();
-          } else {
-          }
-        },
-        (error: any) => {}
-      );
+        .pipe(take(1))
+        .subscribe(
+          (response: any) => {
+            if (response.status) {
+              this.cartItems = response.data;
+              this.recalculate();
+            } else {
+            }
+          },
+          (error: any) => {}
+        );
     }
-    
+
     return this.cartItemsSubject.asObservable();
   }
 
@@ -162,7 +173,7 @@ export class CartService {
       data.menu = value.data.menu;
       data.units = value.data.units;
       data._id = value.data._id;
-      
+
       this.calculatePricePerMeal(
         data,
         data.menu.price,
@@ -197,15 +208,15 @@ export class CartService {
   }
 
   getCartCounting() {
-    const user = this.authService.retrieveUser()
-    if(user){
+    const user = this.authService.retrieveUser();
+    if (user) {
       this.getCart()
-      .pipe(take(1))
-      .subscribe((response: any) => {
-        if (response.status) {
-          this.cartCountSubject.next(response.data.length);
-        }
-      });
+        .pipe(take(1))
+        .subscribe((response: any) => {
+          if (response.status) {
+            this.cartCountSubject.next(response.data.length);
+          }
+        });
     }
     this.cartCountSubject.next(0);
   }
@@ -218,9 +229,9 @@ export class CartService {
     return this.cartModalAndSelectedMenuSubject.asObservable();
   }
 
-  getCheckOutItem(checkOutId:string){
+  getCheckOutItem(checkOutId: string) {
     return this.http.get(
-      `${environment.api}/api/v1/cart/get-checkout?checkOutId=${checkOutId}`,
+      `${environment.api}/api/v1/cart/get-checkout?checkOutId=${checkOutId}`
     );
   }
 
@@ -322,7 +333,7 @@ export class CartService {
       dockWidget.classList.remove('dock-visible');
       if (cartOverlay) {
         cartOverlay.style.display = 'none';
-        this.isCartDockerOpen = false
+        this.isCartDockerOpen = false;
       }
       return null;
     }
@@ -332,21 +343,21 @@ export class CartService {
       body.style.position = 'unset';
       if (cartOverlay) {
         cartOverlay.style.display = 'none';
-        this.isCartDockerOpen = false
+        this.isCartDockerOpen = false;
       }
     } else {
       body.style.overflow = 'hidden';
       body.style.position = 'fixed';
       if (cartOverlay) {
         cartOverlay.style.display = 'block';
-        this.isCartDockerOpen = true
+        this.isCartDockerOpen = true;
       }
     }
     return null;
   }
 
-  getShowCartModalStatus(){
-    return this.isCartDockerOpen
+  getShowCartModalStatus() {
+    return this.isCartDockerOpen;
   }
 
   toggleAddToCartModal() {
@@ -354,8 +365,6 @@ export class CartService {
       this.showCartModal = true;
     }
   }
-
-  
 
   addToCartItems(menu: any, units: number, extras: any[], variants: string[]) {
     this.units = units;
@@ -379,7 +388,7 @@ export class CartService {
           this.cartSubject.error(error); // Emit the error
         }
       );
-      // Return the subject as an observable for external subscriptions
+    // Return the subject as an observable for external subscriptions
     return this.cartSubject.asObservable();
   }
 
@@ -398,7 +407,7 @@ export class CartService {
   }
 
   orderNow(menu: any) {
-    if(this.authService.retrieveUser()){
+    if (this.authService.retrieveUser()) {
       this.toggleAddToCartModal();
       this.selectedMenu = {
         _id: menu._id,
@@ -412,14 +421,23 @@ export class CartService {
       const body = document.querySelector('body') as any;
       body.style.overflow = 'hidden';
       body.style.position = 'fixed';
-  
+
       this.setCartModalAndSelectedMenu({
         showCartModal: this.showCartModal,
         selectedMenu: this.selectedMenu,
       });
-    }else{
-      document.location.href = "/login"
+    } else {
+      const pathname = document.location.pathname;
+      if (pathname !== '/') {
+        const timestamp = Date.now();
+        const currentUrl = `${window.location.href}&idn=${timestamp}&id=${
+          menu?._id || ''
+        }`;
+        const encodedUrl = encodeURIComponent(currentUrl);
+        window.location.href = `/login?next=${encodedUrl}`;
+      }else{
+        window.location.href = `/login`
+      }
     }
-    
   }
 }
