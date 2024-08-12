@@ -52,32 +52,68 @@ export class AccountService {
 
   static async saveUserProfile(req: Xrequest) {
     try {
-      const patchData = JSON.parse(req.body.data);
+      let patchData: any = {};
+      try {
+        patchData = JSON.parse(req.body.data);
+      } catch {
+        patchData = req.body;
+      }
+
       console.log(patchData);
       if (!patchData) {
         throw createError.NotFound("No data was provided");
       }
-      let account: any = await Accounts.findOne({ _id: req.query.accountId });
+      let account: any = await Accounts.findOne({
+        _id: req.query.accountId || req.accountId,
+      });
       if (!account) {
         throw createError.NotFound("Account was not found");
       }
       // Add fields validation
-      Object.keys(patchData).forEach((field) => {
-        if (field != "email") account[field] = patchData[field];
-      });
+      if (req.query.accountId) {
+        Object.keys(patchData).forEach((field) => {
+          if (field != "email") account[field] = patchData[field];
+        });
+      } else {
+        Object.keys(patchData).forEach((field) => {
+          account[field] = patchData[field];
+        });
+      }
+
       if (req?.attachments?.length > 0) {
         account.avatar = req.attachments[0].replaceAll("/public", "");
       }
 
+      const existingPhone = await Accounts.findOne({
+        dialCode: patchData?.dialCode,
+        phone: patchData?.phone,
+      });
+
+      console.log(account?._id?.toString() , existingPhone)
+      if(existingPhone){
+        if (account?._id?.toString() !== existingPhone?._id?.toString()) {
+          throw Error("This phone number is already being used");
+        }
+      }
+      
       account = await account.save();
+      account.password = null;
       return {
         status: true,
         data: account,
         message: "Profile updated successfully..",
       };
-    } catch (error) {
+    } catch (error: any) {
+      let msg = "Profile update failed..";
       console.log(error);
-      return { status: false, message: "Profile update failed.." };
+      if (error?.message.includes("being used")) {
+        msg = "This phone number is already being used";
+      }
+
+      if (error?.message.includes("duplicate key")) {
+        msg = "This email address is already taken.";
+      }
+      return { status: false, message: msg };
     }
   }
 

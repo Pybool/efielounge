@@ -74,8 +74,6 @@ export class CheckoutComponent implements OnDestroy {
     }
     this.activatedRoute$ = this.route.paramMap.subscribe((params) => {
       this.checkOutId = params.get('checkOutId') as string;
-      // this.deliveryCost
-
       this.cartItems$ = this.cartService.getCartItems().subscribe(
         (response: any) => {
           this.cartService.cartDocker(true);
@@ -110,6 +108,7 @@ export class CheckoutComponent implements OnDestroy {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
+      document.querySelector("html")?.scrollIntoView()
     }, 100);
   }
 
@@ -239,20 +238,6 @@ export class CheckoutComponent implements OnDestroy {
   }
 
   checkOut() {
-    // this.payment = {
-    //   ref: this.checkOutId,
-    //   amount: this.getSubTotal() + this.deliveryCost,
-    // };
-    // if (this.paymentMethod == 'transfer') {
-    //   this.toggleTransferModal();
-    // } else {
-    //   this.initiatePayment(
-    //     Math.round(Number(this.payment.amount)),
-    //     this.user.email,
-    //     this.checkOutId
-    //   );
-    // }
-
     this.cartService
       .updateCartItemsAndCheckOut(
         {
@@ -276,7 +261,7 @@ export class CheckoutComponent implements OnDestroy {
             } else {
               this.initiatePayment(
                 Math.round(Number(this.payment.amount)),
-                this.user.email,
+                this.user.email || `customer${this.user.phone}@efielounge.com`,
                 this.checkOutId
               );
             }

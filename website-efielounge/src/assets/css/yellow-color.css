@@ -31,7 +31,7 @@ a.thanks-close:focus,
 .chef-box,
 .menu-sec > a:hover:hover
 {
-	background-color: #ffbe00;
+	background-color: orangered;
 }
 
 /*===== Text Color =====*/
@@ -59,7 +59,7 @@ nav > div > ul > li a:focus,
 .menu-lst > ul li > a:focus,
 .menu-lst > ul li.active > a
 {
-	color: #ffbe00;
+	color: orangered;
 }
 
 /*===== Border Color =====*/
@@ -67,29 +67,29 @@ nav > div > ul > li a:focus,
 .error-page-inner > a,
 .user-info.red-bg > img
 {
-	border-color: #ffbe00;
+	border-color: orangered;
 }
 
 /*===== Border Top Color =====*/ 
 
 {
-	border-top-color: #ffbe00;
+	border-top-color: orangered;
 }
 
 /*===== Border Right Color =====*/ 
 
 {
-	border-right-color: #ffbe00;
+	border-right-color: orangered;
 }
 
 /*===== Border Bottom Color =====*/
 
 {
-	border-bottom-color: #ffbe00;
+	border-bottom-color: orangered;
 }
 
 /*===== Border Left Color =====*/ 
 
 {
-	border-left-color: #ffbe00;
+	border-left-color: orangered;
 }

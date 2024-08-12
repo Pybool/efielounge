@@ -34,7 +34,8 @@
                                         <div class="sign-popup-wrapper brd-rd5">
                                             <div class="sign-popup-inner brd-rd5">
                                                 <div class="sign-popup-title text-center">
-                                                    <h4 itemprop="headline">SIGN IN</h4>
+                                                    <!-- <h4 itemprop="headline">SIGN IN</h4> -->
+                                                    <span class="heading">EFIELOUNGE</span>
                                                     <!-- <span>with your social network</span> -->
                                                 </div>
                                                 <div class="popup-social text-center">
@@ -42,29 +43,122 @@
                                                     <a class="google brd-rd3" href="#" title="Google Plus" itemprop="url" target="_blank"><i class="fa fa-google-plus"></i> Google</a>
                                                     <a class="twitter brd-rd3" href="#" title="Twitter" itemprop="url" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>
                                                 </div>
-                                                <!-- <span class="popup-seprator text-center"><i class="brd-rd50">or</i></span> -->
-                                                <form class="sign-form">
-                                                    <div class="row">
-                                                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                                                            <input [(ngModel)]="credentials.email" name="email" class="brd-rd3" type="text" placeholder="Username or Email">
+                                                <div class="container">
+  
+                                                    <h4>Sign In With: </h4>
+                                                  
+                                                    <div class="tabs">
+                                                    
+                                                      <div class="tabby-tab">
+                                                        <input type="radio" id="tab-1" name="tabby-tabs" checked>
+                                                        <label for="tab-1">Mobile</label>
+                                                        <div class="tabby-content">
+                                                            <form class="sign-form">
+                                                                <div class="row">
+                                                                    <div class="mobile-number-container">
+                                                                        <div style="flex-wrap: wrap;gap:20px;flex-direction: column;"
+                                                                            class="flex-row-sb col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                                                                            <app-country-select
+                                                                                (countrySelected)="handleCountrySelected($event)"
+                                                                                class="col-12"></app-country-select>
+                                                                            <div style="width: 100%" class="col-md-12"><input [(ngModel)]="phone"
+                                                                                    (keyup)="isValidPhone($event)" name="phone"
+                                                                                    class="brd-rd3" type="text"
+                                                                                    placeholder="Mobile number">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div *ngIf="showSubmit">
+                                                                        <app-otp-input #input="ngModel"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (ngModelChange)="onDataChange($event)"
+                                                                            [(ngModel)]="data" />
+                                                                        <!-- <button class="btn btn-default close">Clear</button> -->
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 submit-container">
+                                                                        <button *ngIf="!showOtp && !showSubmit"
+                                                                                [disabled]="disable" 
+                                                                                (click)="phoneNumberSendOtp()" 
+                                                                                class="red-bg brd-rd3 spinner-btn" 
+                                                                                [ngStyle]="{'opacity': disable ? 0.5 : 1}">
+                                                                                <div *ngIf="showSpinner" class="spinner"></div>
+                                                                                <span>SEND CODE</span>
+                                                                        </button>
+                                                                        <button *ngIf="showSubmit"
+                                                                                [disabled]="disable" 
+                                                                                (click)="phoneNumberLogin()" 
+                                                                                class="red-bg brd-rd3 spinner-btn" 
+                                                                                type="submit"
+                                                                                [ngStyle]="{'opacity': disable ? 0.5 : 1}">
+                                                                                <div *ngIf="showSpinner" class="spinner"></div>
+                                                                                <span>SIGN IN</span>
+                                                                        </button>
+            
+                                                                    </div>
+                                                                    <div class="flex-row-sb nowrap col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                                                                        <a class="sign-btn" style="font-size: 15px; text-align: center;" href="/register" title="" itemprop="url">Not a customer? Sign up</a>
+                                                                        <div style="align-items: flex-end;" class="flex-row-sb">
+                                                                            <div *ngIf="showResendSpinner" class="spinner"></div>
+                                                                            <a style="margin-top: 0px;" class="recover-btn otp-link-text" *ngIf="hasRequestedOtpEarlier" style="font-size: 15px; text-align: center;" (click)="resendCode()" href="javascript:void(0)" title="" itemprop="url">{{otpText}}</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                                                            <input [(ngModel)]="credentials.password" name="password" class="brd-rd3" type="password" placeholder="Password">
+                                                      </div>
+                                                  
+                                                      <div class="tabby-tab">
+                                                        <input type="radio" id="tab-2" name="tabby-tabs">
+                                                        <label for="tab-2">Email</label>
+                                                        <div class="tabby-content">
+                                                            <form class="sign-form">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                                                                        <input [(ngModel)]="credentials.email" (keyup)="checkValidmail()" name="email" class="brd-rd3" type="text" placeholder="Email Address">
+                                                                    </div>
+                                                                    <div *ngIf="showSubmit">
+                                                                        <app-otp-input #input="ngModel"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (ngModelChange)="onDataChange($event,'email')"
+                                                                            [(ngModel)]="data" />
+                                                                        <!-- <button class="btn btn-default close">Clear</button> -->
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 submit-container">
+                                                                        <button *ngIf="!showOtp && !showSubmit"
+                                                                                [disabled]="activeSendOtp" 
+                                                                                (click)="emailSendOtp()" 
+                                                                                class="red-bg brd-rd3 spinner-btn" 
+                                                                                [ngStyle]="{'opacity': activeSendOtp ? 0.5 : 1}">
+                                                                                <div *ngIf="showSpinner" class="spinner"></div>
+                                                                                <span>SEND CODE</span>
+                                                                        </button>
+                                                                        <button *ngIf="showSubmit"
+                                                                                [disabled]="disable" 
+                                                                                (click)="emailLogin()" 
+                                                                                class="red-bg brd-rd3 spinner-btn" 
+                                                                                type="submit"
+                                                                                [ngStyle]="{'opacity': disable ? 0.5 : 1}">
+                                                                                <div *ngIf="showSpinner" class="spinner"></div>
+                                                                                <span>SIGN IN</span>
+                                                                        </button>
+            
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                                                                        <a class="sign-btn" href="/register" title="" itemprop="url">Not a member? Sign up</a>
+                                                                        <a class="recover-btn" href="/recover-password" title="" itemprop="url">Recover my password</a>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                                                            <button (click)="login()" class="red-bg brd-rd3 spinner-btn" type="submit">
-                                                                <div *ngIf="showSpinner" class="spinner"></div>
-                                                                <span>SIGN IN</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                                                            <a class="sign-btn" href="/register" title="" itemprop="url">Not a member? Sign up</a>
-                                                            <a class="recover-btn" href="/recover-password" title="" itemprop="url">Recover my password</a>
-                                                        </div>
+                                                      </div>
+                                                  
+                                                      
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        
                                     </div>
                                    
                                 </div>
@@ -74,6 +168,7 @@
                 </div>
             </div>
         </section>
+       
 
         <app-footer></app-footer>
     </main><!-- Main Wrapper -->

@@ -89,7 +89,7 @@
 
 
 .order:hover {
-  background: orange;
+  background: orangered;
 }
 
 .caro-dish-name {
@@ -135,7 +135,7 @@
 }
 
 .price {
-  color: orange;
+  color: orangered;
 }
 
 .post-rate {
@@ -150,7 +150,7 @@
 @media only screen and (max-width: 599px) {
   /* Styles for small phones */
   .dish-item {
-    background: beige;
+   
     margin-bottom: 20px;
   }
 
@@ -172,7 +172,7 @@
 @media only screen and (min-width: 600px) and (max-width: 767px) {
   /* Styles for larger phones */
   .dish-item {
-    background: beige;
+   
     margin-bottom: 20px;
   }
 
@@ -301,7 +301,7 @@
 }
 
 .cart-icon > path {
-  fill: orange;
+  fill: orangered;
 }
 
 @keyframes bounce {

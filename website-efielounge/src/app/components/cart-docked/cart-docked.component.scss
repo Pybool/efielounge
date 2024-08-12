@@ -125,9 +125,6 @@ hr {
   font-weight: 600;
 }
 
-* {
-  font-family: "EuclidCircularB-SemiBold" !important;
-}
 
 /* Make the scrollbar present but invisible */
 ::-webkit-scrollbar {
@@ -155,8 +152,8 @@ hr {
 }
 
 .form-check-input:checked {
-  background-color: orange;
-  border-color: orange;
+  background-color: orangered;
+  border-color: orangered;
 }
 
 /* Remove default blue border on focus for checkboxes */
@@ -192,7 +189,7 @@ img {
 }
 
 .order-now:hover {
-  color: orange !important;
+  color: orangered !important;
 }
 
 .number {
@@ -209,7 +206,7 @@ img {
   background: #f2f2f2;
   border-radius: 4px;
   border: 1px solid #ddd;
-  color: orange;
+  color: orangered;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,13 +245,13 @@ label > .qty {
   font-size: 18px;
   font-weight: 600;
   margin-right: 20px;
-  border: 1px solid orange;
+  border: 1px solid orangered;
 }
 
 .extras-label {
   width: 100%;
   font-weight: 700;
-  border-bottom: 2px solid orange;
+  border-bottom: 2px solid orangered;
   font-size: larger;
 }
 
@@ -267,7 +264,7 @@ label > span.menu-price {
   white-space: nowrap;
   margin-right: 10px;
   font-weight: 700;
-  color: orange;
+  color: orangered;
 }
 
 .edit-cart {
@@ -304,8 +301,8 @@ label > span.menu-price {
 }
 
 .form-check-input:checked {
-  background-color: orange;
-  border-color: orange;
+  background-color: orangered;
+  border-color: orangered;
 }
 
 /* Remove default blue border on focus for checkboxes */
@@ -358,7 +355,7 @@ img {
   right: -10px;
   background-color: whitesmoke;
   color: red;
-  border: 2px solid orange;
+  border: 2px solid orangered;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -381,7 +378,7 @@ img {
   color: var(--theme);
   border: 1px solid rgb(208, 208, 208);
   background: whitesmoke;
-  border-radius: 0.5rem;
+  // border-radius: 0.5rem;
   overflow-x: hidden;
   max-height: 90%;
   overflow-y: auto;
@@ -399,6 +396,11 @@ img {
   align-items: flex-start;
   padding: 20px;
   background: white;
+  flex-wrap: nowrap!important;
+}
+
+.number.flex-row-sb{
+  flex-wrap: nowrap!important;
 }
 .tab__label::after {
   content: "\276F";

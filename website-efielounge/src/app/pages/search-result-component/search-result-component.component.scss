@@ -22,7 +22,7 @@
 
 .desc-read-more {
   font-size: x-small;
-  color: orange;
+  color: orangered;
 }
 
 .desc-read-more:hover {
@@ -63,7 +63,7 @@ span {
   vertical-align: middle;
   text-align: center;
   padding-left: 3.5px;
-  color: orange;
+  color: orangered;
 }
 input {
   height: 20px;
@@ -74,7 +74,7 @@ input {
   border-radius: 4px;
   display: inline-block;
   vertical-align: middle;
-  color: orange;
+  color: orangered;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -88,7 +88,7 @@ input[type="number"] {
 }
 
 div.block > div.container{
-  max-width: 90vw!important;
+  max-width: 100vw!important;
 }
 
 .x-flex-row {
@@ -115,7 +115,6 @@ div.block > div.container{
 }
 
 .order-now {
-  font-family: Poppins;
   font-weight: 500;
   transition: all 0.3s linear;
 }
@@ -125,7 +124,7 @@ div.block > div.container{
 }
 
 .order-now:hover {
-  background-color: orange;
+  background-color: orangered;
 }
 
 .order-now {
@@ -203,7 +202,7 @@ div.block > div.container{
 
 .search-string {
   font-size: 45px;
-  color: orange;
+  color: orangered;
 }
 
 .no-results {

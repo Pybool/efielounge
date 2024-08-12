@@ -5,6 +5,12 @@ import { handleInvalidMethod } from '../../middlewares/invalidrequest';
 const authRouter = express.Router();
 
 authRouter.post('/register', decodeExt, authController.createAccount)
+authRouter.post('/phone-register', decodeExt, authController.phoneRegister)
+authRouter.post('/email-register', decodeExt, authController.emailRegister)
+authRouter.post('/phone-otp', decodeExt, authController.sendPhoneOtp)
+authRouter.post('/email-otp', decodeExt, authController.sendEmailOtp)
+authRouter.post('/phone-login', decodeExt, authController.phoneLogin)
+authRouter.post('/email-login', decodeExt, authController.emailLogin)
 authRouter.post('/resend-email-verification-otp', authController.sendEmailConfirmationOtp)
 authRouter.post('/send-password-reset-otp', authController.sendPasswordResetLink)
 authRouter.post('/reset-password', authController.resetPassword)

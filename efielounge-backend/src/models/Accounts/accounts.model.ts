@@ -8,6 +8,7 @@ const AccountSchema = new Schema({
     lowercase: true,
     unique: true,
     sparse: true, // Allows null values while maintaining uniqueness
+    required: false
   },
   userName: {
     type: String,
@@ -21,7 +22,7 @@ const AccountSchema = new Schema({
   },
   emailConfirmed: {
     type: Boolean,
-    required: true,
+    required: false,
     default: false,
   },
   firstName: {
@@ -34,10 +35,17 @@ const AccountSchema = new Schema({
     required: false,
     default: "",
   },
+  dialCode: {
+    type: String,
+    required: false,
+    default: "",
+  },
+
   phone: {
     type: String,
     required: false,
     default: "",
+    unique: true
   },
   altPhone: {
     type: String,
@@ -61,17 +69,22 @@ const AccountSchema = new Schema({
   stateOfOrigin: {
     type: String,
     required: false,
-    default: "Lagos",
+    default: "Accra",
+  },
+  countryCode: {
+    type: String,
+    required: false,
+    default: "GH",
   },
   country: {
     type: String,
     required: false,
-    default: "Nigeria",
+    default: "Ghana",
   },
   avatar: {
     type: String,
     required: false,
-    default: "shared/anon.jpeg",
+    default: "/shared/anon.jpeg",
   },
   createdAt: {
     type: Date,
@@ -133,7 +146,6 @@ AccountSchema.methods.getProfile = async function () {
 
 AccountSchema.methods.isValidPassword = async function (password: string) {
   try {
-    console.log(this.password, password);
     return await bcrypt.compare(password, this.password);
   } catch (error) {
     throw error;

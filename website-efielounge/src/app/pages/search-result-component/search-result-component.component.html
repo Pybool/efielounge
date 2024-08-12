@@ -52,7 +52,7 @@
             <div class="container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#" title="" itemprop="url">Home</a></li>
-                    <li class="breadcrumb-item active"><a id="breadcrumb-default" href="/menu">our menus</a></li>
+                    <li class="breadcrumb-item active"><a id="breadcrumb-default" href="/menu">Back to Menu</a></li>
                     <li class="breadcrumb-item">||</li>
                     <ng-container *ngFor="let category of menuCategories">
                         <li class="breadcrumb-item"><a href="/menu?name={{category.name}}&field=category&filter={{category._id}}"
@@ -84,7 +84,7 @@
                                                         <span (click)="likeMenu(menu?._id)"
                                                             [ngStyle]="{'color': menu?.iLiked ? 'white' : 'gray'}"
                                                             class="post-likes brd-rd4"><i
-                                                                [ngStyle]="{'color': menu?.iLiked ? 'orange' : 'gray'}"
+                                                                [ngStyle]="{'color': menu?.iLiked ? 'orangered' : 'gray'}"
                                                                 class="fa fa-heart"></i> {{menu?.likes}}</span>
                                                     </div>
                                                     <div class="popular-dish-info">
@@ -94,9 +94,9 @@
                                                             110}} <br> <a class="desc-read-more" href="">Read More</a>
                                                         </p>
 
-                                                        <span class="price">{{menu?.currency}} {{menu?.price}}</span>
+                                                        <span class="price">GH₵ {{menu?.price}}</span>
                                                         <a *ngIf="menu.inCart"
-                                                            [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}"
+                                                            [ngStyle]="{'background-color': menu.inCart ? 'orangered' : 'black'}"
                                                             class="brd-rd4 order" (click)="orderNow(menu)" href="javascript:void(0)"
                                                             title="Order Again" itemprop="url">Order Again</a>
                                                         <a *ngIf="!menu.inCart" id="{{menu?._id}}" class="brd-rd4 "
@@ -109,7 +109,7 @@
                                                             <span class="delivery"><i class="fa fa-check-circle-o"></i>
                                                                 Min order GH₵ {{menu?.price.toFixed(2)}}</span>
                                                             <span class="delivery"><i class="flaticon-transport"></i>
-                                                                30min</span>
+                                                                30 - 65 mins</span>
 
 
                                                         </div>

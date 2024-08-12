@@ -5,7 +5,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
 }
 
 .container {
@@ -67,7 +66,7 @@
 
 .btn {
   text-decoration: none;
-  background-color: orange;
+  background-color: orangered;
   color: #ffffff;
   padding: 10px 20px;
   border: none;
@@ -78,7 +77,7 @@
 .btn:hover{
   text-decoration: none;
   background-color: #ffffff;
-  color: orange;
+  color: orangered;
   padding: 10px 20px;
   border: none;
   outline: 1px solid #010101;
@@ -92,3 +91,25 @@
   padding: 12px 20px;
   border-radius: 4px;
 }
+
+/* Extra Small Devices, Phones (0px to 599px) */
+@media only screen and (max-width: 599px) {
+  /* Styles for small phones */
+  .card{
+    width: 90%;
+    height: fit-content;
+  }
+  
+}
+
+/* Small Devices, Larger Phones (600px to 767px) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+  /* Styles for larger phones */
+  .card{
+    width: 90%;
+    height: fit-content;
+  }
+}
+
+
+

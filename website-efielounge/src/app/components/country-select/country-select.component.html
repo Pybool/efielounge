@@ -1,0 +1,27 @@
+<div class="dropdown-container col-md-12" (clickOutside)="closeDropdown()">
+    <!-- Trigger Button -->
+    <div class="dropdown-trigger" (click)="toggleDropdown($event)">
+      {{ selectedCountry.name }} ({{ selectedCountry.dial_code }})
+      <span class="caret" [class.open]="isDropdownOpen"></span>
+    </div>
+    
+    <!-- Dropdown Menu -->
+    <div *ngIf="isDropdownOpen" class="custom-dropdown-menu">
+      <!-- Search Input -->
+      <input 
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+        placeholder="Search..."
+        class="form-control mb-2"
+        type="text"
+      >
+      
+      <!-- Options List -->
+      <ul class="dropdown-list">
+        <li *ngFor="let countryCode of filteredCountryCodes" (click)="selectCountry(countryCode)">
+          {{ countryCode.name }} ({{ countryCode.dial_code }})
+        </li>
+      </ul>
+    </div>
+  </div>
+  

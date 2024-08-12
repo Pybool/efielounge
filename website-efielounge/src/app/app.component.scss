@@ -58,7 +58,7 @@
 }
 
 .cart-icon > path {
-  fill: orange;
+  fill: orangered;
 }
 
 @keyframes bounce {
@@ -90,7 +90,7 @@
   flex-direction: column;
   background-color: #eee;
   border-radius: 5px;
-  border-color: 1px solid orange;
+  border-color: 1px solid orangered;
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
   display: none;
@@ -101,7 +101,7 @@
 }
 
 .accept-cookies {
-  background-color: orange;
+  background-color: orangered;
   font-weight: 700;
 }
 
@@ -279,7 +279,7 @@
 }
 
 .has-paid {
-  background-color: orange !important;
+  background-color: orangered !important;
 }
 
 .flex-row-sb {

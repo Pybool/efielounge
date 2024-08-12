@@ -41,7 +41,6 @@ app-otp-input,
 .header {
   color: var(--Text-Bold, #3d3d3d);
   text-align: center;
-  font-family: Roboto Serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 500;

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { handleErrors } from '../global.error.handler';
 
 @Injectable({
   providedIn: 'root',
@@ -47,11 +49,59 @@ export class AuthService {
     return this.http.post(`${environment.api}/api/v1/auth/register`, user);
   }
 
+  phoneNumberSendOtp(payload: { phone: string; messageType: string }) {
+    return this.http.post(`${environment.api}/api/v1/auth/phone-otp`, payload);
+  }
+
+  emailSendOtp(payload: { email: string; messageType: string }) {
+    return this.http.post(`${environment.api}/api/v1/auth/email-otp`, payload);
+  }
+
+  phoneNumberLogin(payload: { phone: string; otp: number }) {
+    return this.http.post(
+      `${environment.api}/api/v1/auth/phone-login`,
+      payload
+    );
+  }
+
+  emailLogin(payload: { email: string; otp: number }) {
+    return this.http.post(`${environment.api}/api/v1/auth/email-login`, payload);
+  }
+
+  phoneNumberRegistration(payload: {
+    phone: string;
+    otp: number;
+    dialCode: string;
+    countryCode: string;
+  }) {
+    return this.http.post(
+      `${environment.api}/api/v1/auth/phone-register`,
+      payload
+    );
+  }
+
+  emailRegister(payload:{ email: string; otp: number }){
+    return this.http.post(
+      `${environment.api}/api/v1/auth/email-register`,
+      payload
+    );
+  }
+
   sendPasswordResetOtp(email: any) {
     return this.http.post(
       `${environment.api}/api/v1/auth/send-password-reset-otp`,
       { email }
     );
+  }
+
+  validatePhoneNumber(phoneNumber: string, areaCode: any): boolean {
+    const parsedNumber = parsePhoneNumberFromString(phoneNumber, areaCode);
+
+    if (parsedNumber && parsedNumber.isValid()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   resetPassword(payload: any) {
@@ -76,7 +126,7 @@ export class AuthService {
   }
 
   updateProfile(user: any) {
-    return this.http.put(`${environment.api}/api/v1/auth/user-profile`, user);
+    return this.http.put(`${environment.api}/api/v1/accounts/user-profile`, user);
   }
 
   retrieveToken(tokenKey: string) {
@@ -125,7 +175,7 @@ export class AuthService {
     window.localStorage.removeItem('efielounge-accessToken');
     window.localStorage.removeItem('efielounge-refreshToken');
     //  this.router.navigateByUrl('/login');
-     return document.location.href="/login"
+    return (document.location.href = '/login');
   }
 
   uploadAvatar(formData: any) {
@@ -154,8 +204,6 @@ export class AuthService {
     });
   }
 
-  
-
   removeToken() {
     localStorage.removeItem(this.tokenKey);
   }
@@ -165,8 +213,12 @@ export class AuthService {
   }
 
   retrieveUser() {
-    const user = localStorage.getItem(this.userKey);
-    return user ? JSON.parse(user) : null;
+    try {
+      const user = localStorage.getItem(this.userKey);
+      return user ? JSON.parse(user) : null;
+    } catch {
+      return null;
+    }
   }
 
   removeUser() {

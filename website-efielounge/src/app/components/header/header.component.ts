@@ -8,11 +8,24 @@ import { CartService } from '../../services/cart.service';
 import { TokenService } from '../../services/token.service';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../environments/environment';
+import { ClickOutsideDirective } from '../../directives/country-select.directive';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CountrySelectComponent } from '../country-select/country-select.component';
+import Swal from 'sweetalert2';
+import { AddressModalComponent } from '../address-modal/address-modal.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [HttpClientModule, CommonModule],
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    ClickOutsideDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    CountrySelectComponent,
+    AddressModalComponent,
+  ],
   providers: [MenuService, AuthService, TokenService],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -24,6 +37,15 @@ export class HeaderComponent {
   public cartCount = 0;
   public initialRequest = true;
   public serverUrl = environment.api;
+  public isProfileDockerOpen: boolean = false;
+  public isEditing: boolean = false;
+  public profile: any = {};
+  public addresses: any[] = [];
+  public addressId: string = '';
+  public showCartModal = false;
+  public disable: boolean = true;
+  public phoneEdited: boolean = false;
+  public fullName: string | null = null;
 
   constructor(
     private menuService: MenuService,
@@ -36,6 +58,9 @@ export class HeaderComponent {
   ngOnInit() {
     this.user = this.authService.retrieveUser();
     if (this.user) {
+      this.profile = JSON.parse(JSON.stringify(this.user));
+      
+      this.fullName = this.getFullName()
       this.authService.setLoggedIn(true);
       this.avatar = this.user?.avatar;
     } else {
@@ -63,8 +88,28 @@ export class HeaderComponent {
       );
   }
 
+  getFullName(){
+    if(this.user?.firstName?.trim() !== "" || this.user?.lastName?.trim() !== ""){
+      console.log(`${this.user?.firstName?.trim()} ${this.user?.lastName?.trim()}`)
+      return `${this.user?.firstName?.trim()} ${this.user?.lastName?.trim()}`
+    }else{
+      return null
+    }
+  }
+
   cartDocker() {
     this.cartService.cartDocker();
+  }
+
+  toggleProfile(fromOutSide: number = 0) {
+    let profile = document.querySelector('.profile');
+    let menu = document.querySelector('.menu') as any;
+    if (fromOutSide == 0) {
+      menu.classList.add('active');
+      this.fetchAddresses();
+    } else {
+      menu.classList.remove('active');
+    }
   }
 
   toggleMobileSubMenu() {
@@ -76,8 +121,8 @@ export class HeaderComponent {
         if (menuCaret) {
           menuCaret.style.transition = 'transform 0.5s';
           menuCaret.style.transform = 'rotate(90deg)';
-        } 
-      }else {
+        }
+      } else {
         menuCaret.style.transition = 'transform 0.5s';
         menuCaret.style.transform = 'rotate(360deg)';
       }
@@ -88,11 +133,11 @@ export class HeaderComponent {
     setTimeout(() => {
       const linkEl = document.querySelector(`#${link}`) as any;
       if (linkEl) {
-        linkEl.querySelector('a').style.color = 'orange';
+        linkEl.querySelector('a').style.color = 'orangered';
         linkEl
           .querySelector('a')
           .querySelector('svg')
-          .querySelector('path').style.fill = 'orange';
+          .querySelector('path').style.fill = 'orangered';
       }
     }, 1000);
   }
@@ -107,7 +152,7 @@ export class HeaderComponent {
         return email;
       }
     } catch (error) {
-      return 'Invalid email address';
+      return null;
     }
   }
 
@@ -174,6 +219,175 @@ export class HeaderComponent {
     if (navMenu) {
       navMenu.classList.toggle('responsive-menu-show');
     }
+  }
+
+  profileDocker(close = false) {
+    const dockWidget = document.getElementById('profile-dock-widget') as any;
+    dockWidget.classList.toggle('dock-visible');
+    const body = document.querySelector('body') as any;
+    const cartOverlay = document.querySelector('.profile-overlay') as any;
+
+    if (close) {
+      body.style.overflow = 'auto';
+      body.style.position = 'unset';
+      dockWidget.classList.remove('dock-visible');
+      if (cartOverlay) {
+        cartOverlay.style.display = 'none';
+        this.isProfileDockerOpen = false;
+      }
+      return null;
+    }
+
+    if (!Array.from(dockWidget.classList).includes('dock-visible')) {
+      body.style.overflow = 'auto';
+      body.style.position = 'unset';
+      if (cartOverlay) {
+        cartOverlay.style.display = 'none';
+        this.isProfileDockerOpen = false;
+      }
+    } else {
+      body.style.overflow = 'hidden';
+      body.style.position = 'fixed';
+      if (cartOverlay) {
+        cartOverlay.style.display = 'block';
+        this.isProfileDockerOpen = true;
+      }
+    }
+    return null;
+  }
+
+  handleCountrySelected(value: {
+    name: string;
+    dial_code: string;
+    code: string;
+  }) {
+    this.profile.dialCode = value.dial_code;
+    this.profile.countryCode = value.code;
+    this.profile.country = value.name;
+    this.phoneEdited = true;
+    this.isValidPhone();
+  }
+
+  toggleEdit() {
+    this.isEditing = !this.isEditing;
+
+    const formGroups = document.querySelectorAll('.form-group') as any;
+    for (let formGroup of formGroups) {
+      Array.from(formGroup?.children)?.forEach((element: any) => {
+        if (!this.isEditing) {
+          if (element.tagName !== 'IMG') element?.classList.add('not-editing');
+        } else {
+          element?.classList.remove('not-editing');
+        }
+      });
+      formGroup?.classList.add('not-editing');
+    }
+  }
+
+  updateProfile() {
+    this.authService
+      .updateProfile(this.profile)
+      .pipe(take(1))
+      .subscribe((response: any) => {
+        if(response.status){
+          Swal.fire(response?.message);
+          this.user = response.data;
+          this.authService.storeUser(this.user)
+          this.fullName = this.getFullName()
+          this.toggleEdit();
+        }else{
+          this.profile = JSON.parse(JSON.stringify(this.user));
+          this.toggleEdit()
+          Swal.fire(response?.message);
+        }
+      },((error:any)=>{
+        alert("Profile update failed")
+      }));
+  }
+
+  fetchAddresses() {
+    this.cartService
+      .getAddresses()
+      .pipe(take(1))
+      .subscribe((response: any) => {
+        if (response.status) {
+          this.addresses = response.data;
+        }
+      });
+  }
+
+  setDefaultAddress(address: any) {
+    this.addressId = address._id;
+    this.cartService
+      .setDefaultAddress({ addressId: address._id })
+      .pipe(take(1))
+      .subscribe((response: any) => {
+        if (response.status) {
+          for (let _address of this.addresses) {
+            _address.isDefault = false;
+          }
+          address.isDefault = true;
+        }
+      });
+  }
+
+  deleteObjectById(arr: any, id: string) {
+    const index = arr.findIndex((obj: { _id: string }) => obj._id === id);
+
+    if (index !== -1) {
+      arr.splice(index, 1); // Remove the object at the found index
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  removeAddress(addressId: string) {
+    const confirmation = confirm(
+      'Are you sure you want to delete this address?'
+    );
+    if (confirmation) {
+      this.cartService
+        .removeAddress({ addressId })
+        .pipe(take(1))
+        .subscribe(
+          (response: any) => {
+            Swal.fire(response.message);
+            if (response.data) {
+              this.deleteObjectById(this.addresses, response.data._id);
+            }
+          },
+          (error: any) => {
+            alert(error.message);
+          }
+        );
+    }
+  }
+
+  handleBooleanEvent(value: boolean) {
+    this.showCartModal = value;
+  }
+
+  handleNewAddressEvent(value: boolean) {
+    this.addresses.unshift(value);
+    this.showCartModal = false;
+  }
+
+  isValidPhone($event: any = null) {
+    console.log(
+      `${this.profile.dialCode}${this.profile.phone}`,
+      this.profile.countryCode
+    );
+    const isValidPhone = this.authService.validatePhoneNumber(
+      `${this.profile.dialCode}${this.profile.phone}`,
+      this.profile.countryCode
+    );
+    this.disable = !isValidPhone;
+  }
+
+  phoneEdit() {
+    this.phoneEdited = true;
+    this.isValidPhone();
   }
 
   logout() {

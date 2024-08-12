@@ -87,7 +87,7 @@ a.track-close:focus,
 .form-meta button,
 .view-more:hover
 {
-	background-color: orange;
+	background-color: orangered;
 }
 
 /*===== Text Color =====*/
@@ -190,7 +190,7 @@ a.track-close:focus,
 .upcoming-event .countdown > li p,
 .mini-post-data
 {
-	color: orange;
+	color: orangered;
 }
 
 /*===== Border Color =====*/
@@ -211,7 +211,7 @@ a.track-close:focus,
 input:checked + .switch-slider,
 .user-info.yellow-bg > img
 {
-	border-color: orange;
+	border-color: orangered;
 }
 
 /*===== Border Top Color =====*/ 
@@ -224,11 +224,11 @@ input:checked + .switch-slider,
 /*===== Border Bottom Color =====*/
 .toggle-item.activate > h4
 {
-	border-bottom-color: orange;
+	border-bottom-color: orangered;
 }
 
 /*===== Border Left Color =====*/ 
 blockquote
 {
-	border-left-color: orange;
+	border-left-color: orangered;
 }

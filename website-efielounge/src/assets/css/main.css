@@ -5929,7 +5929,7 @@ html.thanks-message-popup-active .thanks-message {
   left: 0;
   height: 7px;
   width: 7px;
-  background-color: orange;
+  background-color: orangered;
   top: 50%;
   margin-top: -3.5px;
 }

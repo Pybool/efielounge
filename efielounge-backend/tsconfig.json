@@ -6,11 +6,12 @@
       "rootDir": "./src",
       "strict": true,
       "allowJs": true,
+      "experimentalDecorators": true,
       "forceConsistentCasingInFileNames": true,
       "skipLibCheck": true,
       "esModuleInterop": true
     },
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "src/services/v1/Accounts/vonage.sms.service.Js"],
     "exclude": ["node_modules"]
   }
   

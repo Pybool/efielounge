@@ -111,6 +111,7 @@ export class CartService {
       subTotal: 0.0,
     });
     this.cartItems = [];
+    this.subTotal = 0.00
   }
 
   setCartItems(cartItem: any) {
@@ -435,8 +436,8 @@ export class CartService {
         }`;
         const encodedUrl = encodeURIComponent(currentUrl);
         window.location.href = `/login?next=${encodedUrl}`;
-      }else{
-        window.location.href = `/login`
+      } else {
+        window.location.href = `/login`;
       }
     }
   }

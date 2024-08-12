@@ -15,7 +15,22 @@ export const setExpirableCode = async (
     JSON.stringify({ email: email, code: code }),
     "EX",
     EXP
-  );
+  )
+}
+  
+  export const setExpirablePhoneCode = async (
+    phone: string,
+    prefix: string,
+    code: string,
+    EXP: number = 300
+  ) => {
+    const cacheKey = prefix + phone;
+    await gredisClient.set(
+      cacheKey,
+      JSON.stringify({ phone: phone, code: code }),
+      "EX",
+      EXP
+    );
 };
 
 export const setExpirableAccountData = async (
@@ -35,6 +50,19 @@ export const setExpirableAccountData = async (
 
 export const getExpirableCode = async (prefix: string, email: string) => {
   const cacheKey = prefix + email;
+  const codeCached = await gredisClient.get(cacheKey);
+  const ttl = await gredisClient.ttl(cacheKey);
+
+  if (codeCached !== null && ttl >= 0) {
+    return JSON.parse(codeCached);
+  } else {
+    await gredisClient.del(cacheKey);
+    return null;
+  }
+};
+
+export const getExpirablePhoneCode = async (prefix: string, phone: string) => {
+  const cacheKey = prefix + phone;
   const codeCached = await gredisClient.get(cacheKey);
   const ttl = await gredisClient.ttl(cacheKey);
 

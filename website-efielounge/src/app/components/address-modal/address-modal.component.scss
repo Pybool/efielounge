@@ -126,9 +126,6 @@
     font-weight: 600;
   }
   
-  * {
-    font-family: "EuclidCircularB-SemiBold" !important;
-  }
   
   /* Make the scrollbar present but invisible */
   ::-webkit-scrollbar {
@@ -156,8 +153,8 @@
   }
   
   .form-check-input:checked {
-    background-color: orange;
-    border-color: orange;
+    background-color: orangered;
+    border-color: orangered;
   }
   
   /* Remove default blue border on focus for checkboxes */
@@ -195,7 +192,7 @@
   }
   
   .order-now:hover {
-    color: orange !important;
+    color: orangered !important;
   }
   
   .number {

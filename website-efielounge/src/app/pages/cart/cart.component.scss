@@ -33,7 +33,7 @@
   vertical-align: middle;
   text-align: center;
   padding-left: 3.5px;
-  color: orange;
+  color: orangered;
 }
 
 .number-input {
@@ -45,7 +45,7 @@
   border-radius: 4px;
   display: inline-block;
   vertical-align: middle;
-  color: orange;
+  color: orangered;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -71,7 +71,7 @@ input[type="number"] {
 }
 
 .checkout:hover {
-  background-color: orange;
+  background-color: orangered;
   cursor: pointer;
 }
 

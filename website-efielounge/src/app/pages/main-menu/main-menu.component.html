@@ -28,10 +28,17 @@
             <div class="block">
                 <div class="fixed-bg" style="background-image: url(/assets/images/topbg.jpg);"></div>
                 <div class="page-title-wrapper text-center">
-                    <div class="col-md-12 col-sm-12 col-lg-12">
+                    <div class="col-md-12 col-sm-12 col-lg-12 flex-row-sb">
                         <div class="page-title-inner">
                             <h1 itemprop="headline">Explore Our Menu</h1>
                             <span>Discover the best of world cuisine</span>
+                            <div class="restaurant-search-form2 brd-rd30">
+                                <input [(ngModel)]="searchString" (keyup)="inlineFiltering()" name="searchString" class="brd-rd30 search-input-text"
+                                    type="text" placeholder="Search for a food">
+                                <button (click)="searchFood()" [style.opacity]="searchString?.trim()== '' ? 0.3 : 1"
+                                    [disabled]="searchString?.trim()== ''" class="brd-rd30 red-bg">SEARCH
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,20 +87,14 @@
                                                         
                                                         <div class="flex-row-sb">
                                                             <span class="price">GH₵ {{menu?.price.toFixed(2)}}</span>
-                                                            <!-- <div style="gap:2px" class="number x-flex-row">
-                                                                <span class="minus">-</span>
-                                                                <input disabled class="number-input" value="1" name="units"
-                                                                    min="1" max="10" type="number" />
-                                                                <span class="plus">+</span>
-                                                            </div> -->
-                                                            <a *ngIf="menu.inCart" [ngStyle]="{'background-color': menu.inCart ? 'orange' : 'black'}" class="brd-rd4 order-now" (click)="orderNow(menu)" href="javascript:void(0)" title="Order Again" itemprop="url">Order Again</a>
+                                                            <a *ngIf="menu.inCart" [ngStyle]="{'background-color': menu.inCart ? 'orangered' : 'black'}" class="brd-rd4 order-now" (click)="orderNow(menu)" href="javascript:void(0)" title="Order Again" itemprop="url">Order Again</a>
                                                             <a *ngIf="!menu.inCart" class="brd-rd4 order-now " id="{{menu?._id}}" (click)="orderNow(menu)" href="javascript:void(0)" title="Order Now"
                                                                 itemprop="url">Order Now</a>
                                                         </div>
                                                         
                                                         <div class="restaurant-info">
                                                             <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GH₵ {{menu?.price.toFixed(2)}}</span>
-                                                            <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
+                                                            <span class="delivery"><i class="flaticon-transport"></i> 30 - 65 mins</span>
                                                         </div>
                                                         
                                                     </div>

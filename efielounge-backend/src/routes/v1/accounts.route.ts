@@ -16,6 +16,5 @@ authRouter.post('/remove-address', decode, accountController.removeAddress)
 
 
 authRouter.all('/user-profile', handleInvalidMethod);
-authRouter.all('/user-profile', handleInvalidMethod);
 export default authRouter;
 

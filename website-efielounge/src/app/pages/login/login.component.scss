@@ -5,17 +5,57 @@
   display: none;
 }
 
+.heading {
+  font-weight: 900 !important;
+  font-size: 40px !important;
+  color: orangered !important;
+}
+
 .auth {
   margin-top: 140px;
   margin-left: 250px;
   margin-right: 250px;
 }
 
+.flex-row-sb {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.submit-container {
+  margin-top: 50px !important;
+}
+
+.custom-select {
+  height: 50px;
+  background: whitesmoke;
+  border-radius: 5px;
+  font-weight: 900;
+}
+
+.col-4 {
+  flex: 0 0 auto;
+  width: 30.33333333% !important;
+}
+
+.sign-form input {
+  height: 50px;
+  margin-bottom: 20px !important;
+  font-size: 22px !important;
+}
+
+.spinner-btn {
+  border-radius: 30px;
+}
+
 /* Extra Small Devices, Phones (0px to 599px) */
 @media only screen and (min-width: 300px) and (max-width: 599px) {
   /* Styles for small phones */
   .auth {
-    margin-top: 140px;
+    margin-top: 40px;
     margin-left: 0px;
     margin-right: 0px;
   }
@@ -24,14 +64,14 @@
     padding: 0px !important;
   }
 
-  .sign-popup-inner{
+  .sign-popup-inner {
     padding-left: 10px;
     padding-right: 10px;
   }
 
-  .parent{
-    padding-left: 0px!important;
-    padding-right: 0px!important;
+  .parent {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 }
 
@@ -39,7 +79,7 @@
 @media only screen and (min-width: 600px) and (max-width: 767px) {
   /* Styles for larger phones */
   .auth {
-    margin-top: 140px;
+    // margin-top: 140px;
     margin-left: 0px;
     margin-right: 0px;
   }
@@ -48,15 +88,14 @@
     padding: 0px !important;
   }
 
-  .sign-popup-inner{
+  .sign-popup-inner {
     padding-left: 10px;
     padding-right: 10px;
   }
 
-
-  .parent{
-    padding-left: 0px!important;
-    padding-right: 0px!important;
+  .parent {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 }
 
@@ -64,7 +103,7 @@
 @media only screen and (min-width: 768px) and (max-width: 819px) {
   /* Styles for tablets */
   .auth {
-    margin-top: 140px;
+    margin-top: 60px;
     margin-left: 0px;
     margin-right: 0px;
   }
@@ -73,6 +112,11 @@
 /* Medium Devices, Tablets (768px to 991px) */
 @media only screen and (min-width: 820px) and (max-width: 991px) {
   /* Styles for tablets */
+  .auth {
+    margin-top: 60px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 }
 
 @media (max-width: 980px) {
@@ -84,6 +128,11 @@
 /* Large Devices, Desktops (992px to 1199px) */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   /* Styles for desktops */
+  // .auth {
+  //   margin-top: 140px;
+  //   margin-left: 120px;
+  //   margin-right: 120px;
+  // }
 }
 
 /* Extra Large Devices, Large Desktops (1200px and above) */
@@ -103,5 +152,117 @@
     width: 100%;
     background: white;
     height: 50%;
+  }
+}
+
+.close {
+  color: gray;
+  font-weight: 900;
+  margin-top: 20px;
+  border-radius: 50%;
+  background: whitesmoke;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabs {
+  position: relative;
+  display: flex;
+  min-height: 53vh;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+}
+
+.tabby-tab {
+  flex: 1;
+}
+
+.tabby-tab label {
+  display: block;
+  box-sizing: border-box;
+  /* tab content must clear this */
+  height: 40px;
+
+  padding: 10px;
+  text-align: center;
+  background: gray;
+  color: white;
+  cursor: pointer;
+  transition: background 0.5s ease;
+}
+
+.tabby-tab label:hover {
+  background: black;
+}
+
+.tabby-content {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+  right: 0;
+  /* clear the tab labels */
+  top: 40px;
+
+  padding-top: 20px;
+  border-radius: 0 0 8px 8px;
+  // background: #553285;
+
+  transition: opacity 0.8s ease, transform 0.8s ease;
+
+  /* show/hide */
+  opacity: 0;
+  transform: scale(0.1);
+  transform-origin: top left;
+}
+
+.tabby-content img {
+  float: left;
+  margin-right: 20px;
+  border-radius: 8px;
+}
+
+/* MAKE IT WORK ----- */
+
+.tabby-tab [type="radio"] {
+  display: none;
+}
+[type="radio"]:checked ~ label {
+  background: orangered;
+  z-index: 2;
+}
+
+[type="radio"]:checked ~ label ~ .tabby-content {
+  z-index: 1;
+
+  /* show/hide */
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* BREAKPOINTS ----- */
+@media screen and (max-width: 767px) {
+  .tabs {
+    min-height: 400px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .tabs {
+    min-height: 580px;
+  }
+  .tabby-tab label {
+    height: 60px;
+  }
+  .tabby-content {
+    top: 60px;
+  }
+  .tabby-content img {
+    float: none;
+    margin-right: 0;
+    margin-bottom: 20px;
   }
 }

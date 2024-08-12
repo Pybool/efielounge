@@ -5,7 +5,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { MenuService } from '../../services/menu.service';
 import { debounceTime, filter, fromEvent, Subscription, take } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { TruncateTextPipe } from '../../pipes/truncateTextPipe.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -48,6 +48,7 @@ export class MainMenuComponent implements OnDestroy {
   public showCartModal: boolean = false;
   public menuCategories: any[] = [];
   public params: any;
+  public searchString: string | null = null;
   public selectedMenu:
     | {
         _id: string;
@@ -64,7 +65,8 @@ export class MainMenuComponent implements OnDestroy {
     private menuService: MenuService,
     private route: ActivatedRoute,
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -216,6 +218,41 @@ export class MainMenuComponent implements OnDestroy {
         }
       });
   }
+
+  searchFood() {
+    this.router.navigateByUrl(`/search-menu?q=${this.searchString}`);
+  }
+
+  inlineFiltering() {
+    this.menus.sort((a: { name: string }, b: { name: string }) => {
+      const aStartsWith = a.name.toLowerCase().startsWith(this.searchString!.toLowerCase());
+      const bStartsWith = b.name.toLowerCase().startsWith(this.searchString!.toLowerCase());
+  
+      // If both names start with the search string or both don't start with it, sort alphabetically
+      if (aStartsWith && bStartsWith) {
+        return a.name.localeCompare(b.name);
+      }
+      
+      // If only one of the names starts with the search string, it should come first
+      if (aStartsWith) return -1;
+      if (bStartsWith) return 1;
+  
+      // If neither name starts with the search string, check if they contain it
+      const aIncludes = a.name.toLowerCase().includes(this.searchString!.toLowerCase());
+      const bIncludes = b.name.toLowerCase().includes(this.searchString!.toLowerCase());
+  
+      if (aIncludes && bIncludes) {
+        return a.name.localeCompare(b.name);
+      }
+      
+      if (aIncludes) return -1;
+      if (bIncludes) return 1;
+  
+      // If neither name includes the search string, sort alphabetically
+      return a.name.localeCompare(b.name);
+    });
+  }
+  
 
   ngOnDestroy() {
     this.activatedRoute$?.unsubscribe();

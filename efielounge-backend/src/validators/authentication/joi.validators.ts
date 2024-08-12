@@ -7,6 +7,28 @@ const authSchema = Joi.object({
   role: Joi.string()
 });
 
+const authPhoneSchema = Joi.object({
+  phone: Joi.string().required(),
+  otp: Joi.number().required(),
+  countryCode: Joi.string().required(),
+  dialCode: Joi.string().required(),
+});
+
+const authEmailSchema = Joi.object({
+  email: Joi.string().email().lowercase().required(),
+  otp: Joi.number().required()
+});
+
+const authPhoneLoginSchema = Joi.object({
+  phone: Joi.string().required(),
+  otp: Joi.number().required()
+});
+
+const authEmailLoginSchema = Joi.object({
+  email: Joi.string().required(),
+  otp: Joi.number().required()
+});
+
 const authSendEmailConfirmOtpSchema = Joi.object({
   email: Joi.string().email().lowercase().required(),
 });
@@ -26,6 +48,10 @@ const validations = {
   authSendEmailConfirmOtpSchema,
   authSendResetPasswordLink,
   authResetPassword,
+  authPhoneSchema,
+  authPhoneLoginSchema,
+  authEmailLoginSchema,
+  authEmailSchema
 }
 
 export default validations

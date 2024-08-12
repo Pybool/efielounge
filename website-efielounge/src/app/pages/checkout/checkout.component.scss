@@ -54,7 +54,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-  background-color: orange;
+  background-color: orangered;
   border: none;
 }
 
@@ -67,7 +67,7 @@ input[type="submit"]:hover {
 }
 
 .order .redbutton {
-  background-color: orange;
+  background-color: orangered;
   padding: 13px 30px;
   font-size: 14px;
   font-weight: 100;
@@ -85,13 +85,13 @@ textarea {
 
 textarea:hover,
 input:hover {
-  border: 1px solid orange;
+  border: 1px solid orangered;
   background-color: #fff;
 }
 
 textarea:active,
 input:active {
-  border: 1px solid orange;
+  border: 1px solid orangered;
   background-color: #f5f5f5;
 }
 
@@ -240,7 +240,7 @@ svg > path {
 }
 
 .active-address {
-  // border: 2px solid orange;
+  // border: 2px solid orangered;
 }
 
 .address-item > div > span {
@@ -293,7 +293,7 @@ span {
   vertical-align: middle;
   text-align: center;
   padding-left: 3.5px;
-  color: orange;
+  color: orangered;
 }
 .number-input {
   height: 20px;
@@ -304,7 +304,7 @@ span {
   border-radius: 4px;
   display: inline-block;
   vertical-align: middle;
-  color: orange;
+  color: orangered;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -548,7 +548,7 @@ li{
 }
 
 a {
-  color: orange;
+  color: orangered;
   font-size: 13px;
   text-decoration: none;
 }

@@ -18,6 +18,7 @@ import { SearchResultComponentComponent } from './pages/search-result-component/
 import { RatingsComponent } from './components/ratings/ratings.component';
 
 export const routes: Routes = [
+  
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -39,4 +40,5 @@ export const routes: Routes = [
     title: 'Account Verification',
     component: OtpAuthorizeComponent,
   },
+  { path: '**', redirectTo: '' },
 ];

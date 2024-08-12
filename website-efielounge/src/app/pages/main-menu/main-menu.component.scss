@@ -22,7 +22,7 @@
 
 .desc-read-more {
   font-size: x-small;
-  color: orange;
+  color: orangered;
 }
 
 .desc-read-more:hover {
@@ -63,7 +63,7 @@ span {
   vertical-align: middle;
   text-align: center;
   padding-left: 3.5px;
-  color: orange;
+  color: orangered;
 }
 input {
   height: 20px;
@@ -74,7 +74,7 @@ input {
   border-radius: 4px;
   display: inline-block;
   vertical-align: middle;
-  color: orange;
+  color: orangered;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -88,7 +88,7 @@ input[type="number"] {
 }
 
 div.block > div.container{
-  max-width: 90vw!important;
+  max-width: 100vw!important;
 }
 
 .x-flex-row {
@@ -115,7 +115,6 @@ div.block > div.container{
 }
 
 .order-now {
-  font-family: Poppins;
   font-weight: 500;
   transition: all 0.3s linear;
 }
@@ -125,7 +124,7 @@ div.block > div.container{
 }
 
 .order-now:hover {
-  background-color: orange;
+  background-color: orangered;
 }
 
 .order-now {
@@ -137,10 +136,6 @@ div.block > div.container{
   font-weight: bold;
   padding: 8px 10px;
   text-transform: uppercase;
-}
-
-.price, .order-now{
-  white-space: nowrap;
 }
 
 .post-likes {
@@ -159,18 +154,12 @@ div.block > div.container{
 /* Extra Small Devices, Phones (0px to 599px) */
 @media only screen and (max-width: 599px) {
   /* Styles for small phones */
-  .breadcrumb {
-    flex-direction: column;
-}
   
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */
 @media only screen and (min-width: 600px) and (max-width: 767px) {
   /* Styles for larger phones */
-  .breadcrumb {
-    flex-direction: column;
-}
   
 }
 
@@ -196,3 +185,55 @@ div.block > div.container{
 @media only screen and (min-width: 1200px) {
   /* Styles for large desktops */
 }
+
+.price, .order-now{
+  white-space: nowrap;
+}
+
+
+.flex-row-sb {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  // flex-wrap: wrap;
+  gap: 10px;
+}
+
+.search-string {
+  font-size: 45px;
+  color: orangered;
+}
+
+.no-results {
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+.res-404 {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.img-404 {
+  width: 400px;
+}
+
+.brd-rd30 {
+  border-radius: 30px;
+}
+
+.restaurant-search-form2 {
+  width: 770px !important;
+}
+
+.page-title-inner {
+  display: flex;
+  max-width: 1000px;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+}
+

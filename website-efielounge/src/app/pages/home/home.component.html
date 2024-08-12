@@ -67,7 +67,7 @@
                           {{readyMeal?.ratings?.toFixed(2)}}</span>
                         <span style="top:75%!important" (click)="likeMenu(readyMeal?._id)"
                           [ngStyle]="{'color': readyMeal?.iLiked ? 'white' : 'gray'}" class="post-likes brd-rd4"><i
-                            [ngStyle]="{'color': readyMeal?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
+                            [ngStyle]="{'color': readyMeal?.iLiked ? 'orangered' : 'gray'}" class="fa fa-heart"></i>
                           {{readyMeal?.likes}}</span>
                       </div>
                       <div class="popular-dish-info">
@@ -77,7 +77,7 @@
                         <p itemprop="description">{{readyMeal?.description | truncateText: 90}}</p>
                         <span class="price">GH₵ {{readyMeal.price}}</span>
                         <a *ngIf="readyMeal.inCart"
-                          [ngStyle]="{'background-color': readyMeal.inCart ? 'orange' : 'black'}" class="brd-rd2 order"
+                          [ngStyle]="{'background-color': readyMeal.inCart ? 'orangered' : 'black'}" class="brd-rd2 order"
                           href="javascript:void(0)" id="{{readyMeal?._id}}" (click)="orderNow(readyMeal)" title="Order Again"
                           itemprop="url">Order Again</a>
 
@@ -85,7 +85,7 @@
                           href="javascript:void(0)" title="Order Now" itemprop="url">Order Now</a>
                           <div class="restaurant-info flex-row-sb">
                             <!-- <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GH₵ {{readyMeal?.price.toFixed(2)}}</span> -->
-                            <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
+                            <span class="delivery"><i class="flaticon-transport"></i> 30 - 65 mins</span>
                           </div>
                       </div>
                     </div>
@@ -120,14 +120,14 @@
               </div> -->
               <div class="restaurant-info flex-row-sb">
                 <!-- <span class="delivery"><i class="fa fa-check-circle-o"></i> Min order GH₵ {{comingUp?.price.toFixed(2)}}</span> -->
-                <span class="delivery"><i class="flaticon-transport"></i> 30min</span>
+                <span class="delivery"><i class="flaticon-transport"></i> 30 - 65 mins</span>
               </div>
               <div style="width:100%;align-items: end;" class="x-flex-row">
                 <div class="caro-dish-name">
-                  <h4>{{comingUp?.category.name}}</h4>
+                  <h4>{{comingUp?.name}}</h4>
                   <span>GH₵ {{comingUp?.price}}</span>
                 </div>
-                <a *ngIf="comingUp.inCart" id="{{comingUp?._id}}" [ngStyle]="{'background-color': comingUp.inCart ? 'orange' : 'black'}"
+                <a *ngIf="comingUp.inCart" id="{{comingUp?._id}}" [ngStyle]="{'background-color': comingUp.inCart ? 'orangered' : 'black'}"
                   class="brd-rd2 order" (click)="orderNow(comingUp)" href="javascript:void(0)" title="Order Again"
                   itemprop="url">Order Again</a>
                 <a *ngIf="!comingUp.inCart" id="{{comingUp?._id}}"  class="brd-rd2 order" (click)="orderNow(comingUp)" href="javascript:void(0)"
@@ -135,8 +135,8 @@
                 <span class="post-rate yellow-bg brd-rd2"><i class="fa"
                     [ngClass]="comingUp?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                   {{comingUp?.ratings?.toFixed(2)}}</span>
-                <span (click)="likeMenu(comingUp?._id)" [ngStyle]="{'color': comingUp?.iLiked ? 'orange' : 'gray'}"
-                  class="post-likes style2 red-clr"><i [ngStyle]="{'color': comingUp?.iLiked ? 'orange' : 'gray'}"
+                <span (click)="likeMenu(comingUp?._id)" [ngStyle]="{'color': comingUp?.iLiked ? 'orangered' : 'gray'}"
+                  class="post-likes style2 red-clr"><i [ngStyle]="{'color': comingUp?.iLiked ? 'orangered' : 'gray'}"
                     class="fa fa-heart"></i>
                   {{comingUp?.likes}}</span>
               </div>
@@ -177,11 +177,11 @@
                 <span class="post-rate yellow-bg brd-rd2"><i class="fa"
                     [ngClass]="favourite?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                   {{favourite?.ratings.toFixed(2)}}</span>
-                <span (click)="likeMenu(favourite?._id)" [ngStyle]="{'color': favourite?.iLiked ? 'orange' : 'gray'}"
-                  class="post-likes style2 red-clr"><i [ngStyle]="{'color': favourite?.iLiked ? 'orange' : 'gray'}"
+                <span (click)="likeMenu(favourite?._id)" [ngStyle]="{'color': favourite?.iLiked ? 'orangered' : 'gray'}"
+                  class="post-likes style2 red-clr"><i [ngStyle]="{'color': favourite?.iLiked ? 'orangered' : 'gray'}"
                     class="fa fa-heart"></i>
                   {{favourite?.likes}}</span>
-                <a *ngIf="favourite.inCart" id="{{favourite?._id}}"  [ngStyle]="{'background-color': favourite.inCart ? 'orange' : 'black'}"
+                <a *ngIf="favourite.inCart" id="{{favourite?._id}}"  [ngStyle]="{'background-color': favourite.inCart ? 'orangered' : 'black'}"
                   class="brd-rd2 order" (click)="orderNow(favourite)" href="javascript:void(0)" title="Order Again"
                   itemprop="url">Order Again</a>
                 <a *ngIf="!favourite.inCart" id="{{favourite?._id}}"  class="brd-rd2 order" (click)="orderNow(favourite)"
@@ -223,19 +223,19 @@
 
                             <ul class="post-meta">
                               <!-- <li><i class="fa fa-check-circle-o"></i> Min order GH₵ {{popular?.price}}</li> -->
-                              <li><i class="flaticon-transport"></i> 30min</li>
+                              <li><i class="flaticon-transport"></i> 30 - 65 mins</li>
                             </ul>
                             <span class="post-rate popular-post-rate yellow-bg brd-rd2"><i class="fa"
                                 [ngClass]="popular?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                               {{popular?.ratings.toFixed(2)}}</span>
                             <span (click)="likeMenu(popular?._id)"
-                              [ngStyle]="{'color': popular?.iLiked ? 'orange' : 'gray'}"
+                              [ngStyle]="{'color': popular?.iLiked ? 'orangered' : 'gray'}"
                               class="post-likes popular-post-likes style2 red-clr"><i
-                                [ngStyle]="{'color': popular?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
+                                [ngStyle]="{'color': popular?.iLiked ? 'orangered' : 'gray'}" class="fa fa-heart"></i>
                               {{popular?.likes}}</span>
 
                             <a *ngIf="popular.inCart"
-                              [ngStyle]="{'background-color': popular.inCart ? 'orange' : 'black'}"
+                              [ngStyle]="{'background-color': popular.inCart ? 'orangered' : 'black'}"
                               class="brd-rd2 order" id="{{popular?._id}}" (click)="orderNow(popular)" href="javascript:void(0)"
                               title="Order Again" itemprop="url">View In
                               Cart</a>
@@ -312,19 +312,19 @@
                             </span>
                             <ul class="post-meta">
                               <!-- <li><i class="fa fa-check-circle-o"></i> Min order GH₵ {{filteredMenu?.price}}</li> -->
-                              <li><i class="flaticon-transport"></i> 30min</li>
+                              <li><i class="flaticon-transport"></i> 30 - 65 mins</li>
                               <li><i class="flaticon-money"></i> Accepts cash & online payments</li>
                             </ul>
                             <span class="post-rate yellow-bg brd-rd2"><i class="fa"
                                 [ngClass]="filteredMenu?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                               {{filteredMenu?.ratings?.toFixed(2)}}</span>
                             <span (click)="likeMenu(filteredMenu?._id)"
-                              [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}"
+                              [ngStyle]="{'color': filteredMenu?.iLiked ? 'orangered' : 'gray'}"
                               class="post-likes style2 filter-likes red-clr"><i
-                                [ngStyle]="{'color': filteredMenu?.iLiked ? 'orange' : 'gray'}" class="fa fa-heart"></i>
+                                [ngStyle]="{'color': filteredMenu?.iLiked ? 'orangered' : 'gray'}" class="fa fa-heart"></i>
                               {{filteredMenu?.likes}}</span>
                             <a *ngIf="filteredMenu.inCart" style="float:left;" id="{{filteredMenu?._id}}"
-                              [ngStyle]="{'background-color': filteredMenu.inCart ? 'orange' : 'black'}"
+                              [ngStyle]="{'background-color': filteredMenu.inCart ? 'orangered' : 'black'}"
                               class="brd-rd2 order" (click)="orderNow(filteredMenu)" href="javascript:void(0)"
                               title="Order Again" itemprop="url">View
                               In Cart</a>
@@ -338,7 +338,7 @@
                       *ngIf="filteredMenus?.length == 0">No search results were found for this filter
                     </span>
                     <div style="justify-content: center;" class="flex-row-sb see-more-parent">
-                      <a class="see-more brd-rd2 order" href="/menu">See more</a>
+                      <a class="see-more brd-rd2 order" href="/search-menu?q={{selectedCategory}}">See more</a>
                     </div>
                   </div>
                 </div>

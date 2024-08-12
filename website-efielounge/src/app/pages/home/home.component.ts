@@ -54,6 +54,7 @@ export class HomeComponent {
   public home: any = {};
   public banner: string = '';
   public homePageData: any = {};
+  public selectedCategory:string = ""
   @Output() showCartModal = new EventEmitter<boolean>();
 
   public selectedMenu:
@@ -215,7 +216,7 @@ export class HomeComponent {
       .subscribe(
         (response: any) => {
           if (response.status) {
-            console.log(response.data);
+            this.selectedCategory = category?.name
             response.data.forEach((menu: any) => {
               menu.units = 1;
             });

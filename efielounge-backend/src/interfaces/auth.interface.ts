@@ -8,6 +8,12 @@ export interface IAuth {
   verifyAccountEmail: RequestHandler;
   loginAccount: RequestHandler;
   getRefreshToken: RequestHandler;
+  phoneRegister: RequestHandler;
+  phoneLogin: RequestHandler;
+  sendPhoneOtp: RequestHandler;
+  sendEmailOtp: RequestHandler;
+  emailLogin: RequestHandler;
+  emailRegister: RequestHandler;
 }
 
 export interface ISocialAuth {
