@@ -39,15 +39,15 @@ export class RegisterComponent {
   data: any = '';
   showOtp: boolean = false;
   authenticationMethod: string = 'mobile';
-  phone: string = '535845810';
+  phone: string = '';
   disable: boolean = true;
   activeSendOtp = true;
   showSubmit: boolean = false;
   timeLeft: any;
   otpText: string = 'Resend Code';
   called = false;
-  hasRequestedOtpEarlier = false
-  showResendSpinner = false
+  hasRequestedOtpEarlier = false;
+  showResendSpinner = false;
   selectedCountry: { name: string; dial_code: string; code: string } = {
     name: 'Ghana',
     dial_code: '+233',
@@ -59,7 +59,7 @@ export class RegisterComponent {
   onDataChange(newValue: string, type: string = 'phone') {
     this.data = newValue;
     if (newValue.length === 4) {
-      this.disable = false
+      this.disable = false;
       if (!this.called) {
         this.callFunction(type);
         this.called = true;
@@ -67,12 +67,17 @@ export class RegisterComponent {
     }
   }
 
-  callFunction(type:string) {
+  callFunction(type: string) {
     if (type === 'phone') {
       this.phoneNumberRegister();
     } else {
       this.emailRegister();
     }
+  }
+
+  toggleAuthMethod() {
+    this.showOtp = false;
+    this.showSubmit = false;
   }
 
   ngAfterViewInit() {
@@ -148,10 +153,20 @@ export class RegisterComponent {
     }
     return null;
   }
-  
-  phoneNumberSendOtp(resend:boolean=false, otpLinkTextEl:any = null) {
+
+  phoneNumberSendOtp(resend: boolean = false, otpLinkTextEl: any = null) {
+    if (resend) {
+      this.showResendSpinner = true;
+    }
+    const dialCode = this.selectedCountry.dial_code;
+    const countryCode = this.selectedCountry.code;
     this.authService
-      .phoneNumberSendOtp({ phone: this.phone, messageType: 'REGISTER' })
+      .phoneNumberSendOtp({
+        countryCode: countryCode,
+        dialCode: dialCode,
+        phone: this.phone,
+        messageType: 'REGISTER',
+      })
       .pipe(take(1))
       .subscribe(
         (response: any) => {
@@ -159,8 +174,10 @@ export class RegisterComponent {
           this.hasRequestedOtpEarlier = true;
           if (response.status) {
             this.showSubmit = true;
-            if(response?.testotp){
-              alert(`Welocme to Efielounge your otp is ${response.testotp}. \nPlease do not share this code with anyone.`)
+            if (response?.testotp) {
+              alert(
+                `Welocme to Efielounge your otp is ${response.testotp}. \nPlease do not share this code with anyone.`
+              );
             }
           } else {
             this.showSpinner = false;
@@ -172,12 +189,11 @@ export class RegisterComponent {
               showConfirmButton: false,
               timer: 1500,
             });
-            if(resend){
-              if(otpLinkTextEl){
+            if (resend) {
+              if (otpLinkTextEl) {
                 otpLinkTextEl.style.color = 'orange';
                 otpLinkTextEl.style.pointerEvents = 'auto';
               }
-                         
             }
           }
           this.showResendSpinner = false;
@@ -187,21 +203,20 @@ export class RegisterComponent {
           this.countDownOtp();
           this.showResendSpinner = false;
           this.showSpinner = false;
-          this.hasRequestedOtpEarlier = true
+          this.hasRequestedOtpEarlier = true;
           Swal.fire({
             position: 'top-end',
             icon: 'error',
             title: `OTP Error`,
-            text: "Something went wrong",
+            text: 'Something went wrong',
             showConfirmButton: false,
             timer: 1500,
           });
-          if(resend){
-            if(otpLinkTextEl){
+          if (resend) {
+            if (otpLinkTextEl) {
               otpLinkTextEl.style.color = 'orange';
               otpLinkTextEl.style.pointerEvents = 'auto';
             }
-            
           }
         }
       );
@@ -219,7 +234,6 @@ export class RegisterComponent {
           this.hasRequestedOtpEarlier = true;
           if (response.status) {
             this.showSubmit = true;
-            
           } else {
             this.showSpinner = false;
             Swal.fire({
@@ -249,7 +263,7 @@ export class RegisterComponent {
             position: 'top-end',
             icon: 'error',
             title: `OTP Error`,
-            text: "Something went wrong",
+            text: 'Something went wrong',
             showConfirmButton: false,
             timer: 1500,
           });
@@ -306,7 +320,7 @@ export class RegisterComponent {
             position: 'top-end',
             icon: 'error',
             title: `Login eror`,
-            text: "Something went wrong",
+            text: 'Something went wrong',
             showConfirmButton: false,
             timer: 1500,
           });
@@ -352,7 +366,7 @@ export class RegisterComponent {
             position: 'top-end',
             icon: 'error',
             title: `Login eror`,
-            text: "Something went wrong",
+            text: 'Something went wrong',
             showConfirmButton: false,
             timer: 1500,
           });
@@ -402,8 +416,8 @@ export class RegisterComponent {
     console.log('this.activeSendOtp ', this.activeSendOtp);
   }
 
-  resendCode(){
-    this.data = ""
+  resendCode() {
+    this.data = '';
     const otpLinkTextEl = document.querySelector(
       '.otp-link-text'
     ) as HTMLElement;
@@ -411,7 +425,7 @@ export class RegisterComponent {
     otpLinkTextEl.style.pointerEvents = 'none';
     otpLinkTextEl.setAttribute('disabled', 'true');
     this.showResendSpinner = true;
-    this.phoneNumberSendOtp(true, otpLinkTextEl)    
+    this.phoneNumberSendOtp(true, otpLinkTextEl);
   }
 
   countDownOtp() {
@@ -428,7 +442,7 @@ export class RegisterComponent {
         this.otpText = `Resend Code`;
         otpLinkTextEl.setAttribute('disabled', 'false');
         clearInterval(intervalId);
-        this.timeLeft = 3;
+        this.timeLeft = 30;
       }
     }, 1000);
   }

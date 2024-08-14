@@ -5,11 +5,16 @@
   cursor: pointer;
 }
 
+.restaurant-search-form2 {
+  width: 50vw!important;
+}
+
+
 .popular-dish-info > p {
-  margin-bottom: 0px!important;
+  margin-bottom: 0px !important;
 }
 .popular-dish-info {
-  padding: 10px!important;
+  padding: 10px !important;
 }
 
 .restaurant-info {
@@ -87,8 +92,8 @@ input[type="number"] {
   -moz-appearance: textfield; /* For Firefox */
 }
 
-div.block > div.container{
-  max-width: 100vw!important;
+div.block > div.container {
+  max-width: 100vw !important;
 }
 
 .x-flex-row {
@@ -103,7 +108,7 @@ div.block > div.container{
   white-space: nowrap;
 }
 
-.order{
+.order {
   background-color: #272727;
   border: 1px solid transparent;
   color: #fff;
@@ -119,8 +124,8 @@ div.block > div.container{
   transition: all 0.3s linear;
 }
 
-.number-input{
-  width:30px
+.number-input {
+  width: 30px;
 }
 
 .order-now:hover {
@@ -143,8 +148,8 @@ div.block > div.container{
   top: 80% !important;
 }
 
-.flex-row-sb{
-  display:flex;
+.flex-row-sb {
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -154,31 +159,32 @@ div.block > div.container{
 /* Extra Small Devices, Phones (0px to 599px) */
 @media only screen and (max-width: 599px) {
   /* Styles for small phones */
-  
+  .restaurant-search-form2 {
+    width: 95vw !important;
+  }
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */
 @media only screen and (min-width: 600px) and (max-width: 767px) {
   /* Styles for larger phones */
-  
+  .restaurant-search-form2 {
+    width: 95vw !important;
+  }
 }
 
 /* Medium Devices, Tablets (768px to 991px) */
 @media only screen and (min-width: 768px) and (max-width: 819px) {
   /* Styles for tablets */
-  
 }
 
 /* Medium Devices, Tablets (768px to 991px) */
 @media only screen and (min-width: 820px) and (max-width: 991px) {
   /* Styles for tablets */
-  
 }
 
 /* Large Devices, Desktops (992px to 1199px) */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   /* Styles for desktops */
-
 }
 
 /* Extra Large Devices, Large Desktops (1200px and above) */
@@ -186,10 +192,10 @@ div.block > div.container{
   /* Styles for large desktops */
 }
 
-.price, .order-now{
+.price,
+.order-now {
   white-space: nowrap;
 }
-
 
 .flex-row-sb {
   display: flex;
@@ -225,9 +231,6 @@ div.block > div.container{
   border-radius: 30px;
 }
 
-.restaurant-search-form2 {
-  width: 770px !important;
-}
 
 .page-title-inner {
   display: flex;
@@ -236,4 +239,3 @@ div.block > div.container{
   align-items: center;
   flex-direction: column;
 }
-

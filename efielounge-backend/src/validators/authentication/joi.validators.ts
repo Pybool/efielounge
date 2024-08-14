@@ -20,6 +20,8 @@ const authEmailSchema = Joi.object({
 });
 
 const authPhoneLoginSchema = Joi.object({
+  dialCode:Joi.string().required(),
+  countryCode: Joi.string().required(),
   phone: Joi.string().required(),
   otp: Joi.number().required()
 });

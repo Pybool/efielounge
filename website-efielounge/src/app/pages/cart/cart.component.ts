@@ -121,10 +121,10 @@ export class CartComponent {
   }
 
   addQty(cartItem: any) {
-    if(cartItem.units < 5){
+    if(cartItem.units < 50){
       cartItem.units += 1;
     }else{
-      alert("You can only place a maximum of 5 orders for the same menu")
+      alert("You can only place a maximum of 50 orders for the same menu")
     }
   }
 

@@ -57,6 +57,7 @@ export class CheckoutComponent implements OnDestroy {
   public subTotal = 0.0;
   public cartItems$: any;
   public addressId: string = ""
+  public dockStatus = true;
   Math = Math;
 
   constructor(
@@ -72,11 +73,13 @@ export class CheckoutComponent implements OnDestroy {
     if (!this.user) {
       this.router.navigateByUrl('/login');
     }
+    
     this.activatedRoute$ = this.route.paramMap.subscribe((params) => {
       this.checkOutId = params.get('checkOutId') as string;
       this.cartItems$ = this.cartService.getCartItems().subscribe(
         (response: any) => {
-          this.cartService.cartDocker(true);
+          // this.cartService.cartDocker(this.dockStatus);
+          this.dockStatus = false;
           this.checkOutItems = response.cartItems || [];
           this.subTotal = response.subTotal;
         },
@@ -90,6 +93,11 @@ export class CheckoutComponent implements OnDestroy {
       .subscribe((response: any) => {
         if (response.status) {
           this.addresses = response.data;
+          this.addresses.sort((a: { isDefault: any; }, b: { isDefault: any; }) => {
+            if (a.isDefault && !b.isDefault) return -1;
+            if (!a.isDefault && b.isDefault) return 1;
+            return 0;
+          });
         }
       });
   }
@@ -116,9 +124,9 @@ export class CheckoutComponent implements OnDestroy {
     return new Promise((resolve, reject) => {
       this.paystackService.initiatePayment(amount, email, (response) => {
         if (response.status === 'success') {
-          resolve(this.verifyTransaction(response.reference, checkOutId));
+          resolve(this.verifyTransaction(response.reference, this.checkOutId));
         } else {
-          reject(this.verifyTransaction(response.reference, checkOutId));
+          reject(this.verifyTransaction(response.reference, this.checkOutId));
         }
       });
     });
@@ -154,6 +162,11 @@ export class CheckoutComponent implements OnDestroy {
             _address.isDefault = false;
           }
           address.isDefault = true;
+          this.addresses.sort((a: { isDefault: any; }, b: { isDefault: any; }) => {
+            if (a.isDefault && !b.isDefault) return -1;
+            if (!a.isDefault && b.isDefault) return 1;
+            return 0;
+          });
         }
       });
   }
@@ -224,10 +237,10 @@ export class CheckoutComponent implements OnDestroy {
   }
 
   addQty(checkOutItem: any) {
-    if (checkOutItem.units < 5) {
+    if (checkOutItem.units < 50) {
       checkOutItem.units += 1;
     } else {
-      alert('You can only place a maximum of 5 orders for the same menu');
+      alert('You can only place a maximum of 50 orders for the same menu');
     }
   }
 
@@ -236,6 +249,7 @@ export class CheckoutComponent implements OnDestroy {
       checkOutItem.units -= 1;
     }
   }
+
 
   checkOut() {
     this.cartService
@@ -260,7 +274,7 @@ export class CheckoutComponent implements OnDestroy {
               this.toggleTransferModal();
             } else {
               this.initiatePayment(
-                Math.round(Number(this.payment.amount)),
+                Math.ceil(Number(this.payment.amount)),
                 this.user.email || `customer${this.user.phone}@efielounge.com`,
                 this.checkOutId
               );

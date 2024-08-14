@@ -84,10 +84,9 @@
   margin-left: 10px;
 }
 
-.show{
-  display: block!important;
+.show {
+  display: block !important;
 }
-
 
 /* Modal container */
 .modal {
@@ -134,7 +133,6 @@
   cursor: pointer;
 }
 
-
 /* Extra Small Devices, Phones (0px to 599px) */
 @media only screen and (max-width: 599px) {
   /* Styles for small phones */
@@ -152,10 +150,14 @@
     max-width: fit-content;
   }
 
-  .modal-content{
+  .modal-content {
     width: 90%;
     margin-top: 40%;
-}
+  }
+
+  .orders-panel {
+    max-width: none !important;
+  }
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */
@@ -175,10 +177,14 @@
     max-width: fit-content;
   }
 
-  .modal-content{
+  .modal-content {
     width: 90%;
     margin-top: 40%;
-}
+  }
+
+  .orders-panel {
+    max-width: none !important;
+  }
 }
 
 /* Medium Devices, Tablets (768px to 991px) */
@@ -189,19 +195,19 @@
     white-space: nowrap;
   }
 
-  .modal-content{
+  .modal-content {
     width: 60%;
     margin-top: 20%;
-}
+  }
 }
 
 /* Medium Devices, Tablets (768px to 991px) */
 @media only screen and (min-width: 820px) and (max-width: 991px) {
   /* Styles for tablets */
-  .modal-content{
+  .modal-content {
     width: 60%;
     margin-top: 20%;
-}
+  }
 }
 
 @media (max-width: 980px) {
@@ -213,19 +219,19 @@
 /* Large Devices, Desktops (992px to 1199px) */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   /* Styles for desktops */
-  .modal-content{
+  .modal-content {
     width: 60%;
     margin-top: 20%;
-}
+  }
 }
 
 /* Extra Large Devices, Large Desktops (1200px and above) */
 @media only screen and (min-width: 1200px) {
   /* Styles for large desktops */
-//   .modal-content{
-//     width: 60%;
-//     margin-top: 20%;
-// }
+  //   .modal-content{
+  //     width: 60%;
+  //     margin-top: 20%;
+  // }
 }
 
 .order {
@@ -240,8 +246,6 @@
   white-space: nowrap;
 }
 
-
 .order:hover {
   background: orangered;
 }
-

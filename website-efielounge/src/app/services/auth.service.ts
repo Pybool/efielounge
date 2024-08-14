@@ -49,7 +49,12 @@ export class AuthService {
     return this.http.post(`${environment.api}/api/v1/auth/register`, user);
   }
 
-  phoneNumberSendOtp(payload: { phone: string; messageType: string }) {
+  phoneNumberSendOtp(payload: {
+    countryCode: string;
+    dialCode: string;
+    phone: string;
+    messageType: string;
+  }) {
     return this.http.post(`${environment.api}/api/v1/auth/phone-otp`, payload);
   }
 
@@ -57,7 +62,12 @@ export class AuthService {
     return this.http.post(`${environment.api}/api/v1/auth/email-otp`, payload);
   }
 
-  phoneNumberLogin(payload: { phone: string; otp: number }) {
+  phoneNumberLogin(payload: {
+    dialCode: string;
+    countryCode: string;
+    phone: string;
+    otp: number;
+  }) {
     return this.http.post(
       `${environment.api}/api/v1/auth/phone-login`,
       payload
@@ -65,7 +75,10 @@ export class AuthService {
   }
 
   emailLogin(payload: { email: string; otp: number }) {
-    return this.http.post(`${environment.api}/api/v1/auth/email-login`, payload);
+    return this.http.post(
+      `${environment.api}/api/v1/auth/email-login`,
+      payload
+    );
   }
 
   phoneNumberRegistration(payload: {
@@ -80,7 +93,7 @@ export class AuthService {
     );
   }
 
-  emailRegister(payload:{ email: string; otp: number }){
+  emailRegister(payload: { email: string; otp: number }) {
     return this.http.post(
       `${environment.api}/api/v1/auth/email-register`,
       payload
@@ -126,7 +139,10 @@ export class AuthService {
   }
 
   updateProfile(user: any) {
-    return this.http.put(`${environment.api}/api/v1/accounts/user-profile`, user);
+    return this.http.put(
+      `${environment.api}/api/v1/accounts/user-profile`,
+      user
+    );
   }
 
   retrieveToken(tokenKey: string) {

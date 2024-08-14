@@ -88,10 +88,12 @@ ul {
   #profile-dock-widget {
     right: -100%!important;
     width: 100%!important;
+    top: 5rem!important;
   }
   #profile-dock-widget.dock-visible {
     right: 0!important;
   }
+  
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */
@@ -100,6 +102,7 @@ ul {
   #profile-dock-widget {
     right: -50%!important;
     width: 50%!important;
+    top: 5rem!important;
   }
   #profile-dock-widget.dock-visible {
     right: 0!important;
@@ -254,6 +257,7 @@ li.cart a {
   margin-bottom: 4px;
   font-weight: 600;
   white-space: nowrap;
+  color: orangered;
 }
 
 .profile p {
@@ -369,7 +373,7 @@ li.cart a {
 
 #profile-dock-widget {
   position: fixed;
-  top: 8rem;
+  top: 7.2rem;
   right: -32%; /* Adjust width as needed */
   width: 32%; /* Adjust width as needed */
   height: 100%;
@@ -403,6 +407,8 @@ li.cart a {
 
 .profile-header > h3 {
   font-size: 20px;
+  color: orangered;
+  font-weight: 600;
 }
 
 .save:hover {

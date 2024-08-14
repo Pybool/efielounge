@@ -234,6 +234,16 @@ export class CartService {
     try {
       const { cartItems, amount, addressId } = req.body!;
       const checkOutId = req.query.checkOutId! as string;
+      if(checkOutId){
+        if(!checkOutId?.startsWith("EF-")){
+          return {
+            status: false,
+            message: "Invalid Checkout ID",
+            code: 400
+          }
+        }
+      }
+      
       const cartItemIds = [];
       for (let cartItem of cartItems) {
         cartItemIds.push(cartItem._id);
@@ -260,8 +270,10 @@ export class CartService {
       }
       let checkOutIntent = await CheckOut.findOne({
         account: req.accountId,
-        checkOutId: checkOutId,
+        isActive: true,
       });
+
+      console.log("Existing checkOutIntent ", checkOutIntent);
 
       if (!checkOutIntent) {
         // await CheckOut.findOneAndDelete({ account: req.accountId });
@@ -271,18 +283,19 @@ export class CartService {
           cart: cartItemIds,
           account: req.accountId,
           amount: amount,
-          address: addressId
+          address: addressId,
         });
       } else {
         checkOutIntent = await CheckOut.findOneAndUpdate(
-          { checkOutId: checkOutId },
+          { account: req.accountId, isActive: true },
           {
             cart: cartItemIds,
             account: req.accountId,
             amount: amount,
-            address: addressId
-          },
-          { new: true }
+            checkOutId: checkOutId,
+            address: addressId,
+          }
+          // { new: true }
         );
         if (checkOutIntent?.cart.length == 0) {
           await CheckOut.findOneAndDelete({ account: req.accountId });
@@ -356,6 +369,12 @@ export class CartService {
         status: checkOutIntent.status,
       };
       await OrderService.createOrder(checkOutIntentMod);
+      await CheckOut.findOneAndUpdate(
+        { account: req.accountId, isActive: true },
+        { isActive: false },
+        {new: true}
+      );
+      // await CheckOut.findOneAndDelete({ account: req.accountId });
 
       return {
         status: true,
@@ -393,6 +412,11 @@ export class CartService {
       };
       await OrderService.createOrder(checkOutIntentMod);
       const transaction = await Transaction.create(payload);
+      await CheckOut.findOneAndUpdate(
+        { account: req.accountId, isActive: true },
+        { isActive: false },
+        {new: true}
+      );
       return {
         status: true,
         message: "Transaction created & saved",

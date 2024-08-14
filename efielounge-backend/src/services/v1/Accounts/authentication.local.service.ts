@@ -20,9 +20,44 @@ import { config as dotenvConfig } from "dotenv";
 
 import { handleErrors } from "../../../global.error.handler";
 import { SmsService } from "./termii.service";
+import { parsePhoneNumber } from 'libphonenumber-js';
+
 dotenvConfig();
 dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
 const API_KEY = process.env.TERMII_API_KEY;
+
+// Mapping of country codes to their corresponding dial codes
+const countryDialCodes:any = {
+  'NG': '234', // Nigeria
+  'US': '1',   // United States
+  'GH': '233', // Ghana
+  'UK': '44',  // United Kingdom
+  // Add more countries as needed
+};
+
+// Function to normalize phone numbers
+const normalizePhoneNumber = (countryCode: any, phone: string) => {
+  const dialCode = countryDialCodes[countryCode];
+
+  if (!dialCode) {
+      throw new Error('Invalid country code');
+  }
+
+  // Remove all non-numeric characters
+  let normalizedPhone = phone!.replace(/\D/g, '');
+
+  // If the phone number starts with '0', replace it with the dial code
+  if (normalizedPhone.startsWith('0')) {
+      normalizedPhone = dialCode + normalizedPhone.slice(1);
+  }
+
+  // If the phone number doesn't start with the dial code, prepend it
+  if (!normalizedPhone.startsWith(dialCode)) {
+      normalizedPhone = dialCode + normalizedPhone;
+  }
+
+  return normalizedPhone;
+};
 export class Authentication {
   req: Xrequest;
   payload: {
@@ -30,6 +65,8 @@ export class Authentication {
     email?: string;
     password?: string;
     otp?: number;
+    dialCode?: string;
+    countryCode?:string;
   };
 
   constructor(req: Xrequest) {
@@ -118,29 +155,32 @@ export class Authentication {
   public async sendPhoneOtp(messageType: string) {
     let otpType = "phone-otp-login";
     const phone: string = this.payload.phone!;
+    const countryCode = this.payload.countryCode;
+    const parsedPhone = normalizePhoneNumber(countryCode,phone)
+   
     if (messageType === "REGISTER") {
       otpType = "phone-otp-register";
-      const user = await Accounts.findOne({ phone: phone });
+      const user = await Accounts.findOne({ phone: parsedPhone });
       if (user) {
         throw new Error("User with this mobile no already exists!");
       }
     }
     if (messageType === "LOGIN") {
       otpType = "phone-otp-login";
-      const user = await Accounts.findOne({ phone: phone });
+      const user = await Accounts.findOne({ phone: parsedPhone });
       if (!user) {
         throw new Error("No user with this mobile exists!");
       }
     }
     const otp: string = generateOtp();
-    await setExpirablePhoneCode(phone, otpType, otp);
-    console.log("Mobile otp code ===> ", otp);
+    await setExpirablePhoneCode(parsedPhone, otpType, otp);
+    // console.log("Mobile otp code ===> ", otp);
     const data = {
       api_key: API_KEY,
       message_type: "NUMERIC",
-      to: phone,
+      to: parsedPhone,
       from: "Efielounge",
-      channel: "dnd",
+      channel: "generic",
       pin_attempts: 10,
       pin_time_to_live: 5,
       pin_length: 4,
@@ -148,11 +188,11 @@ export class Authentication {
       message_text: "Your Efielo pin is < 1234 >",
       pin_type: "NUMERIC",
     };
-    const result = await SmsService.sendSms(messageType, Number(otp), data);
-    console.log("SMS Result ", result);
+    SmsService.sendSms(messageType, Number(otp), data);
+    // console.log("SMS Result ", result);
     return {
       status: true,
-      testotp: otp,
+      // testotp: otp,
       code: 200,
     };
   }
@@ -177,11 +217,11 @@ export class Authentication {
     }
     const otp: string = generateOtp();
     await setExpirableCode(email, otpType, otp);
-    console.log("Email otp code ===> ", otp);
+    // console.log("Email otp code ===> ", otp);
     mailActions.auth.sendEmailConfirmationOtp(email, otp);
     return {
       status: true,
-      testotp: otp,
+      // testotp: otp,
       code: 200,
     };
   }
@@ -192,7 +232,10 @@ export class Authentication {
     const result: any = await validations.authPhoneSchema.validateAsync(
       this.req.body
     );
-    const cachedOtp: any = await getExpirablePhoneCode(otpType, result.phone);
+    const phone: string = result?.phone!;
+    const countryCode = result.countryCode;
+    const parsedPhone = normalizePhoneNumber(countryCode,phone)
+    const cachedOtp: any = await getExpirablePhoneCode(otpType, parsedPhone);
     console.log("Existing otp ==> ", cachedOtp);
     if (!cachedOtp) {
       return {
@@ -209,13 +252,14 @@ export class Authentication {
     }
     const user = await Accounts.findOne({
       dialCode: result?.dialCode,
-      phone: result?.phone,
+      phone: parsedPhone,
     });
 
     if (user) {
       throw createError.Conflict("User with this phone number already exists");
     }
     result.createdAt = new Date();
+    result.phone = parsedPhone;
     const pendingAccount = new Accounts(result);
     let savedUser: any = await pendingAccount.save();
     savedUser = JSON.parse(JSON.stringify(savedUser));
@@ -236,7 +280,7 @@ export class Authentication {
       this.req.body
     );
     const cachedOtp: any = await getExpirableCode(otpType, result.email);
-    console.log("Existing otp ==> ", cachedOtp);
+    // console.log("Existing otp ==> ", cachedOtp);
     if (!cachedOtp) {
       return {
         status: false,
@@ -275,12 +319,15 @@ export class Authentication {
     const result = await validations.authPhoneLoginSchema.validateAsync(
       this.req.body
     );
-    const account: any = await Accounts.findOne({ phone: result.phone });
+    const phone: string = result?.phone!;
+    const countryCode = result.countryCode;
+    const parsedPhone = normalizePhoneNumber(countryCode,phone)
+    const account: any = await Accounts.findOne({ phone: parsedPhone });
     if (!account)
       return createError.NotFound("No user with this phone number exists");
 
-    const cachedOtp: any = await getExpirablePhoneCode(otpType, result.phone);
-    console.log("Existing login otp ==> ", cachedOtp);
+    const cachedOtp: any = await getExpirablePhoneCode(otpType, parsedPhone);
+    // console.log("Existing login otp ==> ", cachedOtp);
     if (!cachedOtp) {
       throw new Error("OTP has expired");
     }

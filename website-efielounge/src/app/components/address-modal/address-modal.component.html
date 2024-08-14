@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="flex-row-sb">
-            <button (click)="addAddress()" [disabled]="!(contact.address.length > 5) || (contact.district?.trim() == '')" class="btn order-now">Add Address</button>
+            <button (click)="addAddress()" [disabled]="!(contact.address.length > 2) || (contact.district?.trim() == '')" class="btn order-now">Add Address</button>
         </div>
 
 

@@ -56,7 +56,7 @@ export class LoginComponent {
   data: any = '';
   showOtp: boolean = false;
   authenticationMethod: string = 'mobile';
-  phone: string = '535845865';
+  phone: string = '';
   disable: boolean = true;
   showSubmit: boolean = false;
   timeLeft: any;
@@ -76,10 +76,15 @@ export class LoginComponent {
 
   ngOnInit() {}
 
+  toggleAuthMethod() {
+    this.showOtp = false;
+    this.showSubmit = false;
+  }
+
   onDataChange(newValue: string, type: string = 'phone') {
     this.data = newValue;
     if (newValue.length === 4) {
-      this.disable = false
+      this.disable = false;
       if (!this.called) {
         this.callFunction(type);
         this.called = true;
@@ -181,16 +186,25 @@ export class LoginComponent {
     if (resend) {
       this.showResendSpinner = true;
     }
+    const dialCode = this.selectedCountry.dial_code;
+    const countryCode = this.selectedCountry.code;
     this.authService
-      .phoneNumberSendOtp({ phone: this.phone, messageType: 'LOGIN' })
+      .phoneNumberSendOtp({
+        countryCode: countryCode,
+        dialCode: dialCode,
+        phone: this.phone,
+        messageType: 'LOGIN',
+      })
       .pipe(take(1))
       .subscribe(
         (response: any) => {
           this.hasRequestedOtpEarlier = true;
           if (response.status) {
             this.showSubmit = true;
-            if(response?.testotp){
-              alert(`Welocme to Efielounge your otp is ${response.testotp}. \nPlease do not share this code with anyone.`)
+            if (response?.testotp) {
+              alert(
+                `Welocme to Efielounge your otp is ${response.testotp}. \nPlease do not share this code with anyone.`
+              );
             }
           } else {
             this.showSpinner = false;
@@ -221,7 +235,7 @@ export class LoginComponent {
             position: 'top-end',
             icon: 'error',
             title: `OTP Error`,
-            text: "Something went wrong",
+            text: 'Something went wrong',
             showConfirmButton: false,
             timer: 1500,
           });
@@ -276,7 +290,7 @@ export class LoginComponent {
             position: 'top-end',
             icon: 'error',
             title: `OTP Error`,
-            text: "Something went wrong",
+            text: 'Something went wrong',
             showConfirmButton: false,
             timer: 1500,
           });
@@ -292,8 +306,15 @@ export class LoginComponent {
 
   phoneNumberLogin() {
     this.showSpinner = true;
+    const dialCode = this.selectedCountry.dial_code;
+    const countryCode = this.selectedCountry.code;
     this.authService
-      .phoneNumberLogin({ phone: this.phone, otp: this.data })
+      .phoneNumberLogin({
+        dialCode: dialCode,
+        countryCode: countryCode,
+        phone: this.phone,
+        otp: this.data,
+      })
       .pipe(take(1))
       .subscribe(
         (response: any) => {
@@ -505,7 +526,7 @@ export class LoginComponent {
         this.otpText = `Resend Code`;
         otpLinkTextEl.setAttribute('disabled', 'false');
         clearInterval(intervalId);
-        this.timeLeft = 3;
+        this.timeLeft = 30;
       }
     }, 1000);
   }

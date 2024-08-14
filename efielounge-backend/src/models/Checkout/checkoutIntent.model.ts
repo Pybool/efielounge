@@ -50,6 +50,11 @@ const CheckoutIntentSchema = new Schema({
     required: false,
     enum: ["PENDING", "CONFIRMED", "DISPATCHED", "DELIVERED", "CANCELLED"],
   },
+  isActive: {
+    type: Boolean,
+    required: false,
+    default: true
+  },
   
 });
 

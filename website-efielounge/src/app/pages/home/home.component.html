@@ -228,7 +228,7 @@
                             <span class="post-rate popular-post-rate yellow-bg brd-rd2"><i class="fa"
                                 [ngClass]="popular?.iRated ? 'fa-star' : 'fa-star-o'"></i>
                               {{popular?.ratings.toFixed(2)}}</span>
-                            <span (click)="likeMenu(popular?._id)"
+                            <span style="top:23px!important" (click)="likeMenu(popular?._id)"
                               [ngStyle]="{'color': popular?.iLiked ? 'orangered' : 'gray'}"
                               class="post-likes popular-post-likes style2 red-clr"><i
                                 [ngStyle]="{'color': popular?.iLiked ? 'orangered' : 'gray'}" class="fa fa-heart"></i>

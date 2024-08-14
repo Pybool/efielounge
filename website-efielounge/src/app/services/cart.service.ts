@@ -122,7 +122,7 @@ export class CartService {
     });
   }
 
-  recalculate() {
+  recalculate(closeModal: boolean= true) {
     for (let cartItem of this.cartItems) {
       this.calculatePricePerMeal(
         cartItem,
@@ -297,6 +297,7 @@ export class CartService {
   }
 
   updateCartItemsAndCheckOut(payload: any, checkOutId: string | null = null) {
+    console.log("this.checkoutId ", checkOutId )
     let url = `${environment.api}/api/v1/cart/checkout`;
     if (checkOutId) {
       url = `${environment.api}/api/v1/cart/checkout?checkOutId=${checkOutId}`;
@@ -323,6 +324,7 @@ export class CartService {
       }
       return null;
     }
+    
     const dockWidget = document.getElementById('dock-widget') as any;
     dockWidget.classList.toggle('dock-visible');
     const body = document.querySelector('body') as any;
@@ -337,23 +339,26 @@ export class CartService {
         this.isCartDockerOpen = false;
       }
       return null;
+    }else{
+      console.log("My turm")
+      if (!Array.from(dockWidget.classList).includes('dock-visible')) {
+        body.style.overflow = 'auto';
+        body.style.position = 'unset';
+        if (cartOverlay) {
+          cartOverlay.style.display = 'none';
+          this.isCartDockerOpen = false;
+        }
+      } else {
+        body.style.overflow = 'hidden';
+        body.style.position = 'fixed';
+        if (cartOverlay) {
+          cartOverlay.style.display = 'block';
+          this.isCartDockerOpen = true;
+        }
+      }
     }
 
-    if (!Array.from(dockWidget.classList).includes('dock-visible')) {
-      body.style.overflow = 'auto';
-      body.style.position = 'unset';
-      if (cartOverlay) {
-        cartOverlay.style.display = 'none';
-        this.isCartDockerOpen = false;
-      }
-    } else {
-      body.style.overflow = 'hidden';
-      body.style.position = 'fixed';
-      if (cartOverlay) {
-        cartOverlay.style.display = 'block';
-        this.isCartDockerOpen = true;
-      }
-    }
+    
     return null;
   }
 

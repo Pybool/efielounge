@@ -61,6 +61,7 @@ app.get(
   async (req: any, res: any) => {
     try {
       const key = `EFIELOUNGE_${process.env.NODE_ENV!.toUpperCase()}_PAYSTACK_PUBLIC_KEY`;
+      console.log(key)
       return res.send({
         status: true,
         PUBLIC_KEY: process.env[key] || null,

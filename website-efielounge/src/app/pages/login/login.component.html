@@ -51,7 +51,7 @@
                                                     
                                                       <div class="tabby-tab">
                                                         <input type="radio" id="tab-1" name="tabby-tabs" checked>
-                                                        <label for="tab-1">Mobile</label>
+                                                        <label (click)="toggleAuthMethod()" for="tab-1">Mobile</label>
                                                         <div class="tabby-content">
                                                             <form class="sign-form">
                                                                 <div class="row">
@@ -61,10 +61,10 @@
                                                                             <app-country-select
                                                                                 (countrySelected)="handleCountrySelected($event)"
                                                                                 class="col-12"></app-country-select>
-                                                                            <div style="width: 100%" class="col-md-12"><input [(ngModel)]="phone"
+                                                                            <div style="width: 100%;font-size: 16px;" class="col-md-12"><input style="font-size: 16px!important;" [(ngModel)]="phone"
                                                                                     (keyup)="isValidPhone($event)" name="phone"
                                                                                     class="brd-rd3" type="text"
-                                                                                    placeholder="Mobile number">
+                                                                                    placeholder="Mobile number without country code">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -109,7 +109,7 @@
                                                   
                                                       <div class="tabby-tab">
                                                         <input type="radio" id="tab-2" name="tabby-tabs">
-                                                        <label for="tab-2">Email</label>
+                                                        <label (click)="toggleAuthMethod()" for="tab-2">Email</label>
                                                         <div class="tabby-content">
                                                             <form class="sign-form">
                                                                 <div class="row">
@@ -145,7 +145,7 @@
                                                                     </div>
                                                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                                                                         <a class="sign-btn" href="/register" title="" itemprop="url">Not a member? Sign up</a>
-                                                                        <a class="recover-btn" href="/recover-password" title="" itemprop="url">Recover my password</a>
+                                                                        <!-- <a class="recover-btn" href="/recover-password" title="" itemprop="url">Recover my password</a> -->
                                                                     </div>
                                                                 </div>
                                                             </form>

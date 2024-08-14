@@ -63,12 +63,14 @@ export class OrderService {
       console.log(`Deleted ${deletedCount} cart items.`);
 
       console.log("All orders created successfully!");
-      const account = await Accounts.findOne({ _id: checkOutIntent.account })!;
+      const account:any = await Accounts.findOne({ _id: checkOutIntent.account })!;
       if (account) {
-        mailActions.orders.sendOrderSuccessfulMail(
-          account!.email as string,
-          checkOutIntent.checkOutId
-        );
+        if (account?.email.includes("@")) {
+          mailActions.orders.sendOrderSuccessfulMail(
+            account!.email as string,
+            checkOutIntent.checkOutId
+          );
+        }
       }
     } catch (error) {
       console.error("Overall error:", error);
@@ -165,9 +167,12 @@ export class OrderService {
 
     const collapsedOrders = await Promise.all(
       Object.entries(groupedOrders).map(async ([checkOutId, orders]) => {
-        const checkOut = await CheckOut.findOne({ checkOutId: checkOutId })!.populate("address");
+        const checkOut = await CheckOut.findOne({
+          checkOutId: checkOutId,
+          isActive: false,
+        })!.populate("address");
         const date = groupedOrders[checkOutId][0]?.createdAt;
-        if(checkOut){
+        if (checkOut) {
           return {
             checkOutId,
             orders,
@@ -179,14 +184,14 @@ export class OrderService {
             readyIn: checkOut?.readyIn || null,
             readyInSetAt: checkOut?.readyInSetAt,
           };
-        }else{
+        } else {
           return {
             checkOutId,
             orders,
             date,
             grandTotal: 0,
             status: "",
-            notes: ""
+            notes: "",
           };
         }
       })
@@ -297,40 +302,50 @@ export class OrderService {
     }
   }
 
-  static async updateOrderStatus(req: Xrequest){
-    try{
-      const data = JSON.parse(JSON.stringify(req.body))
+  static async updateOrderStatus(req: Xrequest) {
+    try {
+      const data = JSON.parse(JSON.stringify(req.body));
       const checkOutId = data.checkOutId;
-      if(data.setReady){
+      if (data.setReady) {
         data.readyInSetAt = new Date();
-        delete data.setReady
+        delete data.setReady;
       }
-      let result:any = await CheckOut.findOneAndUpdate({ checkOutId: checkOutId }, data, {new: true})!
-      if(result){
-        result = await result.populate("account")
+      let result: any = await CheckOut.findOneAndUpdate(
+        { checkOutId: checkOutId },
+        data,
+        { new: true }
+      )!;
+      if (result) {
+        result = await result.populate("account");
       }
-      delete data.notes
-      result = JSON.parse(JSON.stringify(result))
-      
-      await Order.findOneAndUpdate({ checkOutId: checkOutId }, data, {new: true})!
-      if(result){
-        if(req.body.setReady && result.status! !== "PENDING"){
-          mailActions.orders.sendOrderUpdateMail(result.account?.email, result.status!, checkOutId)
+      delete data.notes;
+      result = JSON.parse(JSON.stringify(result));
+
+      await Order.findOneAndUpdate({ checkOutId: checkOutId }, data, {
+        new: true,
+      })!;
+      if (result) {
+        if (req.body.setReady && result.status! !== "PENDING") {
+          mailActions.orders.sendOrderUpdateMail(
+            result.account?.email,
+            result.status!,
+            checkOutId
+          );
         }
 
         return {
           status: true,
-          message:"Order status was updated",
-          code: 200
-        }
+          message: "Order status was updated",
+          code: 200,
+        };
       }
       return {
         status: false,
-        message:"Order could not be updated",
-        code: 400
-      }
-    }catch(error:any){
-      throw error
+        message: "Order could not be updated",
+        code: 400,
+      };
+    } catch (error: any) {
+      throw error;
     }
   }
 

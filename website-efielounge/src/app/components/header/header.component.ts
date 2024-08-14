@@ -106,7 +106,7 @@ export class HeaderComponent {
     let menu = document.querySelector('.menu') as any;
     if (fromOutSide == 0) {
       menu.classList.add('active');
-      this.fetchAddresses();
+      
     } else {
       menu.classList.remove('active');
     }
@@ -226,6 +226,9 @@ export class HeaderComponent {
     dockWidget.classList.toggle('dock-visible');
     const body = document.querySelector('body') as any;
     const cartOverlay = document.querySelector('.profile-overlay') as any;
+    if(!this.isProfileDockerOpen){
+      this.fetchAddresses();
+    }
 
     if (close) {
       body.style.overflow = 'auto';

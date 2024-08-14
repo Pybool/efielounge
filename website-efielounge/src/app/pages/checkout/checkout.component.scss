@@ -723,6 +723,9 @@ h5 {
   .coupon input[type="submit"] {
     margin: 0 0 0 0px;
   }
+  .order-item {
+    flex-wrap: wrap!important;
+  }
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */
@@ -755,6 +758,10 @@ h5 {
 
   .coupon input[type="submit"] {
     margin: 0 0 0 0px;
+  }
+  
+  .order-item {
+    flex-wrap: wrap!important;
   }
 }
 
@@ -892,7 +899,7 @@ div.block > div.container {
 
 .order-item{
   display: flex!important;
-    flex-wrap: wrap!important;
+    // flex-wrap: wrap!important;
     padding: 10px!important;
 }
 

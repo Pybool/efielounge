@@ -108,6 +108,7 @@
     "juice": "^9.1.0",
     "jwks-rsa": "^3.1.0",
     "kafka-node": "^5.0.0",
+    "libphonenumber-js": "^1.11.5",
     "mailtrap": "^3.3.0",
     "mongoosastic": "^5.0.0",
     "mongoose": "^8.0.0",

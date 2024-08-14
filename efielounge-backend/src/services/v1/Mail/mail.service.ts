@@ -67,10 +67,9 @@ const mailActions = {
       return new Promise(async (resolve, reject) => {
         try {
           const template = await ejs.renderFile(
-            `${path}templates/orderSuccessful.ejs`,
+            `${path}templates/orderUpdate.ejs`,
             { email, orderId }
           );
-          console.log("receipient ", email);
 
           const mailOptions = {
             from: process.env.EFIELOUNGE_EMAIL_HOST_USER,

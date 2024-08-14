@@ -12,9 +12,10 @@ import { AddCartModalComponent } from '../add-cart-modal/add-cart-modal.componen
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { take } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RemoveFromCartComponent } from '../remove-from-cart/remove-from-cart.component';
 import { EmptyCartComponent } from '../empty-cart/empty-cart.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart-docked',
@@ -57,7 +58,7 @@ export class CartDockedComponent implements OnDestroy {
   @Output() booleanEvent = new EventEmitter<boolean>();
   public removeFromCart: boolean = false;
   public removal: { name: string; _id: string } = { name: '', _id: '' };
-  public checkoutId: string = '';
+  public checkoutId: string | null = '';
   public showCheckOutSpinner: boolean = false;
   public cartItems$: any;
   public cartItemRemoved$: any;
@@ -66,7 +67,8 @@ export class CartDockedComponent implements OnDestroy {
   constructor(
     private cartService: CartService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -97,22 +99,7 @@ export class CartDockedComponent implements OnDestroy {
     const data: any = {};
 
     try {
-      data.customMenuItems = value.data.customMenuItems;
-      data.menu = value.data.menu;
-      data.units = value.data.units;
-      data._id = value.data._id;
-      this.calculatePricePerMeal(
-        data,
-        data.menu.price,
-        data.customMenuItems,
-        data.units
-      );
-      for (let extra of data.customMenuItems) {
-        extra.isFinalSelect = true;
-      }
-      this.cartItems.unshift(data);
-      this.handleBooleanEvent(false);
-      this.calculateSubTotal();
+      this.cartService.handleAddedCartItem(value);
     } catch {}
   }
 
@@ -120,8 +107,8 @@ export class CartDockedComponent implements OnDestroy {
     return array.find((item: { _id: string }) => item._id === id);
   }
 
-  toggleDocker(){
-    this.cartService.cartDocker()
+  toggleDocker() {
+    this.cartService.cartDocker();
   }
 
   private generateRandomId(length: number) {
@@ -171,6 +158,7 @@ export class CartDockedComponent implements OnDestroy {
     );
     cartItem.total = (basePrice + extrasTotalPrice) * cartItem?.units;
     this.calculateSubTotal();
+    this.cartService.recalculate(false);
   }
 
   calculateSubTotal() {
@@ -186,8 +174,30 @@ export class CartDockedComponent implements OnDestroy {
     $event.stopPropagation();
   }
 
+  handleUnitsTyping($event: any, cartItem: any) {
+    const units = $event.target.value;
+    cartItem.units = units;
+    if (cartItem.units <= 50) {
+      this.calculatePricePerMeal(
+        cartItem,
+        cartItem.menu.price,
+        cartItem.customMenuItems,
+        cartItem.units
+      );
+    } else {
+      cartItem.units = 50;
+      this.calculatePricePerMeal(
+        cartItem,
+        cartItem.menu.price,
+        cartItem.customMenuItems,
+        cartItem.units
+      );
+      alert('You can only place a maximum of 50 orders for the same menu');
+    }
+  }
+
   addQty(cartItem: any) {
-    if (cartItem.units < 5) {
+    if (cartItem.units < 50) {
       cartItem.units += 1;
       this.calculatePricePerMeal(
         cartItem,
@@ -196,7 +206,7 @@ export class CartDockedComponent implements OnDestroy {
         cartItem.units
       );
     } else {
-      alert('You can only place a maximum of 5 orders for the same menu');
+      alert('You can only place a maximum of 50 orders for the same menu');
     }
   }
 
@@ -243,12 +253,11 @@ export class CartDockedComponent implements OnDestroy {
       const index = this.cartItems.findIndex(
         (obj: { _id: string }) => obj._id === id
       );
-
       if (index !== -1) {
-        this.cartItems.splice(index, 1); // Remove the object at the found index
-        return true; // Indicate successful deletion
+        this.cartItems.splice(index, 1);
+        return true;
       } else {
-        return false; // Indicate object not found
+        return false;
       }
     }
     return false;
@@ -260,9 +269,21 @@ export class CartDockedComponent implements OnDestroy {
   }
 
   checkOut() {
+    const path = window.location.pathname;
+    const pathSegments = path.split('/');
+    this.checkoutId = pathSegments[pathSegments.length - 1];
+    if(!this.checkoutId?.startsWith("EF-")){
+      this.checkoutId = null
+    }
+    console.log('checkOutId ', this.checkoutId);
     this.showCheckOutSpinner = true;
     this.cartService
-      .updateCartItemsAndCheckOut({ cartItems: this.cartItems })
+      .updateCartItemsAndCheckOut(
+        {
+          cartItems: this.cartItems,
+        },
+        this.checkoutId
+      )
       .pipe(take(1))
       .subscribe(
         (response: any) => {
@@ -270,6 +291,7 @@ export class CartDockedComponent implements OnDestroy {
           if (response.status) {
             this.checkoutId = response.data.checkOutId;
             this.router.navigateByUrl(`/checkout/${this.checkoutId}`);
+            Swal.fire(response?.message)
           } else {
             alert('Unable to checkout at this moment');
           }

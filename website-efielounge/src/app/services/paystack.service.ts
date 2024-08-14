@@ -41,10 +41,11 @@ export class PaystackService {
     callback: (response: any) => void
   ) {
     // Call Paystack inline method to initiate payment
+    console.log("Amount ", amount, Math.ceil(amount))
     const handler = (window as any).PaystackPop.setup({
       key: this.paystackPublicKey,
       email,
-      amount: amount * 100, // Paystack expects amount in kobo (smallest currency unit)
+      amount: Math.ceil(amount) * 100, // Paystack expects amount in kobo (smallest currency unit)
       callback,
       currency: 'GHS',
       channels: ['mobile_money', 'card'],
