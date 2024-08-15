@@ -500,7 +500,7 @@ export class LoginComponent {
     this.pointerType = 'none';
   }
 
-  resendCode() {
+  resendCode(type: string) {
     this.data = '';
     const otpLinkTextEl = document.querySelector(
       '.otp-link-text'
@@ -509,7 +509,11 @@ export class LoginComponent {
     otpLinkTextEl.style.pointerEvents = 'none';
     otpLinkTextEl.setAttribute('disabled', 'true');
     this.showResendSpinner = true;
-    this.phoneNumberSendOtp(true, otpLinkTextEl);
+    if (type === 'phone') {
+      return this.phoneNumberSendOtp(true, otpLinkTextEl);
+    }
+
+    return this.emailSendOtp(true, otpLinkTextEl);
   }
 
   countDownOtp() {

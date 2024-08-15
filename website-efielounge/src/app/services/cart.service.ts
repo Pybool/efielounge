@@ -39,16 +39,6 @@ export class CartService {
       }
     | any = {};
 
-  getAddresses() {
-    return this.http.get(`${environment.api}/api/v1/accounts/get-addresses`);
-  }
-
-  removeAddress(payload: { addressId: string }) {
-    return this.http.post(
-      `${environment.api}/api/v1/accounts/remove-address`,
-      payload
-    );
-  }
   private cartCountSubject: BehaviorSubject<number> =
     new BehaviorSubject<number>(0);
   private cartModalAndSelectedMenuSubject: BehaviorSubject<number> =
@@ -236,12 +226,6 @@ export class CartService {
     );
   }
 
-  setDefaultAddress(payload: { addressId: string }) {
-    return this.http.post(
-      `${environment.api}/api/v1/accounts/set-default-address`,
-      payload
-    );
-  }
 
   addToCart(payload: {
     menu: string;

@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { HomeService } from './services/home.service';
 import { environment } from '../environments/environment';
 import { RingingBellComponent } from './components/ringing-bell/ringing-bell.component';
+import { AddressService } from './services/address.service';
 
 interface Ipromotion {
   _id?: string;
@@ -34,7 +35,7 @@ interface Ipromotion {
     CommonModule,
     RingingBellComponent,
   ],
-  providers: [HttpClientModule, AuthService, CartService, HomeService],
+  providers: [HttpClientModule, AuthService, CartService, HomeService, AddressService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

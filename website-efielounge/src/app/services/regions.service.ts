@@ -4,6 +4,7 @@ export const notableAreas = [
   'Ada East',
   'Ada West',
   'Adenta Municipal',
+  'Anyaa',
   'Ashaiman Municipal',
   'Ayawaso Central',
   'Ayawaso East',

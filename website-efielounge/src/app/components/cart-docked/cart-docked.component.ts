@@ -275,7 +275,6 @@ export class CartDockedComponent implements OnDestroy {
     if(!this.checkoutId?.startsWith("EF-")){
       this.checkoutId = null
     }
-    console.log('checkOutId ', this.checkoutId);
     this.showCheckOutSpinner = true;
     this.cartService
       .updateCartItemsAndCheckOut(
@@ -291,7 +290,6 @@ export class CartDockedComponent implements OnDestroy {
           if (response.status) {
             this.checkoutId = response.data.checkOutId;
             this.router.navigateByUrl(`/checkout/${this.checkoutId}`);
-            Swal.fire(response?.message)
           } else {
             alert('Unable to checkout at this moment');
           }

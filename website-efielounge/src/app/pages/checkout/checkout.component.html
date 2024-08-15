@@ -276,7 +276,7 @@
                                                             </label>
                                                         </div>
 
-                                                        <button [disabled]="!activatePayment()"
+                                                        <button
                                                             style="cursor: pointer; text-align: center;"
                                                             (click)="checkOut()" class="place-order redbutton btn">Place
                                                             Order</button>
@@ -299,6 +299,7 @@
 
         <app-address-modal *ngIf="showCartModal" (newAddressEvent)="handleNewAddressEvent($event)"
             (booleanEvent)="handleBooleanEvent($event)"></app-address-modal>
+        <app-address-list *ngIf="showAddressesModal" (booleanEvent)="handleAddressListCloseEvent($event)"></app-address-list>
         <app-remove-from-cart *ngIf="!cartService.isCartDockerOpen" [removal]="removal"
             (confirmEvent)="handleConfirmEvent()"></app-remove-from-cart>
         <app-direct-bank-transfer-modal [payment]="payment"></app-direct-bank-transfer-modal>

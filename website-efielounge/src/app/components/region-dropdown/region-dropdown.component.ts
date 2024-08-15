@@ -30,6 +30,10 @@ export class RegionDropdownComponent implements OnInit {
         item.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
+
+    if(!this.show){
+      this.showDropdownMenu()
+    }
   }
 
   selectItem(item: string): void {

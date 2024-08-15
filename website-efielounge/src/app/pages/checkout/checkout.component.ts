@@ -15,6 +15,8 @@ import { PaystackService } from '../../services/paystack.service';
 import { AuthService } from '../../services/auth.service';
 import { AddressModalComponent } from '../../components/address-modal/address-modal.component';
 import Swal from 'sweetalert2';
+import { AddressListComponent } from '../../components/address-list/address-list.component';
+import { AddressService } from '../../services/address.service';
 
 @Component({
   selector: 'app-checkout',
@@ -31,6 +33,7 @@ import Swal from 'sweetalert2';
     RemoveFromCartComponent,
     DirectBankTransferModalComponent,
     AddressModalComponent,
+    AddressListComponent,
   ],
   providers: [PaystackService, AuthService],
   templateUrl: './checkout.component.html',
@@ -51,12 +54,13 @@ export class CheckoutComponent implements OnDestroy {
     amount: 0.0,
   };
   public showCartModal = false;
+  public showAddressesModal = false;
   public paymentMethod: string = 'card';
   public user: any;
   public addresses: any = [];
   public subTotal = 0.0;
   public cartItems$: any;
-  public addressId: string = ""
+  public addressId: string = '';
   public dockStatus = true;
   Math = Math;
 
@@ -65,7 +69,8 @@ export class CheckoutComponent implements OnDestroy {
     private route: ActivatedRoute,
     private paystackService: PaystackService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private addressService: AddressService
   ) {}
 
   ngOnInit() {
@@ -73,7 +78,7 @@ export class CheckoutComponent implements OnDestroy {
     if (!this.user) {
       this.router.navigateByUrl('/login');
     }
-    
+
     this.activatedRoute$ = this.route.paramMap.subscribe((params) => {
       this.checkOutId = params.get('checkOutId') as string;
       this.cartItems$ = this.cartService.getCartItems().subscribe(
@@ -87,27 +92,25 @@ export class CheckoutComponent implements OnDestroy {
       );
     });
 
-    this.cartService
-      .getAddresses()
-      .pipe(take(1))
-      .subscribe((response: any) => {
-        if (response.status) {
-          this.addresses = response.data;
-          this.addresses.sort((a: { isDefault: any; }, b: { isDefault: any; }) => {
-            if (a.isDefault && !b.isDefault) return -1;
-            if (!a.isDefault && b.isDefault) return 1;
-            return 0;
-          });
-        }
-      });
+    this.addressService.getAddressesObs().subscribe((addresses:any)=>{
+      this.addresses = addresses
+    })
+
   }
 
   handleBooleanEvent(value: boolean) {
     this.showCartModal = value;
   }
 
+  handleAddressListCloseEvent(value: boolean) {
+    this.showAddressesModal = value;
+  }
+
   handleNewAddressEvent(value: boolean) {
     this.addresses.unshift(value);
+    if (!this.activatePayment()) {
+      this.setDefaultAddress(value);
+    }
   }
 
   ngAfterViewInit() {
@@ -116,7 +119,7 @@ export class CheckoutComponent implements OnDestroy {
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
-      document.querySelector("html")?.scrollIntoView()
+      document.querySelector('html')?.scrollIntoView();
     }, 100);
   }
 
@@ -151,25 +154,7 @@ export class CheckoutComponent implements OnDestroy {
     });
   }
 
-  setDefaultAddress(address: any) {
-    this.addressId = address._id
-    this.cartService
-      .setDefaultAddress({ addressId: address._id })
-      .pipe(take(1))
-      .subscribe((response: any) => {
-        if (response.status) {
-          for (let _address of this.addresses) {
-            _address.isDefault = false;
-          }
-          address.isDefault = true;
-          this.addresses.sort((a: { isDefault: any; }, b: { isDefault: any; }) => {
-            if (a.isDefault && !b.isDefault) return -1;
-            if (!a.isDefault && b.isDefault) return 1;
-            return 0;
-          });
-        }
-      });
-  }
+  
 
   activatePayment() {
     let defaultSelected = false;
@@ -209,25 +194,16 @@ export class CheckoutComponent implements OnDestroy {
     }
   }
 
+  setDefaultAddress(address: any) {
+    this.addressService.setDefaultAddress(address)
+  }
+
   removeAddress(addressId: string) {
     const confirmation = confirm(
       'Are you sure you want to delete this address?'
     );
     if (confirmation) {
-      this.cartService
-        .removeAddress({ addressId })
-        .pipe(take(1))
-        .subscribe(
-          (response: any) => {
-            Swal.fire(response.message);
-            if (response.data) {
-              this.deleteObjectById(this.addresses, response.data._id);
-            }
-          },
-          (error: any) => {
-            alert(error.message);
-          }
-        );
+      this.addressService.removeAddress( addressId )
     }
   }
 
@@ -250,14 +226,24 @@ export class CheckoutComponent implements OnDestroy {
     }
   }
 
-
   checkOut() {
+    if (!this.activatePayment()) {
+      if (this.addresses.length == 0) {
+        return this.handleBooleanEvent(true);
+      } else {
+        this.showAddressesModal = true;
+        return setTimeout(()=>{
+          this.toggleAddressesModal();
+        },500)
+      }
+    }
+
     this.cartService
       .updateCartItemsAndCheckOut(
         {
           cartItems: this.checkOutItems,
           amount: this.subTotal + this.deliveryCost,
-          addressId: this.addressId
+          addressId: this.addressId,
         },
         this.checkOutId
       )
@@ -317,10 +303,17 @@ export class CheckoutComponent implements OnDestroy {
     }
   }
 
+  toggleAddressesModal() {
+    const addressesModal = document.querySelector('#addressesModal') as any;
+    if (addressesModal) {
+      addressesModal.style.display = 'block';
+    }
+  }
+
   ngOnDestroy() {
-    try{
+    try {
       this.cartItems$?.unsubsribe();
       this.activatedRoute$?.unsubsribe();
-    }catch{}
+    } catch {}
   }
 }

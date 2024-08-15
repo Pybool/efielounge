@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CountrySelectComponent } from '../country-select/country-select.component';
 import Swal from 'sweetalert2';
 import { AddressModalComponent } from '../address-modal/address-modal.component';
+import { AddressService } from '../../services/address.service';
 
 @Component({
   selector: 'app-header',
@@ -52,7 +53,8 @@ export class HeaderComponent {
     private authService: AuthService,
     private tokenService: TokenService,
     private cookieService: CookieService,
-    private cartService: CartService
+    private cartService: CartService,
+    private addressService: AddressService
   ) {}
 
   ngOnInit() {
@@ -309,40 +311,14 @@ export class HeaderComponent {
   }
 
   fetchAddresses() {
-    this.cartService
-      .getAddresses()
-      .pipe(take(1))
-      .subscribe((response: any) => {
-        if (response.status) {
-          this.addresses = response.data;
-        }
-      });
+    this.addressService.getAddressesObs().subscribe((addresses:any)=>{
+      this.addresses = addresses
+    })
   }
 
   setDefaultAddress(address: any) {
     this.addressId = address._id;
-    this.cartService
-      .setDefaultAddress({ addressId: address._id })
-      .pipe(take(1))
-      .subscribe((response: any) => {
-        if (response.status) {
-          for (let _address of this.addresses) {
-            _address.isDefault = false;
-          }
-          address.isDefault = true;
-        }
-      });
-  }
-
-  deleteObjectById(arr: any, id: string) {
-    const index = arr.findIndex((obj: { _id: string }) => obj._id === id);
-
-    if (index !== -1) {
-      arr.splice(index, 1); // Remove the object at the found index
-      return true;
-    } else {
-      return false;
-    }
+    this.addressService.setDefaultAddress({ addressId: address._id })
   }
 
   removeAddress(addressId: string) {
@@ -350,23 +326,9 @@ export class HeaderComponent {
       'Are you sure you want to delete this address?'
     );
     if (confirmation) {
-      this.cartService
-        .removeAddress({ addressId })
-        .pipe(take(1))
-        .subscribe(
-          (response: any) => {
-            Swal.fire(response.message);
-            if (response.data) {
-              this.deleteObjectById(this.addresses, response.data._id);
-            }
-          },
-          (error: any) => {
-            alert(error.message);
-          }
-        );
+      this.addressService.removeAddress( addressId )
     }
   }
-
   handleBooleanEvent(value: boolean) {
     this.showCartModal = value;
   }

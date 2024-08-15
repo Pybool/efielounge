@@ -297,6 +297,7 @@ li.cart a {
   transform: translateY(-10px);
   visibility: hidden;
   transition: 300ms;
+  min-width: 200px;
 }
 
 .menu::before {

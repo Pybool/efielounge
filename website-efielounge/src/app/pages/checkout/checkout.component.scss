@@ -168,9 +168,9 @@ label:not(.notes):after {
 /* TABLET STARTS HERE */
 
 @media (min-width: 768px) {
-  .wrapper {
-    width: 768px;
-  }
+  // .wrapper {
+  //   width: 768px;
+  // }
 
   .col-1,
   .col-2,
@@ -505,8 +505,8 @@ header {
   line-height: 210px;
 }
 
-.flex-row-sb{
-  display:flex;
+.flex-row-sb {
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -522,7 +522,7 @@ header {
   -o-box-shadow: 0px 12px 14px -10px #dddddd;
 }
 
-hr{
+hr {
   color: darkkhaki;
 }
 
@@ -533,7 +533,7 @@ hr{
   color: gray;
 }
 
-li{
+li {
   text-align: left;
   list-style-type: disclosure-closed;
   color: #757575;
@@ -724,7 +724,7 @@ h5 {
     margin: 0 0 0 0px;
   }
   .order-item {
-    flex-wrap: wrap!important;
+    flex-wrap: wrap !important;
   }
 }
 
@@ -759,9 +759,9 @@ h5 {
   .coupon input[type="submit"] {
     margin: 0 0 0 0px;
   }
-  
+
   .order-item {
-    flex-wrap: wrap!important;
+    flex-wrap: wrap !important;
   }
 }
 
@@ -881,12 +881,11 @@ div.block > div.container {
   max-width: fit-content !important;
 }
 
-
 .popular-dish-info > p {
-  margin-bottom: 0px!important;
+  margin-bottom: 0px !important;
 }
 .popular-dish-info {
-  padding: 10px!important;
+  padding: 10px !important;
 }
 
 .restaurant-info {
@@ -897,18 +896,29 @@ div.block > div.container {
   width: 100%;
 }
 
-.order-item{
-  display: flex!important;
-    // flex-wrap: wrap!important;
-    padding: 10px!important;
+.order-item {
+  display: flex !important;
+  // flex-wrap: wrap!important;
+  padding: 10px !important;
 }
-
 
 .order-item .order-thumb {
   display: inline-block;
-  margin: 0px!important;
+  margin: 0px !important;
 }
 
-.order-info >div > h4{
-  padding: 0px!important;
+.order-info > div > h4 {
+  padding: 0px !important;
+}
+
+div.block > div.container {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.sec-box{
+  width: 100%!important;
+  max-width: none!important;
 }
