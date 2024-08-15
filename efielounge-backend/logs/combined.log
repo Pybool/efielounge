@@ -9024,3 +9024,14 @@ info:
  {"timestamp":"2024-08-15T06:47:10.313+01:00"}
 info: Mongoose connected to db {"timestamp":"2024-08-15T06:47:10.377+01:00"}
 info: MongoDB connected Successfully. {"timestamp":"2024-08-15T06:47:10.381+01:00"}
+info: MONGO_URI: mongodb://localhost:27017/ {"timestamp":"2024-08-15T07:10:34.635+01:00"}
+info: DATABASE NAME EFIELOUNGE {"timestamp":"2024-08-15T07:10:34.643+01:00"}
+info: 
+ ----------------------------------------------------------------
+|  EFIELOUNGE DEVELOPMENT SERVER IS RUNNING ON 0.0.0.0:8000  |
+|  😊 Development Server started successfully.  |
+|  🎧 Listening on port 8000...  |
+ ----------------------------------------------------------------
+ {"timestamp":"2024-08-15T07:10:44.126+01:00"}
+info: Mongoose connected to db {"timestamp":"2024-08-15T07:10:44.182+01:00"}
+info: MongoDB connected Successfully. {"timestamp":"2024-08-15T07:10:44.186+01:00"}

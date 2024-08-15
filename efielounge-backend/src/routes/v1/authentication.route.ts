@@ -4,21 +4,22 @@ import { decode, decodeExt } from '../../middlewares/jwt';
 import { handleInvalidMethod } from '../../middlewares/invalidrequest';
 const authRouter = express.Router();
 
-// authRouter.post('/register', decodeExt, authController.createAccount)
+authRouter.post('/register', decodeExt, authController.createAccount)
 // authRouter.post('/phone-register', decodeExt, authController.phoneRegister)
 // authRouter.post('/email-register', decodeExt, authController.emailRegister)
 authRouter.post('/phone-otp', decodeExt, authController.sendPhoneOtp)
 authRouter.post('/email-otp', decodeExt, authController.sendEmailOtp)
 authRouter.post('/phone-login', decodeExt, authController.phoneLogin)
 authRouter.post('/email-login', decodeExt, authController.emailLogin)
-// authRouter.post('/resend-email-verification-otp', authController.sendEmailConfirmationOtp)
-// authRouter.post('/send-password-reset-otp', authController.sendPasswordResetLink)
-// authRouter.post('/reset-password', authController.resetPassword)
-// authRouter.post('/login', authController.loginAccount)
-// authRouter.post('/refresh-token', authController.getRefreshToken)
-// authRouter.get('/user-profile', decode, authController.getUserProfile)
-// authRouter.put('/user-profile', decode, authController.saveUserProfile)
-// authRouter.put('/verify-account', authController.verifyAccountEmail)
+
+authRouter.post('/resend-email-verification-otp', authController.sendEmailConfirmationOtp)
+authRouter.post('/send-password-reset-otp', authController.sendPasswordResetLink)
+authRouter.post('/reset-password', authController.resetPassword)
+authRouter.post('/login', authController.loginAccount)
+authRouter.post('/refresh-token', authController.getRefreshToken)
+authRouter.get('/user-profile', decode, authController.getUserProfile)
+authRouter.put('/user-profile', decode, authController.saveUserProfile)
+authRouter.put('/verify-account', authController.verifyAccountEmail)
 
 
 

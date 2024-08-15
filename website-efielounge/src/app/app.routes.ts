@@ -20,7 +20,7 @@ import { RatingsComponent } from './components/ratings/ratings.component';
 export const routes: Routes = [
   
   { path: '', component: HomeComponent },
-  { path: 'register', component: RegisterComponent },
+  // { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'recover-password', component: RecoverPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
