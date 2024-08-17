@@ -59,7 +59,9 @@ export class LoginComponent {
   phone: string = '';
   disable: boolean = true;
   showSubmit: boolean = false;
-  timeLeft: any;
+  timeLeft: any = 30;
+  phoneErrorMessage:string | null = null;
+  emailErrorMessage:string | null = null;
   otpText: string = 'Resend Code';
   called = false;
   hasRequestedOtpEarlier = false;
@@ -117,8 +119,9 @@ export class LoginComponent {
     setTimeout(() => {
       pageLoader.style.display = 'none';
     }, 100);
-
-    this.isInvalidEmail(this.credentials);
+    this.isValidPhone()
+    this.activeSendOtp = !this.validateEmail(this.credentials.email);
+    
   }
 
   moveBackground(event: MouseEvent): void {
@@ -411,6 +414,16 @@ export class LoginComponent {
       this.selectedCountry.code
     );
     this.disable = !isValidPhone;
+    if(this.disable && this.phone.length> 0){
+      this.phoneErrorMessage = "Phone number is not valid for selected area code"
+    }else{
+      this.phoneErrorMessage = null
+    }
+  }
+
+  validateEmail(email:string) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
   }
 
   isInvalidEmail(credentials: any) {
@@ -450,7 +463,11 @@ export class LoginComponent {
 
   enableSendOtpButton() {
     this.activeSendOtp = this.isInvalidEmail(this.credentials);
-    console.log('this.activeSendOtp ', this.activeSendOtp);
+    if(this.activeSendOtp){
+      this.emailErrorMessage = "This email address is not valid"
+    }else{
+      this.emailErrorMessage = null
+    }
   }
 
   isPasswordMatch() {
@@ -517,14 +534,21 @@ export class LoginComponent {
   }
 
   countDownOtp() {
+    
     const intervalId = setInterval(() => {
+      const otpLinkTextEl = document.querySelector(
+        '.otp-link-text'
+      ) as HTMLElement;
+      console.log("Tmeleft ", this.timeLeft)
       if (this.timeLeft > 0) {
         this.timeLeft -= 1; // Concise decrement
+        
+        otpLinkTextEl.style.color = 'gray';
+        otpLinkTextEl.style.pointerEvents = 'none';
+        otpLinkTextEl.setAttribute('disabled', 'true');
         this.otpText = `Resend Code in ${this.timeLeft} seconds`;
       } else {
-        const otpLinkTextEl = document.querySelector(
-          '.otp-link-text'
-        ) as HTMLElement;
+        
         otpLinkTextEl.style.color = 'orange';
         otpLinkTextEl.style.pointerEvents = 'auto';
         this.otpText = `Resend Code`;

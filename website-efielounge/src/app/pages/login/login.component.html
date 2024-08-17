@@ -61,10 +61,12 @@
                                                                             <app-country-select
                                                                                 (countrySelected)="handleCountrySelected($event)"
                                                                                 class="col-12"></app-country-select>
-                                                                            <div style="width: 100%;font-size: 16px;" class="col-md-12"><input style="font-size: 16px!important;" [(ngModel)]="phone"
+                                                                            <div style="width: 100%;font-size: 16px;" class="col-md-12">
+                                                                                <input style="font-size: 16px!important;" [(ngModel)]="phone"
                                                                                     (keyup)="isValidPhone($event)" name="phone"
                                                                                     class="brd-rd3" type="text"
                                                                                     placeholder="Mobile number without country code">
+                                                                                <small *ngIf="phoneErrorMessage" style="color: orangered">{{phoneErrorMessage}}</small>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -95,10 +97,10 @@
                                                                         </button>
             
                                                                     </div>
-                                                                    <div class="flex-row-sb nowrap col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                                                                    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                                                                         <!-- <a class="sign-btn" style="font-size: 15px; text-align: center;" href="/register" title="" itemprop="url">Not a customer? Sign up</a> -->
-                                                                        <div style="align-items: flex-end;" class="flex-row-sb">
-                                                                            <div *ngIf="showResendSpinner" class="spinner"></div>
+                                                                        <div style="align-items: flex-end;" class="">
+                                                                            <div *ngIf="showResendSpinner" class="gray-spinner"></div>
                                                                             <a style="margin-top: 0px;" class="recover-btn otp-link-text" *ngIf="hasRequestedOtpEarlier" style="font-size: 15px; text-align: center;" (click)="resendCode('phone')" href="javascript:void(0)" title="" itemprop="url">{{otpText}}</a>
                                                                         </div>
                                                                     </div>
@@ -115,6 +117,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
                                                                         <input [(ngModel)]="credentials.email" (keyup)="checkValidmail()" name="email" class="brd-rd3" type="text" placeholder="Email Address">
+                                                                        <small *ngIf="emailErrorMessage" style="color: orangered">{{emailErrorMessage}}</small>
                                                                     </div>
                                                                     <div *ngIf="showSubmit">
                                                                         <app-otp-input #input="ngModel"
@@ -143,24 +146,19 @@
                                                                         </button>
             
                                                                     </div>
-                                                                    <div style="align-items: flex-end;" class="flex-row-sb">
-                                                                        <div *ngIf="showResendSpinner" class="spinner"></div>
+                                                                    <div style="align-items: flex-end;" class="">
+                                                                        <div *ngIf="showResendSpinner" class="gray-spinner"></div>
                                                                         <a style="margin-top: 0px;" class="recover-btn otp-link-text" *ngIf="hasRequestedOtpEarlier" style="font-size: 15px; text-align: center;" (click)="resendCode('email')" href="javascript:void(0)" title="" itemprop="url">{{otpText}}</a>
                                                                     </div>
                                                                 </div>
                                                             </form>
                                                         </div>
-                                                      </div>
-                                                  
-                                                      
+                                                      </div>                                                      
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        
+                                        </div>                                        
                                     </div>
-                                   
                                 </div>
                             </div>
                         </div>

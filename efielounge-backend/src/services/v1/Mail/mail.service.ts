@@ -18,7 +18,7 @@ const mailActions = {
           const mailOptions = {
             from: process.env.EFIELOUNGE_EMAIL_HOST_USER,
             to: email,
-            subject: "Confirm your registration",
+            subject: "Email Verification",
             text: `Use the otp in this mail to complete your account onboarding`,
             html: template,
           };

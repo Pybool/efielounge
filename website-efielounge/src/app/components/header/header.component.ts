@@ -318,7 +318,7 @@ export class HeaderComponent {
 
   setDefaultAddress(address: any) {
     this.addressId = address._id;
-    this.addressService.setDefaultAddress({ addressId: address._id })
+    this.addressService.setDefaultAddress(address)
   }
 
   removeAddress(addressId: string) {

@@ -48,7 +48,7 @@ export class CheckoutComponent implements OnDestroy {
   public removal: { name: string; _id: string } = { name: '', _id: '' };
   public activatedRoute$: any;
   public checkOutId: any = null;
-  public deliveryCost = 30.0;
+  public deliveryCost = 0.00;
   public isProfileDockerOpen: boolean = false;
   public payment: { ref: string; amount: number | string } = {
     ref: this.checkOutId,

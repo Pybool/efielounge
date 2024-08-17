@@ -18,7 +18,7 @@ async function checkIfIRated(account: string, menuId: string) {
   return false;
 }
 
-function validateEmail(email:string) {
+function validateEmail(email: string) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailPattern.test(email);
 }
@@ -37,7 +37,7 @@ export class OrderService {
         .lean();
 
       const savedOrders = [];
-      const orders = []
+      const orders = [];
 
       for (const cartitem of cartItems) {
         cartitem.createdAt = new Date();
@@ -46,7 +46,7 @@ export class OrderService {
         try {
           const order = await Order.create(cartitem);
           savedOrders.push(order._id);
-          orders.push(order)
+          orders.push(order);
         } catch (error) {
           console.error("Error creating order:", error);
 
@@ -69,15 +69,9 @@ export class OrderService {
       console.log(`Deleted ${deletedCount} cart items.`);
 
       console.log("All orders created successfully!");
-      const account:any = await Accounts.findOne({ _id: checkOutIntent.account })!;
-      // if (account) {
-      //   if(validateEmail(account?.email)){
-      //     mailActions.orders.sendOrderSuccessfulMail(
-      //       account!.email as string,
-      //       checkOutIntent.checkOutId
-      //     );
-      //   }
-      // }
+      await Accounts.findOne({
+        _id: checkOutIntent.account,
+      })!;
       return orders;
     } catch (error) {
       console.error("Overall error:", error);
@@ -87,7 +81,6 @@ export class OrderService {
   static async getMostOrdered(req: Xrequest) {
     const accountId = req.accountId!;
     try {
-      // Fetch all orders for the user
       let userOrders;
       let allOrders;
       let populatedUserTopOrderedMenu: any = [];
@@ -98,7 +91,6 @@ export class OrderService {
           .populate("menu")
           .exec();
       } else {
-        // Fetch all orders for overall statistics
         allOrders = await Order.find().populate("menu").exec();
       }
 
@@ -333,14 +325,13 @@ export class OrderService {
       })!;
       if (result) {
         if (req.body.setReady && result.status! !== "PENDING") {
-          if(validateEmail(result.account?.email)){
+          if (validateEmail(result.account?.email)) {
             mailActions.orders.sendOrderUpdateMail(
               result.account?.email,
               result.status!,
               checkOutId
             );
           }
-          
         }
 
         return {

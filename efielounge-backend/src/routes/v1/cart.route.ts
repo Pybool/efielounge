@@ -2,6 +2,8 @@ import express from "express";
 import clientCartController from "../../controllers/v1/Orders/cart.controller";
 import { decode } from "../../middlewares/jwt";
 import { getMulterConfigSingle } from "../../middlewares/menu.middleware";
+import { limiter } from '../../middlewares/ratelimit';
+
 const authMiddleware = decode
 const clientCartRouter = express.Router();
 
@@ -13,7 +15,7 @@ clientCartRouter.put("/checkout", authMiddleware, clientCartController.checkOut)
 clientCartRouter.delete("/dump-cart", authMiddleware, clientCartController.dumpCart);
 clientCartRouter.get("/get-checkout", authMiddleware, clientCartController.getCheckOut);
 
-clientCartRouter.post("/upload-receipt", authMiddleware, getMulterConfigSingle('../public/receipts/'), clientCartController.uploadReceipt);
+clientCartRouter.post("/upload-receipt",limiter, authMiddleware, getMulterConfigSingle('../public/receipts/'), clientCartController.uploadReceipt);
 
 
 
