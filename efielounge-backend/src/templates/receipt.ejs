@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
+
+        .receipt-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            max-width: 100px;
+            background: white;
+            border-radius: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: white;
+        }
+
+        .details {
+            margin-bottom: 20px;
+        }
+
+        .details h2 {
+            margin: 0;
+            font-size: 20px;
+            color: white;
+        }
+
+        .details p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        .items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .items th,
+        .items td {
+            padding: 10px;
+            text-align: left;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        td {
+            color: white;
+        }
+
+        .items th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .total {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 20px;
+            color: white;
+        }
+
+        span,
+        small {
+            color: white;
+        }
+
+        .download-btn {
+            display: block;
+            padding: 10px 20px;
+            background-color: orangered;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            width: fit-content;
+        }
+    </style>
+    <!-- <script src="https://raw.githubusercontent.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <div class="receipt-container">
+        <div style="display: flex; flex-direction: column; justify-content: left;" class="header">
+            <img src="https://efielounge.com/assets/img/logo.png" alt="Company Logo">
+            <h1>Order Receipt</h1>
+        </div>
+
+        <div class="details">
+            <h2>Order <%= metaData?.orderId %>
+            </h2>
+            <p>Date: <%= metaData?.date || "N/A" %>
+            </p>
+            <p>Customer: <%= metaData?.name || "N/A" %>
+            </p>
+            <p>Email: <%= metaData?.email || "N/A" %>
+            </p>
+            <p>Destination: <%= metaData?.deliveryAddress?.address || "N/A" %>, <span>
+                        <%= metaData?.deliveryAddress?.district || "N/A" %>
+                    </span></p>
+        </div>
+
+        <table class="items">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% orders.forEach(function(order, index) { %>
+                    <tr>
+                        <td>
+                            <%= order?.menu.name || "" %>
+                                <% if (order.variants.length> 0) { %>
+                                    <span>&nbsp;(<%= order?.variants[0]%>)</span>
+                                    <% }; %>
+                                        <% if (order.customMenuItems.length> 0) { %>
+                                            <br>
+                                            <span style="color:orangered;margin: 4px;">Extras:</span>
+                                            <% order.customMenuItems.forEach(function(customMenuItem, index) { %>
+                                                <small style="padding: 3px;">&nbsp;<%= customMenuItem?.name%>,</span>
+                                                        <% }); %>
+
+                                                            <% }; %>
+                        </td>
+                        <td>
+                            <%= order?.units || 1 %>
+                        </td>
+                        <td>GH₵ <%= order?.total || 0.00 %>
+                        </td>
+                    </tr>
+                    <% }); %>
+
+
+            </tbody>
+        </table>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="#" id="download-btn" class="download-btn">Download Receipt</a>
+            <div class="total">
+                <p>Total Charged:GH₵ <%= (metaData?.amountPaid)/100 %>
+                </p>
+                <small style="text-transform: capitalize; ">Channel: <%= metaData?.paymentChannel || "N/A" %></small>
+            </div>
+        </div>
+
+        
+
+    </div>
+
+
+    <script>
+        document.getElementById('download-btn').addEventListener('click', function () {
+            const element = document.querySelector('.receipt-container');
+            html2pdf(element, {
+                margin: 1,
+                filename: 'receipt.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

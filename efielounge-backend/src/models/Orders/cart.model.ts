@@ -27,6 +27,11 @@ const CartSchema = new Schema({
     type: Date,
     required: true,
   },
+  total:{
+    type: Number,
+    default: 0.00,
+    required: false,
+  },
 
   updatedAt: {
     type: Date,

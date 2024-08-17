@@ -49,6 +49,7 @@ export class CheckoutComponent implements OnDestroy {
   public activatedRoute$: any;
   public checkOutId: any = null;
   public deliveryCost = 30.0;
+  public isProfileDockerOpen: boolean = false;
   public payment: { ref: string; amount: number | string } = {
     ref: this.checkOutId,
     amount: 0.0,
@@ -226,6 +227,11 @@ export class CheckoutComponent implements OnDestroy {
     }
   }
 
+  validateEmail(email:string) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+
   checkOut() {
     if (!this.activatePayment()) {
       if (this.addresses.length == 0) {
@@ -237,6 +243,15 @@ export class CheckoutComponent implements OnDestroy {
         },500)
       }
     }
+    this.user = this.authService.retrieveUser();
+
+    if(!this.validateEmail(this.user.email)){
+      const updateProfile = confirm("(Optional):\nWe noticed you have not set an email address, update your profile with an email and your names (atleast firstname) only if you wish to receive your order receipts.")
+      if(updateProfile){
+        return this.profileDocker()
+      }
+    }
+    
 
     this.cartService
       .updateCartItemsAndCheckOut(
@@ -308,6 +323,50 @@ export class CheckoutComponent implements OnDestroy {
     if (addressesModal) {
       addressesModal.style.display = 'block';
     }
+  }
+
+  // fetchAddresses() {
+  //   this.addressService.getAddressesObs().subscribe((addresses:any)=>{
+  //     this.addresses = addresses
+  //   })
+  // }
+
+  profileDocker(close = false) {
+    const dockWidget = document.getElementById('profile-dock-widget') as any;
+    dockWidget.classList.toggle('dock-visible');
+    const body = document.querySelector('body') as any;
+    const cartOverlay = document.querySelector('.profile-overlay') as any;
+    // if(!this.isProfileDockerOpen){
+    //   this.fetchAddresses();
+    // }
+
+    if (close) {
+      body.style.overflow = 'auto';
+      body.style.position = 'unset';
+      dockWidget.classList.remove('dock-visible');
+      if (cartOverlay) {
+        cartOverlay.style.display = 'none';
+        // this.isProfileDockerOpen = false;
+      }
+      return null;
+    }
+
+    if (!Array.from(dockWidget.classList).includes('dock-visible')) {
+      body.style.overflow = 'auto';
+      body.style.position = 'unset';
+      if (cartOverlay) {
+        cartOverlay.style.display = 'none';
+        // this.isProfileDockerOpen = false;
+      }
+    } else {
+      body.style.overflow = 'hidden';
+      body.style.position = 'fixed';
+      if (cartOverlay) {
+        cartOverlay.style.display = 'block';
+        // this.isProfileDockerOpen = true;
+      }
+    }
+    return null;
   }
 
   ngOnDestroy() {

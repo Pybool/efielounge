@@ -63,12 +63,12 @@ const mailActions = {
   },
 
   orders:{
-    sendOrderSuccessfulMail: async (email:string, orderId:string)=>{
+    sendOrderSuccessfulMail: async (email:string, checkOutId:string)=>{
       return new Promise(async (resolve, reject) => {
         try {
           const template = await ejs.renderFile(
             `${path}templates/orderUpdate.ejs`,
-            { email, orderId }
+            { email, checkOutId }
           );
 
           const mailOptions = {
@@ -116,7 +116,7 @@ const mailActions = {
             `${path}templates/orderUpdate.ejs`,
             { email, msg, checkOutId }
           );
-          console.log("receipient ", email);
+          console.log("receipient ", email, checkOutId);
 
           const mailOptions = {
             from: process.env.EFIELOUNGE_EMAIL_HOST_USER,
@@ -136,7 +136,36 @@ const mailActions = {
         throw error;
       });
     },
+    sendReceiptMail: async (email:string, metaData:any, orders:any[])=>{
+      return new Promise(async (resolve, reject) => {
+        try {
+          const template = await ejs.renderFile(
+            `${path}templates/receipt.ejs`,
+            { email, metaData, orders }
+          );
+
+          console.log(email)
+
+          const mailOptions = {
+            from: process.env.EFIELOUNGE_EMAIL_HOST_USER,
+            to: email,
+            subject: "Order Receipt",
+            text: `You have just placed an order with us`,
+            html: template,
+          };
+          await sendMail(mailOptions);
+          resolve({ status: true });
+        } catch (error) {
+          console.log(error);
+          resolve({ status: false });
+        }
+      }).catch((error: any) => {
+        console.log(error);
+        throw error;
+      });
+    },
   }
+  
 };
 
 export default mailActions;

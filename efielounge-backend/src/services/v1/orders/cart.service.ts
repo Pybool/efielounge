@@ -8,7 +8,18 @@ import Cart from "../../../models/Orders/cart.model";
 import PaymentProof from "../../../models/transactions/paymentProofs.model";
 import { OrderService } from "./orders.service";
 import Transaction from "../../../models/transactions/transactions.model";
-const crypto = require("crypto"); // Assuming you're using Node.js
+import mailActions from "../Mail/mail.service";
+
+function formatDate(isoString: string) {
+  const date = new Date(isoString);
+  const options: any = { year: "numeric", month: "long", day: "numeric" };
+  return date.toLocaleDateString("en-US", options);
+}
+
+function validateEmail(email:string) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email);
+}
 
 export class CartService {
   static async addToCart(req: Xrequest) {
@@ -234,16 +245,16 @@ export class CartService {
     try {
       const { cartItems, amount, addressId } = req.body!;
       const checkOutId = req.query.checkOutId! as string;
-      if(checkOutId){
-        if(!checkOutId?.startsWith("EF-")){
+      if (checkOutId) {
+        if (!checkOutId?.startsWith("EF-")) {
           return {
             status: false,
             message: "Invalid Checkout ID",
-            code: 400
-          }
+            code: 400,
+          };
         }
       }
-      
+
       const cartItemIds = [];
       for (let cartItem of cartItems) {
         cartItemIds.push(cartItem._id);
@@ -259,6 +270,7 @@ export class CartService {
         if (cartItemDb) {
           cartItemDb.customMenuItems = selectedCustomMenuItems;
           cartItemDb.units = cartItem.units;
+          cartItemDb.total = cartItem.total;
           await cartItemDb.save();
         } else {
           return {
@@ -319,7 +331,6 @@ export class CartService {
         { $inc: { sequence: 1 } }, // Increment the sequence counter
         { new: true, upsert: true } // Return the updated document, create if not found
       );
-
       const sequence: any = String(sequenceDoc.sequence).padStart(6, "0"); // Format with leading zeros
       const checksum = sequence % 10; // Simple modulo 10 checksum
 
@@ -372,7 +383,7 @@ export class CartService {
       await CheckOut.findOneAndUpdate(
         { account: req.accountId, isActive: true },
         { isActive: false },
-        {new: true}
+        { new: true }
       );
       // await CheckOut.findOneAndDelete({ account: req.accountId });
 
@@ -410,13 +421,24 @@ export class CartService {
         cart: checkOutIntent.cart,
         status: checkOutIntent.status,
       };
-      await OrderService.createOrder(checkOutIntentMod);
+      const orders: any = await OrderService.createOrder(checkOutIntentMod);
       const transaction = await Transaction.create(payload);
-      await CheckOut.findOneAndUpdate(
+      let checkoutData: any = await CheckOut.findOneAndUpdate(
         { account: req.accountId, isActive: true },
         { isActive: false },
-        {new: true}
+        { new: true }
       );
+      checkoutData = await checkoutData?.populate("cart");
+      checkoutData = await checkoutData?.populate("account");
+      checkoutData = await checkoutData?.populate("address");
+      if(validateEmail(checkoutData.account.email)){
+        await CartService.generateReceipt(
+          transaction,
+          checkoutData,
+          orders
+        );
+      }
+      
       return {
         status: true,
         message: "Transaction created & saved",
@@ -426,6 +448,44 @@ export class CartService {
     } catch (error: any) {
       throw error;
     }
+  }
+
+  static async generateReceipt(
+    transaction: any,
+    checkoutData: any,
+    orders: any[]
+  ) {
+    const email: string = checkoutData.account.email;
+    const date: string = formatDate(new Date().toLocaleString());
+    const orderId: string = transaction.checkOutId;
+    const name: string = `${checkoutData.account.firstName} ${checkoutData.account.lastName}`;
+    const deliveryAddress = checkoutData.address;
+    const amountPaid: number = transaction?.transaction?.data?.amount;
+    const paymentChannel: string =
+      transaction?.transaction?.data?.channel?.replaceAll("_", " ");
+    const currency: string = transaction?.transaction?.data.currency;
+    const status: string = transaction?.transaction?.data.status;
+
+    let polulatedOrders = [];
+    for (let order of orders) {
+      let tempOrder = await order.populate("variants");
+      tempOrder = await tempOrder.populate("customMenuItems");
+      tempOrder = await tempOrder.populate("menu");
+      polulatedOrders.push(tempOrder);
+    }
+    const metaData = {
+      date,
+      orderId,
+      email,
+      name,
+      deliveryAddress,
+      amountPaid,
+      paymentChannel,
+      currency,
+      status,
+    };
+    mailActions.orders.sendReceiptMail(metaData?.email, metaData, polulatedOrders);
+    return { metaData, polulatedOrders };
   }
 
   static async getCheckOut(req: Xrequest) {

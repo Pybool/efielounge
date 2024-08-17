@@ -21,6 +21,11 @@ const OrderSchema = new Schema({
     default: 1,
     required: false,
   },
+  total:{
+    type: Number,
+    default: 0.00,
+    required: false,
+  },
   variants: [],
   customMenuItems: {
     type: [Schema.Types.ObjectId],

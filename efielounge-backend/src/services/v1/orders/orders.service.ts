@@ -18,6 +18,11 @@ async function checkIfIRated(account: string, menuId: string) {
   return false;
 }
 
+function validateEmail(email:string) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email);
+}
+
 export class OrderService {
   static async createOrder(checkOutIntent: any) {
     try {
@@ -32,6 +37,7 @@ export class OrderService {
         .lean();
 
       const savedOrders = [];
+      const orders = []
 
       for (const cartitem of cartItems) {
         cartitem.createdAt = new Date();
@@ -39,8 +45,8 @@ export class OrderService {
 
         try {
           const order = await Order.create(cartitem);
-          console.log("Created", order);
           savedOrders.push(order._id);
+          orders.push(order)
         } catch (error) {
           console.error("Error creating order:", error);
 
@@ -64,14 +70,15 @@ export class OrderService {
 
       console.log("All orders created successfully!");
       const account:any = await Accounts.findOne({ _id: checkOutIntent.account })!;
-      if (account) {
-        if (account?.email.includes("@")) {
-          mailActions.orders.sendOrderSuccessfulMail(
-            account!.email as string,
-            checkOutIntent.checkOutId
-          );
-        }
-      }
+      // if (account) {
+      //   if(validateEmail(account?.email)){
+      //     mailActions.orders.sendOrderSuccessfulMail(
+      //       account!.email as string,
+      //       checkOutIntent.checkOutId
+      //     );
+      //   }
+      // }
+      return orders;
     } catch (error) {
       console.error("Overall error:", error);
     }
@@ -326,11 +333,14 @@ export class OrderService {
       })!;
       if (result) {
         if (req.body.setReady && result.status! !== "PENDING") {
-          mailActions.orders.sendOrderUpdateMail(
-            result.account?.email,
-            result.status!,
-            checkOutId
-          );
+          if(validateEmail(result.account?.email)){
+            mailActions.orders.sendOrderUpdateMail(
+              result.account?.email,
+              result.status!,
+              checkOutId
+            );
+          }
+          
         }
 
         return {
