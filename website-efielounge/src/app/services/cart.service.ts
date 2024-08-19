@@ -91,6 +91,10 @@ export class CartService {
       0
     );
     this.subTotal = subTotal;
+    this.cartItemsSubject.next({
+      cartItems: this.cartItems,
+      subTotal: this.subTotal,
+    });
     return this.subTotal;
   }
 
@@ -147,7 +151,6 @@ export class CartService {
           (error: any) => {}
         );
     }
-
     return this.cartItemsSubject.asObservable();
   }
 
@@ -182,6 +185,22 @@ export class CartService {
     } catch {}
   }
 
+  deleteObjectById(id:string){
+    if (this.cartItems) {
+      const index = this.cartItems.findIndex(
+        (obj: { _id: string }) => obj._id === id
+      );
+      if (index !== -1) {
+        this.cartItems.splice(index, 1);
+        // document.location.reload()
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
   setCartCount(count: number, cartItemId: string | null = null): void {
     if (cartItemId) {
       this.cartItemRemovedSubject.next(cartItemId);
@@ -189,7 +208,10 @@ export class CartService {
     if (count < 0) {
       const currentCount = this.cartCountSubject.value;
       count = currentCount + count;
-      this.recalculate();
+      this.calculateSubTotal();
+    }
+    if(count == 0 ){
+      this.resetCart()
     }
     this.cartCountSubject.next(count);
   }
@@ -225,7 +247,6 @@ export class CartService {
       `${environment.api}/api/v1/cart/get-checkout?checkOutId=${checkOutId}`
     );
   }
-
 
   addToCart(payload: {
     menu: string;
@@ -281,7 +302,6 @@ export class CartService {
   }
 
   updateCartItemsAndCheckOut(payload: any, checkOutId: string | null = null) {
-    console.log("this.checkoutId ", checkOutId )
     let url = `${environment.api}/api/v1/cart/checkout`;
     if (checkOutId) {
       url = `${environment.api}/api/v1/cart/checkout?checkOutId=${checkOutId}`;
@@ -324,7 +344,6 @@ export class CartService {
       }
       return null;
     }else{
-      console.log("My turm")
       if (!Array.from(dockWidget.classList).includes('dock-visible')) {
         body.style.overflow = 'auto';
         body.style.position = 'unset';

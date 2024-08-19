@@ -17,16 +17,14 @@
             <ng-container *ngFor="let cartItem of cartItems; let i=index">
                 <div class="tab">
                     <input class="checkbox" type="checkbox" name="accordion-2" id="{{cartItem?._id}}">
-
-
                     <label for="{{cartItem?._id}}" style="align-items: center; " class="tab__label flex-row-sb">
 
                         <span class="menu-name">{{cartItem?.menu.name}} <ng-container *ngIf="cartItem?.variants?.length > 0"><span>{{cartItem?.variants[0]}}</span></ng-container></span>
-                        <span class="menu-price">GH₵ {{cartItem?.total.toFixed(2)}}</span>
+                        <span class="menu-price">GH₵ {{(cartItem?.total)?.toFixed(2)}}</span>
                         <div (click)="handleClick($event)" style="gap:2px;" class="number flex-row-sb">
                             <svg (click)="toggleRemoveFromCartModal(cartItem?.menu?.name, cartItem?._id)"
                                 style="margin-right: 10px;" class="empty-cart" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                viewBox="0 0 448 512">
                                 <path style="fill:gray"
                                     d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z" />
                             </svg>
@@ -35,10 +33,8 @@
                                 type="number" />
                             <span (click)="addQty(cartItem)" class="plus"><span>+</span></span>
                         </div>
-
                     </label>
 
-                    
                     <div style="flex-wrap: wrap;" class="tab__content extras flex-row-sb">
                         <div class="extras-label">Extras</div>
                         <ng-container *ngFor="let extra of getModifiedExtras(cartItem); let j = index">
@@ -52,9 +48,6 @@
                                     </label>
                                 </div>
                             </div>
-
-
-
                         </ng-container>
                     </div>
                 </div>
@@ -63,35 +56,25 @@
         </section>
 
     </div>
-    
-    <!-- <div *ngIf="cartItems.length > 0"  class="x-flex-row brd-rd2 checkout">
-        <div *ngIf="showCheckOutSpinner" class="spinner"></div>
-        <a class="order-now" href="javascript:void(0)"  title="" itemprop="url">Proceed to Checkout</a>
-    </div> -->
-    <div  class="costing" style="padding:10px; padding-top:10px; background: ghostwhite;border-radius: 5px;display: flex;
-    flex-direction: column;">
+    <div  class="costing" style="padding:10px; padding-top:10px; background: ghostwhite;border-radius: 5px;display: flex; flex-direction: column;">
         <div class="flex-row-sb">
             <div style="font-weight: 600;">Subtotal: </div>
-            <div style="font-weight: 700;">GH₵ {{subTotal?.toLocaleString()}} </div>
+            <div style="font-weight: 700;">GH₵ {{Math.ceil(subTotal)?.toFixed(2)?.toLocaleString()}} </div>
 
         </div>
         <div class="flex-row-sb">
             <div style="font-weight: 600;">Delivery fee: </div>
-            <!-- <div>To be determined by courier</div> -->
             <div style="font-weight: 700;">To be determined by courier </div>
-             
-
         </div>
         <div class="flex-row-sb">
             <div style="font-weight: 600;">Total: </div>
-            <div style="font-weight: 700;">GH₵ {{(subTotal + deliveryFee)?.toLocaleString()}} </div>
+            <div style="font-weight: 700;">GH₵ {{Math.ceil(subTotal + deliveryFee)?.toFixed(2)?.toLocaleString()}} </div>
 
         </div>
     </div>
     <div class="flex-row-sb">
         <button [disabled]="cartItems?.length == 0" (click)="checkOut()" style="background:orangered;color:white;font-weight: 600; margin-top: 20px;" class="btn btn-default">Proceed to Checkout</button>
         <button  (click)="toggleDocker()"  class="btn btn-default close-cart">&times;</button>
-
     </div>
 
 </div>

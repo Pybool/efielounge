@@ -48,7 +48,7 @@ export class CheckoutComponent implements OnDestroy {
   public removal: { name: string; _id: string } = { name: '', _id: '' };
   public activatedRoute$: any;
   public checkOutId: any = null;
-  public deliveryCost = 0.00;
+  public deliveryCost = 0.0;
   public isProfileDockerOpen: boolean = false;
   public payment: { ref: string; amount: number | string } = {
     ref: this.checkOutId,
@@ -93,10 +93,9 @@ export class CheckoutComponent implements OnDestroy {
       );
     });
 
-    this.addressService.getAddressesObs().subscribe((addresses:any)=>{
-      this.addresses = addresses
-    })
-
+    this.addressService.getAddressesObs().subscribe((addresses: any) => {
+      this.addresses = addresses;
+    });
   }
 
   handleBooleanEvent(value: boolean) {
@@ -155,8 +154,6 @@ export class CheckoutComponent implements OnDestroy {
     });
   }
 
-  
-
   activatePayment() {
     let defaultSelected = false;
     for (let _address of this.addresses) {
@@ -196,7 +193,7 @@ export class CheckoutComponent implements OnDestroy {
   }
 
   setDefaultAddress(address: any) {
-    this.addressService.setDefaultAddress(address)
+    this.addressService.setDefaultAddress(address);
   }
 
   removeAddress(addressId: string) {
@@ -204,7 +201,7 @@ export class CheckoutComponent implements OnDestroy {
       'Are you sure you want to delete this address?'
     );
     if (confirmation) {
-      this.addressService.removeAddress( addressId )
+      this.addressService.removeAddress(addressId);
     }
   }
 
@@ -227,31 +224,33 @@ export class CheckoutComponent implements OnDestroy {
     }
   }
 
-  validateEmail(email:string) {
+  validateEmail(email: string) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   }
 
   checkOut() {
+    const pathname = document.location.pathname as string;
     if (!this.activatePayment()) {
       if (this.addresses.length == 0) {
         return this.handleBooleanEvent(true);
       } else {
         this.showAddressesModal = true;
-        return setTimeout(()=>{
+        return setTimeout(() => {
           this.toggleAddressesModal();
-        },500)
+        }, 500);
       }
     }
     this.user = this.authService.retrieveUser();
 
-    if(!this.validateEmail(this.user.email)){
-      const updateProfile = confirm("(Optional):\nWe noticed you have not set an email address, update your profile with an email and your names (atleast firstname) only if you wish to receive your order receipts.")
-      if(updateProfile){
-        return this.profileDocker()
+    if (!this.validateEmail(this.user.email)) {
+      const updateProfile = confirm(
+        '(Optional):\nWe noticed you have not set an email address, update your profile with an email and your names (atleast firstname) only if you wish to receive your order receipts.'
+      );
+      if (updateProfile) {
+        return this.profileDocker();
       }
     }
-    
 
     this.cartService
       .updateCartItemsAndCheckOut(
@@ -325,20 +324,11 @@ export class CheckoutComponent implements OnDestroy {
     }
   }
 
-  // fetchAddresses() {
-  //   this.addressService.getAddressesObs().subscribe((addresses:any)=>{
-  //     this.addresses = addresses
-  //   })
-  // }
-
   profileDocker(close = false) {
     const dockWidget = document.getElementById('profile-dock-widget') as any;
     dockWidget.classList.toggle('dock-visible');
     const body = document.querySelector('body') as any;
     const cartOverlay = document.querySelector('.profile-overlay') as any;
-    // if(!this.isProfileDockerOpen){
-    //   this.fetchAddresses();
-    // }
 
     if (close) {
       body.style.overflow = 'auto';
@@ -346,7 +336,6 @@ export class CheckoutComponent implements OnDestroy {
       dockWidget.classList.remove('dock-visible');
       if (cartOverlay) {
         cartOverlay.style.display = 'none';
-        // this.isProfileDockerOpen = false;
       }
       return null;
     }
@@ -356,14 +345,12 @@ export class CheckoutComponent implements OnDestroy {
       body.style.position = 'unset';
       if (cartOverlay) {
         cartOverlay.style.display = 'none';
-        // this.isProfileDockerOpen = false;
       }
     } else {
       body.style.overflow = 'hidden';
       body.style.position = 'fixed';
       if (cartOverlay) {
         cartOverlay.style.display = 'block';
-        // this.isProfileDockerOpen = true;
       }
     }
     return null;

@@ -46,6 +46,7 @@ export class CartDockedComponent implements OnDestroy {
     extras: [],
     variants: [],
   };
+  public Math = Math;
   public lastExtraId: string = '';
   public lastEntropy: string = '';
   public orderTotal: number = 0.0;
@@ -80,10 +81,11 @@ export class CartDockedComponent implements OnDestroy {
           this.cartItems = response.cartItems;
           this.subTotal = response.subTotal;
         });
+
       this.cartItemRemoved$ = this.cartService
         .cartItemRemoved()
         .subscribe((cartItemId: string) => {
-          this.deleteObjectById(cartItemId);
+          // this.deleteObjectById(cartItemId);
           this.subTotal = 0.0;
           this.deliveryFee = 0.0;
         });
@@ -146,6 +148,10 @@ export class CartDockedComponent implements OnDestroy {
     return `${id}-${this.lockedExtras[key]}`;
   }
 
+  public getObjectByname(array: any, name: string) {
+    return array.find((item: { name: string }) => item.name === name);
+  }
+
   calculatePricePerMeal(
     cartItem: any,
     basePrice: number,
@@ -156,9 +162,20 @@ export class CartDockedComponent implements OnDestroy {
       (acc, extra: any) => acc + extra.price,
       0
     );
+
+    if (cartItem.variants) {
+      if (cartItem.variants.length > 0) {
+        const selectedVariant = this.getObjectByname(
+          cartItem.menu?.variants || [],
+          cartItem.variants[0]
+        );
+        basePrice = Number(selectedVariant.price) + basePrice;
+        
+      }
+    }
     cartItem.total = (basePrice + extrasTotalPrice) * cartItem?.units;
     this.calculateSubTotal();
-    this.cartService.recalculate(false);
+    // this.cartService.recalculate(false);
   }
 
   calculateSubTotal() {
@@ -177,11 +194,22 @@ export class CartDockedComponent implements OnDestroy {
   handleUnitsTyping($event: any, cartItem: any) {
     const units = $event.target.value;
     cartItem.units = units;
+    const selectedExtras = [];
+    for (let extra of cartItem.customMenuItems) {
+      if (extra?.isFinalSelect) {
+        selectedExtras.push(extra);
+      }
+    }
+
+      if ($event.target.value?.trim() === '0') {
+          cartItem.units = 1;
+          $event.target.value = 1;
+      }
     if (cartItem.units <= 50) {
       this.calculatePricePerMeal(
         cartItem,
         cartItem.menu.price,
-        cartItem.customMenuItems,
+        selectedExtras,
         cartItem.units
       );
     } else {
@@ -189,7 +217,7 @@ export class CartDockedComponent implements OnDestroy {
       this.calculatePricePerMeal(
         cartItem,
         cartItem.menu.price,
-        cartItem.customMenuItems,
+        selectedExtras,
         cartItem.units
       );
       alert('You can only place a maximum of 50 orders for the same menu');
@@ -197,12 +225,18 @@ export class CartDockedComponent implements OnDestroy {
   }
 
   addQty(cartItem: any) {
+    const selectedExtras = [];
+    for (let extra of cartItem.customMenuItems) {
+      if (extra?.isFinalSelect) {
+        selectedExtras.push(extra);
+      }
+    }
     if (cartItem.units < 50) {
-      cartItem.units += 1;
+      cartItem.units = Number(cartItem.units) + 1;
       this.calculatePricePerMeal(
         cartItem,
         cartItem.menu.price,
-        cartItem.customMenuItems,
+        selectedExtras,
         cartItem.units
       );
     } else {
@@ -211,12 +245,18 @@ export class CartDockedComponent implements OnDestroy {
   }
 
   subQty(cartItem: any) {
+    const selectedExtras = [];
+    for (let extra of cartItem.customMenuItems) {
+      if (extra?.isFinalSelect) {
+        selectedExtras.push(extra);
+      }
+    }
     if (cartItem.units > 1) {
-      cartItem.units -= 1;
+      cartItem.units = Number(cartItem.units) - 1;
       this.calculatePricePerMeal(
         cartItem,
         cartItem.menu.price,
-        cartItem.customMenuItems,
+        selectedExtras,
         cartItem.units
       );
     }
@@ -249,18 +289,7 @@ export class CartDockedComponent implements OnDestroy {
   }
 
   deleteObjectById(id: string) {
-    if (this.cartItems) {
-      const index = this.cartItems.findIndex(
-        (obj: { _id: string }) => obj._id === id
-      );
-      if (index !== -1) {
-        this.cartItems.splice(index, 1);
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return false;
+    this.cartService.deleteObjectById(id);
   }
 
   handleConfirmEvent() {
@@ -269,13 +298,18 @@ export class CartDockedComponent implements OnDestroy {
   }
 
   checkOut() {
-    const path = window.location.pathname;
-    const pathSegments = path.split('/');
+    const pathname = window.location.pathname;
+    const pathSegments = pathname.split('/');
     this.checkoutId = pathSegments[pathSegments.length - 1];
-    if(!this.checkoutId?.startsWith("EF-")){
-      this.checkoutId = null
+    if (!this.checkoutId?.startsWith('EF-')) {
+      this.checkoutId = null;
     }
     this.showCheckOutSpinner = true;
+    for(let cartItem of this.cartItems){
+      if(!cartItem.units){
+        return alert(`You have not chosen a quantity for ${cartItem?.menu?.name}`)
+      }
+    }
     this.cartService
       .updateCartItemsAndCheckOut(
         {
@@ -289,7 +323,11 @@ export class CartDockedComponent implements OnDestroy {
           this.showCheckOutSpinner = false;
           if (response.status) {
             this.checkoutId = response.data.checkOutId;
-            this.router.navigateByUrl(`/checkout/${this.checkoutId}`);
+            if (pathname.includes('checkout')) {
+              document.location.reload();
+            } else {
+              this.router.navigateByUrl(`/checkout/${this.checkoutId}`);
+            }
           } else {
             alert('Unable to checkout at this moment');
           }

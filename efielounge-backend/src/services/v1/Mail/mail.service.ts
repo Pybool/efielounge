@@ -1,5 +1,6 @@
 import ejs from "ejs";
 import sendMail from "./mailtrigger.service";
+const juice = require("juice");
 let env = process.env.NODE_ENV;
 let path = "dist/";
 if (env == "dev") {
@@ -151,7 +152,7 @@ const mailActions = {
             to: email,
             subject: "Order Receipt",
             text: `You have just placed an order with us`,
-            html: template,
+            html: juice(template),
           };
           await sendMail(mailOptions);
           resolve({ status: true });

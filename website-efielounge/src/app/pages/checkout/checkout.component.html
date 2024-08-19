@@ -110,7 +110,7 @@
                                                                     <div style="justify-content: space-between;"
                                                                         class="x-flex-row">
                                                                         <h4 style="text-align: left;"
-                                                                            itemprop="headline"><a href="#"
+                                                                            itemprop="headline"><a href="javascript:void(0)"
                                                                                 class="headline"
                                                                                 itemprop="url">{{checkOutItem?.menu?.name}}
                                                                                 </a>
@@ -159,7 +159,7 @@
                                                         <div style="justify-content: space-between;" class="x-flex-row">
                                                             <h5 style="white-space: nowrap;">Cart Subtotal: </h5>
                                                             <h5 style="text-align: end; color:gray">GH₵
-                                                                {{subTotal.toFixed(2).toLocaleString()}}</h5>
+                                                                {{Math.ceil(subTotal).toFixed(2).toLocaleString()}}</h5>
                                                         </div>
                                                         <hr>
                                                         <div>
@@ -173,7 +173,7 @@
                                                         <hr>
                                                         <div style="justify-content: space-between;" class="x-flex-row">
                                                             <h5 style="white-space: nowrap;">Grand Total: </h5>
-                                                            <h5 class="gradient-text" style="text-align: end;font-size: 18px;">GH₵ {{(subTotal
+                                                            <h5 class="gradient-text" style="text-align: end;font-size: 18px;">GH₵ {{Math.ceil(subTotal
                                                                 + deliveryCost).toFixed(2).toLocaleString()}}</h5>
                                                         </div>
                                                         <hr>
