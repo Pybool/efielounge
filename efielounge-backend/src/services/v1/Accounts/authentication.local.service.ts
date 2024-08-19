@@ -107,7 +107,7 @@ export class Authentication {
       message_text: "Your Efielounge pin is < 1234 >",
       pin_type: "NUMERIC",
     };
-    // SmsService.sendSms(messageType, Number(otp), data);
+    SmsService.sendSms(messageType, Number(otp), data);
     return {
       status: true,
       code: 200,
@@ -167,7 +167,7 @@ export class Authentication {
     }
     const otp: string = generateOtp();
     await setExpirableCode(email, otpType, otp);
-    console.log("OTP===> ", otp);
+    // console.log("OTP===> ", otp);
     mailActions.auth.sendEmailConfirmationOtp(email, otp);
     return {
       status: true,
