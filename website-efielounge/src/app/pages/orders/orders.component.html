@@ -50,12 +50,12 @@
                                                     {{sortedOrder?.menu?.ratings?.toFixed(2)}}</span>
                                             </div>
                                             <div class="order-info">
-                                                <span class="red-clr nowrap-txt">WE SERVE YOU THE BEST</span>
+                                                <!-- <span class="red-clr nowrap-txt">WE SERVE YOU THE BEST</span> -->
                                                 <h4 itemprop="headline"><a class="nowrap-txt" href="#" title=""
                                                         itemprop="url">{{sortedOrder?.menu?.name}} X
                                                         {{sortedOrder?.units}}</a></h4>
     
-                                                <span class="food-types">Extras:
+                                                <span *ngIf="sortedOrder?.customMenuItems?.length > 0" class="food-types">Extras:
                                                     <ng-container *ngFor="let extra of sortedOrder?.customMenuItems;">
                                                         <a href="#" title="" itemprop="url">{{extra?.name}}</a>,
                                                     </ng-container>

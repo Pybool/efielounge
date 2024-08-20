@@ -69,6 +69,25 @@ export class AccountService {
       if (!account) {
         throw createError.NotFound("Account was not found");
       }
+      const existingMail = await Accounts.findOne({
+        email: patchData?.email
+      });
+      if(existingMail){
+        // throw Error("This request has been denied");
+        delete patchData?.email
+      }
+      if(patchData?.phone){
+        let existingPhone = await Accounts.findOne({
+          dialCode: patchData?.dialCode,
+          phone: patchData?.phone,
+        });
+  
+        if(existingPhone){
+          delete patchData?.phone;
+          delete patchData?.dialCode;
+          delete patchData?.countryCode
+        }
+      }
       // Add fields validation
       if (req.query.accountId) {
         Object.keys(patchData).forEach((field) => {
@@ -84,18 +103,8 @@ export class AccountService {
         account.avatar = req.attachments[0].replaceAll("/public", "");
       }
 
-      const existingPhone = await Accounts.findOne({
-        dialCode: patchData?.dialCode,
-        phone: patchData?.phone,
-      });
+      console.log("patchData?.phone ", patchData?.phone)
 
-      console.log(account?._id?.toString() , existingPhone)
-      if(existingPhone){
-        if (account?._id?.toString() !== existingPhone?._id?.toString()) {
-          throw Error("This phone number is already being used");
-        }
-      }
-      
       account = await account.save();
       account.password = null;
       return {
@@ -104,10 +113,10 @@ export class AccountService {
         message: "Profile updated successfully..",
       };
     } catch (error: any) {
-      let msg = "Profile update failed..";
+      let msg = "This request has been denied";
       console.log(error);
-      if (error?.message.includes("being used")) {
-        msg = "This phone number is already being used";
+      if (error?.message.includes("denied")) {
+        msg =error?.message;
       }
 
       if (error?.message.includes("duplicate key")) {

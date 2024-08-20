@@ -84,7 +84,7 @@ export class CheckoutComponent implements OnDestroy {
       this.checkOutId = params.get('checkOutId') as string;
       this.cartItems$ = this.cartService.getCartItems().subscribe(
         (response: any) => {
-          // this.cartService.cartDocker(this.dockStatus);
+          this.cartService.cartDocker(this.dockStatus);
           this.dockStatus = false;
           this.checkOutItems = response.cartItems || [];
           this.subTotal = response.subTotal;

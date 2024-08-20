@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css?family=Great+Vibes|Lato|cursive: !important300,400,400i,500,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=Great+Vibes|Lato|"Georgia, serif": !important300,400,400i,500,600,700,800');
 
 /*===== Plugin Stylesheets Import =====*/
 // @import url(assets/css/plugins.css);
@@ -7,7 +7,7 @@
 /*===== General Styling =====*/
 
 *:not(i){
-  font-family: cursive !important ;
+  font-family: "Georgia, serif" !important ;
 }
 
 @media only screen and (max-width: 767px) {

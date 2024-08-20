@@ -194,14 +194,14 @@
                         <svg style="width:15px;height:15px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>Profile</a>
                 </li>
 
-
                 <li id="contact">
                     <a *ngIf="user" class="logout" (click)="logout()" href="javascript:void(0)" title="Logout"
                         itemprop="url"><svg class="icon" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                             <path
                                 d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
-                        </svg>Logout</a>
+                        </svg>Logout
+                    </a>
                 </li>
 
             </ul>
@@ -210,8 +210,6 @@
             <a class="log-popup-btn" href="/login" title="Login" itemprop="url">LOGIN</a> / <a class="sign-popup-btn"
                 href="/login" title="Register" itemprop="url">REGISTER</a>
         </div>
-
-
         <div class="social2">
             <a class="brd-rd50" href="https://web.facebook.com/efielounge" title="Facebook" itemprop="url"
                 target="_blank"><i class="fa fa-facebook"></i></a>
@@ -222,12 +220,8 @@
             <a class="brd-rd50" href="https://wa.me/message/VO5PHQ43MGGXF1" title="Pinterest" itemprop="url"
                 target="_blank"><i class="fa fa-whatsapp"></i></a>
         </div>
-        <!-- <div *ngIf="!user" class="register-btn">
-            <a class="yellow-bg brd-rd4" href="register-reservation.html" title="Register" itemprop="url">REGISTER
-                RESTAURANT</a>
-        </div> -->
-    </div><!-- Responsive Menu -->
-</div><!-- Responsive Header -->
+    </div>
+</div>
 
 <div style="max-height: 85vh; overflow-y: auto; z-index: 1001" id="profile-dock-widget">
     <div style="justify-content: flex-end;" class="flex-row-sb">
@@ -240,8 +234,7 @@
 
     <div class="form-container">
         <div class="form-group flex-row-sb">
-            <img title="Change Avatar" style="cursor: pointer;" (click)="changeAvatar($event)" class="avatar"
-                src="{{serverUrl}}/{{avatar}}" />
+            <img title="Change Avatar" style="cursor: pointer;" (click)="changeAvatar($event)" class="avatar" src="{{serverUrl}}/{{avatar}}" />
             <a href="javascript:void(0)" (click)="changeAvatar($event)">Change Avatar</a>
         </div>
         <div class="form-group not-editing">
@@ -255,22 +248,24 @@
             <label class="not-editing" for="lastname">Last Name</label>
         </div>
         <div class="form-group not-editing">
-            <input [readonly]="!isEditing" [(ngModel)]="profile.email" class="not-editing" type="email" placeholder=" "
+            <input [readonly]="validateEmail(clonedProfile.email)" [(ngModel)]="profile.email" class="not-editing" type="email" placeholder=" "
                 id="inputField">
             <label class="not-editing" for="inputField">Email Address</label>
         </div>
         <div class="form-group not-editing">
             <app-country-select *ngIf="isEditing" (countrySelected)="handleCountrySelected($event)"
                 class="col-12 not-editing"></app-country-select>
-            <input [readonly]="!isEditing" (keyup)="phoneEdit()" [(ngModel)]="profile.phone" class="not-editing"
+            <input [readonly]="!isValidPhone() && !phoneEdited" (keyup)="phoneEdit()" [(ngModel)]="profile.phone" class="not-editing"
                 type="number" placeholder=" " id="number">
             <label class="not-editing" for="number">Phone ({{profile?.dialCode}})</label>
-            <small *ngIf="disable && phoneEdited" class="phone-no-valid-err">Phone number is not valid for selected
-                country</small>
+            <small *ngIf="disable  && phoneEdited" class="phone-no-valid-err">Phone number is not valid for selected
+                country
+            </small>
 
         </div>
         <button (click)="updateProfile()" [disabled]="disable && phoneEdited"
-            [ngStyle]="{'opacity': disable && phoneEdited ? 0.3 : 1}" class="save" type="submit">Save</button>
+            [ngStyle]="{'opacity': disable && phoneEdited ? 0.3 : 1}" class="save" type="submit">Save
+        </button>
     </div>
     <div style="margin-top: 30px;" class="flex-row-sb profile-header">
         <h3>Delivery Addresses</h3>

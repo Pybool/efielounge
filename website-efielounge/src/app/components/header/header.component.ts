@@ -47,6 +47,7 @@ export class HeaderComponent {
   public disable: boolean = true;
   public phoneEdited: boolean = false;
   public fullName: string | null = null;
+  public clonedProfile: any = {};
 
   constructor(
     private menuService: MenuService,
@@ -60,7 +61,15 @@ export class HeaderComponent {
   ngOnInit() {
     this.user = this.authService.retrieveUser();
     if (this.user) {
-      this.profile = JSON.parse(JSON.stringify(this.user));
+      const userProfile = {
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        email: this.user.email,
+        phone: this.user.phone,
+        dialCode: this.user.dialCode
+      }
+      this.profile = JSON.parse(JSON.stringify(userProfile));
+      this.clonedProfile = JSON.parse(JSON.stringify(this.profile));
       
       this.fullName = this.getFullName()
       this.authService.setLoggedIn(true);
@@ -216,6 +225,11 @@ export class HeaderComponent {
     return this.authService.uploadAvatar(formData);
   }
 
+  validateEmail(email:string) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+
   toggleMobileNavMenu() {
     const navMenu = document.querySelector('.responsive-menu') as any;
     if (navMenu) {
@@ -290,6 +304,17 @@ export class HeaderComponent {
   }
 
   updateProfile() {
+    if(this.validateEmail(this.clonedProfile.email)){
+      delete this.clonedProfile.email;
+    }
+    if(this.isValidPhone()){
+      delete this.clonedProfile?.phone;
+      delete this.clonedProfile?.dialCode;
+    }
+    console.log(this.clonedProfile)
+    if(!this.validateEmail(this.profile.email)){
+      return alert("Email address is not valid")
+    }
     this.authService
       .updateProfile(this.profile)
       .pipe(take(1))
@@ -297,11 +322,27 @@ export class HeaderComponent {
         if(response.status){
           Swal.fire(response?.message);
           this.user = response.data;
+          const userProfile = {
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            email: this.user.email,
+            phone: this.user.phone,
+            dialCode: this.user.dialCode
+          }
           this.authService.storeUser(this.user)
+          this.clonedProfile = JSON.parse(JSON.stringify(userProfile))
           this.fullName = this.getFullName()
           this.toggleEdit();
+          this.phoneEdited = false;
         }else{
-          this.profile = JSON.parse(JSON.stringify(this.user));
+          const userProfile = {
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            email: this.user.email,
+            phone: this.user.phone,
+            dialCode: this.user.dialCode
+          }
+          this.profile = JSON.parse(JSON.stringify(userProfile));
           this.toggleEdit()
           Swal.fire(response?.message);
         }
@@ -329,6 +370,7 @@ export class HeaderComponent {
       this.addressService.removeAddress( addressId )
     }
   }
+
   handleBooleanEvent(value: boolean) {
     this.showCartModal = value;
   }
@@ -338,22 +380,29 @@ export class HeaderComponent {
     this.showCartModal = false;
   }
 
-  isValidPhone($event: any = null) {
-    console.log(
-      `${this.profile.dialCode}${this.profile.phone}`,
-      this.profile.countryCode
-    );
+  isValidPhone() {
     const isValidPhone = this.authService.validatePhoneNumber(
-      `${this.profile.dialCode}${this.profile.phone}`,
+      `${this.profile?.dialCode}${this.profile?.phone}`,
       this.profile.countryCode
     );
     this.disable = !isValidPhone;
+    return this.disable
+  }
+
+  isValidDefaultPhone(){
+    const isValidPhone = this.authService.validatePhoneNumber(
+      `${this.clonedProfile?.dialCode}${this.clonedProfile?.phone}`,
+      this.clonedProfile.countryCode
+    );
+    this.disable = !isValidPhone;
+    return this.disable
   }
 
   phoneEdit() {
     this.phoneEdited = true;
     this.isValidPhone();
   }
+
 
   logout() {
     this.tokenService.removeTokens();

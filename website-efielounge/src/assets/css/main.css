@@ -1069,7 +1069,7 @@ header.sticky nav > div > ul > li span {font-size: 11px;}
   text-shadow: 0 5px 0 rgba(0,0,0,.38);
 }
 .restaurant-searching-inner > h2 span{
-  font-family: Great Vibes;
+  font-family: "Georgia, serif"!important;
   font-size: 60px;
   font-weight: normal;
 }
@@ -1217,7 +1217,7 @@ header.sticky nav > div > ul > li span {font-size: 11px;}
 .title1-inner span{
   display: inline-block;
   width: 100%;
-  font-family: Great Vibes;
+  font-family: "Georgia, serif"!important;
   font-size: 24px;
   margin-bottom: 10px;
 	letter-spacing: 0.5px;
@@ -2007,7 +2007,7 @@ footer {
 .restaurant-searching-inner > span {
     color: #fff;
     display: inline-block;
-    font-family: great vibes;
+    font-family: "Georgia, serif"!important;
     font-size: 60px;
     line-height: 60px;
     width: 100%;
@@ -6946,7 +6946,7 @@ a.thanks-close:focus {color: #333;}
 }
 .food-menu-sec > i {
     display: inline-block;
-    font-family: great vibes;
+    font-family: "Georgia, serif"!important;
     font-size: 20px;
     margin-bottom: 14px;
     width: 100%;

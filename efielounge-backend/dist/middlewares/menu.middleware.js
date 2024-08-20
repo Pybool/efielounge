@@ -112,7 +112,7 @@ function createfolder(folderUrl) {
     if (!(0, fs_2.existsSync)(folderUrl)) {
         console.log("Directory does not exist, creating:", folderUrl);
         try {
-            (0, fs_2.mkdirSync)(folderUrl, { recursive: true });
+            (0, fs_2.mkdirSync)(folderUrl, { re"Georgia, serif": true });
             console.log("Directory created successfully");
         }
         catch (err) {

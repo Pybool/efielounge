@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { RatingsComponent } from '../../components/ratings/ratings.component';
 import { CountdownTimerComponent } from '../../components/countdown-timer/countdown-timer.component';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-orders',
@@ -42,10 +43,14 @@ export class OrdersComponent {
     }, 100);
   }
 
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit() {
     var countdown = 10;
+    this.cartService.cartDocker(true);
     this.orderService
       .fetchOrders()
       .pipe(take(1))
