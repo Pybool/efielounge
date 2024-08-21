@@ -17,6 +17,8 @@ import { HomeService } from './services/home.service';
 import { environment } from '../environments/environment';
 import { RingingBellComponent } from './components/ringing-bell/ringing-bell.component';
 import { AddressService } from './services/address.service';
+import { TermsComponent } from './pages/terms/terms.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 
 interface Ipromotion {
   _id?: string;
@@ -34,6 +36,8 @@ interface Ipromotion {
     CartDockedComponent,
     CommonModule,
     RingingBellComponent,
+    TermsComponent,
+    PrivacyPolicyComponent
   ],
   providers: [HttpClientModule, AuthService, CartService, HomeService, AddressService],
   templateUrl: './app.component.html',
@@ -44,7 +48,7 @@ export class AppComponent implements AfterViewInit {
   public showCartModal: boolean = false;
   public cartCount = 0;
   public initialRequest = true;
-  public user = null;
+  public user:any = null;
   public createdAt?: Date;
   public serverUrl: string = environment.api;
   public promotions: Ipromotion[] = [];
@@ -53,6 +57,9 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('scrollablePromotions') scrollablePromotions!: ElementRef;
   private scrollTimeout: any;
   public mId:any = null
+  public showTerms = true;
+  public showPrivacyPolicy = false;
+  public forceShowterms = false;
   public selectedMenu:
     | {
         _id: string;
@@ -104,6 +111,15 @@ export class AppComponent implements AfterViewInit {
       });
     } else {
       this.authService.setLoggedIn(false);
+      if(!this.user){
+        if(window.localStorage.getItem("efl-t")!== 'seen'){
+          this.showTerms = true;
+          this.forceShowterms =  true;
+        }else{
+          this.showTerms = false;
+          this.forceShowterms =  false;
+        }
+      }
       // this.authService.navigateToUrl("/login")
     }
   }
@@ -179,12 +195,16 @@ export class AppComponent implements AfterViewInit {
     });
   }
 
-  acceptCookies() {
-    window.localStorage.setItem('eflc-ack', 'seen');
+  closeCookies(){
     const banner = document.querySelector('.base-cookie-banner') as any;
     if (banner) {
       banner.style.display = 'none';
     }
+  }
+
+  acceptCookies() {
+    window.localStorage.setItem('eflc-ack', 'seen');
+    this.closeCookies()
   }
 
   cartDocker() {
@@ -197,6 +217,15 @@ export class AppComponent implements AfterViewInit {
 
   handleBooleanEvent(value: boolean) {
     this.cartService.handleBooleanEvent(value);
+  }
+
+  handleTermsBooleanEvent(value:boolean,){
+    this.showTerms = value;
+    this.forceShowterms =  value;
+  }
+
+  handlePrivacyBooleanEvent(value:boolean){
+    this.showPrivacyPolicy = value
   }
 
   orderNow(menu: any) {

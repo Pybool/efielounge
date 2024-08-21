@@ -209,6 +209,7 @@ export class LoginComponent {
                 `Welocme to Efielounge your otp is ${response.testotp}. \nPlease do not share this code with anyone.`
               );
             }
+            this.countDownOtp();
           } else {
             this.showSpinner = false;
             Swal.fire({
@@ -226,7 +227,7 @@ export class LoginComponent {
               }
             }
           }
-          this.countDownOtp();
+          
           this.showResendSpinner = false;
         },
         (error: any) => {

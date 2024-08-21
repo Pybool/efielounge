@@ -21,6 +21,7 @@ import { take } from 'rxjs';
   templateUrl: './add-cart-modal.component.html',
   styleUrl: './add-cart-modal.component.scss',
 })
+
 export class AddCartModalComponent implements AfterViewInit {
   public serverUrl: string = environment.api;
   public extras: string[] = [];

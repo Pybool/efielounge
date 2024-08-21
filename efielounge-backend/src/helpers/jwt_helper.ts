@@ -9,7 +9,7 @@ const jwthelper = {
       const payload = {};
       const secret = process.env.EFIELOUNGE_ACCESS_TOKEN_SECRET as string;
       const options = {
-        expiresIn: "48h",
+        expiresIn: "1h",
         issuer: process.env.EFIELOUNGE_ISSUER,
         audience: accountId,
       };
@@ -57,7 +57,7 @@ const jwthelper = {
       const payload = {};
       const secret = process.env.EFIELOUNGE_REFRESH_TOKEN_SECRET as string;
       const options = {
-        expiresIn: "144h",
+        expiresIn: "168h",
         issuer: process.env.EFIELOUNGE_ISSUER,
         audience: accountId,
       };

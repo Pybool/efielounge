@@ -82,7 +82,7 @@ export class Authentication {
     const phone: string = this.payload.phone!;
     const countryCode = this.payload.countryCode;
     const parsedPhone = normalizePhoneNumber(countryCode, phone);
-    const user = await Accounts.findOne({ phone: parsedPhone });
+    const user = await Accounts.findOne({countryCode:countryCode, phone: phone });
     if (!user) {
       otpType = "phone-otp-register";
       await setExpirableAccountData(phone, "pending-account-", {
@@ -90,10 +90,15 @@ export class Authentication {
         countryCode: countryCode,
         dialCode: this.payload?.dialCode,
       });
+    }else{
+      if(!user.active){
+        throw new Error("Account is de-activated")
+      }
     }
+    
     const otp: string = generateOtp();
     await setExpirablePhoneCode(parsedPhone, otpType, otp);
-    // console.log("OTP===> ", otp);
+    console.log("OTP===> ", otp);
     const data = {
       api_key: API_KEY,
       message_type: "NUMERIC",
@@ -107,7 +112,7 @@ export class Authentication {
       message_text: "Your Efielounge pin is < 1234 >",
       pin_type: "NUMERIC",
     };
-    SmsService.sendSms(messageType, Number(otp), data);
+    // SmsService.sendSms(messageType, Number(otp), data);
     return {
       status: true,
       code: 200,
@@ -124,7 +129,7 @@ export class Authentication {
     const phone: string = result?.phone!;
     const countryCode = result.countryCode;
     const parsedPhone = normalizePhoneNumber(countryCode, phone);
-    let account: any = await Accounts.findOne({ phone: parsedPhone });
+    let account: any = await Accounts.findOne({countryCode:countryCode, phone: phone });
     if (!account) {
       otpType = "phone-otp-register";
     }
@@ -147,6 +152,10 @@ export class Authentication {
       } else {
         throw Error("Request a new otp and try again");
       }
+    }else{
+      if(!account.active){
+        throw new Error("Account is de-activated")
+      }
     }
     accountId = account._id?.toString();
     const accessToken = await jwthelper.signAccessToken(accountId);
@@ -164,6 +173,10 @@ export class Authentication {
       await setExpirableAccountData(email, "pending-account-", {
         email: email,
       });
+    }else{
+      if(!user.active){
+        throw new Error("Account is de-activated")
+      }
     }
     const otp: string = generateOtp();
     await setExpirableCode(email, otpType, otp);
@@ -205,6 +218,10 @@ export class Authentication {
         account = await Accounts.create(pendingAccount);
       } else {
         throw Error("Request a new otp and try again");
+      }
+    }else{
+      if(!account.active){
+        throw new Error("Account is de-activated")
       }
     }
 
@@ -264,7 +281,12 @@ export class Authentication {
     try {
       const result = await validations.authSchema.validateAsync(this.req.body);
       const account: any = await Accounts.findOne({ email: result.email });
+      
       if (!account) return createError.NotFound(message.auth.userNotRegistered);
+
+      if(!account.active){
+        throw new Error("Account is de-activated")
+      }
 
       const isMatch = await account.isValidPassword(result.password);
       if (!isMatch)
@@ -288,6 +310,29 @@ export class Authentication {
     } catch (error) {
       console.log(error);
       return { status: false, message: message.auth.loginError };
+    }
+  }
+
+  @handleErrors()
+  public async acceptedTerms(req:Xrequest){
+    const accountId = req.body.accountId;
+    let account = await Accounts.findOne({_id: accountId});
+    if(account){
+      account.acceptedTerms = true;
+      account = await account.save()
+      account.password = "oops nothing to see here"
+      return {
+        status: true,
+        data: account,
+        message: "Terms Accepted",
+        code: 200
+      }
+    }
+    return {
+      status: false,
+      data: null,
+      message: "No account was found...",
+      code: 200
     }
   }
 

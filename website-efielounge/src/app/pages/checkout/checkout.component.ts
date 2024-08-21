@@ -27,7 +27,6 @@ import { AddressService } from '../../services/address.service';
     FooterComponent,
     CommonModule,
     CarouselComponent,
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RemoveFromCartComponent,
@@ -84,7 +83,7 @@ export class CheckoutComponent implements OnDestroy {
       this.checkOutId = params.get('checkOutId') as string;
       this.cartItems$ = this.cartService.getCartItems().subscribe(
         (response: any) => {
-          this.cartService.cartDocker(this.dockStatus);
+          this.closeCartDocker();
           this.dockStatus = false;
           this.checkOutItems = response.cartItems || [];
           this.subTotal = response.subTotal;
@@ -96,6 +95,20 @@ export class CheckoutComponent implements OnDestroy {
     this.addressService.getAddressesObs().subscribe((addresses: any) => {
       this.addresses = addresses;
     });
+  }
+
+  closeCartDocker(){
+    const dockWidget = document.getElementById('dock-widget') as any;
+    if(dockWidget){
+      dockWidget.classList.remove('dock-visible');
+    }
+    const body = document.querySelector('body') as any;
+    const cartOverlay = document.querySelector('.cart-overlay') as any;
+    if(cartOverlay){
+      cartOverlay.style.display="none"
+      body.style.overflow = 'auto';
+      body.style.position = 'unset';
+    }
   }
 
   handleBooleanEvent(value: boolean) {

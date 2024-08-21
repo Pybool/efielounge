@@ -19,7 +19,7 @@
 //   height: 80vh;
 // }
 
-.basket-container[_ngcontent-ng-c4021776452] {
+.basket-container{
   width: 100%;
   /* background: white; */
   border-radius: 10px;
@@ -28,7 +28,7 @@
   top: 7em;
   /* box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1); */
   overflow-y: auto;
-  height: 80vh;
+  // height: 80vh;
 }
 
 .flex-row-sb {
@@ -249,7 +249,9 @@ input[type="number"] {
 
 .basket-content {
   margin-top: 20px;
-  height: 62%;
+  height: 54vh;
+  // height: 62vh;
+  overflow-y: auto;
 }
 
 label > .qty {

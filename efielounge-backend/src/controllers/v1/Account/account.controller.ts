@@ -111,6 +111,18 @@ const accountController:any = {
       next(error);
     }
   },
+
+  deactivateAccount: async (req: Xrequest, res: Response, next: NextFunction) => {
+    try {
+      let status = 400;
+      const result = await AccountService.deactivateAccount(req);
+      if (result) status = 200;
+      return res.status(status).json(result);
+    } catch (error: any) {
+      error.status = 500;
+      next(error);
+    }
+  },
 };
 
 

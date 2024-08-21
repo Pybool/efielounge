@@ -14,6 +14,8 @@ import { CountrySelectComponent } from '../country-select/country-select.compone
 import Swal from 'sweetalert2';
 import { AddressModalComponent } from '../address-modal/address-modal.component';
 import { AddressService } from '../../services/address.service';
+import { countryCodes } from '../../services/countrycodes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -32,6 +34,7 @@ import { AddressService } from '../../services/address.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  public countryCodes = countryCodes;
   public avatar: string | null = null;
   public user: any = null;
   public menuCategories: any[] = [];
@@ -48,6 +51,7 @@ export class HeaderComponent {
   public phoneEdited: boolean = false;
   public fullName: string | null = null;
   public clonedProfile: any = {};
+  public selectedCountry: any = this.countryCodes[0];
 
   constructor(
     private menuService: MenuService,
@@ -55,7 +59,8 @@ export class HeaderComponent {
     private tokenService: TokenService,
     private cookieService: CookieService,
     private cartService: CartService,
-    private addressService: AddressService
+    private addressService: AddressService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -66,14 +71,15 @@ export class HeaderComponent {
         lastName: this.user.lastName,
         email: this.user.email,
         phone: this.user.phone,
-        dialCode: this.user.dialCode
-      }
+        dialCode: this.user.dialCode,
+      };
       this.profile = JSON.parse(JSON.stringify(userProfile));
       this.clonedProfile = JSON.parse(JSON.stringify(this.profile));
-      
-      this.fullName = this.getFullName()
+
+      this.fullName = this.getFullName();
       this.authService.setLoggedIn(true);
       this.avatar = this.user?.avatar;
+      this.setDefaultCountryCode();
     } else {
       this.authService.setLoggedIn(false);
     }
@@ -99,12 +105,28 @@ export class HeaderComponent {
       );
   }
 
-  getFullName(){
-    if(this.user?.firstName?.trim() !== "" || this.user?.lastName?.trim() !== ""){
-      console.log(`${this.user?.firstName?.trim()} ${this.user?.lastName?.trim()}`)
-      return `${this.user?.firstName?.trim()} ${this.user?.lastName?.trim()}`
-    }else{
-      return null
+  private getCountryByCode(array: any, code: string) {
+    return array.find((item: any) => item.code === code);
+  }
+
+  setDefaultCountryCode() {
+    this.selectedCountry =
+      this.getCountryByCode(this.countryCodes, this.user.countryCode) ||
+      this.countryCodes[0];
+    console.log(this.user, this.selectedCountry);
+  }
+
+  getFullName() {
+    if (
+      this.user?.firstName?.trim() !== '' ||
+      this.user?.lastName?.trim() !== ''
+    ) {
+      console.log(
+        `${this.user?.firstName?.trim()} ${this.user?.lastName?.trim()}`
+      );
+      return `${this.user?.firstName?.trim()} ${this.user?.lastName?.trim()}`;
+    } else {
+      return null;
     }
   }
 
@@ -117,7 +139,6 @@ export class HeaderComponent {
     let menu = document.querySelector('.menu') as any;
     if (fromOutSide == 0) {
       menu.classList.add('active');
-      
     } else {
       menu.classList.remove('active');
     }
@@ -225,7 +246,7 @@ export class HeaderComponent {
     return this.authService.uploadAvatar(formData);
   }
 
-  validateEmail(email:string) {
+  validateEmail(email: string) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   }
@@ -242,7 +263,7 @@ export class HeaderComponent {
     dockWidget.classList.toggle('dock-visible');
     const body = document.querySelector('body') as any;
     const cartOverlay = document.querySelector('.profile-overlay') as any;
-    if(!this.isProfileDockerOpen){
+    if (!this.isProfileDockerOpen) {
       this.fetchAddresses();
     }
 
@@ -304,62 +325,65 @@ export class HeaderComponent {
   }
 
   updateProfile() {
-    if(this.validateEmail(this.clonedProfile.email)){
+    if (this.validateEmail(this.clonedProfile.email)) {
       delete this.clonedProfile.email;
     }
-    if(this.isValidPhone()){
+    if (this.isValidPhone()) {
       delete this.clonedProfile?.phone;
       delete this.clonedProfile?.dialCode;
     }
-    console.log(this.clonedProfile)
-    if(!this.validateEmail(this.profile.email)){
-      return alert("Email address is not valid")
+    console.log(this.clonedProfile);
+    if (!this.validateEmail(this.profile.email)) {
+      return alert('Email address is not valid');
     }
     this.authService
       .updateProfile(this.profile)
       .pipe(take(1))
-      .subscribe((response: any) => {
-        if(response.status){
-          Swal.fire(response?.message);
-          this.user = response.data;
-          const userProfile = {
-            firstName: this.user.firstName,
-            lastName: this.user.lastName,
-            email: this.user.email,
-            phone: this.user.phone,
-            dialCode: this.user.dialCode
+      .subscribe(
+        (response: any) => {
+          if (response.status) {
+            Swal.fire(response?.message);
+            this.user = response.data;
+            const userProfile = {
+              firstName: this.user.firstName,
+              lastName: this.user.lastName,
+              email: this.user.email,
+              phone: this.user.phone,
+              dialCode: this.user.dialCode,
+            };
+            this.authService.storeUser(this.user);
+            this.clonedProfile = JSON.parse(JSON.stringify(userProfile));
+            this.fullName = this.getFullName();
+            this.toggleEdit();
+            this.phoneEdited = false;
+          } else {
+            const userProfile = {
+              firstName: this.user.firstName,
+              lastName: this.user.lastName,
+              email: this.user.email,
+              phone: this.user.phone,
+              dialCode: this.user.dialCode,
+            };
+            this.profile = JSON.parse(JSON.stringify(userProfile));
+            this.toggleEdit();
+            Swal.fire(response?.message);
           }
-          this.authService.storeUser(this.user)
-          this.clonedProfile = JSON.parse(JSON.stringify(userProfile))
-          this.fullName = this.getFullName()
-          this.toggleEdit();
-          this.phoneEdited = false;
-        }else{
-          const userProfile = {
-            firstName: this.user.firstName,
-            lastName: this.user.lastName,
-            email: this.user.email,
-            phone: this.user.phone,
-            dialCode: this.user.dialCode
-          }
-          this.profile = JSON.parse(JSON.stringify(userProfile));
-          this.toggleEdit()
-          Swal.fire(response?.message);
+        },
+        (error: any) => {
+          alert('Profile update failed');
         }
-      },((error:any)=>{
-        alert("Profile update failed")
-      }));
+      );
   }
 
   fetchAddresses() {
-    this.addressService.getAddressesObs().subscribe((addresses:any)=>{
-      this.addresses = addresses
-    })
+    this.addressService.getAddressesObs().subscribe((addresses: any) => {
+      this.addresses = addresses;
+    });
   }
 
   setDefaultAddress(address: any) {
     this.addressId = address._id;
-    this.addressService.setDefaultAddress(address)
+    this.addressService.setDefaultAddress(address);
   }
 
   removeAddress(addressId: string) {
@@ -367,7 +391,7 @@ export class HeaderComponent {
       'Are you sure you want to delete this address?'
     );
     if (confirmation) {
-      this.addressService.removeAddress( addressId )
+      this.addressService.removeAddress(addressId);
     }
   }
 
@@ -386,16 +410,16 @@ export class HeaderComponent {
       this.profile.countryCode
     );
     this.disable = !isValidPhone;
-    return this.disable
+    return this.disable;
   }
 
-  isValidDefaultPhone(){
+  isValidDefaultPhone() {
     const isValidPhone = this.authService.validatePhoneNumber(
       `${this.clonedProfile?.dialCode}${this.clonedProfile?.phone}`,
       this.clonedProfile.countryCode
     );
     this.disable = !isValidPhone;
-    return this.disable
+    return this.disable;
   }
 
   phoneEdit() {
@@ -403,9 +427,29 @@ export class HeaderComponent {
     this.isValidPhone();
   }
 
+  deactivateAccount() {
+    const confirmDeactivation = confirm(
+      'Are you sure you intend to deactivate your account?'
+    );
+    if (confirmDeactivation) {
+      this.authService
+        .deactivateAccount(this.user._id)
+        .pipe(take(1))
+        .subscribe((response: any) => {
+          if (response.status) {
+            this.logout(false)
+            document.location.href = '/deactivated-account';
+          }else{
+            Swal.fire(response.message)
+          }
+        },(error:any)=>{
+          Swal.fire("Could not deactivate your account at the moment, try again later")
+        });
+    }
+  }
 
-  logout() {
+  logout(redirect:boolean= true) {
     this.tokenService.removeTokens();
-    this.authService.logout();
+    this.authService.logout(redirect);
   }
 }

@@ -27,24 +27,14 @@ export class TokenService {
         'efielounge-refreshToken',
         loginResponse.refreshToken
       );
-      //Backup
-      window.localStorage.setItem(
-        'efielounge-refreshToken',
-        loginResponse.refreshToken
-      );
     }
-    //Backup
-    window.localStorage.setItem(
-      'efielounge-accessToken',
-      loginResponse.accessToken
-    );
   }
 
   removeTokens() {
     this.cookieService.delete(this.tokenKey);
     this.cookieService.delete(this.refreshTokenKey);
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.refreshTokenKey);
+    // localStorage.removeItem(this.tokenKey);
+    // localStorage.removeItem(this.refreshTokenKey);
   }
 
   retrieveToken(tokenKey: string) {
@@ -54,7 +44,7 @@ export class TokenService {
     ) {
       return this.cookieService.get(tokenKey);
     } else {
-      return window.localStorage.getItem(tokenKey);
+      return null;
     }
   }
 
@@ -94,7 +84,8 @@ export class TokenService {
   }
 
   removeUser() {
-    localStorage.removeItem(this.userKey);
+    // localStorage.removeItem(this.userKey);
+    this.cookieService.delete(this.userKey);
   }
 
   logout() {

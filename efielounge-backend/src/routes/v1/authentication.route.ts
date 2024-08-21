@@ -18,6 +18,9 @@ authRouter.post('/send-password-reset-otp', authController.sendPasswordResetLink
 authRouter.post('/reset-password', authController.resetPassword)
 authRouter.post('/login', authController.loginAccount)
 authRouter.post('/refresh-token', authController.getRefreshToken)
+authRouter.put('/accept-terms', authController.acceptedTerms)
+
+
 // authRouter.get('/user-profile', decode, authController.getUserProfile)
 // authRouter.put('/user-profile', decode, authController.saveUserProfile)
 // authRouter.put('/verify-account', authController.verifyAccountEmail)

@@ -1,25 +1,38 @@
 
-@import url('https://fonts.googleapis.com/css?family=Great+Vibes|Lato|"Georgia, serif": !important300,400,400i,500,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=Great+Vibes|Lato|cursive: !important300,400,400i,500,600,700,800');
 
 /*===== Plugin Stylesheets Import =====*/
 // @import url(assets/css/plugins.css);
 
 /*===== General Styling =====*/
 
-*:not(i){
-  font-family: "Georgia, serif" !important ;
+/* For non-iOS devices */
+.non-ios-device *:not(i) {
+  font-family: cursive !important;
 }
 
 @media only screen and (max-width: 767px) {
-  *:not(i) {
+  .non-ios-device *:not(i) {
     font-family: auto !important;
   }
 
-  body{
-      font-family: auto !important;    
+  .non-ios-device body {
+    font-family: auto !important;
   }
-  
 }
+
+/* For iOS devices */
+.ios-device *:not(i) {
+  font-family: Verdana !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .ios-device *:not(i),
+  .ios-device body {
+    font-family: Verdana !important;
+  }
+}
+
 
 
 .nowrap{
@@ -730,8 +743,8 @@ nav > div > ul > li {
 
     font-size: 18px;
     font-weight: 600;
-    margin-right: 35px;
-    padding: 32px 35px 32px 0;
+    margin-right: 15px!important;
+    padding: 15px!important;
     position: relative;
 }
 nav > div > ul > li span {

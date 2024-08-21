@@ -15,6 +15,6 @@ export class AboutUsComponent {
     const pageLoader = document.querySelector(".loader-container") as HTMLElement;
     setTimeout(()=>{
       pageLoader.style.display = 'none';
-    },3000)
+    },300)
   }
 }

@@ -18,6 +18,9 @@ export const decode = async (req: Xrequest, res: Response, next: any) => {
     const decoded: any = jwt.verify(accessToken, SECRET_KEY);
     req.accountId = decoded.aud;
     req.account = await Accounts.findOne({ _id: req.accountId });
+    if(!req.account.active){
+      throw new Error("Account is de-activated")
+    }
     return next();
   } catch (error: any) {
     return res.status(401).json({ success: false, message: error.message });
@@ -35,6 +38,9 @@ export const decodeExt = async (req: Xrequest, res: Response, next: any) => {
     const decoded: any = jwt.verify(accessToken, SECRET_KEY);
     req.accountId = decoded.aud;
     req.account = await Accounts.findOne({ _id: req.accountId });
+    if(!req.account.active){
+      throw new Error("Account is de-activated")
+    }
     return next();
   } catch (error: any) {
     return next();
@@ -44,6 +50,9 @@ export const decodeExt = async (req: Xrequest, res: Response, next: any) => {
 export function ensureAdmin(req: Xrequest, res: Response, next: NextFunction) {
   try {
     const account = req.account;
+    if(!account.active){
+      throw new Error("Account is de-activated")
+    }
     if (account && account.role === "ADMIN") {
       next();
     } else {

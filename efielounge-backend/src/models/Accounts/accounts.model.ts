@@ -25,6 +25,16 @@ const AccountSchema = new Schema({
     required: false,
     default: false,
   },
+  acceptedTerms: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  active: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
   firstName: {
     type: String,
     required: false,

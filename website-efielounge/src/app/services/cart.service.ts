@@ -330,7 +330,11 @@ export class CartService {
     }
     
     const dockWidget = document.getElementById('dock-widget') as any;
-    dockWidget.classList.toggle('dock-visible');
+    if(!close){
+      dockWidget.classList.toggle('dock-visible');
+    }else{
+      dockWidget.classList.remove('dock-visible');
+    }
     const body = document.querySelector('body') as any;
     const cartOverlay = document.querySelector('.cart-overlay') as any;
 

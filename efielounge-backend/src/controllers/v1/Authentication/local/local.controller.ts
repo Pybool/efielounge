@@ -26,6 +26,22 @@ const authController: any = {
       }
     },
 
+    acceptedTerms: async (req: Xrequest, res: Response, next: NextFunction) => {
+      let status = 200;
+      try {
+        const authentication = new Authentication(req);
+        const result = await authentication.acceptedTerms(req);
+        if (result.status) {
+          status = 201;
+          res.status(status).json(result);
+        } else {
+          return res.status(200).json(result);
+        }
+      } catch (error: any) {
+        res.status(status).json({ status: false, message: error?.message });
+      }
+    },
+
     // phoneRegister: async (req: Xrequest, res: Response, next: NextFunction) => {
     //   let status = 200;
     //   try {

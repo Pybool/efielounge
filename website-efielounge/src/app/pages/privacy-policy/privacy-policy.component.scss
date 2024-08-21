@@ -1,0 +1,344 @@
+h1 {
+    text-align: center;
+}
+h2 {
+    margin-top: 30px;
+    font-size: 1.5em;
+}
+p {
+    margin-bottom: 15px;
+}
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+  
+  .flex-row-sb {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .required {
+    padding: 6px;
+    background: red;
+    color: white;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+  
+  svg.empty-cart {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: all 1s;
+  }
+  
+  svg.empty-cart > path {
+    transition: all 1s;
+  }
+  
+  svg.empty-cart > path:hover {
+    fill: red;
+  }
+  
+  hr {
+    margin: 0px !important;
+  }
+  
+  .image-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .image-container img {
+    display: block;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    background-color: white;
+    color: gray;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    line-height: 24px;
+    cursor: pointer;
+    font-size: 32px;
+    font-weight: bold;
+  }
+  
+  .close-button:hover {
+    background-color: white;
+  }
+  
+  /* Modal container */
+  .privacy-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: display 0.6s;
+  }
+  
+  /* Modal content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    width: 35%;
+    max-height: 80%;
+    border-radius: 25px;
+  }
+  
+  .modal-body {
+    padding: 0px !important;
+    overflow-y: auto; /* Enables vertical scrolling */
+  }
+  
+  .modal-body-content {
+    padding: 20px;
+  }
+  /* Close button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .menu-name {
+    font-weight: 600;
+  }
+  
+  
+  /* Make the scrollbar present but invisible */
+  ::-webkit-scrollbar {
+    width: 0px; /* Adjust width to desired size */
+    height: 0px; /* Adjust height to desired size */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: white !important; /* Transparent background */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: transparent; /* Transparent thumb */
+  }
+  
+  /* Optional: To maintain interactivity on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2); /* Slightly visible on hover */
+  }
+  
+  .form-check-input {
+    width: 22px;
+    height: 22px;
+    margin-right: 20px;
+  }
+  
+  .form-check-input:checked {
+    background-color: orangered;
+    border-color: orangered;
+  }
+  
+  /* Remove default blue border on focus for checkboxes */
+  input[type="checkbox"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important; /* Optional: to reset to the default border color */
+  }
+  
+  img {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+  }
+  
+  .form-check-label {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 30px;
+  }
+  
+  .order-now {
+    background-color: #272727;
+    border: 1px solid transparent;
+    color: #fff;
+    float: right;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 10px;
+    text-transform: uppercase;
+    float: right;
+    width: 50%;
+    margin: 20px;
+    border-radius: 30px;
+    padding: 20px;
+  }
+  
+  .order-now:hover {
+    color: orangered !important;
+  }
+  
+  .number {
+    margin: 30px;
+    border-radius: 20px;
+    border: 1px solid rgb(197, 195, 195);
+    padding: 10px;
+  }
+  
+  .minus,
+  .plus {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+  }
+  
+  img {
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+  }
+  
+  .number-input {
+    text-align: center;
+    font-size: 18px;
+    background: white !important;
+  }
+  
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
+  }
+  
+  /* Extra Small Devices, Phones (0px to 599px) */
+  @media only screen and (min-width: 300px) and (max-width: 599px) {
+    /* Styles for small phones */
+    .modal-content {
+      width: 90%;
+      margin-top: 28%;
+    }
+  
+    .number {
+      margin: 16px;
+      padding: 10px;
+    }
+  
+    .btn.order-now {
+      white-space: nowrap;
+      font-size: medium;
+      margin: 10px;
+      padding: 13px;
+    }
+  }
+  
+  /* Small Devices, Larger Phones (600px to 767px) */
+  @media only screen and (min-width: 600px) and (max-width: 767px) {
+    /* Styles for larger phones */
+    .modal-content {
+      width: 90%;
+      margin-top: 17%;
+    }
+  
+    .btn.order-now {
+      white-space: nowrap;
+      font-size: medium;
+      margin: 10px;
+      padding: 13px;
+    }
+  }
+  
+  /* Medium Devices, Tablets (768px to 991px) */
+  @media only screen and (min-width: 768px) and (max-width: 819px) {
+    /* Styles for tablets */
+    .modal-content {
+      width: 75%;
+      margin-top: 19%;
+    }
+  }
+  
+  /* Medium Devices, Tablets (768px to 991px) */
+  @media only screen and (min-width: 820px) and (max-width: 991px) {
+    /* Styles for tablets */
+    .modal-content {
+      width: 75%;
+      margin-top: 15%;
+    }
+  }
+  
+  @media (max-width: 980px) {
+    .container {
+      width: auto;
+    }
+  }
+  
+  /* Large Devices, Desktops (992px to 1199px) */
+  @media only screen and (min-width: 992px) and (max-width: 1199px) {
+    /* Styles for desktops */
+    .modal-content {
+      width: 75%;
+      margin-top: 15%;
+      height: fit-content;
+    }
+  }
+  
+  /* Extra Large Devices, Large Desktops (1200px and above) */
+  @media only screen and (min-width: 1200px) {
+    /* Styles for large desktops */
+    .modal-content {
+      width: 45%;
+      margin-top: 10%;
+    }
+  }
+  
+  .spinner {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    border: 1px solid white;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    text-align: center !important;
+    animation: spin 1s linear infinite; /* Animation property for rotation */
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  

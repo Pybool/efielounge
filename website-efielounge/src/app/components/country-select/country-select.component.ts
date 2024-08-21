@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { countryCodes } from '../../services/countrycodes';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ export class CountrySelectComponent {
   @Output() countrySelected = new EventEmitter<{ name: string; dial_code: string; code: string }>();
 
   filteredCountryCodes = [...this.countryCodes]; // To hold filtered country codes
-  selectedCountry: { name: string; dial_code: string } = this.countryCodes[0]; // Default to the first country (Ghana)
+  @Input() selectedCountry: { name: string; dial_code: string } = this.countryCodes[0]; // Default to the first country (Ghana)
   isDropdownOpen: boolean = false; // Tracks if the dropdown is open
   searchTerm: string = ''; // The search term
 

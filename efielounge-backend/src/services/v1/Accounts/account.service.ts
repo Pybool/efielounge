@@ -6,7 +6,39 @@ import Accounts from "../../../models/Accounts/accounts.model";
 import { utils } from "../../../validators/authentication/custom.validators";
 import validations from "../../../validators/authentication/joi.validators";
 import Address from "../../../models/Accounts/accounts.address.model";
+import { handleErrors } from "../../../global.error.handler";
 
+const countryDialCodes: any = {
+  NG: "234", // Nigeria
+  US: "1", // United States
+  GH: "233", // Ghana
+  UK: "44", // United Kingdom
+  // Add more countries as needed
+};
+
+// Function to normalize phone numbers
+const normalizePhoneNumber = (countryCode: any, phone: string) => {
+  const dialCode = countryDialCodes[countryCode];
+
+  if (!dialCode) {
+    throw new Error("Invalid country code");
+  }
+
+  // Remove all non-numeric characters
+  let normalizedPhone = phone!.replace(/\D/g, "");
+
+  // If the phone number starts with '0', replace it with the dial code
+  if (normalizedPhone.startsWith("0")) {
+    normalizedPhone = dialCode + normalizedPhone.slice(1);
+  }
+
+  // If the phone number doesn't start with the dial code, prepend it
+  if (!normalizedPhone.startsWith(dialCode)) {
+    normalizedPhone = dialCode + normalizedPhone;
+  }
+
+  return normalizedPhone;
+};
 export class AccountService {
   static async getUserProfile(req: Xrequest) {
     try {
@@ -73,13 +105,14 @@ export class AccountService {
         email: patchData?.email
       });
       if(existingMail){
-        // throw Error("This request has been denied");
         delete patchData?.email
       }
+      // const parsedPhone = normalizePhoneNumber(patchData?.countryCode, patchData?.phone);
+      // patchData.phone = parsedPhone
       if(patchData?.phone){
         let existingPhone = await Accounts.findOne({
           dialCode: patchData?.dialCode,
-          phone: patchData?.phone,
+          phone: patchData.phone,
         });
   
         if(existingPhone){
@@ -262,6 +295,28 @@ export class AccountService {
         status: false,
         message: "We could not delete address at this moment",
       };
+    }
+  }
+
+  @handleErrors()
+  static async deactivateAccount(req:Xrequest){
+    const accountId = req.body.accountId;
+    let account = await Accounts.findOne({_id: accountId});
+    if(account){
+      account.active = false;
+      account = await account.save()
+      account.password = "oops nothing to see here"
+      return {
+        status: true,
+        message: "Account de-activated",
+        code: 200
+      }
+    }
+    return {
+      status: false,
+      data: null,
+      message: "No account was found...",
+      code: 200
     }
   }
 }

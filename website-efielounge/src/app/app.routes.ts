@@ -16,6 +16,8 @@ import { CartComponent } from './pages/cart/cart.component';
 import { UploadReceiptComponent } from './pages/upload-receipt/upload-receipt.component';
 import { SearchResultComponentComponent } from './pages/search-result-component/search-result-component.component';
 import { RatingsComponent } from './components/ratings/ratings.component';
+import { FaqsComponent } from './pages/faqs/faqs.component';
+import { DeactivatedAccountComponent } from './pages/deactivated-account/deactivated-account.component';
 
 export const routes: Routes = [
   
@@ -40,5 +42,8 @@ export const routes: Routes = [
     title: 'Account Verification',
     component: OtpAuthorizeComponent,
   },
+  
+  { path: 'faqs', component: FaqsComponent },
+  { path: 'deactivated-account', component: DeactivatedAccountComponent },
   { path: '**', redirectTo: '' },
 ];

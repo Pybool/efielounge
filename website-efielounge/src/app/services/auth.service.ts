@@ -5,7 +5,6 @@ import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
-import { handleErrors } from '../global.error.handler';
 
 @Injectable({
   providedIn: 'root',
@@ -117,6 +116,13 @@ export class AuthService {
     }
   }
 
+  acceptTerms(accountId:string) {
+    return this.http.put(
+      `${environment.api}/api/v1/auth/accept-terms`,
+      {accountId}
+    );
+  }
+
   resetPassword(payload: any) {
     return this.http.post(
       `${environment.api}/api/v1/auth/reset-password`,
@@ -145,6 +151,13 @@ export class AuthService {
     );
   }
 
+  deactivateAccount(accountId:string) {
+    return this.http.patch(
+      `${environment.api}/api/v1/accounts/deactivate`,
+      {accountId}
+    );
+  }
+
   retrieveToken(tokenKey: string) {
     if (
       this.cookieService.get(tokenKey) &&
@@ -152,7 +165,7 @@ export class AuthService {
     ) {
       return this.cookieService.get(tokenKey);
     } else {
-      return window.localStorage.getItem(tokenKey);
+      return null;
     }
   }
 
@@ -170,28 +183,18 @@ export class AuthService {
         'efielounge-refreshToken',
         loginResponse.refreshToken
       );
-      //Backup
-      window.localStorage.setItem(
-        'efielounge-refreshToken',
-        loginResponse.refreshToken
-      );
     }
-    //Backup
-    window.localStorage.setItem(
-      'efielounge-accessToken',
-      loginResponse.accessToken
-    );
   }
 
-  logout() {
+  logout(redirect:boolean) {
     this.removeUser();
     this.setLoggedIn(false);
     this.cookieService.delete('efielounge-accessToken');
     this.cookieService.delete('efielounge-refreshToken');
-    window.localStorage.removeItem('efielounge-accessToken');
-    window.localStorage.removeItem('efielounge-refreshToken');
-    //  this.router.navigateByUrl('/login');
-    return (document.location.href = '/login');
+    if(redirect){
+      return (document.location.href = '/login');
+    }
+    return null;
   }
 
   uploadAvatar(formData: any) {
@@ -210,27 +213,17 @@ export class AuthService {
       );
   }
 
-  getAgoraToken() {
-    return this.http.post(`https://agoratoken.talkstuff.social/getToken`, {
-      tokenType: 'rtc',
-      channel: 'video-meet-001',
-      role: 'publisher',
-      uid: '001',
-      expire: 3600,
-    });
-  }
-
   removeToken() {
-    localStorage.removeItem(this.tokenKey);
+    this.cookieService.delete(this.tokenKey);
   }
 
   storeUser(user: any) {
-    localStorage.setItem(this.userKey, JSON.stringify(user));
+    this.cookieService.set(this.userKey, JSON.stringify(user));
   }
 
   retrieveUser() {
     try {
-      const user = localStorage.getItem(this.userKey);
+      const user = this.cookieService.get(this.userKey)
       return user ? JSON.parse(user) : null;
     } catch {
       return null;
@@ -238,7 +231,7 @@ export class AuthService {
   }
 
   removeUser() {
-    localStorage.removeItem(this.userKey);
+    this.cookieService.delete(this.userKey);
   }
 
   navigateToUrl(url: string) {
