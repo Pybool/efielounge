@@ -486,23 +486,6 @@ export class LoginComponent {
     }
   }
 
-  // dirtyEmail(credentials: any) {
-  //   if (!this.isDirtyEmail) this.isDirtyEmail = true;
-  //   if (
-  //     this.accepted &&
-  //     !this.isPasswordMatch() &&
-  //     !this.isInvalidEmail(credentials)
-  //   ) {
-  //     this.opacity = 1;
-  //     this.pointerType = 'pointer';
-  //     return;
-  //   }
-  //   this.opacity = 0.5;
-  //   this.pointerType = 'none';
-  //   //
-  //   this.enableLoginButton();
-  // }
-
   dirtyPassword() {
     if (!this.isDirtyPassword) this.isDirtyPassword = true;
     if (

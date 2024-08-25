@@ -12,6 +12,7 @@ import clientOrderController from "../../controllers/v1/Orders/orders.controller
 import promotionsController from "../../controllers/v1/Admin/promotion.controller";
 import Promotions from "../../models/promotions.model";
 import dashboardController from "../../controllers/v1/Admin/dashboard.controller";
+import notificationsController from "../../controllers/v1/Admin/notifications.controller";
 
 const adminRouter = express.Router();
 
@@ -140,6 +141,13 @@ adminRouter.get(
   decode,
   ensureAdmin,
   dashboardController.fecthDashBoardData
+);
+
+adminRouter.get(
+  "/notifications",
+  decode,
+  ensureAdmin,
+  notificationsController.getNotifications
 );
 
 adminRouter.get(

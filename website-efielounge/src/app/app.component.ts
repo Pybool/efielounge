@@ -37,9 +37,15 @@ interface Ipromotion {
     CommonModule,
     RingingBellComponent,
     TermsComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
   ],
-  providers: [HttpClientModule, AuthService, CartService, HomeService, AddressService],
+  providers: [
+    HttpClientModule,
+    AuthService,
+    CartService,
+    HomeService,
+    AddressService,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -48,7 +54,7 @@ export class AppComponent implements AfterViewInit {
   public showCartModal: boolean = false;
   public cartCount = 0;
   public initialRequest = true;
-  public user:any = null;
+  public user: any = null;
   public createdAt?: Date;
   public serverUrl: string = environment.api;
   public promotions: Ipromotion[] = [];
@@ -56,8 +62,8 @@ export class AppComponent implements AfterViewInit {
   public homePageData: any = {};
   @ViewChild('scrollablePromotions') scrollablePromotions!: ElementRef;
   private scrollTimeout: any;
-  public mId:any = null
-  public showTerms = true;
+  public mId: any = null;
+  public showTerms = false;
   public showPrivacyPolicy = false;
   public forceShowterms = false;
   public selectedMenu:
@@ -94,7 +100,7 @@ export class AppComponent implements AfterViewInit {
 
   ngOnInit() {
     const user = this.authService.retrieveUser();
-    this.route.queryParams.subscribe((params:any) => {
+    this.route.queryParams.subscribe((params: any) => {
       this.mId = params?.['id'];
     });
 
@@ -109,18 +115,31 @@ export class AppComponent implements AfterViewInit {
         this.showCartModal = data.showCartModal;
         this.selectedMenu = data.selectedMenu;
       });
+      setTimeout(() => {
+        if (!this.user.acceptedTerms) {
+          if (
+            window.localStorage.getItem(`efl-t-${this.user?._id || 'anon'}`) ==
+            'seen'
+          ) {
+            this.authService
+              .acceptTerms(this.user?._id)
+              .pipe(take(1))
+              .subscribe((response: any) => {
+                if (response.status) {
+                  this.authService.storeUser(response.data);
+                }
+              });
+          } else {
+            this.showTerms = true;
+            this.forceShowterms = true;
+          }
+        } else {
+          this.showTerms = false;
+          this.forceShowterms = false;
+        }
+      }, 6000);
     } else {
       this.authService.setLoggedIn(false);
-      if(!this.user){
-        if(window.localStorage.getItem("efl-t")!== 'seen'){
-          this.showTerms = true;
-          this.forceShowterms =  true;
-        }else{
-          this.showTerms = false;
-          this.forceShowterms =  false;
-        }
-      }
-      // this.authService.navigateToUrl("/login")
     }
   }
 
@@ -133,35 +152,34 @@ export class AppComponent implements AfterViewInit {
           banner.style.display = 'flex';
         }
       }
-      //Promotions
-      try{
-        this.scrollablePromotions.nativeElement.addEventListener('scroll', () => {
-          clearTimeout(this.scrollTimeout);
-          this.resetScrollTimeout();
-        });
-  
+      try {
+        this.scrollablePromotions.nativeElement.addEventListener(
+          'scroll',
+          () => {
+            clearTimeout(this.scrollTimeout);
+            this.resetScrollTimeout();
+          }
+        );
+
         this.resetScrollTimeout();
-      }
-      catch{}
+      } catch {}
     }, 5000);
-    if(this.mId){
-      this.scrollToElement()
+    if (this.mId) {
+      this.scrollToElement();
     }
-    
-  
   }
 
-  scrollToElement(){ 
-    const item:any = document.getElementById(this.mId);
-    if(item){
-      item.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  scrollToElement() {
+    const item: any = document.getElementById(this.mId);
+    if (item) {
+      item.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
   resetScrollTimeout() {
     this.scrollTimeout = setTimeout(() => {
       this.slowScroll();
-    }, 6000); // 10 seconds
+    }, 6000);
   }
 
   slowScroll() {
@@ -195,7 +213,7 @@ export class AppComponent implements AfterViewInit {
     });
   }
 
-  closeCookies(){
+  closeCookies() {
     const banner = document.querySelector('.base-cookie-banner') as any;
     if (banner) {
       banner.style.display = 'none';
@@ -204,7 +222,7 @@ export class AppComponent implements AfterViewInit {
 
   acceptCookies() {
     window.localStorage.setItem('eflc-ack', 'seen');
-    this.closeCookies()
+    this.closeCookies();
   }
 
   cartDocker() {
@@ -219,13 +237,13 @@ export class AppComponent implements AfterViewInit {
     this.cartService.handleBooleanEvent(value);
   }
 
-  handleTermsBooleanEvent(value:boolean,){
+  handleTermsBooleanEvent(value: boolean) {
     this.showTerms = value;
-    this.forceShowterms =  value;
+    this.forceShowterms = value;
   }
 
-  handlePrivacyBooleanEvent(value:boolean){
-    this.showPrivacyPolicy = value
+  handlePrivacyBooleanEvent(value: boolean) {
+    this.showPrivacyPolicy = value;
   }
 
   orderNow(menu: any) {

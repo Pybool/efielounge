@@ -1,14 +1,8 @@
 <!--<c-header class="mb-4 d-print-none" position="sticky">-->
 <ng-container>
   <c-container [fluid]="true" class="border-bottom px-4">
-    <button
-      [cSidebarToggle]="sidebarId"
-      cHeaderToggler
-      class="btn"
-      toggle="visible"
-      style="margin-inline-start: -14px;"
-      aria-label="Toggle sidebar navigation"
-    >
+    <button [cSidebarToggle]="sidebarId" cHeaderToggler class="btn" toggle="visible" style="margin-inline-start: -14px;"
+      aria-label="Toggle sidebar navigation">
       <svg cIcon name="cilMenu" size="lg"></svg>
     </button>
     <c-header-nav class="d-none d-md-flex">
@@ -17,22 +11,40 @@
       </c-nav-item>
       <c-nav-item>
         <a cNavLink routerLink="/users" routerLinkActive="active">Users</a>
+        <input hidden class="notification-bar form-control" type="text">
       </c-nav-item>
+      
       <!-- <c-nav-item>
         <a cNavLink routerLink="/settings" routerLinkActive="active">Settings</a>
       </c-nav-item> -->
     </c-header-nav>
 
     <c-header-nav class="d-none d-md-flex ms-auto ">
-      <!-- <a cNavLink>
-        <svg cIcon class="my-1" name="cilBell" size="lg"></svg>
+      <a cNavLink class="nav-link" (mouseenter)="showNotificationDropdown()" (mouseleave)="hideNotificationDropdown()" data-coreui-toggle="dropdown" href="javascript:void(0)" role="button"
+        aria-haspopup="true" aria-expanded="true">
+        <sup>
+          <span style="width:10px; height: 10px" ng-reflect-ng-class="[object Object]" class="avatar-status bg-danger ng-star-inserted"></span>
+        </sup>
+        <svg cIcon class="my-1" status="success" name="cilBell" size="lg"></svg>
+        
+        
       </a>
-      <a cNavLink>
-        <svg cIcon class="my-1" name="cilList" size="lg"></svg>
-      </a>
-      <a cNavLink>
-        <svg cIcon class="my-1" name="cilEnvelopeOpen" size="lg"></svg>
-      </a> -->
+      
+      <div (mouseenter)="showNotificationDropdown()" (mouseleave)="hideNotificationDropdown()" class="notification-dropdown dropdown-menu dropdown-menu-end dropdown-menu-lg pt-0 "
+        style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 49.5px, 0px);"
+        data-popper-placement="bottom-end">
+        <div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold rounded-top mb-2"
+          data-coreui-i18n="notificationsCounter, { 'counter': 5 }">Latest notifications
+        </div>
+        <ng-container *ngFor="let notification of notifications">
+          <a
+          class="dropdown-item" href="/#/orders">
+          <c-avatar shape="rounded-1" [size]="'md'" src="{{severUrl}}/{{notification.actor.avatar}}" status="success" textColor="primary"
+          alt="User avatar" />
+          <span style="margin-left: 5px;" data-coreui-i18n="newUserRegistered">{{notification?.message}}</span>
+        </a>
+        </ng-container>
+      </div>
     </c-header-nav>
 
     <c-header-nav class="ms-auto ms-md-0">
@@ -59,30 +71,24 @@
 <ng-template #userDropdown>
   <c-dropdown [popperOptions]="{ placement: 'bottom-start' }" variant="nav-item">
     <button [caret]="false" cDropdownToggle class="py-0 pe-0" aria-label="Open user menu">
-      <c-avatar
-        shape="rounded-1"
-        [size]="'md'"
-        src="{{avatar}}"
-        status="success"
-        textColor="primary"
-        alt="User avatar"
-      />
+      <c-avatar shape="rounded-1" [size]="'md'" src="{{avatar}}" status="success" textColor="primary"
+        alt="User avatar" />
       <!--  -->
     </button>
     <ul cDropdownMenu class="pt-0 w-auto">
-      <!-- <li>
+      <li>
         <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2 rounded-top">
           Account
         </h6>
       </li>
-      <li>
+      <!-- <li>
         <a cDropdownItem routerLink="">
           <svg cIcon class="me-2" name="cilBell"></svg>
-          Updates
-          <c-badge class="ms-2 float-end" color="info"> 42</c-badge>
+          Notifications
+          <c-badge class="ms-2 float-end" color="info">42</c-badge>
         </a>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <a cDropdownItem routerLink="/apps/email/inbox">
           <svg cIcon class="me-2" name="cilEnvelopeOpen"></svg>
           Messages
@@ -167,16 +173,11 @@
     </button>
     <div cDropdownMenu>
       @for (mode of colorModes; track mode.name) {
-        <button
-          (click)="colorMode.set(mode.name)"
-          [active]="colorMode()===mode.name"
-          [routerLink]="[]"
-          cDropdownItem
-          class="d-flex align-items-center"
-        >
-          <svg cIcon class="me-2" [name]="mode.icon" size="lg"></svg>
-          {{ mode.text }}
-        </button>
+      <button (click)="colorMode.set(mode.name)" [active]="colorMode()===mode.name" [routerLink]="[]" cDropdownItem
+        class="d-flex align-items-center">
+        <svg cIcon class="me-2" [name]="mode.icon" size="lg"></svg>
+        {{ mode.text }}
+      </button>
       }
     </div>
   </c-dropdown>

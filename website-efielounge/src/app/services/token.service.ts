@@ -77,14 +77,12 @@ export class TokenService {
   refreshObservable() {
     return from(this.refresh()).pipe(
       catchError((error) => {
-        // this.refresh = false;
         return throwError(() => error);
       })
     );
   }
 
   removeUser() {
-    // localStorage.removeItem(this.userKey);
     this.cookieService.delete(this.userKey);
   }
 

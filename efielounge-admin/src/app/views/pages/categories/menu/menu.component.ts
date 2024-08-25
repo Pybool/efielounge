@@ -115,18 +115,16 @@ export class MenuComponent {
       });
 
     this.categoryService
-      .fetchMenuItems(1,-1)// -1 means dont paginate
+      .fetchMenuItems(1, -1) // -1 means dont paginate
       .pipe(take(1))
       .subscribe((response: any) => {
         if (response.status) {
           this.menuItems = response.data;
         }
       });
-
   }
-  fetchMenu(fetch:boolean=true) {
-
-    if(fetch){
+  fetchMenu(fetch: boolean = true) {
+    if (fetch) {
       this.loading = true;
       this.categoryService
         .fetchMenu(this.page, this.pageSize)
@@ -149,7 +147,6 @@ export class MenuComponent {
           }
         );
     }
-    
   }
 
   addVariant() {
@@ -233,14 +230,17 @@ export class MenuComponent {
     this.categoryService
       .createMenu(formData)
       .pipe(take(1))
-      .subscribe((response: any) => {
-        if (response.status) {
-          this.menus.unshift(response.data);
+      .subscribe(
+        (response: any) => {
+          if (response.status) {
+            this.menus.unshift(response.data);
+          }
+          Swal.fire(response.message);
+        },
+        (error: any) => {
+          Swal.fire('Could not process your request at this time');
         }
-        Swal.fire(response.message);
-      },((error:any)=>{
-        Swal.fire("Could not process your request at this time")
-      }));
+      );
   }
 
   setMenuToEdit(index: number) {
@@ -266,6 +266,10 @@ export class MenuComponent {
     delete this.selectedMenu.slug;
   }
 
+  private getObjectById(array: any, id: string | undefined) {
+    return array.find((item: { _id: string }) => item._id === id);
+  }
+
   editMenu() {
     this.cleanPayload();
     delete this.selectedMenu.createdAt;
@@ -276,10 +280,28 @@ export class MenuComponent {
       .subscribe(
         (response: any) => {
           Swal.fire(response.message);
+          if (response.status) {
+            let menu = this.getObjectById(this.menus, this.selectedMenu._id);
+            if (menu) {
+              for (let key of Object.keys(this.selectedMenu)) {
+                if (key == 'category') {
+                  let category = this.getObjectById(
+                    this.menuCategories,
+                    this.selectedMenu[key]
+                  );
+                  if(category){
+                    menu[key] = category;
+                  }
+                } else {
+                  menu[key] = this.selectedMenu[key];
+                }
+              }
+            }
+          }
         },
-        ((error:any)=>{
-          Swal.fire("Could not process your request at this time")
-        })
+        (error: any) => {
+          Swal.fire('Could not process your request at this time');
+        }
       );
   }
 
@@ -297,9 +319,9 @@ export class MenuComponent {
           this.menus = this.menus.filter((element, idx) => idx !== index);
           alert(response.message);
         },
-        ((error:any)=>{
-          Swal.fire("Could not process your request at this time")
-        })
+        (error: any) => {
+          Swal.fire('Could not process your request at this time');
+        }
       );
   }
 

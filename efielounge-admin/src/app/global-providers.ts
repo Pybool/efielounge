@@ -5,5 +5,4 @@ import { AuthInterceptor } from './services/auth.inteceptor';
 export const GLOBAL_HTTP_PROVIDERS = [
   { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  
 ];

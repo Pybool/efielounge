@@ -9,20 +9,30 @@ import { take } from 'rxjs';
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './terms.component.html',
-  styleUrl: './terms.component.scss'
+  styleUrl: './terms.component.scss',
 })
 export class TermsComponent {
   public accepted: boolean = false;
-  public user:any = {}
+  public acceptedTerms: boolean = false;
+  public user: any = {};
   @Output() booleanEvent = new EventEmitter<boolean>();
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService) {}
 
-  ngOnInit(){
-    this.user = this.authService.retrieveUser()
+  ngOnInit() {
+    this.user = this.authService.retrieveUser();
+    if (!this.user) {
+      if (window.localStorage.getItem(`efl-t-${this.user?._id || 'anon'}`) !== 'seen') {
+        this.acceptedTerms = false;
+      } else {
+        this.acceptedTerms = true;
+      }
+    } else {
+      this.acceptedTerms = this.user.acceptedTerms;
+    }
   }
 
-  toggleAcceptance(){
+  toggleAcceptance() {
     this.accepted = !this.accepted;
   }
 
@@ -36,20 +46,23 @@ export class TermsComponent {
     this.booleanEvent.emit(value);
   }
 
-  acceptTerms(){
-    if(!this.user){
-      if(window.localStorage.getItem("efl-t")!== 'seen'){
-        window.localStorage.setItem("efl-t", 'seen')
+  acceptTerms() {
+    if (!this.user) {
+      if (window.localStorage.getItem(`efl-t-${this.user?._id || 'anon'}`) !== 'seen') {
+        window.localStorage.setItem(`efl-t-${this.user?._id || 'anon'}`, 'seen');
         this.sendBoolean(event);
-      }else{
+      } else {
         this.sendBoolean(event);
       }
     }
-    this.authService.acceptTerms(this.user?._id).pipe(take(1)).subscribe((response:any)=>{
-      if(response.status){
-        this.authService.storeUser(response.data);
-        this.sendBoolean(event);
-      }
-    })
+    this.authService
+      .acceptTerms(this.user?._id)
+      .pipe(take(1))
+      .subscribe((response: any) => {
+        if (response.status) {
+          this.authService.storeUser(response.data);
+          this.sendBoolean(event);
+        }
+      });
   }
 }

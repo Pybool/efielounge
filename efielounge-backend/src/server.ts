@@ -3,8 +3,7 @@ import http from "http";
 import "./setup/init.redis";
 import "./setup/init.mongo";
 import cors, { CorsOptions } from "cors";
-
-// import cors from "./setup/cors";
+import { Server as SocketIOServer } from "socket.io";
 import { config as dotenvConfig } from "dotenv";
 import logger from "./setup/logger";
 import session from "express-session";
@@ -20,6 +19,9 @@ import transactionRouter from "./routes/v1/transaction.route";
 import Menu from "./models/menu/menu.model";
 import { decode } from "./middlewares/jwt";
 import Order from "./models/Orders/order.model";
+import Accounts from "./models/Accounts/accounts.model";
+import { socketAuth } from "./middlewares/socketAuth";
+import { setupSocketHandlers } from "./controllers/v1/sockets/socket.controller";
 
 dotenvConfig();
 dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
@@ -83,10 +85,6 @@ app.use("/api/v1/cart", clientCartRouter);
 app.use("/api/v1/accounts", accountsRouter);
 app.use("/api/v1/transactions", transactionRouter);
 
-
-
-
-
 app.use((err: any, req: any, res: any, next: any) => {
   console.error(err.stack);
 
@@ -130,6 +128,14 @@ app.set("view engine", "ejs");
 app.set("views", "src/templates");
 
 const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: "*",
+  },
+});
+io.use(socketAuth);
+app.set("io", io);
+setupSocketHandlers(io);
 const PORT = process.env.EFIELOUNGE_MAIN_SERVER_PORT || 8000;
 
 let environment = "Development";

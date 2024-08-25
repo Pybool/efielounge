@@ -441,16 +441,17 @@ export class CartService {
       });
     } else {
       const pathname = document.location.pathname;
-      if (pathname !== '/') {
+      // if (pathname !== '/') {
         const timestamp = Date.now();
         const currentUrl = `${window.location.href}&idn=${timestamp}&id=${
           menu?._id || ''
         }`;
         const encodedUrl = encodeURIComponent(currentUrl);
         window.location.href = `/login?next=${encodedUrl}`;
-      } else {
-        window.location.href = `/login`;
-      }
+      // } 
+      // else {
+      //   window.location.href = `/login`;
+      // }
     }
   }
 }

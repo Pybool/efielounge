@@ -215,7 +215,7 @@
                 <label cInputGroupText>
                     Baseprice<span style="color:red">*</span>
                 </label>
-                <input [(ngModel)]="selectedMenu.price" name="price" autoComplete="price" cFormControl placeholder="Price" />
+                <input type="number" [(ngModel)]="selectedMenu.price" [value]="selectedMenu.price" name="baseprice" autoComplete="price" cFormControl placeholder="Price" />
             </c-input-group>
             <c-input-group class="mb-3">
                 <label cInputGroupText>
@@ -244,7 +244,7 @@
                     </label>
                     <input [(ngModel)]="variant.name" class="variant"  name="variants" autoComplete="name" cFormControl placeholder="variant" />
 
-                    <input [(ngModel)]="variant.price" class="variant"  name="price"  cFormControl placeholder="Price" />
+                    <input [(ngModel)]="variant.price" class="variant"  base  cFormControl placeholder="Price" />
                     <button class="btn btn-primary" (click)="updateVariant()">Add</button>
                 </div>
                 <div style="flex-wrap: wrap;margin-left: 10px;" class="flex-row-sb pill">

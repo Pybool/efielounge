@@ -5,14 +5,16 @@ import { Title } from '@angular/platform-browser';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './icons/icon-subset';
 import { AuthService } from './services/auth.service';
+import { SocketService } from './services/socket.service';
 import { HttpClientModule } from '@angular/common/http';
-
+// import { Howl } from 'howler';
+var self:any;
 @Component({
   selector: 'app-root',
   template: '<router-outlet />',
   standalone: true,  
   imports: [RouterOutlet, HttpClientModule],
-  providers: [AuthService],
+  providers: [AuthService, SocketService],
 })
 export class AppComponent implements OnInit {
   title = 'Efielounge Admin Panel';
@@ -20,8 +22,10 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private titleService: Title,
-    private iconSetService: IconSetService
+    private iconSetService: IconSetService,
+    private socketService: SocketService
   ) {
+    self = this
     this.titleService.setTitle(this.title);
     this.iconSetService.icons = { ...iconSubset };
   }
@@ -33,7 +37,16 @@ export class AppComponent implements OnInit {
       }
     });
 
+    
     this.forceLogOut()
+  }
+
+  ngAfterViewInit(){
+    Notification.requestPermission().then(function(permission){
+      if(permission === "granted"){
+        self.socketService.connectToSocket()
+      }
+    })
   }
 
   forceLogOut(){

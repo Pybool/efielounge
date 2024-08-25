@@ -8,16 +8,17 @@
         <button style="white-space: nowrap;"  cButton color="primary">Go
         </button>
     </div>
-    <select style="width:200px"  name="" color="primary" aria-label="Default select example" cselect class="form-select" >
+    <select style="width:200px"  name="" color="warning" aria-label="Default select example" cselect class="form-select" >
         <option value="customers">PENDING</option>
         <option value="staff">DELIVERED</option>
     </select>
     
 </div>
-
 <c-row>
     <c-col xs>
         <c-card class="mb-4">
+            <button *ngIf="socketService.notificationsIntervalId" style="color:white; font-size: 18px; font-weight: 700;" cButton color="warning" (click)="socketService.stopAlert()">Mute Order Alert</button>
+
             <c-card-body>
                 <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
                     <thead class="text-nowrap text-truncate">

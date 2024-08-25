@@ -9,6 +9,7 @@ import Accounts from "../../../models/Accounts/accounts.model";
 import MenuRatings from "../../../models/menu/ratings.model";
 import { Menuservice } from "../menu/menu.service";
 import MenuLikes from "../../../models/menu/likes.model";
+import { NotificationService } from "../notifications/notification.service";
 
 async function checkIfIRated(account: string, menuId: string) {
   const exists = await MenuRatings.findOne({ account, menu: menuId })!;
@@ -67,11 +68,42 @@ export class OrderService {
       }
       const deletedCount = await Cart.deleteMany({ _id: { $in: cartIds } });
       console.log(`Deleted ${deletedCount} cart items.`);
-
       console.log("All orders created successfully!");
-      await Accounts.findOne({
-        _id: checkOutIntent.account,
-      })!;
+
+      const account = await Accounts.findOne({_id: checkOutIntent.account})!;
+      if (account) {
+        let identity:any = "A customer";
+
+        if (
+          account.firstName !== null &&
+          account.firstName !== "" &&
+          account.lastName !== null &&
+          account.lastName !== ""
+        ) {
+          identity = account.firstName + " " + account.lastName;
+        }
+
+        else if (account.firstName !== null && account.firstName !== "") {
+          identity = account.firstName;
+        }
+
+        else if (account.phone !== null && account.phone !== "") {
+          identity = account.phone;
+        }
+
+        else if (account.email !== null && account.email !== "") {
+          identity = account.email;
+        }
+
+        const data = {
+          actorIdentity: account._id,
+          recordId: checkOutIntent.checkOutId,
+          message: `${identity} has placed an order with order id ${checkOutIntent.checkOutId}`,
+          identity: identity
+        };
+        await NotificationService.buildNotification(data);
+      }
+
       return orders;
     } catch (error) {
       console.error("Overall error:", error);

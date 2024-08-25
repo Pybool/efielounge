@@ -173,6 +173,8 @@
 
 </div>
 
-<app-terms *ngIf="(showTerms && !user?.acceptedTerms) || forceShowterms"
+<ng-container *ngIf="user">
+  <app-terms *ngIf="showTerms"
   (booleanEvent)="handleTermsBooleanEvent($event)"></app-terms>
+</ng-container>
 <app-privacy-policy (booleanEvent)="handlePrivacyBooleanEvent($event)"></app-privacy-policy>

@@ -20,59 +20,96 @@ import {
   ProgressComponent,
   SidebarToggleDirective,
   TextColorDirective,
-  ThemeDirective
+  ThemeDirective,
 } from '@coreui/angular';
-import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import { CommonModule, NgStyle, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { IconDirective } from '@coreui/icons-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { delay, filter, map, tap } from 'rxjs/operators';
+import { delay, filter, map, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
   standalone: true,
-  imports: [HttpClientModule, ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, BreadcrumbRouterComponent, ThemeDirective, DropdownComponent, DropdownToggleDirective, TextColorDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, ProgressBarDirective, ProgressComponent, NgStyle],
-  providers: [AuthService]
+  imports: [
+    HttpClientModule,
+    ContainerComponent,
+    HeaderTogglerDirective,
+    SidebarToggleDirective,
+    IconDirective,
+    HeaderNavComponent,
+    NavItemComponent,
+    NavLinkDirective,
+    RouterLink,
+    RouterLinkActive,
+    NgTemplateOutlet,
+    BreadcrumbRouterComponent,
+    ThemeDirective,
+    DropdownComponent,
+    DropdownToggleDirective,
+    TextColorDirective,
+    AvatarComponent,
+    DropdownMenuDirective,
+    DropdownHeaderDirective,
+    DropdownItemDirective,
+    BadgeComponent,
+    DropdownDividerDirective,
+    ProgressBarDirective,
+    ProgressComponent,
+    NgStyle,
+    CommonModule
+  ],
+  providers: [AuthService],
 })
 export class DefaultHeaderComponent extends HeaderComponent {
-
   readonly #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   readonly #colorModeService = inject(ColorModeService);
   readonly colorMode = this.#colorModeService.colorMode;
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
-  public user:any = JSON.parse(window.localStorage.getItem("user")!) as any
-  public severUrl = environment.api
-  public avatar:string = "./assets/images/avatars/8.jpg"
-  
+  public user: any = JSON.parse(window.localStorage.getItem('user')!) as any;
+  public severUrl = environment.api;
+  public avatar: string = './assets/images/avatars/8.jpg';
+
+  public notifications: any[] = [];
+
   readonly colorModes = [
     { name: 'light', text: 'Light', icon: 'cilSun' },
     { name: 'dark', text: 'Dark', icon: 'cilMoon' },
-    { name: 'auto', text: 'Auto', icon: 'cilContrast' }
+    { name: 'auto', text: 'Auto', icon: 'cilContrast' },
   ];
 
   readonly icons = computed(() => {
     const currentMode = this.colorMode();
-    return this.colorModes.find(mode=> mode.name === currentMode)?.icon ?? 'cilSun';
+    return (
+      this.colorModes.find((mode) => mode.name === currentMode)?.icon ??
+      'cilSun'
+    );
   });
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private socketService: SocketService
+  ) {
     super();
-    this.#colorModeService.localStorageItemName.set('efielounge-admin-theme-default');
+    this.#colorModeService.localStorageItemName.set(
+      'efielounge-admin-theme-default'
+    );
     this.#colorModeService.eventName.set('ColorSchemeChange');
-    if(this.user?.avatar){
-      this.avatar = this.severUrl+'/' +this.user?.avatar
+    if (this.user?.avatar) {
+      this.avatar = this.severUrl + '/' + this.user?.avatar;
     }
-    
+
     this.#activatedRoute.queryParams
       .pipe(
         delay(1),
-        map(params => <string>params['theme']?.match(/^[A-Za-z0-9\s]+/)?.[0]),
-        filter(theme => ['dark', 'light', 'auto'].includes(theme)),
-        tap(theme => {
+        map((params) => <string>params['theme']?.match(/^[A-Za-z0-9\s]+/)?.[0]),
+        filter((theme) => ['dark', 'light', 'auto'].includes(theme)),
+        tap((theme) => {
           this.colorMode.set(theme);
         }),
         takeUntilDestroyed(this.#destroyRef)
@@ -82,85 +119,41 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   @Input() sidebarId: string = 'sidebar1';
 
-  async logOut(){
-    await this.authService.logout()
+  ngOnInit() {
+    this.socketService
+      .fetchNotificationsObs()
+      .subscribe(
+        (notifications: any) => {
+          if (notifications) {
+            this.notifications = notifications;
+            console.log("this.notifications ", this.notifications)
+          }
+        },
+        (error: any) => {
+          console.log('Failed to fetch notifications');
+        }
+      );
   }
 
-  public newMessages = [
-    {
-      id: 0,
-      from: 'Jessica Williams',
-      avatar: '7.jpg',
-      status: 'success',
-      title: 'Urgent: System Maintenance Tonight',
-      time: 'Just now',
-      link: 'apps/email/inbox/message',
-      message: 'Attention team, we\'ll be conducting critical system maintenance tonight from 10 PM to 2 AM. Plan accordingly...'
-    },
-    {
-      id: 1,
-      from: 'Richard Johnson',
-      avatar: '6.jpg',
-      status: 'warning',
-      title: 'Project Update: Milestone Achieved',
-      time: '5 minutes ago',
-      link: 'apps/email/inbox/message',
-      message: 'Kudos on hitting sales targets last quarter! Let\'s keep the momentum. New goals, new victories ahead...'
-    },
-    {
-      id: 2,
-      from: 'Angela Rodriguez',
-      avatar: '5.jpg',
-      status: 'danger',
-      title: 'Social Media Campaign Launch',
-      time: '1:52 PM',
-      link: 'apps/email/inbox/message',
-      message: 'Exciting news! Our new social media campaign goes live tomorrow. Brace yourselves for engagement...'
-    },
-    {
-      id: 3,
-      from: 'Jane Lewis',
-      avatar: '4.jpg',
-      status: 'info',
-      title: 'Inventory Checkpoint',
-      time: '4:03 AM',
-      link: 'apps/email/inbox/message',
-      message: 'Team, it\'s time for our monthly inventory check. Accurate counts ensure smooth operations. Let\'s nail it...'
-    },
-    {
-      id: 3,
-      from: 'Ryan Miller',
-      avatar: '4.jpg',
-      status: 'info',
-      title: 'Customer Feedback Results',
-      time: '3 days ago',
-      link: 'apps/email/inbox/message',
-      message: 'Our latest customer feedback is in. Let\'s analyze and discuss improvements for an even better service...'
+  async logOut() {
+    await this.authService.logout();
+  }
+
+  showNotificationDropdown() {
+    const notificationDropdown = document.querySelector(
+      '.notification-dropdown'
+    ) as any;
+    if (notificationDropdown) {
+      notificationDropdown.classList.add('show');
     }
-  ];
+  }
 
-  public newNotifications = [
-    { id: 0, title: 'New user registered', icon: 'cilUserFollow', color: 'success' },
-    { id: 1, title: 'User deleted', icon: 'cilUserUnfollow', color: 'danger' },
-    { id: 2, title: 'Sales report is ready', icon: 'cilChartPie', color: 'info' },
-    { id: 3, title: 'New client', icon: 'cilBasket', color: 'primary' },
-    { id: 4, title: 'Server overloaded', icon: 'cilSpeedometer', color: 'warning' }
-  ];
-
-  public newStatus = [
-    { id: 0, title: 'CPU Usage', value: 25, color: 'info', details: '348 Processes. 1/4 Cores.' },
-    { id: 1, title: 'Memory Usage', value: 70, color: 'warning', details: '11444GB/16384MB' },
-    { id: 2, title: 'SSD 1 Usage', value: 90, color: 'danger', details: '243GB/256GB' }
-  ];
-
-  public newTasks = [
-    { id: 0, title: 'Upgrade NPM', value: 0, color: 'info' },
-    { id: 1, title: 'ReactJS Version', value: 25, color: 'danger' },
-    { id: 2, title: 'VueJS Version', value: 50, color: 'warning' },
-    { id: 3, title: 'Add new layouts', value: 75, color: 'info' },
-    { id: 4, title: 'Angular Version', value: 100, color: 'success' }
-  ];
-
-
-
+  hideNotificationDropdown() {
+    const notificationDropdown = document.querySelector(
+      '.notification-dropdown'
+    ) as any;
+    if (notificationDropdown) {
+      notificationDropdown.classList.remove('show');
+    }
+  }
 }

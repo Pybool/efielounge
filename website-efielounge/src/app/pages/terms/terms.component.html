@@ -37,14 +37,14 @@
                         <li>From time to time, this website may also include links to other websites. These links are provided for your convenience to provide further information. They do not signify that we endorse the website(s). We have no responsibility for the content of the linked website(s).</li>
                         <li>Your use of this website and any dispute arising out of such use of the website is subject to the laws of Ghana.</li>
                     </ul>
-                    <div class="form-group">
+                    <div *ngIf="!acceptedTerms" class="form-group">
                         <input id="terms-accept" checked="accepted" (input)="toggleAcceptance()" [(ngModel)]="accepted" type="checkbox"/>
                         <label for="terms-accept">&nbsp;I have read and accept these terms and conditions</label>
                     </div>
                 </section>
             </div>
         </div>
-        <div class="flex-row-sb">
+        <div *ngIf="!acceptedTerms" class="flex-row-sb">
             <button [disabled]="!accepted" (click)="acceptTerms()" class="btn order-now">
                 I Accept
             </button>

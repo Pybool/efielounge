@@ -448,6 +448,10 @@ export class HeaderComponent {
     }
   }
 
+  handleClick(event: Event): void {
+    event.preventDefault();
+  }
+
   logout(redirect:boolean= true) {
     this.tokenService.removeTokens();
     this.authService.logout(redirect);

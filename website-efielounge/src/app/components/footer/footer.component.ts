@@ -32,6 +32,10 @@ export class FooterComponent {
     }
   }
 
+  handleClick(event: Event): void {
+    event.preventDefault();
+  }
+
   showTerms(){
     this.forceShowterms = !this.forceShowterms
   }

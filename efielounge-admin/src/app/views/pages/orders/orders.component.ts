@@ -34,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { OrderService } from '../../../services/order.service';
 import { debounceTime, filter, fromEvent, Subscription, take } from 'rxjs';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-orders',
@@ -97,7 +98,10 @@ export class OrdersComponent {
   public readyIn: number | null = null;
   public setReady: boolean = false;
 
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    public socketService: SocketService
+  ) {}
 
   ngOnInit() {
     this.fetchOrders();
@@ -116,10 +120,8 @@ export class OrdersComponent {
               this.totalPages = response.totalPages;
               this.page++;
               for (let order of response.data) {
-                order.readyIn = this.getTimeLeft(
-                  order?.readyInSetAt,
-                  order?.readyIn
-                ) || 0;
+                order.readyIn =
+                  this.getTimeLeft(order?.readyInSetAt, order?.readyIn) || 0;
               }
               this.orders.push(...response.data);
             }
@@ -137,7 +139,13 @@ export class OrdersComponent {
     const date = new Date(dateString);
 
     // Format the date using Intl.DateTimeFormat
-    const options: any = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const options: any = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
     return date.toLocaleDateString('en-US', options);
   }
 
