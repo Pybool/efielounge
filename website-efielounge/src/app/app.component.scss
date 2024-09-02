@@ -8,7 +8,7 @@
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
   padding: 20px;
   transition: right 0.3s ease;
-  z-index: 999;
+  z-index: 1000;
 }
 
 #dock-widget.dock-visible {
@@ -190,10 +190,10 @@
     flex-wrap: wrap !important;
   }
   #dock-widget {
-    top: 9% !important;
+    top: 11% !important;
     right: -70% !important;
     width: 70% !important;
-    height: 82% !important;
+    height: 85.5% !important;
   }
   #dock-widget.dock-visible {
     right: 0 !important;
@@ -229,7 +229,7 @@
     flex-wrap: wrap !important;
   }
   #dock-widget {
-    top: 15% !important;
+    top: 12% !important;
     right: -40% !important;
     width: 40% !important;
   }
@@ -241,13 +241,13 @@
 @media screen and (min-width: 1024px) and (min-height: 600px) and (max-height: 700px) {
   /* Your styles for screens with width 1024px and height between 600px and 700px */
   #dock-widget {
-    top: 35% !important;
+    top: 27% !important;
   }
 
   .basket-container {
     width: 100%;
     background: white;
-    height: 50%;
+    height: 75%;
   }
 }
 

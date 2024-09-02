@@ -1,6 +1,6 @@
 /* Modal container */
 .modal {
-  display: none;
+  display: block;
   position: fixed;
   z-index: 1200;
   left: 0;
@@ -14,7 +14,9 @@
 .small,
 small {
   font-size: 0.875em;
-  white-space: nowrap;
+  // white-space: nowrap;
+  max-width: 20vw;
+  text-align: center;
   margin-right: 10px !important;
 }
 
@@ -152,6 +154,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  cursor: pointer;
 }
 
 .address-card h3 {

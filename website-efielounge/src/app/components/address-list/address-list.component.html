@@ -8,83 +8,56 @@
         <p>Choose any of your addresses for this order</p>
         <div style="justify-content: flex-start;" class="card-container">
             <ng-container *ngFor="let address of addresses">
-                <label (click)="setDefaultAddress(address)" style="cursor: pointer;" for="{{address?._id}}">
-                    <div class="address-card">
-                        <input id="{{address?._id}}" name="address" class="form-check-input" name="address" type="radio" />
-                        <div style="margin-top: 10px; display: flex; flex-direction: column;">
-                            <div style="overflow-x: auto;" class="addresses x-flex-row">
-                                <div *ngIf="address.isDefault"
-                                    class="address-item  active-address">
-                                    <div style="padding: 10px; margin-right: 30px;">
-                                        <div style="flex-wrap: nowrap;" class="flex-row-sb">
-                                            <small>
-                                                <svg style="width:20px;height:20px" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                    <path
-                                                        d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
-                                                </svg> {{address.address}}
-                                                <small style="padding-left: 5px;">{{address?.district}}</small>
-                                            </small>
-                                            <div (click)="removeAddress(address._id)" style="width: 30px!important"
-                                                class="remove-from-cart">
-                                                <i _ngcontent-ng-c4121622085="" class="fa fa-trash"></i>
-                                            </div>
-                                        </div>
-                                        <div style="padding-left:4px" class="flex-row-sb">
-                                            <small>
-                                                <svg style="width:15px;height:15px" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                    <path
-                                                        d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
-                                                </svg>
-                                                &nbsp;{{address.phone}}
-                                            </small>
-                                            <span style="color: rgb(125, 228, 125);font-size: 14px;">DEFAULT
-                                                ADDRESS</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div *ngIf="!address.isDefault" class="address-item  ">
-                                    <div style="padding: 10px;margin-right: 30px;">
-                                        <div style="flex-wrap: nowrap;" class="flex-row-sb">
-                                            <small>
-                                                <svg style="width:20px;height:20px" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                    <path
-                                                        d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
-                                                </svg> {{address.address}}
-                                                <small style="padding-left: 5px;">{{address?.district}}</small>
-                                            </small>
-                                            <div (click)="removeAddress(address._id)" style="width: 30px!important"
-                                                class="remove-from-cart">
-                                                <i _ngcontent-ng-c4121622085="" class="fa fa-trash"></i>
-                                            </div>
-                                        </div>
-                                        <div style="padding-left:4px" class="flex-row-sb">
-                                            <small>
-                                                <svg style="width:15px;height:15px" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                    <path
-                                                        d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
-                                                </svg>
-                                                &nbsp;{{address.phone}}
-                                            </small>
-    
-                                            <span *ngIf="!address.isDefault" style="font-size: 14px;">SET AS
-                                                DELIVERY ADDRESS</span>
-                                        </div>
-                                    </div>
-                                </div>
-    
+                <div *ngIf="address.isDefault" (click)="setDefaultAddress(address)"
+                    class="address-item address-card active-address">
+                    <div style="padding: 10px; margin-right: 30px;">
+                        <div style="flex-wrap: nowrap;" class="flex-row-sb">
+                            <small class="flex-col-start ">
+                                <svg style="width:20px;height:20px" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                    <path style="fill: green"
+                                        d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
+                                </svg> {{address.name}}
+                                <small>{{address?.formatted_address}}</small>
+                            </small>
+                            <div (click)="removeAddress(address._id)" style="width: 30px!important"
+                                class="remove-from-cart">
+                                <i _ngcontent-ng-c4121622085="" class="fa fa-trash"></i>
                             </div>
-    
                         </div>
-        
+                        <div style="padding-left:20px" class="flex-row-sb">
+
+                            <a style="color: rgb(125, 228, 125)" href="javascript:void(0)">DEFAULT
+                                ADDRESS</a>
+                        </div>
                     </div>
-                </label>
-               
+                </div>
+                <div *ngIf="!address.isDefault" (click)="setDefaultAddress(address)" class="address-item address-card ">
+                    <div style="padding: 10px;margin-right: 30px;">
+                        <div style="flex-wrap: nowrap;" class="flex-row-sb">
+                            <small class="flex-col-start ">
+                                <svg style="width:20px;height:20px" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                    <path
+                                        d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
+                                </svg> {{address.name}}
+                                <small>{{address?.formatted_address}}</small>
+                            </small>
+                            <div (click)="removeAddress(address._id)" style="width: 30px!important"
+                                class="remove-from-cart">
+                                <i _ngcontent-ng-c4121622085="" class="fa fa-trash"></i>
+                            </div>
+                        </div>
+                        <div style="padding-left:20px" class="flex-row-sb">
+
+
+                            <a *ngIf="!address.isDefault" href="javascript:void(0)">SET AS
+                                DELIVERY ADDRESS</a>
+                        </div>
+                    </div>
+                </div>
             </ng-container>
-            
+
         </div>
         <div class="modal-footer">
             <button (click)="toggleAddressesModal()" id="cancelButton" class="modal-close btn">Exit</button>

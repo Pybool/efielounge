@@ -19,6 +19,20 @@ sup {
   margin-right: 5px;
 }
 
+small{
+  white-space: wrap!important;
+}
+
+.flex-col-start {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding-left: 20px;
+  gap: 5px;
+}
+
 svg path {
   fill: black;
   transition: all 0.5s;

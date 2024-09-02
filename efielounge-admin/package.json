@@ -1,9 +1,9 @@
 {
-  "name": "coreui-free-angular-admin-template",
+  "name": "efieloungeadmin",
   "version": "5.0.3",
-  "copyright": "Copyright 2024 creativeLabs Łukasz Holeczek",
+  "copyright": "efieloungeadmin",
   "license": "MIT",
-  "author": "The CoreUI Team (https://github.com/orgs/coreui/people) and contributors",
+  "author": "",
   "homepage": "https://coreui.io/angular",
   "config": {
     "theme": "default",

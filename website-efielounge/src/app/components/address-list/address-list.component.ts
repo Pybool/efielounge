@@ -16,6 +16,7 @@ export class AddressListComponent {
   public addressId:string = ""
   public addresses: any[] = []
   @Output() booleanEvent = new EventEmitter<boolean>();
+  @Output() selectedDeliveryAddress = new EventEmitter<any>();
 
   constructor(private addressService: AddressService){
     
@@ -29,6 +30,7 @@ export class AddressListComponent {
 
   setDefaultAddress(address: any) {
     this.addressService.setDefaultAddress(address)
+    this.selectedDeliveryAddress.emit(address)
   }
 
   removeAddress(addressId: string) {

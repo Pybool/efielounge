@@ -7,6 +7,48 @@
   --theme: var(--primary);
 }
 
+.clear{
+  color: gray;
+  cursor: pointer;
+  display: none;
+  opacity: 1;
+  font-size: larger;
+  background-color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 0px;
+  position: absolute;
+  right: 0;
+  z-index: 1999
+}
+
+.x-flex-row{
+  display:flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px
+}
+
+.g-spinner{
+  position: absolute;
+  right: 10;
+  z-index: 1999
+}
+
+.address{
+  flex-wrap: nowrap!important;
+}
+
+#address{
+  width: 100%;
+  // outline: none;
+  // border-right: none;
+  border-radius: 0px;
+}
+
+
 // .basket-container {
 //   width: 100%;
 //   background: white;
@@ -207,8 +249,9 @@ img {
 .number {
   margin: 5px;
   border-radius: 2px;
-  border: 1px solid rgb(245, 242, 242);
+  // border: 1px solid rgb(245, 242, 242);
   padding: 7px;
+  justify-content: center;
 }
 
 .minus,
@@ -249,9 +292,9 @@ input[type="number"] {
 
 .basket-content {
   margin-top: 20px;
-  height: 54vh;
-  // height: 62vh;
+  max-height: 41vh;
   overflow-y: auto;
+  height: fit-content;
 }
 
 label > .qty {
@@ -279,6 +322,7 @@ label > span.menu-price {
   margin-right: 10px;
   font-weight: 700;
   color: orangered;
+  text-align: center;
 }
 
 .edit-cart {
@@ -355,12 +399,16 @@ img {
 
 .tab__content {
   max-height: 0;
+  opacity: 0;
+  visibility: hidden;
   overflow-y: auto;
   overflow-x: hidden;
-  transition: all 0.35s;
+  transition: all 3s ease;
 }
 .tab input:checked ~ .tab__content {
   max-height: fit-content;
+  visibility: visible;
+  opacity: 1;
 }
 
 .close-button {
@@ -390,7 +438,7 @@ img {
 /* Visual styles */
 .accordion {
   color: var(--theme);
-  border: 1px solid rgb(208, 208, 208);
+  // border: 1px solid rgb(208, 208, 208);
   background: whitesmoke;
   // border-radius: 0.5rem;
   overflow-x: hidden;
@@ -403,14 +451,21 @@ img {
   color: grey;
   background: var(--theme);
   cursor: pointer;
-  width: 100%;
+  width: 98%;
 }
 .tab__label {
   justify-content: space-between;
   align-items: flex-start;
-  padding: 20px;
+  padding: 10px;
   background: white;
   flex-wrap: nowrap!important;
+  transition: all .95s ease;
+}
+
+.tab{
+  padding-right: 20px;
+  background: white;
+  transition: all .95s ease;
 }
 
 .number.flex-row-sb{
@@ -422,7 +477,7 @@ img {
   height: 1em;
   text-align: center;
   transform: rotate(90deg);
-  transition: all 0.35s;
+  transition: all 2.5s ease;
 }
 
 .tab input:checked + .tab__label::after {
@@ -458,7 +513,7 @@ img {
 @media only screen and (min-width: 300px) and (max-width: 599px) {
   /* Styles for small phones */
   .tab__label {
-    flex-wrap: wrap !important;
+    // flex-wrap: wrap !important;
   }
   #dock-widget {
     top: 15% !important;
@@ -487,8 +542,32 @@ img {
   }
 }
 
+.line{
+  height: 1px;
+  background: darkgray;
+}
+
+.or{
+  text-align: center;
+  font-weight: 600;
+}
+
+.btn-black {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  // border-radius: 4px;
+}
+
 .cart-header {
-  background: ghostwhite;
+  background: white;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;
@@ -557,6 +636,6 @@ img {
   .basket-container {
     width: 100%;
     background: white;
-    height: 50%;
+    height: 75%;
   }
 }

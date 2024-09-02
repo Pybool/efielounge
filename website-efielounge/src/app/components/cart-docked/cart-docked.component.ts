@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   Output,
+  Renderer2,
+  ViewChild,
 } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +19,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RemoveFromCartComponent } from '../remove-from-cart/remove-from-cart.component';
 import { EmptyCartComponent } from '../empty-cart/empty-cart.component';
 import Swal from 'sweetalert2';
-
+import { HttpClient } from '@angular/common/http';
+import { DomWatcherService } from '../../services/domWatchDog';
+import { AddressListComponent } from '../address-list/address-list.component';
+declare const google: any;
 @Component({
   selector: 'app-cart-docked',
   standalone: true,
@@ -27,8 +33,9 @@ import Swal from 'sweetalert2';
     AddCartModalComponent,
     RemoveFromCartComponent,
     EmptyCartComponent,
+    AddressListComponent
   ],
-  providers: [AuthService],
+  providers: [AuthService, DomWatcherService],
 
   templateUrl: './cart-docked.component.html',
   styleUrl: './cart-docked.component.scss',
@@ -46,6 +53,7 @@ export class CartDockedComponent implements OnDestroy {
     extras: [],
     variants: [],
   };
+  srcValues: any[] = [];
   public Math = Math;
   public lastExtraId: string = '';
   public lastEntropy: string = '';
@@ -64,13 +72,28 @@ export class CartDockedComponent implements OnDestroy {
   public cartItems$: any;
   public cartItemRemoved$: any;
   public lockedExtras: any = {};
+  public googleAddress: any = null;
+  public isGooglePlaceSearching:boolean = false;
+  public googlePlaceSearchtext: string = "";
+  public showAddressesModal:boolean = false;
+  public didChooseAddress:boolean = false;
+  @ViewChild('address', { static: true }) addressElementRef:
+    | ElementRef
+    | undefined;
 
   constructor(
     private cartService: CartService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private renderer: Renderer2,
+    private domWatcherService: DomWatcherService
+  ) {
+    this.srcValues = [
+      `https://maps.googleapis.com/maps/api/js?key=${environment.GOOGLE_PLACES_API_KEY}&loading=async&libraries=places&callback=initMap`,
+    ];
+  }
 
   ngOnInit() {
     const user = this.authService.retrieveUser();
@@ -85,10 +108,84 @@ export class CartDockedComponent implements OnDestroy {
       this.cartItemRemoved$ = this.cartService
         .cartItemRemoved()
         .subscribe((cartItemId: string) => {
-          // this.deleteObjectById(cartItemId);
           this.subTotal = 0.0;
           this.deliveryFee = 0.0;
         });
+    }
+  }
+
+  ngAfterViewInit() {
+    this.srcValues.map((script: string) => {
+      this.loadScript(script);
+    });
+
+    setTimeout(() => {
+      this.initializePlacesAPI();
+    }, 3000);
+  }
+
+  loadScript(src: string) {
+    const script = this.renderer.createElement('script');
+    script.type = 'text/javascript';
+    script.src = src;
+    this.renderer.appendChild(document.querySelector('#basket'), script);
+  }
+
+  handleAddressListCloseEvent(value: boolean) {
+    this.showAddressesModal = value;
+  }
+
+  handleSelectedDeliveryAddress(value: any){
+    this.didChooseAddress = true;
+    this.googleAddress = value;
+  }
+
+  searchGooglePlaces(){
+    
+    if(!this.isGooglePlaceSearching){
+      let isFound = false;
+      this.domWatcherService.startObserving('pac-item', (node: HTMLElement) => {
+        // This function will be called when an element with the class 'pac-container' is added to the DOM
+        if(!isFound){
+          console.log('Callback triggered for:', node);
+          this.isGooglePlaceSearching = false;
+          isFound = true;
+        }
+        
+        
+      });
+    }
+    this.isGooglePlaceSearching = true;
+    
+  }
+
+  initializePlacesAPI(): void {
+    const input: any = document.getElementById('address');
+    const clear: any = document.querySelector('.clear-btn');
+    if (clear) {
+      clear.addEventListener('click', () => {
+        if (input) {
+          input.value = '';
+          input.removeAttribute('readonly');
+          clear.style.display = 'none';
+          this.googleAddress = null;
+        }
+      });
+    }
+    if (input) {
+      const options = {
+        componentRestrictions: { country: 'gh' },
+      };
+      const autocomplete = new google.maps.places.Autocomplete(input, options);
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        input.setAttribute('readonly', 'true');
+        if (clear) {
+          clear.style.display = 'block';
+        }
+        this.googleAddress = place;
+        input.click(); //Just to fire chage event
+      });
     }
   }
 
@@ -170,7 +267,6 @@ export class CartDockedComponent implements OnDestroy {
           cartItem.variants[0]
         );
         basePrice = Number(selectedVariant.price) + basePrice;
-        
       }
     }
     cartItem.total = (basePrice + extrasTotalPrice) * cartItem?.units;
@@ -201,10 +297,10 @@ export class CartDockedComponent implements OnDestroy {
       }
     }
 
-      if ($event.target.value?.trim() === '0') {
-          cartItem.units = 1;
-          $event.target.value = 1;
-      }
+    if ($event.target.value?.trim() === '0') {
+      cartItem.units = 1;
+      $event.target.value = 1;
+    }
     if (cartItem.units <= 50) {
       this.calculatePricePerMeal(
         cartItem,
@@ -297,6 +393,33 @@ export class CartDockedComponent implements OnDestroy {
     this.cartService.setCartCount(-1);
   }
 
+  addGoogleAddressAndCheckOut() {
+    if(!this.didChooseAddress){
+      this.http
+      .post(
+        `${environment.api}/api/v1/accounts/add-address`,
+        this.googleAddress
+      )
+      .pipe(take(1))
+      .subscribe(
+        (response: any) => {
+          if (response.status) {
+            this.checkOut();
+          } else {
+            alert('Failed to create google address');
+          }
+          Swal.fire(response?.message);
+        },
+        (error: any) => {
+          Swal.fire('Something went wrong');
+        }
+      );
+    }else{
+      this.checkOut();
+    }
+    
+  }
+
   checkOut() {
     const pathname = window.location.pathname;
     const pathSegments = pathname.split('/');
@@ -305,9 +428,11 @@ export class CartDockedComponent implements OnDestroy {
       this.checkoutId = null;
     }
     this.showCheckOutSpinner = true;
-    for(let cartItem of this.cartItems){
-      if(!cartItem.units){
-        return alert(`You have not chosen a quantity for ${cartItem?.menu?.name}`)
+    for (let cartItem of this.cartItems) {
+      if (!cartItem.units) {
+        return alert(
+          `You have not chosen a quantity for ${cartItem?.menu?.name}`
+        );
       }
     }
     this.cartService

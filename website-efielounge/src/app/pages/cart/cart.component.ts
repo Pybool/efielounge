@@ -19,13 +19,14 @@ import { EmptyCartComponent } from '../../components/empty-cart/empty-cart.compo
     FooterComponent,
     CommonModule,
     RemoveFromCartComponent,
-    EmptyCartComponent
+    EmptyCartComponent,
   ],
   providers: [],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })
 export class CartComponent {
+  srcValues: any[] = [];
   public cartItems: any[] = [];
   public showCartMessage: string = '';
   public serverUrl: string = environment.api;
@@ -34,7 +35,13 @@ export class CartComponent {
   public checkoutId: string = '';
   public showCheckOutSpinner: boolean = false;
 
-  constructor(private cartService: CartService, private router: Router) {}
+  constructor(
+    private cartService: CartService,
+    private router: Router,
+    
+  ) {
+    
+  }
 
   ngOnInit() {
     this.cartService
@@ -56,12 +63,15 @@ export class CartComponent {
       );
   }
 
+  
+
   ngAfterViewInit() {
     const pageLoader = document.querySelector(
       '.loader-container'
     ) as HTMLElement;
     setTimeout(() => {
       pageLoader.style.display = 'none';
+  
     }, 100);
   }
 
@@ -95,7 +105,7 @@ export class CartComponent {
 
   handleConfirmEvent() {
     this.deleteObjectById(this.removal._id);
-    this.cartService.setCartCount( -1)
+    this.cartService.setCartCount(-1);
   }
 
   checkOut() {
@@ -121,18 +131,16 @@ export class CartComponent {
   }
 
   addQty(cartItem: any) {
-    if(cartItem.units < 50){
+    if (cartItem.units < 50) {
       cartItem.units += 1;
-    }else{
-      alert("You can only place a maximum of 50 orders for the same menu")
+    } else {
+      alert('You can only place a maximum of 50 orders for the same menu');
     }
   }
 
   subQty(cartItem: any) {
-    if(cartItem.units > 1){
+    if (cartItem.units > 1) {
       cartItem.units -= 1;
     }
   }
-
-  
 }

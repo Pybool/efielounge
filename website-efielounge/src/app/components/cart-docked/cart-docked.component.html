@@ -3,11 +3,16 @@
     <div class="basket-header">
         <div class="flex-row-sb cart-header">
             <h2 class="basket-text">Cart</h2>
-            <span (click)="dumpCart()" class="basket-bin empty-all-cart"><svg class="empty-cart" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                        d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z" />
-                </svg></span>
+            <div style="padding: 10px; gap: 10px" class="flex-row-sb">
+                <span (click)="dumpCart()" class="basket-bin empty-all-cart"><svg class="empty-cart"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path
+                            d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z" />
+                    </svg>
+                </span>
+                <button (click)="toggleDocker()" style="margin-top:0px; font-size: 28px" class="btn btn-default close-cart">&times;</button>
+            </div>
         </div>
     </div>
     <hr>
@@ -17,11 +22,13 @@
             <ng-container *ngFor="let cartItem of cartItems; let i=index">
                 <div class="tab">
                     <input class="checkbox" type="checkbox" name="accordion-2" id="{{cartItem?._id}}">
-                    <label for="{{cartItem?._id}}" style="align-items: center; " class="tab__label flex-row-sb">
+                    <label for="{{cartItem?._id}}" style="align-items: center; " 
+                    class="tab__label flex-row-sb col-md-12 col-lg-12 col-sm-12 col-xs-12">
 
-                        <span class="menu-name">{{cartItem?.menu.name}} <ng-container *ngIf="cartItem?.variants?.length > 0"><span>{{cartItem?.variants[0]}}</span></ng-container></span>
-                        <span class="menu-price">GH₵ {{(cartItem?.total)?.toFixed(2)}}</span>
-                        <div (click)="handleClick($event)" style="gap:2px;" class="number flex-row-sb">
+                        <span class="menu-name col-md-5 col-lg-5">{{cartItem?.menu.name}} <ng-container
+                                *ngIf="cartItem?.variants?.length > 0"><span>{{cartItem?.variants[0]}}</span></ng-container></span>
+                        <span class="menu-price col-md-4 col-lg-4">GH₵ {{(cartItem?.total)?.toFixed(2)}}</span>
+                        <div (click)="handleClick($event)" style="gap:2px;" class="number flex-row-sb col-md-3 col-lg-3">
                             <svg (click)="toggleRemoveFromCartModal(cartItem?.menu?.name, cartItem?._id)"
                                 style="margin-right: 10px;" class="empty-cart" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 448 512">
@@ -29,7 +36,8 @@
                                     d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z" />
                             </svg>
                             <span (click)="subQty(cartItem)" class="minus"><span>-</span></span>
-                            <input style="width:fit-content" (keyup)="handleUnitsTyping($event,cartItem)" class="number-input" value="{{cartItem?.units}}" name="units" min="1" max="10"
+                            <input (keyup)="handleUnitsTyping($event,cartItem)"
+                                class="number-input" value="{{cartItem?.units}}" name="units" min="1" max="10"
                                 type="number" />
                             <span (click)="addQty(cartItem)" class="plus"><span>+</span></span>
                         </div>
@@ -53,10 +61,33 @@
                 </div>
             </ng-container>
             
+
+
         </section>
+        
 
     </div>
-    <div  class="costing" style="padding:10px; padding-top:10px; background: ghostwhite;border-radius: 5px;display: flex; flex-direction: column;">
+    <div class="address">
+        <div class="x-flex-row">
+            <div style="margin-top: 15px; margin-bottom: 10px; font-weight:600;">Delivery Address: </div>
+            <div *ngIf="isGooglePlaceSearching && googlePlaceSearchtext?.trim()!==''" class="gray-spinner"></div>
+        </div>
+        <div class="flex-row-sb">
+            <input (keyup)="searchGooglePlaces()" [(ngModel)]="googlePlaceSearchtext" autocomplete="off" class="form-control" id="address" name="address" placeholder="Type to search and select delivery address"
+            #address />
+            <span _ngcontent-ng-c1966937592="" class="clear clear-btn">×</span>
+        </div>
+        <div class="flex-row-sb">
+            <div style="flex-wrap: nowrap;" class="flex-row-sb col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                <div class="line col-md-5 col-lg-5 col-sm-5 col-xs-5"></div>
+                <span class="or col-md-2 col-lg-2 col-sm-2 col-xs-2">OR</span>
+                <div class="line col-md-5 col-lg-5 col-sm-5 col-xs-5"></div>
+            </div>
+            <button class="order btn-black" (click)="handleAddressListCloseEvent(true)">Choose an address</button>
+        </div>
+    </div>
+    <div class="costing"
+        style="padding:10px; padding-top:10px; background:white;border-radius: 5px;display: flex; flex-direction: column;">
         <div class="flex-row-sb">
             <div style="font-weight: 600;">Subtotal: </div>
             <div style="font-weight: 700;">GH₵ {{Math.ceil(subTotal)?.toFixed(2)?.toLocaleString()}} </div>
@@ -68,16 +99,21 @@
         </div>
         <div class="flex-row-sb">
             <div style="font-weight: 600;">Total: </div>
-            <div style="font-weight: 700;">GH₵ {{Math.ceil(subTotal + deliveryFee)?.toFixed(2)?.toLocaleString()}} </div>
+            <div style="font-weight: 700;">GH₵ {{Math.ceil(subTotal + deliveryFee)?.toFixed(2)?.toLocaleString()}}
+            </div>
 
         </div>
     </div>
     <div class="flex-row-sb">
-        <button [disabled]="cartItems?.length == 0" (click)="checkOut()" style="background:orangered;color:white;font-weight: 600; margin-top: 20px;" class="btn btn-default">Proceed to Checkout</button>
-        <button  (click)="toggleDocker()"  class="btn btn-default close-cart">&times;</button>
+        <button [disabled]="(cartItems?.length == 0) || (googleAddress==null)" (click)="addGoogleAddressAndCheckOut()"
+            style="background:orangered;color:white;font-weight: 600; margin-top: 20px;" class="btn btn-default">Proceed
+            to Checkout</button>
+        <button (click)="toggleDocker()" class="btn btn-default close-cart">&times;</button>
     </div>
 
 </div>
 <app-add-cart-modal *ngIf="showCartModal" (addedCartItem)="handleAddedCartItem($event)"
     (booleanEvent)="handleBooleanEvent($event)" [selectedMenu]="selectedMenu"></app-add-cart-modal>
-<app-remove-from-cart *ngIf="removal._id!==''" [removal]="removal" (confirmEvent)="handleConfirmEvent()">{{removal._id}}</app-remove-from-cart>
+<app-remove-from-cart *ngIf="removal._id!==''" [removal]="removal"
+    (confirmEvent)="handleConfirmEvent()">{{removal._id}}</app-remove-from-cart>
+    <app-address-list *ngIf="showAddressesModal" (selectedDeliveryAddress)="handleSelectedDeliveryAddress($event)" (booleanEvent)="handleAddressListCloseEvent($event)"></app-address-list>

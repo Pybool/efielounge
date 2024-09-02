@@ -1,10 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  NgZone,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { take } from 'rxjs';
 import Swal from 'sweetalert2';
 import { RegionDropdownComponent } from '../region-dropdown/region-dropdown.component';
+
 
 @Component({
   selector: 'app-address-modal',
@@ -14,12 +22,20 @@ import { RegionDropdownComponent } from '../region-dropdown/region-dropdown.comp
   styleUrl: './address-modal.component.scss',
 })
 export class AddressModalComponent {
-  public contact: { address: string; phone?: string; district?:string } = { address: '', district: '' };
+  public contact: { address: string; phone?: string; district?: string } = {
+    address: '',
+    district: '',
+  };
   @Output() booleanEvent = new EventEmitter<boolean>();
   @Output() newAddressEvent = new EventEmitter<boolean>();
+  
 
+  constructor(private http: HttpClient, private ngZone: NgZone) {}
 
-  constructor(private http: HttpClient) {}
+  ngOnInit() {
+ 
+  }
+
 
   addAddress() {
     this.http
@@ -28,9 +44,8 @@ export class AddressModalComponent {
       .subscribe(
         (response: any) => {
           this.booleanEvent.emit(false);
-          this.newAddressEvent.emit(response.data)
+          this.newAddressEvent.emit(response.data);
           Swal.fire(response?.message);
-          
         },
         (error: any) => {
           Swal.fire('Something went wrong');

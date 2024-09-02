@@ -102,23 +102,23 @@ export class AccountService {
         throw createError.NotFound("Account was not found");
       }
       const existingMail = await Accounts.findOne({
-        email: patchData?.email
+        email: patchData?.email,
       });
-      if(existingMail){
-        delete patchData?.email
+      if (existingMail) {
+        delete patchData?.email;
       }
       // const parsedPhone = normalizePhoneNumber(patchData?.countryCode, patchData?.phone);
       // patchData.phone = parsedPhone
-      if(patchData?.phone){
+      if (patchData?.phone) {
         let existingPhone = await Accounts.findOne({
           dialCode: patchData?.dialCode,
           phone: patchData.phone,
         });
-  
-        if(existingPhone){
+
+        if (existingPhone) {
           delete patchData?.phone;
           delete patchData?.dialCode;
-          delete patchData?.countryCode
+          delete patchData?.countryCode;
         }
       }
       // Add fields validation
@@ -136,7 +136,7 @@ export class AccountService {
         account.avatar = req.attachments[0].replaceAll("/public", "");
       }
 
-      console.log("patchData?.phone ", patchData?.phone)
+      console.log("patchData?.phone ", patchData?.phone);
 
       account = await account.save();
       account.password = null;
@@ -149,7 +149,7 @@ export class AccountService {
       let msg = "This request has been denied";
       console.log(error);
       if (error?.message.includes("denied")) {
-        msg =error?.message;
+        msg = error?.message;
       }
 
       if (error?.message.includes("duplicate key")) {
@@ -191,26 +191,16 @@ export class AccountService {
 
   static async addAddress(req: Xrequest) {
     try {
-      const data: {
-        address: string;
-        phone?: string;
-        district?: string;
-        account: string;
-      } = req.body!;
-      if (data?.address?.trim().length > 5) {
-        data.account = req.accountId! as string;
-        const address = await Address.create(data);
-        return {
-          status: true,
-          message: "A new address has been created",
-          data: address,
-        };
-      } else {
-        return {
-          status: false,
-          message: "Invalid address",
-        };
-      }
+      const data: any = req.body!;
+      data.account = req.accountId! as string;
+      const address = await Address.create(data);
+
+      await AccountService.setDefaultAddress(req, address._id.toString());
+      return {
+        status: true,
+        message: "A new google address has been created",
+        data: address,
+      };
     } catch (error: any) {
       return {
         status: false,
@@ -235,7 +225,10 @@ export class AccountService {
     }
   }
 
-  static async setDefaultAddress(req: Xrequest) {
+  static async setDefaultAddress(
+    req: Xrequest,
+    addressId: string | null = null
+  ) {
     try {
       const defaultAddress: any = await Address.findOne({
         account: req.accountId!,
@@ -245,8 +238,10 @@ export class AccountService {
         defaultAddress.isDefault = false;
         await defaultAddress.save();
       }
+      if (!addressId) {
+        addressId = req.body.addressId;
+      }
 
-      const addressId = req.body.addressId;
       const newDefault = await Address.findOne({
         account: req.accountId!,
         _id: addressId,
@@ -299,24 +294,24 @@ export class AccountService {
   }
 
   @handleErrors()
-  static async deactivateAccount(req:Xrequest){
+  static async deactivateAccount(req: Xrequest) {
     const accountId = req.body.accountId;
-    let account = await Accounts.findOne({_id: accountId});
-    if(account){
+    let account = await Accounts.findOne({ _id: accountId });
+    if (account) {
       account.active = false;
-      account = await account.save()
-      account.password = "oops nothing to see here"
+      account = await account.save();
+      account.password = "oops nothing to see here";
       return {
         status: true,
         message: "Account de-activated",
-        code: 200
-      }
+        code: 200,
+      };
     }
     return {
       status: false,
       data: null,
       message: "No account was found...",
-      code: 200
-    }
+      code: 200,
+    };
   }
 }

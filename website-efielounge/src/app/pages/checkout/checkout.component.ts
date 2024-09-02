@@ -1,4 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  NgZone,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { PreloaderComponent } from '../../components/preloader/preloader.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -17,6 +23,7 @@ import { AddressModalComponent } from '../../components/address-modal/address-mo
 import Swal from 'sweetalert2';
 import { AddressListComponent } from '../../components/address-list/address-list.component';
 import { AddressService } from '../../services/address.service';
+import { AgmCoreModule } from '@agm/core';
 
 @Component({
   selector: 'app-checkout',
@@ -97,15 +104,16 @@ export class CheckoutComponent implements OnDestroy {
     });
   }
 
-  closeCartDocker(){
+  
+  closeCartDocker() {
     const dockWidget = document.getElementById('dock-widget') as any;
-    if(dockWidget){
+    if (dockWidget) {
       dockWidget.classList.remove('dock-visible');
     }
     const body = document.querySelector('body') as any;
     const cartOverlay = document.querySelector('.cart-overlay') as any;
-    if(cartOverlay){
-      cartOverlay.style.display="none"
+    if (cartOverlay) {
+      cartOverlay.style.display = 'none';
       body.style.overflow = 'auto';
       body.style.position = 'unset';
     }
