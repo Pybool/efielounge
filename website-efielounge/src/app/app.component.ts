@@ -19,6 +19,9 @@ import { RingingBellComponent } from './components/ringing-bell/ringing-bell.com
 import { AddressService } from './services/address.service';
 import { TermsComponent } from './pages/terms/terms.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import { ChatsComponent } from './components/chats/chats.component';
+import { ChatService } from './services/chat.service';
+import { DeviceIdService } from './services/fingerprint.service';
 
 interface Ipromotion {
   _id?: string;
@@ -38,6 +41,7 @@ interface Ipromotion {
     RingingBellComponent,
     TermsComponent,
     PrivacyPolicyComponent,
+    ChatsComponent,
   ],
   providers: [
     HttpClientModule,
@@ -45,6 +49,8 @@ interface Ipromotion {
     CartService,
     HomeService,
     AddressService,
+    ChatService,
+    DeviceIdService
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -66,6 +72,7 @@ export class AppComponent implements AfterViewInit {
   public showTerms = false;
   public showPrivacyPolicy = false;
   public forceShowterms = false;
+  public showChatWidget: boolean = false;
   public selectedMenu:
     | {
         _id: string;
@@ -166,6 +173,27 @@ export class AppComponent implements AfterViewInit {
     }, 5000);
     if (this.mId) {
       this.scrollToElement();
+    }
+  }
+
+  toggleChatWidget() {
+    // this.showChatWidget = !this.showChatWidget;
+    const chatWidget: any = document.getElementById('chat-dock-widget');
+    if (
+      (chatWidget && chatWidget.style.display === '') ||
+      chatWidget.style.display === 'none'
+    ) {
+      chatWidget.style.display = 'flex';
+      setTimeout(()=>{
+        chatWidget.style.opacity = '1';
+      },100)
+      
+    } else {
+      chatWidget.style.opacity = '0';
+      setTimeout(()=>{
+        chatWidget.style.display = 'none';
+      },500)
+      
     }
   }
 

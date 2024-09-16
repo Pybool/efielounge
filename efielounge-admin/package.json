@@ -36,6 +36,8 @@
     "@coreui/icons": "^3.0.1",
     "@coreui/icons-angular": "~5.1.1",
     "@coreui/utils": "^2.0.2",
+    "@ctrl/ngx-emoji-mart": "^9.2.0",
+    "@fingerprintjs/fingerprintjs": "^4.5.0",
     "@fortawesome/angular-fontawesome": "^0.14.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
@@ -47,6 +49,7 @@
     "ngx-cookie-service": "^17.1.0",
     "ngx-scrollbar": "^13.0.3",
     "rxjs": "~7.8.1",
+    "socket.io-client": "^4.7.5",
     "sweetalert2": "^11.10.1",
     "tslib": "^2.6.2",
     "zone.js": "~0.14.6"

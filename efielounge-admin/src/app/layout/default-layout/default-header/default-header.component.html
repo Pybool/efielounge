@@ -39,7 +39,7 @@
         <ng-container *ngFor="let notification of notifications">
           <a
           class="dropdown-item" href="/#/orders">
-          <c-avatar shape="rounded-1" [size]="'md'" src="{{severUrl}}/{{notification.actor.avatar}}" status="success" textColor="primary"
+          <c-avatar shape="rounded-1" [size]="'md'" src="{{severUrl}}/{{notification?.actor?.avatar}}" status="success" textColor="primary"
           alt="User avatar" />
           <span style="margin-left: 5px;" data-coreui-i18n="newUserRegistered">{{notification?.message}}</span>
         </a>

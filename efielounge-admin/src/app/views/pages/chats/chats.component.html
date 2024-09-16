@@ -1,0 +1,433 @@
+<div id="chat-widget-container">
+	<html lang="en">
+
+
+
+
+
+		<head>
+			<meta charset="utf-8">
+			<meta name="viewport"
+				content="width=device-width,initial-scale=1,shrink-to-fit=no">
+			<meta name="theme-color"
+				content="#000000">
+			<meta name="google"
+				value="notranslate">
+			<link rel="canonical" href="https://secure.livechatinc.com/">
+			<link rel="preconnect" href="https://cdn.livechatinc.com">
+			<link rel="preconnect" href="https://api.livechatinc.com">
+			<title>
+				Contact us via LiveChat!
+			</title>
+			<meta name="description"
+				content="Have any questions? Talk with us directly using LiveChat.">
+			<meta property="og:type"
+				content="website">
+			<meta property="og:title"
+				content="Contact us via LiveChat!">
+			<meta property="og:description"
+				content="Have any questions? Talk with us directly using LiveChat.">
+			<meta property="og:image"
+				content="https://cdn.livechatinc.com/direct-link/livechat-chat-with-us.png">
+			<meta name="twitter:card"
+				content="summary_large_image">
+			<meta name="twitter:title"
+				value="Contact us via LiveChat!">
+			<meta name="twitter:description"
+				value="Have any questions? Talk with us directly using LiveChat.">
+			<meta name="twitter:image"
+				content="https://cdn.livechatinc.com/direct-link/livechat-chat-with-us.png">
+			<style>
+            body {
+                font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+                -webkit-text-size-adjust: 100%
+            }
+        </style>
+			<script type="module"
+				crossorigin
+				src="https://cdn.livechatinc.com/widget/staging/static/js/livechat.Bv6WEjDa.js"></script>
+			<style data-emotion="lc-global"
+				data-s></style>
+			<style data-emotion="lc"
+				data-s></style>
+		</head>
+
+
+
+
+
+		<body>
+			<noscript>
+				You need to enable JavaScript to run this app.
+			</noscript>
+			<div id="root"
+				style="width:100%;height:100%">
+				<div id="widget-global-ccke282ex3o">
+					<div style="width: 100%;height: 80vh; justify-content: start;"
+						dir="ltr"
+						class="flex-row-sb lc-1dvk0j5 edvz03i3 lc-12vmhyu-enter-done">
+						<div style="width: 30%"
+							role="main"
+							class="lc-2hv4oi edvz03i2">
+
+
+
+							<div class="lc-lnvwpd e1ckmroo0">
+								<div class="lc-vrrmai e15rqx31">
+									<div class="lc-1unumsg ecmztab2"></div>
+									<div class="lc-vdysgs ecmztab0"></div>
+									<div class="lc-1t20syh ecmztab1"></div>
+								</div>
+								<div id="homescreen-wrapper"
+									class="lc-7f33bh e15rqx36">
+
+
+
+									<div class="lc-8jt5tj e15rqx35">
+										<div class="lc-xittol e15rqx34">
+											<div class="lc-br0dab eclvk762">
+												<input type="text"
+													placeholder="Search for a customer"
+													class="form-control">
+											</div>
+										</div>
+										<div class="lc-xittol e15rqx34">
+											<ul class="lc-8dnji7 e8ntqdz5">
+												<ng-container *ngFor="let chatsPreview of chatsPreviews">
+													<li class="lc-y4vttx e8ntqdz4">
+														<a (click)="toggleChatPage(chatsPreview)"
+															rel="noopener noreferrer"
+															href="javascript:void(0)"
+															class="e8ntqdz3 lc-1edaskn ecc17ou0">
+															<div style="justify-content: flex-start;    width: 100%;"
+																class="flex-row-sb">
+																<span size="40"
+																	class="lc-9ie58j eclvk763">
+																	<div class="eclvk769 lc-zrlmf6 eovd9vs0">
+																		<img *ngIf="chatsPreview?.account"
+																			src="{{serverUrl}}{{chatsPreview?.account?.avatar || '/shared/anon.jpeg'}}"
+																			class="avatar">
+																		<img *ngIf="!chatsPreview?.account"
+																			src="{{serverUrl}}/shared/anon.jpeg"
+																			class="avatar">
+																	</div>
+
+
+
+																	<span class="lc-1mfys01 e1yxtu0d2"></span>
+																</span>
+
+
+
+																<div style="display: flex; flex-direction: column; gap:10px; width: 100%">
+																	<div class="flex-row-sb">
+																		<span *ngIf="chatsPreview?.account"
+																			style="font-weight: 500">
+																			{{chatsPreview?.account?.firstName}} {{chatsPreview?.account?.lastName}}
+																		</span>
+																		<span *ngIf="!chatsPreview?.account"
+																			style="font-weight: 500">
+																			Anonymous User
+																		</span>
+																		<div *ngIf="chatsPreview?.unreadChatsCount && chatsPreview?.unreadChatsCount !== 0"
+																			class="chat-count">
+																			{{chatsPreview?.unreadChatsCount}}
+																		</div>
+																	</div>
+																	<div class="flex-row-sb">
+																		<span *ngIf="chatsPreview?.unreadChatsCount && chatsPreview?.unreadChatsCount !== 0"
+																			style="color: orangered">
+																			{{chatsPreview.messages.message | truncate:35}}
+																		</span>
+																		<span *ngIf="!chatsPreview?.unreadChatsCount || chatsPreview?.unreadChatsCount == 0">
+																			{{chatsPreview.messages.message | truncate:35}}
+																		</span>
+
+
+																		<small style="font-size: 10px;text-align: end;font-weight: 600; white-space: nowrap">
+																			{{formatStrTime(chatsPreview.messages.createdAt)}}
+																		</small>
+																	</div>
+																</div>
+															</div>
+														</a>
+													</li>
+												</ng-container>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						<div style="width: 70%"
+							role="main"
+							class="lc-2hv4oi edvz03i2">
+							<div id="overlay_portal_container"
+								class="lc-l7pcb5 e196iwy70">
+								<div class="lc-e6vouw e8t2lg23"></div>
+							</div>
+							<div id="tooltip_portal_container"
+								class="lc-2gmwhl e196iwy71"></div>
+							<span hidden></span>
+							<div *ngIf="activeChatsPreview">
+								<div id="agent-bar"
+									class="lc-k2auh9 e10g0hdx11">
+									<div class="lc-1d4sl07 e10g0hdx10">
+										<button (click)="toggleChatPage(customerReps[0])"
+											type="button"
+											aria-label="Back"
+											class="e10g0hdx1 lc-ebkyw6 ejbfa1m0">
+											<svg color="inherit"
+												viewBox="0 0 32 32"
+												aria-hidden="true"
+												class="lc-icksmj">
+												<path d="M23.7,16.7l-6,6c-0.4,0.4-1,0.4-1.4,0c-0.4-0.4-0.4-0.9-0.1-1.3l0.1-0.1l4.3-4.3H10c-0.5,0-0.9-0.4-1-0.9L9,16 c0-0.5,0.4-0.9,0.9-1l0.1,0h10.6l-4.3-4.3c-0.4-0.4-0.4-0.9-0.1-1.3l0.1-0.1c0.4-0.4,0.9-0.4,1.3-0.1l0.1,0.1l6,6 C24.1,15.7,24.1,16.2,23.7,16.7L23.7,16.7z"></path>
+											</svg>
+										</button>
+										<button type="button"
+											aria-label="Open menu"
+											aria-haspopup="menu"
+											aria-expanded="false"
+											aria-controls="floating-menu-react-aria-2045507900-18"
+											class="e1mwfyk10 lc-wlf4f5 ejbfa1m0">
+											<svg color="#111111"
+												viewBox="0 0 32 32"
+												aria-hidden="true"
+												class="lc-1mpchac">
+												<path d="M8,18c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S9.1,18,8,18z M16,18c-1.1,0-2-0.9-2-2s0.9-2,2-2
+                                                    s2,0.9,2,2S17.1,18,16,18z M24,18c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S25.1,18,24,18z"></path>
+											</svg>
+										</button>
+									</div>
+									<div class="lc-1ia785t e10g0hdx10">
+										<div class="lc-1km9cjz e10g0hdx0">
+											<button aria-expanded="true"
+												aria-controls="agent-bar"
+												class="lc-1imvfgo e10g0hdx2">
+												<span>
+													Collapse
+                                                details
+												</span>
+											</button>
+										</div>
+									</div>
+									<div class="lc-105m1is e10g0hdx9 lc-sw5p7h-appear-done lc-sw5p7h-enter-done">
+										<div class="e10g0hdx12 lc-606vop e1ftalwb0">
+											<div class="lc-g523b1 e1kv8om20">
+												<div class="lc-1fvnx4y e10kp68a3">
+													<div class="lc-kv9r5w e10kp68a2">
+														<div class="lc-b9amsj e9ks4qw3">
+															<div class="lc-8szuga ekqutxs1">
+																<div class="lc-17rmzvf eovd9vs0">
+																	<img *ngIf="activeChatsPreview?.account"
+																		src="{{serverUrl}}{{activeAccount.avatar || '/shared/anon.jpeg'}}"
+																		class="lc-10pewym e174eclu0">
+																	<img *ngIf="!activeChatsPreview?.account"
+																		src="{{serverUrl}}/shared/anon.jpeg"
+																		class="lc-10pewym e174eclu0">
+																</div>
+																<div class="lc-1ntluf2 ekqutxs0"></div>
+															</div>
+														</div>
+														<div class="lc-b6id9i">
+															<h1 class="lc-4cet4n e10kp68a1">
+																{{activeAccount.firstName}} {{activeAccount.lastName}}
+															</h1>
+															<div class="lc-lautpv ex074sh0">Efiechat 👋</div>
+														</div>
+
+
+
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="lc-cz2olv e10g0hdx10">
+										<button (click)="minimizeChat()"
+											type="button"
+											aria-label="Minimize window"
+											class="ea5qvgz0 lc-ebkyw6 ejbfa1m0">
+											<svg color="inherit"
+												viewBox="0 0 32 32"
+												aria-hidden="true"
+												class="lc-1mpchac">
+												<path d="M24.1818182,21 C24.6336875,21 25,21.4477153 25,22 C25,22.5522847 24.6336875,23 24.1818182,23 L7.81818182,23 C7.36631248,23 7,22.5522847 7,22 C7,21.4477153 7.36631248,21 7.81818182,21 L24.1818182,21 Z"></path>
+											</svg>
+										</button>
+										<!-- <button type="button" aria-label="Stop chat" class="ev8wfi80 lc-ebkyw6 ejbfa1m0">
+                                        <svg color="inherit" viewBox="0 0 32 32" aria-hidden="true" class="lc-1mpchac">
+                                            <path
+                                                d="M17.4,16l5.3,5.3c0.4,0.4,0.4,1,0,1.4c-0.4,0.4-1,0.4-1.4,0L16,17.4l-5.3,5.3c-0.4,0.4-1,0.4-1.4,0	c-0.4-0.4-0.4-1,0-1.4l5.3-5.3l-5.3-5.3c-0.4-0.4-0.4-1,0-1.4c0.4-0.4,1-0.4,1.4,0l5.3,5.3l5.3-5.3c0.4-0.4,1-0.4,1.4,0	c0.4,0.4,0.4,1,0,1.4L17.4,16z">
+                                            </path>
+                                        </svg>
+                                    </button> -->
+									</div>
+								</div>
+								<div class="lc-1kdri63 e10g0hdx6">
+									<div class="e10g0hdx7 lc-1gmo696 e1ftalwb0"></div>
+								</div>
+							</div>
+							<div class="lc-1wzmgab ei7go8f0 lc-q6m7l2-appear-done lc-q6m7l2-enter-done">
+								<div class="lc-16mld8i ezpiwsd0"></div>
+								<div [ngStyle]="!activeChatsPreview ? {
+									'background-image': 'url(https://efielounge.com/assets/img/logo.png)',
+									'background-size': '50%',  
+									'background-position': 'center', 
+									'background-repeat': 'no-repeat',
+									'opacity': 0.1
+								  } : {}"
+									class="lc-1n5mfq1 eyglfwq0">
+									<div role="grid"
+										aria-live="polite"
+										aria-relevant="additions"
+										tabindex="-1">
+										<div class="lc-1hkdo3q e7t81ts1">
+											<div class="lc-1jwz2qk e7t81ts0">
+												<div class="lc-m8h26l eovd9vs0">
+													<img *ngIf="activeChatsPreview?.account"
+														src="{{serverUrl}}{{activeAccount.avatar || '/shared/anon.jpeg' || '/shared/anon.jpeg'}}"
+														class="lc-10pewym e174eclu0">
+													<img *ngIf="!activeChatsPreview?.account"
+														src="{{serverUrl}}/shared/anon.jpeg"
+														class="lc-10pewym e174eclu0">
+												</div>
+											</div>
+											<div class="lc-pu71ja e1nodz7b0">
+
+
+
+												<app-rising-dot *ngIf="loading"></app-rising-dot>
+												<ng-container *ngFor="let chat of chats">
+													<div [ngClass]="(chat.publisher == (activeAccount?._id || activeAccount)) ? 'left-chat' : 'right-chat'"
+														class="chat-bubble"
+														role="row">
+														<div class="lc-1p6483f e10kpz9x6">
+															<div role="gridcell"
+																class="lc-174putx e10kpz9x1"
+																tabindex="-1">
+																<div class="lc-a4hmbt"></div>
+																<div class="lc-1tkj80a e5gqefa2">
+																	<div class="lc-149592d e5gqefa1">
+																		<div [ngClass]="(chat.publisher == (activeAccount?._id || activeAccount)) ? 'buuble-left' : 'buuble-right'"
+																			class="lc-t7xbny ed33afz0">
+																			<div id="SJ2PPC6TW8_2"
+																				class="lc-kt6246 e12hl5pq0">
+																				<div style="display: flex; flex-direction: column;">
+
+
+
+																					<span class="Linkify">{{chat.message}}</span>
+																					<small style="font-size: 10px;text-align: end;font-weight: 600;">
+																						{{formatStrTime(chat.createdAt)}}
+																					</small>
+																				</div>
+																			</div>
+																		</div>
+																		<div role="status"
+																			aria-live="polite"
+																			aria-relevant="additions"
+																			class="lc-6ixc5v e5gqefa0"></div>
+																	</div>
+																	<div></div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</ng-container>
+
+
+
+											</div>
+										</div>
+
+
+
+									</div>
+								</div>
+							</div>
+							<div *ngIf="activeChatsPreview"
+								class="lc-1k5qu9y e1016sln0">
+								<div class="lc-fy23g7 e1jhn5ln2">
+									<textarea [(ngModel)]="message"
+										(keyup.enter)="sendMessage()"
+										aria-label="Write a message…"
+										enterkeyhint="send"
+										dir="ltr"
+										class="lc-xuq43b eixqeap0"
+										placeholder="Write a message…"
+										document="[object HTMLDocument]"
+										style="height: 51px !important;"></textarea>
+									<div class="lc-1gk7kam e1jhn5ln3">
+										<button (click)="toggleEmojiPicker()"
+											type="button"
+											aria-label="open emoji picker"
+											aria-expanded="false"
+											aria-controls="emoji-picker-react-aria-2045507900-33"
+											class="e1lbsxys1 lc-gxlvxm ejbfa1m0">
+											<svg color="inherit"
+												viewBox="0 0 32 32"
+												class="lc-1mpchac">
+												<path d="M16,6l0.3,0c5.4,0.1,9.7,4.6,9.7,10c0,5.5-4.5,10-10,10S6,21.5,6,16S10.5,6,16,6z M16,8l-0.2,0 C11.4,8.1,8,11.7,8,16s3.4,7.9,7.8,8l0.2,0l0.2,0c4.3-0.1,7.8-3.7,7.8-8C24,11.6,20.4,8,16,8z M13,17.7c0.4,1.3,1.6,2.3,3,2.3 c1.4,0,2.7-0.9,3-2.2c0.1-0.5,0.7-0.8,1.2-0.7s0.8,0.7,0.7,1.2c-0.6,2.2-2.6,3.7-5,3.7c-2.3,0-4.4-1.5-5-3.7 c-0.1-0.5,0.2-1.1,0.7-1.2C12.3,16.9,12.8,17.2,13,17.7z M12.5,12c0.8,0,1.5,0.7,1.5,1.5S13.3,15,12.5,15S11,14.3,11,13.5 S11.7,12,12.5,12z M19.5,12c0.8,0,1.5,0.7,1.5,1.5S20.3,15,19.5,15S18,14.3,18,13.5S18.7,12,19.5,12z"></path>
+											</svg>
+										</button>
+										<!-- <button type="button" aria-label="Add an attachment" aria-expanded="false"
+                                        aria-controls="attachment-menu-react-aria-2045507900-32"
+                                        class="e1jhn5ln1 lc-16dhfi2 ejbfa1m0">
+                                        <svg color="inherit" viewBox="0 0 32 32" aria-hidden="true" class="lc-1mpchac">
+                                            <path
+                                                d="M15.6757055,6.00134676 L16,6 C23.7522847,6 26,8.24771525 26,16 L25.9945766,16.6420919 C25.8690003,23.877133 23.5339105,26 16,26 L15.3579081,25.9945766 C8.22772262,25.8708203 6.06260614,23.6011302 6.00134676,16.3242945 L6,16 C6,8.35690236 8.18484521,6.06440788 15.6757055,6.00134676 L15.6757055,6.00134676 Z M16.3030719,8.00097456 L15.6969281,8.00097456 C9.40924116,8.04221769 8.04153951,9.41144473 8.00094459,15.7015342 L8.00094459,16.3030719 L8.00884133,16.8782382 C8.13259991,22.6749442 9.60801003,23.9597291 15.7015342,23.9990554 L16,24 C22.6477153,24 24,22.6477153 24,16 L23.9960443,15.4012902 C23.9144445,9.4649806 22.5350194,8.08555554 16.5987098,8.00395568 L16.3030719,8.00097456 Z M16,12 C16.5522847,12 17,12.4477153 17,13 L17,15 L19,15 C19.5522847,15 20,15.4477153 20,16 C20,16.5522847 19.5522847,17 19,17 L17,17 L17,19 C17,19.5522847 16.5522847,20 16,20 C15.4477153,20 15,19.5522847 15,19 L15,17 L13,17 C12.4477153,17 12,16.5522847 12,16 C12,15.4477153 12.4477153,15 13,15 L15,15 L15,13 C15,12.4477153 15.4477153,12 16,12 Z">
+                                            </path>
+                                        </svg>
+                                    </button> -->
+										<button [ngStyle]="{'opacity': message.trim().length === 0 ? '0.4' : '1', 'cursor': message.trim().length === 0 ? 'not-allowed' : 'pointer'}"
+											[disabled]="message.trim().length == 0"
+											(click)="sendMessage()"
+											aria-label="Send a message"
+											class="lc-178zz1w ejbfa1m0">
+											<svg style="width: 32px; height: 32px"
+												color="inherit"
+												viewBox="0 0 32 32"
+												aria-hidden="true"
+												class="eh4tvav0 lc-m031z5">
+												<path d="M9.05674797,7.10056554 L9.13703813,7.13553157 L25.4390381,15.1015316 L25.5284558,15.1506535 L25.6286153,15.2222405 C25.7452987,15.313793 25.8339182,15.4266828 25.895416,15.5505399 L25.9423517,15.6622033 L25.9751927,15.7773803 L25.9891204,15.8509608 L25.998657,15.9475578 L25.9972397,16.0748669 L25.9800642,16.201216 L25.9701282,16.2435678 C25.9550365,16.3071288 25.9331784,16.3694784 25.9050831,16.4294253 L25.8937351,16.4490792 C25.8488724,16.5422577 25.7878083,16.6290528 25.7112518,16.7055442 L25.609137,16.7931281 L25.539527,16.8424479 L25.4390381,16.8984684 L9.05674797,24.8994345 C8.4880852,25.1179893 7.84373932,24.9716543 7.42618713,24.5298922 C7.02348961,24.1049956 6.89354829,23.48994 7.08502271,22.9526995 L9.44381329,15.9994998 L7.08997091,9.06153122 C6.90991684,8.5560159 7.00409914,7.99707209 7.33051276,7.58090053 L7.4252609,7.47108641 C7.84373932,7.02834566 8.4880852,6.8820107 9.05674797,7.10056554 Z M20.6761421,16.9994644 L11.2161421,16.9994644 L9.33681329,22.5404998 L20.6761421,16.9994644 Z M9.33581329,9.45749977 L11.2161421,14.9994644 L20.6761421,14.9994644 L9.33581329,9.45749977 Z"></path>
+											</svg>
+										</button>
+										<input multiple
+											type="file"
+											id="fileupload"
+											class="lc-1b5z9eh e1jhn5ln0"
+											value>
+									</div>
+								</div>
+								<div *ngIf="showEmojiPicker"
+									class="emoji-picker-container">
+									<button (click)="toggleEmojiPicker()"
+										class="close-button">
+										&times;
+									</button>
+									<emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+								</div>
+							</div>
+							<span hidden></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script>
+				window.performance && "function" == typeof window.performance.mark && window.performance.mark("lc_html_loaded")
+			</script>
+		</body>
+
+
+
+
+
+	</html>
+</div>

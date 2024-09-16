@@ -1,4 +1,4 @@
-
+@import '@ctrl/ngx-emoji-mart/picker';
 @import url('https://fonts.googleapis.com/css?family=Great+Vibes|Lato| Nunito, sans-serif: !important300,400,400i,500,600,700,800');
 
 /*===== Plugin Stylesheets Import =====*/
@@ -24,6 +24,13 @@
 /* For iOS devices */
 .ios-device *:not(i) {
   font-family: Verdana !important;
+}
+
+.emoji-mart{
+  width: 100%!important;
+}
+.emoji-mart-preview{
+  background: gray!important;
 }
 
 @media only screen and (max-width: 767px) {

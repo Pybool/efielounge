@@ -182,16 +182,16 @@ hr {
 
 /* Make the scrollbar present but invisible */
 ::-webkit-scrollbar {
-  width: 0px; /* Adjust width to desired size */
-  height: 0px; /* Adjust height to desired size */
+  width: 5px; /* Adjust width to desired size */
+  height: 5px; /* Adjust height to desired size */
 }
 
 ::-webkit-scrollbar-track {
-  background: white !important; /* Transparent background */
+  // background: white !important; /* Transparent background */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: transparent; /* Transparent thumb */
+  // background: transparent; /* Transparent thumb */
 }
 
 /* Optional: To maintain interactivity on hover */
@@ -292,7 +292,7 @@ input[type="number"] {
 
 .basket-content {
   margin-top: 20px;
-  max-height: 41vh;
+  max-height: 38vh;
   overflow-y: auto;
   height: fit-content;
 }
@@ -513,7 +513,7 @@ img {
 @media only screen and (min-width: 300px) and (max-width: 599px) {
   /* Styles for small phones */
   .tab__label {
-    // flex-wrap: wrap !important;
+    flex-wrap: wrap !important;
   }
   #dock-widget {
     top: 15% !important;
@@ -523,7 +523,16 @@ img {
 
   .basket-container {
     top: 0px;
+    height: 80vh;
   }
+
+  .basket-content[_ngcontent-ng-c1225641390] {
+    margin-top: 20px;
+    max-height: none; 
+    overflow-y: visible;
+    height: fit-content;
+    overflow-x: hidden;
+}
 }
 
 /* Small Devices, Larger Phones (600px to 767px) */

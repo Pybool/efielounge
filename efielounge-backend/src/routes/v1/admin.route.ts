@@ -151,6 +151,11 @@ adminRouter.get(
 );
 
 adminRouter.get(
+  "/get-customer-reps",
+  accountController.getStaff
+);
+
+adminRouter.get(
   "/get-client-home",
   decodeExt,
   async (req: Xrequest, res: any) => {

@@ -17,11 +17,15 @@ import clientCartRouter from "./routes/v1/cart.route";
 import orderRouter from "./routes/v1/orders.route";
 import transactionRouter from "./routes/v1/transaction.route";
 import Menu from "./models/menu/menu.model";
-import { decode } from "./middlewares/jwt";
+import { decode, decodeExt } from "./middlewares/jwt";
 import Order from "./models/Orders/order.model";
 import Accounts from "./models/Accounts/accounts.model";
-import { socketAuth } from "./middlewares/socketAuth";
+import { CustomSocket, socketAuth } from "./middlewares/socketAuth";
 import { setupSocketHandlers } from "./controllers/v1/sockets/socket.controller";
+import { sessionMiddleware } from "./middlewares/session";
+import { requestChatToken } from "./services/v1/chats/initchat.service";
+import Xrequest from "./interfaces/extensions.interface";
+import chatRouter from "./routes/v1/chats.route";
 
 dotenvConfig();
 dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
@@ -37,15 +41,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use(
-  session({
-    resave: false,
-    saveUninitialized: true,
-    secret: "SECRET",
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(sessionMiddleware);
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static("public"));
@@ -63,7 +61,6 @@ app.get(
   async (req: any, res: any) => {
     try {
       const key = `EFIELOUNGE_${process.env.NODE_ENV!.toUpperCase()}_PAYSTACK_PUBLIC_KEY`;
-      console.log(key)
       return res.send({
         status: true,
         PUBLIC_KEY: process.env[key] || null,
@@ -84,7 +81,24 @@ app.use("/api/v1/order", orderRouter);
 app.use("/api/v1/cart", clientCartRouter);
 app.use("/api/v1/accounts", accountsRouter);
 app.use("/api/v1/transactions", transactionRouter);
-
+app.use("/api/v1/chats", chatRouter);
+const generateTokenForUser = async (req: Xrequest, res: any) => {
+  try {
+    const { publisher, subscriber, chatId } = req.body;
+    
+    const data = await requestChatToken(
+      publisher, subscriber, chatId
+    );
+    if (data) {
+      return res.status(200).json({ status: true, data });
+    }
+    return res.status(400).json({ token: null });
+  } catch (error) {
+    console.log("Token Generation error =====> ", error)
+    return res.status(500).json({ token: null });
+  }
+};
+app.post("/api/v1/get-chat-token", decodeExt, generateTokenForUser);
 app.use((err: any, req: any, res: any, next: any) => {
   console.error(err.stack);
 
@@ -134,6 +148,11 @@ const io = new SocketIOServer(server, {
   },
 });
 io.use(socketAuth);
+const wrap =
+  (middleware: any) => (socket: CustomSocket, next: (err?: any) => void) => {
+    middleware(socket.request, {}, next);
+  };
+io.use(wrap(sessionMiddleware));
 app.set("io", io);
 setupSocketHandlers(io);
 const PORT = process.env.EFIELOUNGE_MAIN_SERVER_PORT || 8000;

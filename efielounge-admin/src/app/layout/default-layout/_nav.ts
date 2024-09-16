@@ -66,5 +66,10 @@ export const navItems: any = [
     url: '/client-site-configuration',
     iconComponent: { name: 'cil-speedometer' }
   },
+  {
+    name: 'Chats',
+    url: '/chats',
+    iconComponent: { name: 'cil-speedometer' }
+  },
 
 ];

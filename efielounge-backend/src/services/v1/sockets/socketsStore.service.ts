@@ -6,13 +6,13 @@ export const updateSocketsMap = (
   connected: boolean,
   socket: Socket
 ) => {
-  if (!user._id) {
+  if (!user._id && !user) {
     return null;
   }
   if (connected) {
-    connectedSocketsMap.set(user._id.toString(), socket);
+    connectedSocketsMap.set(user?._id?.toString() || user, socket);
   } else {
-    connectedSocketsMap.delete(user._id.toString());
+    connectedSocketsMap.delete(user?._id?.toString() || user);
   }
   return true;
 };

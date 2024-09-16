@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { TokenService } from './token.service';
 import { BehaviorSubject, take } from 'rxjs';
 import { Howl } from 'howler';
+import { ChatService } from './chat.service';
 let self:any
 let context: AudioContext;
 declare var webkitAudioContext: any;
@@ -24,7 +25,8 @@ export class SocketService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private chatService: ChatService
   ) {
     self = this
     const audioCtx = this.getContext();
@@ -66,7 +68,7 @@ export class SocketService {
     });
 
     socket.on('connect', () => {
-      console.log('Connected to the server');
+      console.log('Connected to notification socket');
     });
 
     socket.on('connect_error', (error:any) => {
@@ -83,12 +85,12 @@ export class SocketService {
         console.log('Disconnected from the server ', msg);
     });
 
-    //Unlock audio context
 
     socket.on('notifications', (rawNotification: string) => {
       try {
         const notification = JSON.parse(rawNotification);
-        if (notification.title.includes('new order')) {
+        console.log("notification ", notification)
+        if (notification?.title?.includes('new order')) {
           window.localStorage.setItem('notification', notification.message);
 
           new Notification('Efielounge Order', {
@@ -102,6 +104,19 @@ export class SocketService {
             }, 2500);
             this.notificationsIntervalId = intervalId;
           }
+          this.updateNotifications(notification);
+        }else{
+          this.chatService.updateChatPreviewByNotifications(notification.chatPreview)
+          window.localStorage.setItem('notification', notification.message);
+          const href = document.location.href as string;
+          if(!href.includes("#/chats")){
+            new Notification('Efielounge Chat', {
+              body: window.localStorage.getItem('notification')!,
+              icon: '/assets/efielounge/logo.png',
+              requireInteraction: true
+            });
+          }
+          
           this.updateNotifications(notification);
         }
       } catch (error: any) {

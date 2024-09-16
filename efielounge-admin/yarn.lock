@@ -188,7 +188,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@^17.0.0", "@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.0", "@angular/core@^17.3.10", "@angular/core@>=16.0.0", "@angular/core@17.3.10":
+"@angular/core@^17.0.0", "@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.0", "@angular/core@^17.3.10", "@angular/core@>=15.0.0-0", "@angular/core@>=16.0.0", "@angular/core@17.3.10":
   version "17.3.10"
   resolved "https://registry.npmjs.org/@angular/core/-/core-17.3.10.tgz"
   integrity sha512-ocEKu7X0yFCOvgJn1uZy76qjhsjKvULrO1k/BuIX0nwhp61DTGYTvCqKmwCBLM8/gvcKYH5vMKMHoQKtiSGE0A==
@@ -1288,6 +1288,13 @@
   resolved "https://registry.npmjs.org/@coreui/utils/-/utils-2.0.2.tgz"
   integrity sha512-tIFmyKzR96vSD3vqtw4H/4rH/Pctghj+Rp9kWncx1ec2vstC+yphcEUmMk/r+Mm86/Tradi0SIcuCaqvhkyqJA==
 
+"@ctrl/ngx-emoji-mart@^9.2.0":
+  version "9.2.0"
+  resolved "https://registry.npmjs.org/@ctrl/ngx-emoji-mart/-/ngx-emoji-mart-9.2.0.tgz"
+  integrity sha512-q8B7DiXPfyTe+VOGO6Ix7eh5gKCuADxAsud2xXRTlECTfchoKGTmirSczyjaxIKE/xmB+/ZsnkpthZqUM7SAJQ==
+  dependencies:
+    tslib "^2.3.0"
+
 "@discoveryjs/json-ext@0.5.7":
   version "0.5.7"
   resolved "https://registry.npmjs.org/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz"
@@ -1302,6 +1309,13 @@
   version "0.20.1"
   resolved "https://registry.npmjs.org/@esbuild/win32-ia32/-/win32-ia32-0.20.1.tgz"
   integrity sha512-HzcJa1NcSWTAU0MJIxOho8JftNp9YALui3o+Ny7hCh0v5f90nprly1U3Sj1Ldj/CvKKdvvFsCRvDkpsEMp4DNw==
+
+"@fingerprintjs/fingerprintjs@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/@fingerprintjs/fingerprintjs/-/fingerprintjs-4.5.0.tgz"
+  integrity sha512-mFSQoxyt8SGGRp1QUlhcnVtquW2HzCKfHKxAoIurR6soIJpuK3VvZuH0sg8eNaHH2dJhI3mZOEUx4k+P4GqXzw==
+  dependencies:
+    tslib "^2.4.1"
 
 "@fortawesome/angular-fontawesome@^0.14.0":
   version "0.14.1"
@@ -2885,6 +2899,17 @@ encoding@^0.1.13:
   integrity sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==
   dependencies:
     iconv-lite "^0.6.2"
+
+engine.io-client@~6.5.2:
+  version "6.5.4"
+  resolved "https://registry.npmjs.org/engine.io-client/-/engine.io-client-6.5.4.tgz"
+  integrity sha512-GeZeeRjpD2qf49cZQ0Wvh/8NJNfeXkXXcoGh+F77oEAgo9gUHwT1fCRxSNU+YEEaysOJTnsFHmM5oAcPy4ntvQ==
+  dependencies:
+    "@socket.io/component-emitter" "~3.1.0"
+    debug "~4.3.1"
+    engine.io-parser "~5.2.1"
+    ws "~8.17.1"
+    xmlhttprequest-ssl "~2.0.0"
 
 engine.io-parser@~5.2.1:
   version "5.2.2"
@@ -5573,6 +5598,16 @@ socket.io-adapter@~2.5.2:
     debug "~4.3.4"
     ws "~8.11.0"
 
+socket.io-client@^4.7.5:
+  version "4.7.5"
+  resolved "https://registry.npmjs.org/socket.io-client/-/socket.io-client-4.7.5.tgz"
+  integrity sha512-sJ/tqHOCe7Z50JCBCXrsY3I2k03iOiUe+tj1OmKeD2lXPiGH/RUCdTZFoqVyN7l1MnpIzPrGtLcijffmeouNlQ==
+  dependencies:
+    "@socket.io/component-emitter" "~3.1.0"
+    debug "~4.3.2"
+    engine.io-client "~6.5.2"
+    socket.io-parser "~4.2.4"
+
 socket.io-parser@~4.2.4:
   version "4.2.4"
   resolved "https://registry.npmjs.org/socket.io-parser/-/socket.io-parser-4.2.4.tgz"
@@ -5940,7 +5975,7 @@ tree-kill@1.2.2:
   resolved "https://registry.npmjs.org/tree-kill/-/tree-kill-1.2.2.tgz"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
-tslib@^2.1.0, tslib@^2.3.0, tslib@^2.3.1, tslib@^2.6.2, tslib@2.6.2:
+tslib@^2.1.0, tslib@^2.3.0, tslib@^2.3.1, tslib@^2.4.1, tslib@^2.6.2, tslib@2.6.2:
   version "2.6.2"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.6.2.tgz"
   integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
@@ -6324,6 +6359,16 @@ ws@~8.11.0:
   version "8.11.0"
   resolved "https://registry.npmjs.org/ws/-/ws-8.11.0.tgz"
   integrity sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==
+
+ws@~8.17.1:
+  version "8.17.1"
+  resolved "https://registry.npmjs.org/ws/-/ws-8.17.1.tgz"
+  integrity sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==
+
+xmlhttprequest-ssl@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/xmlhttprequest-ssl/-/xmlhttprequest-ssl-2.0.0.tgz"
+  integrity sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==
 
 y18n@^5.0.5:
   version "5.0.8"

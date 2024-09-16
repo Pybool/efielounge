@@ -29,25 +29,25 @@
             @for (transaction of transactions; track transaction._id; let i = $index) {
               <tr>
                 <td class="text-center">
-                  <c-avatar [size]="'md'" src="{{serverUrl}}/{{ transaction.account.avatar }}" status="success" />
+                  <c-avatar [size]="'md'" src="{{serverUrl}}/{{ transaction?.account?.avatar }}" status="success" />
                 </td>
                 <td>
-                  <div style="color: rgb(98, 168, 225)">{{ transaction.account.firstName }} {{ transaction.account.lastName }}</div>
+                  <div style="color: rgb(98, 168, 225)">{{ transaction?.account?.firstName }} {{ transaction?.account?.lastName }}</div>
                   <div class="small text-body-secondary text-nowrap">
                   <span *ngIf="transaction.transaction.data.status =='success'" style="color:gray">
-                    {{ transaction.transaction.data.status?.toUpperCase() }} <span style="color:gray">| Paid On: {{ formatDate(transaction.transaction?.data?.paidAt) }}</span>
+                    {{ transaction?.transaction?.data.status?.toUpperCase() }} <span style="color:gray">| Paid On: {{ formatDate(transaction.transaction?.data?.paidAt) }}</span>
                   </span>
                   <span *ngIf="transaction.transaction.data.status !=='success'" style="color:red">
-                    {{ transaction.transaction.data.status?.toUpperCase() }} <span style="color:gray">| Paid On: {{ formatDate(transaction.transaction?.data?.paidAt) }}</span>
+                    {{ transaction?.transaction?.data.status?.toUpperCase() }} <span style="color:gray">| Paid On: {{ formatDate(transaction.transaction?.data?.paidAt) }}</span>
                   </span>
                   </div>
                 </td>
                 <td>{{transaction?.checkOutId}}</td>
                 <td class="text-center">
-                    <span>GHC {{(transaction.transaction.data.amount/100).toFixed(2)?.toLocaleString()}}</span>
+                    <span>GHC {{(transaction?.transaction?.data.amount/100).toFixed(2)?.toLocaleString()}}</span>
                 </td>
                 <td class="text-center">
-                  <span>{{transaction.transaction.data.reference}}</span>
+                  <span>{{transaction?.transaction?.data?.reference}}</span>
               </td>
                 <td *ngIf="transaction.transaction.data.authorization.channel == 'card'" class="text-center">
                   <svg *ngIf="transaction.transaction.data.authorization.card_type == 'visa'" cIcon name="cibCc{{ 'Visa' }}" size="xl"></svg>

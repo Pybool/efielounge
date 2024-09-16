@@ -17,7 +17,9 @@ async function authenticateToken(token: string) {
   try {
     const SECRET_KEY: string = process.env.EFIELOUNGE_ACCESS_TOKEN_SECRET!;
     const decoded: any = jwt.verify(token, SECRET_KEY);
-    let user = await Accounts.findOne({ _id: new Types.ObjectId(decoded.aud!) });
+    let user = await Accounts.findOne({
+      _id: new Types.ObjectId(decoded.aud!),
+    });
     if (!user) {
       return {
         status: false,
@@ -34,27 +36,34 @@ async function authenticateToken(token: string) {
   }
 }
 
-export const socketAuth = async (socket: CustomSocket, next: NextFunction) => {
+export const socketAuth = async (socket: any, next: NextFunction) => {
   const token = socket.handshake.auth.token || socket.handshake.query.token;
-  if (!token) {
-    console.log("Authentication error no token in request")
-    return next(new Error("Authentication error no token in request"));
+  const deviceId = socket.handshake.auth.deviceId || socket.handshake.query.deviceId;;
+  if (!token && !deviceId) {
+    console.log("Authentication error no token or deviceId in request");
+    return next(
+      new Error("Authentication error no token or deviceId in request")
+    );
   }
 
   try {
-    const result = await authenticateToken(token);
+    let result;
+    if (token) {
+      result = await authenticateToken(token);
+    } else {
+      result = { status: true, user: deviceId };
+    }
+
     if (result.status) {
       socket.user = result?.user!;
-      socket.token = token || undefined;
+      socket.token = token || deviceId || undefined;
       next();
-    }else{
-      console.log("Error ", "Authentication error")
-      // throw new Error("Invalid or expired token in headers")
-      next(new Error("Token Error"));
+    } else {
+      console.log("Error ", "Authentication error");
+      next(new Error("Authentication error"));
     }
-    
   } catch (error) {
-    console.log("Error ", error)
+    console.log("Error ", error);
     next(new Error("Authentication error"));
   }
 };

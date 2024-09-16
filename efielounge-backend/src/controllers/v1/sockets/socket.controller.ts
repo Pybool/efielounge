@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import { closeConnection } from "./socket.handlers";
+import { closeConnection, joinRoom } from "./socket.handlers";
 import { CustomSocket } from "../../../middlewares/socketAuth";
 import { updateSocketsMap } from "../../../services/v1/sockets/socketsStore.service";
 
@@ -10,8 +10,7 @@ export const setupSocketHandlers = (io: Server) => {
       if (socket.user) {
         await updateSocketsMap(socket.user, true, socket);
       }
-      //Socket Handlers
-      // joinRoom(socket);
+      joinRoom(socket);
       closeConnection(socket);
     });
 

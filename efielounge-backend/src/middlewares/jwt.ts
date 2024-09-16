@@ -15,6 +15,7 @@ export const decode = async (req: Xrequest, res: Response, next: any) => {
 
   const accessToken = reqHeaders.authorization.split(" ")[1];
   try {
+    console.log("JWT ", accessToken)
     const decoded: any = jwt.verify(accessToken, SECRET_KEY);
     req.accountId = decoded.aud;
     req.account = await Accounts.findOne({ _id: req.accountId });

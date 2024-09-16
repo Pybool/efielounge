@@ -42,17 +42,21 @@
   <link rel="icon" type="image/x-icon" href="https://www.efielounge.com/assets/img/logo.png">
   <link rel="stylesheet" href="/assets/css/plugins.css">
 
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nunito" />
+  <link rel="stylesheet" type="text/css" href="/fonts.googleapis.com/css?family=Nunito" />
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/thin/style.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+  <script src="http://localhost:8200/socket.io/socket.io.js"></script>
 </head>
 
 <body>
   <app-root></app-root>
+  <script>
+    window.io = io
+  </script>
   <script>
     // Detect if the device is iOS
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;

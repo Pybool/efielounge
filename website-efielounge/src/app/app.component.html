@@ -9,6 +9,23 @@
     <sup><span *ngIf="cartCount>0" class="badge">{{cartCount}}</span></sup>
   </div>
 </div>
+<div id="chat-dock-widget">
+  <app-chats (minimizeChatEvent)="toggleChatWidget()"></app-chats>
+</div>
+<div (click)="toggleChatWidget()" id="chat-dock-btn" class="btn css-10c83fy">
+  <div aria-hidden="true" class="css-eiheq7 e1dmt1bi3"><svg color="inherit" viewBox="0 0 32 32" class="css-1mpchac">
+      <path fill="#FFFFFF"
+        d="M12.63,26.46H8.83a6.61,6.61,0,0,1-6.65-6.07,89.05,89.05,0,0,1,0-11.2A6.5,6.5,0,0,1,8.23,3.25a121.62,121.62,0,0,1,15.51,0A6.51,6.51,0,0,1,29.8,9.19a77.53,77.53,0,0,1,0,11.2,6.61,6.61,0,0,1-6.66,6.07H19.48L12.63,31V26.46">
+      </path>
+      <path fill="#FF5101"
+        d="M19.57,21.68h3.67a2.08,2.08,0,0,0,2.11-1.81,89.86,89.86,0,0,0,0-10.38,1.9,1.9,0,0,0-1.84-1.74,113.15,113.15,0,0,0-15,0A1.9,1.9,0,0,0,6.71,9.49a74.92,74.92,0,0,0-.06,10.38,2,2,0,0,0,2.1,1.81h3.81V26.5Z"
+        class="css-1adcsh3 eam5rsy0"></path>
+    </svg>
+    <div class="css-d6eyf e1dmt1bi2"></div>
+  </div>
+</div>
+
+
 <div *ngIf="user" id="dock-widget">
   <app-cart-docked (booleanEvent)="handleBooleanEvent($event)" [showCartModal]="showCartModal"
     [selectedMenu]="selectedMenu">
@@ -106,7 +123,7 @@
   <p>
     To protect the access token and ensure it is handled securely:</p>
 
-   <ul>
+  <ul>
     <li>
       HTTP-Only: The cookie storing the access token is marked as HTTP-only, meaning it is inaccessible to client-side
       scripts. This helps prevent cross-site scripting (XSS) attacks from stealing the token.
@@ -119,9 +136,9 @@
       SameSite Attribute: The SameSite attribute is used to restrict how cookies are sent with cross-site requests,
       helping to prevent cross-site request forgery (CSRF) attacks.
     </li>
-   </ul>
-    
-    
+  </ul>
+
+
 
   <h6 class="text-left cookie-header-text"><b>HOW DO WE MANAGE COOKIES?</b></h6>
   <p>
@@ -174,7 +191,6 @@
 </div>
 
 <ng-container *ngIf="user">
-  <app-terms *ngIf="showTerms"
-  (booleanEvent)="handleTermsBooleanEvent($event)"></app-terms>
+  <app-terms *ngIf="showTerms" (booleanEvent)="handleTermsBooleanEvent($event)"></app-terms>
 </ng-container>
 <app-privacy-policy (booleanEvent)="handlePrivacyBooleanEvent($event)"></app-privacy-policy>

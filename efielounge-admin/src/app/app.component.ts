@@ -7,6 +7,7 @@ import { iconSubset } from './icons/icon-subset';
 import { AuthService } from './services/auth.service';
 import { SocketService } from './services/socket.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ChatService } from './services/chat.service';
 // import { Howl } from 'howler';
 var self:any;
 @Component({
@@ -14,7 +15,7 @@ var self:any;
   template: '<router-outlet />',
   standalone: true,  
   imports: [RouterOutlet, HttpClientModule],
-  providers: [AuthService, SocketService],
+  providers: [AuthService, SocketService, ChatService],
 })
 export class AppComponent implements OnInit {
   title = 'Efielounge Admin Panel';

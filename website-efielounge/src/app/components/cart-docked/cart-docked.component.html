@@ -67,7 +67,7 @@
         
 
     </div>
-    <div class="address">
+    <div *ngIf="cartItems.length > 0" class="address">
         <div class="x-flex-row">
             <div style="margin-top: 15px; margin-bottom: 10px; font-weight:600;">Delivery Address: </div>
             <div *ngIf="isGooglePlaceSearching && googlePlaceSearchtext?.trim()!==''" class="gray-spinner"></div>

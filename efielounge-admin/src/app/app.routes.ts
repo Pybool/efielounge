@@ -167,6 +167,16 @@ export const routes: Routes = [
           title: 'Configurations',
         },    
       },
+      {
+        path: 'chats',
+        loadComponent: () =>
+          import('./views/pages/chats/chats.component').then(
+            (m) => m.ChatsComponent
+          ),
+        data: {
+          title: 'Chats',
+        },    
+      },
       
 
       

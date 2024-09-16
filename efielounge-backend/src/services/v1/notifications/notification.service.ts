@@ -1,11 +1,14 @@
 import { Socket } from "socket.io";
 import Notification, { Priority } from "../../../models/notifications.model";
 import { NotificationGenerator } from "./notificationGenerator.service";
-import { getAllAdminProfileSockets, getUserProfileSockets } from "../sockets/socketsStore.service";
+import {
+  getAllAdminProfileSockets,
+  getUserProfileSockets,
+} from "../sockets/socketsStore.service";
 import Xrequest from "../../../interfaces/extensions.interface";
 
 export class NotificationService {
-  static async buildNotification(data: any) {
+  static async buildNotification(data: any, defaultMsg:string | null = null) {
     try {
       const { actorIdentity, recordId, message, identity } = data;
 
@@ -14,7 +17,7 @@ export class NotificationService {
         actor: actorIdentity,
         message: message,
         status: "PENDING",
-        title: `${identity} placed a new order`,
+        title: defaultMsg || `${identity} placed a new order`,
         notificationClass: "activity",
         priority: Priority.HIGH,
         module: "SOCIAL",
@@ -22,12 +25,17 @@ export class NotificationService {
       };
 
       console.log("RAW NOTIFICATION ===> ", rawNotification);
-      const { newNotification, notification } =
-        await NotificationGenerator.createNotification(rawNotification);
-      const _newNotification = await newNotification.populate('actor')
-      await NotificationService.sendNotification(_newNotification);
+      const { newNotification, notification } = 
+      await NotificationGenerator.createNotification(rawNotification);
+      const _newNotification = await newNotification.populate("actor");
+      if(!defaultMsg){
+        await NotificationService.sendNotification(_newNotification);
+      }
+      return newNotification
+      
     } catch (error) {
-      throw error;
+      console.log(error)
+      return null
     }
   }
 
@@ -36,9 +44,20 @@ export class NotificationService {
       const sockets: Socket[] = getAllAdminProfileSockets();
       if (sockets) {
         console.log(sockets);
-        for(let socket of sockets){
+        for (let socket of sockets) {
           socket.emit("notifications", JSON.stringify(notification));
         }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async sendNotificationToUser(userId: string, notification: any) {
+    try {
+      const socket: any = getUserProfileSockets(userId);
+      if (socket) {
+        socket.emit("notifications", JSON.stringify(notification));
       }
     } catch (error) {
       console.log(error);
@@ -61,15 +80,15 @@ export class NotificationService {
     }
   }
 
-  static async getNotifications(){
-    try{
+  static async getNotifications() {
+    try {
       return {
         status: true,
-        data: await Notification.find({}).populate('actor').limit(15),
+        data: await Notification.find({}).populate("actor").limit(15),
         message: "Notifications fetched successfully",
-        code: 200
-      }
-    }catch(error){
+        code: 200,
+      };
+    } catch (error) {
       throw error;
     }
   }
